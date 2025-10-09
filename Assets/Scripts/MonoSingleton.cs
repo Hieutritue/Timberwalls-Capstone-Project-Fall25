@@ -1,0 +1,15 @@
+﻿using System;
+using UnityEngine;
+
+namespace DefaultNamespace
+{
+    public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+    {
+        public static T Instance { get; private set; }
+
+        private void Awake()
+        {
+            Instance = this as T;
+        }
+    }
+}
