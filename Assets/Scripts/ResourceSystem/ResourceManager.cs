@@ -1,61 +1,54 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using DefaultNamespace;
+using ResourceSystem;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ResourceManager : MonoSingleton<ResourceManager>
 {
-    public Resource Wood { get; set; }
-    public Resource Stone { get; set; }
-    public Resource Iron { get; set; }
-    public Resource Copper { get; set; }
-    public Resource RefinedIron { get; set; }
-    public Resource RefinedCopper { get; set; }
-    public Resource Oil { get; set; }
-    public Resource Steel { get; set; }
-    public Resource Plastic { get; set; }
-    public Resource Circuits { get; set; }
-    public Resource Niobium { get; set; }
-    public Resource BatteryCell { get; set; }
-    public Resource Bonium { get; set; }
-    public Resource SuperCoolant { get; set; }
+    [SerializeField] private List<ResourceSO> StartingResources; // assign all resources here in Inspector
+
+    private Dictionary<ResourceType, int> _amounts = new();
+
+    public event Action<ResourceType, int> OnResourceChanged;
 
     private void Start()
     {
-        Wood = new Resource();
-        Stone = new Resource();
-        Iron = new Resource();
-        Copper = new Resource();
-        RefinedIron = new Resource();
-        RefinedCopper = new Resource();
-        Oil = new Resource();
-        Steel = new Resource();
-        Plastic = new Resource();
-        Circuits = new Resource();
-        Niobium = new Resource();
-        BatteryCell = new Resource();
-        Bonium = new Resource();
-        SuperCoolant = new Resource();
-    }
-}
-
-public class Resource
-{
-    public int Amount
-    {
-        get => Amount;
-        set
-        {
-            if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));
-            Amount = value; 
-            OnResourceAmountChanged?.Invoke(Amount);
-        }
+        foreach (var res in StartingResources)
+            _amounts[res.ResourceType] = 0;
     }
 
-    public Action<int> OnResourceAmountChanged;
-
-    public Resource(Action<int> onResourceAmountChanged = null, int amount = 0)
+    public void Set(ResourceType resourceType, int amount)
     {
-        OnResourceAmountChanged = onResourceAmountChanged;
-        Amount = amount;
+        _amounts[resourceType] = Mathf.Max(0, amount);
+        OnResourceChanged?.Invoke(resourceType, _amounts[resourceType]);
+    }
+
+    public int Get(ResourceType resourceType)
+    {
+        return _amounts.GetValueOrDefault(resourceType, 0);
+    }
+    
+    public ResourceSO GetResourceSO(ResourceType resourceType)
+    {
+        return StartingResources.Find(r => r.ResourceType == resourceType);
+    }
+
+    public IReadOnlyDictionary<ResourceType, int> GetAll()
+    {
+        return _amounts;
+    }
+    
+    public List<ResourceSO> GetAllResourceSOs()
+    {
+        return StartingResources;
+    }
+    [Button]
+    public void AddWood(int amount)
+    {
+        Set(ResourceType.Wood, Get(ResourceType.Wood) + amount);
     }
 }
