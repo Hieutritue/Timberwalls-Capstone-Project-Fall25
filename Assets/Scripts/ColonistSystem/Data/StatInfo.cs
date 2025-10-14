@@ -37,8 +37,8 @@ namespace DefaultNamespace.ColonistSystem
         Health,
         Hunger,
         Energy,
-        Digestion,
+        Continence,
         Mood,
-        Hygiene
+        Hygiene,
     }
 }
