@@ -5,6 +5,7 @@ namespace _Scripts.StateMachine
     public class StateMachine
     {
         public IState CurrentState { get; private set; }
+        public IState LastState { get; private set; }
 
         // event to notify other objects of the state change
         public event Action<IState> OnStateChanged;
