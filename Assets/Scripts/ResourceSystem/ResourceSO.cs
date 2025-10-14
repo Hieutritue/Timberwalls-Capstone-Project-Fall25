@@ -7,6 +7,7 @@ namespace ResourceSystem
     {
         public Sprite Icon;
         public ResourceType ResourceType;
+        public string ResourceName;
     }
     
     public enum ResourceType
