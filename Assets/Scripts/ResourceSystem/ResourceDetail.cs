@@ -18,7 +18,7 @@ namespace DefaultNamespace.ResourceSystem
             var resource = ResourceManager.Instance.GetResourceSO(resourceType);
             _resource = resource;
             if (Icon) Icon.sprite = resource.Icon;
-            if (NameText) NameText.text = resource.ResourceType.ToString();
+            if (NameText) NameText.text = resource.ResourceName;
             UpdateAmount(amount);
         }
 
