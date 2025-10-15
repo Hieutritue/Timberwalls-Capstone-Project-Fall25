@@ -5,7 +5,7 @@ namespace DefaultNamespace
 {
     public abstract class RoomEffect : ScriptableObject
     {
-        public abstract void Apply(RoomInstance roomInstance);
-        public abstract void Remove(RoomInstance roomInstance);
+        public abstract void Apply(RoomPlaceableInstance roomPlaceableInstance);
+        public abstract void Remove(RoomPlaceableInstance roomPlaceableInstance);
     }
 }

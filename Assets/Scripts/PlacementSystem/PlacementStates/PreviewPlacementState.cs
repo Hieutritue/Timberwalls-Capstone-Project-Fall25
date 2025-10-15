@@ -86,10 +86,10 @@ namespace DefaultNamespace.PlacementStates
 
         private void AssignItemToRoom(PlaceableInstance itemInstance, Vector3 spawnPosition)
         {
-            var roomInstance = _behaviour.GetGridData(PlaceableType.Room).GetPlaceableInstanceAt(Vector3Int.FloorToInt(spawnPosition)) as PlaceableInstances.RoomInstance;
+            var roomInstance = _behaviour.GetGridData(PlaceableType.Room).GetPlaceableInstanceAt(Vector3Int.FloorToInt(spawnPosition)) as PlaceableInstances.RoomPlaceableInstance;
             if (roomInstance)
             {
-                roomInstance.AddItemToRoom(itemInstance as PlaceableInstances.ItemInstance);
+                roomInstance.AddItemToRoom(itemInstance as PlaceableInstances.FurniturePlaceableInstance);
             }
         }
         

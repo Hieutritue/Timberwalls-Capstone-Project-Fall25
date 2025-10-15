@@ -38,11 +38,11 @@ namespace DefaultNamespace.PlacementStates
         
         private void CheckRemoval(PlaceableInstance placeableInstance)
         {
-            if (placeableInstance is ItemInstance itemInstance)
+            if (placeableInstance is FurniturePlaceableInstance itemInstance)
             {
-                itemInstance.ContainingRoom?.RemoveItemFromRoom(itemInstance);
+                itemInstance.ContainingRoomPlaceable?.RemoveItemFromRoom(itemInstance);
             }
-            else if (placeableInstance is RoomInstance roomInstance)
+            else if (placeableInstance is RoomPlaceableInstance roomInstance)
             {
                 foreach (var containedItem in roomInstance.ContainedItems.ToArray())
                 {
@@ -85,7 +85,7 @@ namespace DefaultNamespace.PlacementStates
         
         public void ResetMaterial()
         {
-            BuildingSystemManager.Instance.MaterialSwapper.Restore();
+            BuildingSystemManager.Instance.MaterialSwapper.RemoveHighlight(_lastPlaceableInstance?.gameObject);
         }
     }
 }
