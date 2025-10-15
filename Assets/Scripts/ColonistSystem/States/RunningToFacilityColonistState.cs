@@ -1,4 +1,6 @@
 ﻿using _Scripts.StateMachine;
+using DefaultNamespace.General;
+using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem.States
 {
@@ -10,12 +12,10 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Enter()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void Tick()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void Exit()

@@ -8,9 +8,13 @@ namespace BuildingSystem
 {
     public class Room : MonoBehaviour
     {
+        public BuildingSO BuildingSo;
+        public Transform ProgressPoint;
+        
         private StateMachine _stateMachine;
         private ConstructingRoomState _constructingRoomState;
         private IdleRoomState _idleRoomState;
+        private PlacingState _placingState;
         
         public void Start()
         {
@@ -22,19 +26,19 @@ namespace BuildingSystem
             _stateMachine = new StateMachine();
             _constructingRoomState = new ConstructingRoomState(this);
             _idleRoomState = new IdleRoomState(this);
+            _placingState = new PlacingState(this);
             _stateMachine.Initialize(_constructingRoomState);
         }
 
         [Button]
-        public void SwitchState()
+        public void SwitchStateToIdle()
         {
             _stateMachine.TransitionTo(_idleRoomState);
         }
-
-        [Button]
-        public void ChangeMat()
+        
+        public void SwitchStateToConstruction()
         {
-            BuildingSystemManager.Instance.MaterialSwapper.RemoveHighlight(gameObject);
+            _stateMachine.TransitionTo(_constructingRoomState);
         }
     }
 }

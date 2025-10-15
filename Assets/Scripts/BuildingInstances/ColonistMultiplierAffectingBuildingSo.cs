@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BuildingSystem
 {
     [CreateAssetMenu(fileName = "ColonistMultiplierAffectingFurnitureSO", menuName = "ScriptableObjects/Furniture/ColonistMultiplierAffectingFurnitureSO", order = 2)]
-    public class ColonistMultiplierAffectingFurnitureSO : FurnitureSO
+    public class ColonistMultiplierAffectingBuildingSo : BuildingSO
     {
         [Header("Colonist Stat Multipliers")]
         public ColonistMultiplierModifyingSO ColonistMultiplierModifyingSo;

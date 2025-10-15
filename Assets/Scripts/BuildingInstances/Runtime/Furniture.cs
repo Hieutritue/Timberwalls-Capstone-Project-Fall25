@@ -10,16 +10,16 @@ namespace BuildingSystem
     public class Furniture : MonoBehaviour
     {
         [Header("Data Reference")]
-        public FurnitureSO FurnitureSo;
+        public BuildingSO BuildingSo;
         
         private StateMachine _stateMachine = new StateMachine();
         private ConstructingFurnitureState _constructingFurnitureState;
         private IdleFurnitureState _idleFurnitureState;
         private WorkingFurnitureState _workingFurnitureState;
 
-        public virtual void Initialize(FurnitureSO furnitureSO)
+        public virtual void Initialize(BuildingSO buildingSo)
         {
-            FurnitureSo = furnitureSO;
+            BuildingSo = buildingSo;
             
             InitStateMachine();
         }
@@ -34,7 +34,7 @@ namespace BuildingSystem
 
         public float GetActualBuildTime(float engineeringLevel)
         {
-            return FurnitureSo.BaseBuildTime * (1 - engineeringLevel * 0.05f);
+            return BuildingSo.BaseBuildTime * (1 - engineeringLevel * 0.05f);
         }
     }
 }

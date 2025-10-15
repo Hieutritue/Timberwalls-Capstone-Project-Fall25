@@ -29,7 +29,7 @@ namespace BuildingSystem
     }
 
     [CreateAssetMenu(menuName = "Game/BuildingData", fileName = "NewBuilding")]
-    public class FurnitureSO : ScriptableObject
+    public class BuildingSO : ScriptableObject
     {
         [Header("Basic Info")]
         public string Name;

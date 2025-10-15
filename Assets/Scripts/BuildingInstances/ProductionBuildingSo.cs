@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuildingSystem
 {
-    public class ProductionFurnitureSO : FurnitureSO
+    public class ProductionBuildingSo : BuildingSO
     {
         [Header("Production")]
         public float BaseProductionPerMin; // resource/unit per min

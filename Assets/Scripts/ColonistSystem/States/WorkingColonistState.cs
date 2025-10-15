@@ -10,17 +10,18 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Enter()
         {
-            
+            _behaviour.CurrentTask.OnComplete += _behaviour.TransitionToIdle;
         }
 
         public override void Tick()
         {
-            
+            _behaviour.CurrentTask.UpdateProgress(_behaviour);
         }
 
         public override void Exit()
         {
             
         }
+        
     }
 }
