@@ -5,6 +5,7 @@ public class Enemy : EnemyBase
     protected override void AttackTarget()
     {
         base.AttackTarget();
+
     }
 
     protected override void Die()
@@ -20,6 +21,10 @@ public class Enemy : EnemyBase
     protected override void PerformAttack()
     {
         base.PerformAttack();
+        if (target.TryGetComponent<IDamageable>(out IDamageable damageable))
+        {
+            damageable.Damage(stats.attackDamage, stats.name);
+        }
     }
 
     protected override void Start()

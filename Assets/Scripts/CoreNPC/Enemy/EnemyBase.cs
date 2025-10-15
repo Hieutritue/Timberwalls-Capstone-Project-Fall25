@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyBase : MonoBehaviour
+public class EnemyBase : MonoBehaviour, IDamageable
 {
     [Header("Target")]
     [SerializeField] protected GameObject target;
@@ -112,5 +112,10 @@ public class EnemyBase : MonoBehaviour
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(transform.position, target.transform.position);
         }
+    }
+
+    public virtual void Damage(int amount, string EnemyName)
+    {
+        Debug.Log($"Damage amount is {amount} by {}");
     }
 }
