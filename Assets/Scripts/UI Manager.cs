@@ -2,15 +2,53 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private GameObject priorityMatrix;
+    public void OnBuildingPressed()
+    {
+        Debug.Log("Building");
+    }
+
+    public void OnResearchPressed()
+    {
+        Debug.Log("Research");
+    }
+    public void OnNormalSpeedPressed()
     {
         
     }
-
-    // Update is called once per frame
-    void Update()
+    public void OnSpeedUpPressed()
     {
         
+    }
+    
+    public void OnFurtherSpeedUpPressed()
+    {
+        
+    }
+    
+    public void OnCancelPressed()
+    {
+        
+    }
+    
+    public void OnDestroyPressed()
+    {
+        
+    }
+    
+    public void OnPriorityPressed()
+    {
+        if (priorityMatrix == null)
+        {
+            Debug.LogError("No PriorityMatrix Game Object found");
+        }
+        else if (priorityMatrix != null &&  !priorityMatrix.activeInHierarchy)
+        {
+            priorityMatrix.SetActive(true);
+        }
+        else
+        {   
+            priorityMatrix.SetActive(false);
+        }
     }
 }
