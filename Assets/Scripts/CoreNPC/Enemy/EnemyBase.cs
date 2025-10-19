@@ -116,6 +116,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void Damage(int amount, string EnemyName)
     {
-        Debug.Log($"Damage amount is {amount} by {}");
+        Debug.Log($"Damage amount is {amount} by {EnemyName}");
     }
 }
