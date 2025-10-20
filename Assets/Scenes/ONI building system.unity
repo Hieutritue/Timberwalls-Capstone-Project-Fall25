@@ -5505,6 +5505,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 331784011}
+  - component: {fileID: 331784012}
   m_Layer: 5
   m_Name: Setting button container
   m_TagString: Untagged
@@ -5533,6 +5534,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 110, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &331784012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331784010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Settings
 --- !u!1 &335111724
 GameObject:
   m_ObjectHideFlags: 0
@@ -8568,6 +8582,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 517729710}
+  - component: {fileID: 517729711}
   m_Layer: 5
   m_Name: 'Research button container '
   m_TagString: Untagged
@@ -8596,6 +8611,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &517729711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517729709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Research
 --- !u!1 &521502440
 GameObject:
   m_ObjectHideFlags: 0
@@ -11009,6 +11037,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 623654759}
+  - component: {fileID: 623654760}
   m_Layer: 5
   m_Name: Tooltip_Item
   m_TagString: Untagged
@@ -11033,9 +11062,26 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 200, y: 0}
   m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &623654760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623654758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1134deddd18e82742892443bf8762633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundTransform: {fileID: 2024875506}
+  itemSprite: {fileID: 243099522}
+  itemName: {fileID: 324513141}
+  itemHowToGetDescription: {fileID: 1861946047}
+  itemDescription: {fileID: 1939298031}
 --- !u!1 &631092502
 GameObject:
   m_ObjectHideFlags: 0
@@ -17489,8 +17535,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1081051678}
+  - component: {fileID: 1081051679}
   m_Layer: 5
-  m_Name: Speed up button container
+  m_Name: Normal speed button container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17517,6 +17564,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 120, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1081051679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081051677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: 1x speed
 --- !u!1 &1083172975
 GameObject:
   m_ObjectHideFlags: 0
@@ -17669,7 +17729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1084227918
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21549,6 +21609,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1290103314}
+  - component: {fileID: 1290103315}
   m_Layer: 5
   m_Name: 'Faster speed up button container  '
   m_TagString: Untagged
@@ -21577,6 +21638,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 120, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1290103315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290103313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: x1.5 speed
 --- !u!1 &1296166038
 GameObject:
   m_ObjectHideFlags: 0
@@ -22731,6 +22805,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1356401316}
+  - component: {fileID: 1356401317}
   m_Layer: 5
   m_Name: Tutorial button container
   m_TagString: Untagged
@@ -22759,6 +22834,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1356401317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356401315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Tutorial
 --- !u!1 &1361154091
 GameObject:
   m_ObjectHideFlags: 0
@@ -23677,6 +23765,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1415909608}
+  - component: {fileID: 1415909609}
   m_Layer: 5
   m_Name: Cancel container
   m_TagString: Untagged
@@ -23704,6 +23793,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1415909609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415909607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Cancel action
 --- !u!1 &1423808437
 GameObject:
   m_ObjectHideFlags: 0
@@ -23970,6 +24072,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1436597732}
+  - component: {fileID: 1436597733}
   m_Layer: 5
   m_Name: Clock container
   m_TagString: Untagged
@@ -23998,6 +24101,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1436597733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436597731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Clock
 --- !u!1 &1446931632
 GameObject:
   m_ObjectHideFlags: 0
@@ -28995,6 +29111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723206311}
+  - component: {fileID: 1723206312}
   m_Layer: 5
   m_Name: Priority container
   m_TagString: Untagged
@@ -29022,6 +29139,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1723206312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723206310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Priority list
 --- !u!1 &1723575176
 GameObject:
   m_ObjectHideFlags: 0
@@ -29705,6 +29835,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1744883330}
+  - component: {fileID: 1744883331}
   m_Layer: 5
   m_Name: Destroy container
   m_TagString: Untagged
@@ -29732,6 +29863,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1744883331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744883329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Destroy
 --- !u!1 &1745316860
 GameObject:
   m_ObjectHideFlags: 0
@@ -33014,6 +33158,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1926324443}
+  - component: {fileID: 1926324444}
   m_Layer: 5
   m_Name: Build button container
   m_TagString: Untagged
@@ -33042,6 +33187,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1926324444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926324442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: 'Building '
 --- !u!1 &1928050354
 GameObject:
   m_ObjectHideFlags: 0
@@ -34394,6 +34552,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2000565278}
+  - component: {fileID: 2000565279}
   m_Layer: 5
   m_Name: 'Futher speed up button container '
   m_TagString: Untagged
@@ -34422,6 +34581,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 130, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2000565279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000565277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3481b2c14c0cf504a94430ec72cb6671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: 2x speed
 --- !u!1 &2013826216
 GameObject:
   m_ObjectHideFlags: 0
@@ -35040,7 +35212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.56078434}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.7490196}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
