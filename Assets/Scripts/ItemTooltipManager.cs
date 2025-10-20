@@ -4,9 +4,9 @@ using UnityEngine.UI;
 using TMPro;
 using Random = UnityEngine.Random;
 
-public class TooltipItemManager : MonoBehaviour
+public class ItemTooltipManager : MonoBehaviour
 {
-    private static TooltipItemManager instance;
+    private static ItemTooltipManager instance;
     private ItemTooltipSO displayItemTooltip;
     [SerializeField] private RectTransform backgroundTransform;
     [SerializeField] private Image itemSprite;

@@ -4,9 +4,9 @@ using UnityEngine.UI;
 using TMPro;
 using Random = UnityEngine.Random;
 
-public class TooltipManager : MonoBehaviour
+public class NormalTooltipManager : MonoBehaviour
 {
-    private static TooltipManager instance;
+    private static NormalTooltipManager instance;
     [SerializeField]private TextMeshProUGUI tooltipText;
     [SerializeField]private RectTransform backgroundTransform;
     
@@ -14,6 +14,7 @@ public class TooltipManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        gameObject.SetActive(false);
     }
 
     private void Update()
@@ -44,6 +45,10 @@ public class TooltipManager : MonoBehaviour
         instance.ShowToolTip(tooltipString);
     }
     
+    public static void HideTooltipStatic()
+    {
+        instance.HideToolTip();
+    }
 
 
 }

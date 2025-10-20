@@ -3,23 +3,23 @@ using UnityEngine.EventSystems;
 
 public class ItemTooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private ItemTooltipSO itemData;
+    private ItemTooltipSO _itemData;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (itemData != null)
+        if (_itemData != null)
         {
-            TooltipItemManager.ShowTooltipItemStatic(itemData);
+            ItemTooltipManager.ShowTooltipItemStatic(_itemData);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        TooltipItemManager.HideTooltipStatic();
+        ItemTooltipManager.HideTooltipStatic();
     }
 
     public void SetItem(ItemTooltipSO itemTooltipSo)
     {
-        itemData = itemTooltipSo;
+        _itemData = itemTooltipSo;
     }
 }
