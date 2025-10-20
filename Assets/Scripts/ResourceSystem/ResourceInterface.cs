@@ -24,7 +24,7 @@ namespace ResourceSystem
                 detail.Setup(resourceSo.ResourceType, 0);
                 _details.Add(resourceSo.ResourceType, detail);
             }
-
+            
             manager.OnResourceChanged += HandleResourceChanged;
         }
 

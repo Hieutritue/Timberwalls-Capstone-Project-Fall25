@@ -16,6 +16,9 @@ namespace DefaultNamespace.ResourceSystem
         public void Setup(ResourceType resourceType, int amount)
         {
             var resource = ResourceManager.Instance.GetResourceSO(resourceType);
+            ItemTooltipSO _itemTooltip = resource.TooltipSO;
+            var itemTooltipTrigger = gameObject.GetComponent<ItemTooltipTrigger>();
+            itemTooltipTrigger.SetItem(_itemTooltip);
             _resource = resource;
             if (Icon)
             {
@@ -34,6 +37,7 @@ namespace DefaultNamespace.ResourceSystem
             {
                 NameText.text = !string.IsNullOrEmpty(resource.ResourceName) ? resource.ResourceName : UNKNOWN_RESOURCE;
             }
+            
             UpdateAmount(amount);
         }
 
