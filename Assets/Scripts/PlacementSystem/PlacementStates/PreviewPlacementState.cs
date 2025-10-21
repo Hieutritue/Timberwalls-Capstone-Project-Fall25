@@ -80,7 +80,7 @@ namespace DefaultNamespace.PlacementStates
                 GetCurrentObjectToPlace(),
                 newPlaceable
             );
-            newPlaceable.GetComponent<Room>().enabled = true;
+            newPlaceable.GetComponent<Building>().enabled = true;
 
             if (placeableInstance.PlaceableSo.Type != PlaceableType.Room)
                 AssignItemToRoom(placeableInstance, spawnPosition);

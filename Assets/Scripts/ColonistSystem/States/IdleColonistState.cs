@@ -20,7 +20,7 @@ namespace DefaultNamespace.ColonistSystem.States
             if(TaskManager.Instance.AssignedTasks.ContainsKey(_behaviour))
             {
                 _behaviour.StateMachine.TransitionTo(_behaviour.RunningToWorkState);
-                Debug.Log($"Task found: {_behaviour.CurrentTask}");
+                // Debug.Log($"Task found: {_behaviour.CurrentTask}");
             }
         }
 

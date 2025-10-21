@@ -79,6 +79,8 @@ namespace DefaultNamespace.TaskSystem
             }
             
             CheckTaskAssignments();
+            
+            task = null;
         }
     }
 }
