@@ -10,15 +10,30 @@ namespace DefaultNamespace.ResourceSystem
         public Image Icon;
         public TMP_Text NameText;
         public TMP_Text AmountText;
-
+        private readonly string UNKNOWN_RESOURCE = "Unknown resource";
         private ResourceSO _resource;
 
         public void Setup(ResourceType resourceType, int amount)
         {
             var resource = ResourceManager.Instance.GetResourceSO(resourceType);
             _resource = resource;
-            if (Icon) Icon.sprite = resource.Icon;
-            if (NameText) NameText.text = resource.ResourceType.ToString();
+            if (Icon)
+            {
+                if(Icon.sprite != null)
+                {
+                    Icon.sprite = resource.Icon;
+                }
+                else
+                {
+                    Debug.LogError("No icon found for resource");
+                }
+                
+            }
+
+            if (NameText)
+            {
+                NameText.text = !string.IsNullOrEmpty(resource.ResourceName) ? resource.ResourceName : UNKNOWN_RESOURCE;
+            }
             UpdateAmount(amount);
         }
 
