@@ -12,12 +12,16 @@ namespace DefaultNamespace.PlacementRules
             _objectSize = objectSize;
             _gridPosition = gridPosition;
         }
+
         public bool IsValid(GridData gridData)
         {
             var belowPos = new Vector3Int(_gridPosition.x, _gridPosition.y, _gridPosition.z);
-            var floorOfInstanceContainingBelowPos = gridData.GetPlaceableInstanceAt(belowPos)?.GetFloorCells();
-            
-            return floorOfInstanceContainingBelowPos != null && floorOfInstanceContainingBelowPos.Contains(belowPos);
+            var placeableInstance = gridData.GetPlaceableInstanceAt(belowPos);
+            var floorOfInstanceContainingBelowPos = placeableInstance?.GetFloorCells();
+
+            return floorOfInstanceContainingBelowPos != null 
+                   && floorOfInstanceContainingBelowPos.Contains(belowPos) 
+                   && !placeableInstance.Building.IsUnderConstruction();
         }
     }
 }

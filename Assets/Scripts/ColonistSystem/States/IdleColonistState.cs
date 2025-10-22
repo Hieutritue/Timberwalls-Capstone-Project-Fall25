@@ -1,4 +1,6 @@
 ﻿using _Scripts.StateMachine;
+using DefaultNamespace.TaskSystem;
+using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem.States
 {
@@ -15,7 +17,11 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Tick()
         {
-            
+            if(TaskManager.Instance.AssignedTasks.ContainsKey(_behaviour))
+            {
+                _behaviour.StateMachine.TransitionTo(_behaviour.RunningToWorkState);
+                // Debug.Log($"Task found: {_behaviour.CurrentTask}");
+            }
         }
 
         public override void Exit()

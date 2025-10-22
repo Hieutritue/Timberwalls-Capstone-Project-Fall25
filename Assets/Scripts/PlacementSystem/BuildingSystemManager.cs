@@ -13,5 +13,6 @@ namespace DefaultNamespace
         public Material PlaceableMaterial;
         public Material NotPlaceableMaterial;
         public Material RemovePlaceableMaterial;
+        public Material UnderConstructionMaterial;
     }
 }

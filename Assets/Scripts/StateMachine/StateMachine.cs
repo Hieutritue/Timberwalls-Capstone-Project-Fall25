@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace _Scripts.StateMachine
 {
@@ -28,6 +29,8 @@ namespace _Scripts.StateMachine
             CurrentState?.Exit();
             CurrentState = nextState;
             nextState?.Enter();
+            
+            Debug.Log(nextState.GetType().Name);
 	
 
             // notify other objects that state has changed

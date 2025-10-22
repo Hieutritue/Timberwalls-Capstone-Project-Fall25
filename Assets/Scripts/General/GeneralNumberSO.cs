@@ -8,5 +8,6 @@ namespace DefaultNamespace.General
     {
         public float DigestionPerSecond;
         public float EnergyPerSecond;
+        public float ConstructionRange;
     }
 }
