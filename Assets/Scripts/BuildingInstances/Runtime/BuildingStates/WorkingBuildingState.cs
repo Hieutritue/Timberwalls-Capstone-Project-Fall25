@@ -20,7 +20,10 @@ namespace BuildingSystem.RoomStates
         {
             if (_behaviour is ResourceGatheringFurniture gatheringFurniture)
             {
-                gatheringFurniture.ClearTask();
+                foreach (var task in gatheringFurniture.ActiveTasks.ToArray())
+                {
+                    task.RemoveTask();
+                }
             }
         }
     }

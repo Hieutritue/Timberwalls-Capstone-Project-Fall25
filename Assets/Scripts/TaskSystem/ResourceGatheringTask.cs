@@ -10,7 +10,7 @@ namespace DefaultNamespace.TaskSystem
         {
         }
 
-        public override float ProgressPerFrame(Colonist colonist)
+        public override float TotalProgress(Colonist colonist)
         {
             if (_building is ResourceGatheringFurniture gatheringFurniture)
             {

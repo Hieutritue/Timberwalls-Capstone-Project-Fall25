@@ -1,5 +1,8 @@
-﻿using _Scripts.StateMachine;
+﻿using System;
+using System.Collections.Generic;
+using _Scripts.StateMachine;
 using BuildingSystem.RoomStates;
+using DefaultNamespace.TaskSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,6 +18,8 @@ namespace BuildingSystem
         protected IdleBuildingState _idleBuildingState;
         protected WorkingBuildingState _workingBuildingState;
         protected DemolishingBuildingState _demolishingBuildingState;
+        
+        public List<ITask> ActiveTasks = new List<ITask>();
         
         public IState CurrentState => _stateMachine.CurrentState;
         
@@ -55,6 +60,14 @@ namespace BuildingSystem
         public bool IsDemolishing()
         {
             return _stateMachine.CurrentState == _demolishingBuildingState;
+        }
+
+        private void OnDestroy()
+        {
+            foreach (var task in ActiveTasks.ToArray())
+            {
+                task.RemoveTask();
+            }
         }
     }
 }

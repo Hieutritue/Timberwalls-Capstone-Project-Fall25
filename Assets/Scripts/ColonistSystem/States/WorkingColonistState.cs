@@ -13,6 +13,7 @@ namespace DefaultNamespace.ColonistSystem.States
         {
             _behaviour.CurrentTask.OnComplete += _behaviour.TransitionToIdle;
             _behaviour.CurrentTask.OnComplete += _behaviour.CurrentTask.Building.TransitionToIdle;
+            _behaviour.CurrentTask.OnRemove += _behaviour.TransitionToIdle;
 
             if (_behaviour.CurrentTask.TaskType == TaskType.Mining)
             {
@@ -29,6 +30,7 @@ namespace DefaultNamespace.ColonistSystem.States
         {
             _behaviour.CurrentTask.OnComplete -= _behaviour.TransitionToIdle;
             _behaviour.CurrentTask.OnComplete -= _behaviour.CurrentTask.Building.TransitionToIdle;
+            _behaviour.CurrentTask.OnRemove -= _behaviour.TransitionToIdle;
         }
     }
 }

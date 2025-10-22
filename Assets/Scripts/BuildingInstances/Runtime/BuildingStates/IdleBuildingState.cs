@@ -5,7 +5,6 @@ namespace BuildingSystem.RoomStates
 {
     public class IdleBuildingState : AState<Building>
     {
-        ITask _task;
         public IdleBuildingState(Building behaviour) : base(behaviour)
         {
         }

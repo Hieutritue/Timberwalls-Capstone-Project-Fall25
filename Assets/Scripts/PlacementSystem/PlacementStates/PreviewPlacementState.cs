@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using _Scripts.StateMachine;
 using BuildingSystem;
+using DefaultNamespace.TaskSystem;
 using UnityEngine;
 
 namespace DefaultNamespace.PlacementStates
@@ -76,14 +77,19 @@ namespace DefaultNamespace.PlacementStates
             var newPlaceable =
                 BuildingSystemManager.Instance.ObjectPlacer.PlaceObject(GetCurrentObjectToPlace()?.Prefab,
                     spawnPosition);
+
+            var building = newPlaceable.GetComponent<Building>();
+            building.enabled = true;
+
+            var buildingTask = new BuildingTask(building, TaskType.Building);
             var placeableInstance = _behaviour.GetGridData(GetCurrentObjectToPlace().Type).AddObjectAt(gridPosition,
                 GetCurrentObjectToPlace(),
                 newPlaceable
             );
-            newPlaceable.GetComponent<Building>().enabled = true;
 
             if (placeableInstance.PlaceableSo.Type != PlaceableType.Room)
                 AssignItemToRoom(placeableInstance, spawnPosition);
+            building.ActiveTasks.Add(buildingTask);
 
             _behaviour.ResetLastGridPosition();
         }

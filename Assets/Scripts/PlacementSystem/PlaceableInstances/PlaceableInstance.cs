@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using BuildingSystem;
 using DefaultNamespace.PlaceableInstances;
 using UnityEngine;
 
@@ -7,6 +9,13 @@ public class PlaceableInstance : MonoBehaviour
 {
     public List<Vector3Int> OccupiedCells;
     public PlaceableSO PlaceableSo;
+
+    public Building Building;
+
+    private void Start()
+    {
+        Building = GetComponent<Building>();
+    }
 
     public void DestroyGameObject()
     {

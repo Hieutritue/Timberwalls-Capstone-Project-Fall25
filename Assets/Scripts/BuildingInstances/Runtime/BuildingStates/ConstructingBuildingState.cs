@@ -6,7 +6,6 @@ namespace BuildingSystem.RoomStates
 {
     public class ConstructingBuildingState : AState<Building>
     {
-        ITask _buildingTask;
         public ConstructingBuildingState(Building behaviour) : base(behaviour)
         {
         }
@@ -15,7 +14,6 @@ namespace BuildingSystem.RoomStates
         {
             BuildingSystemManager.Instance.MaterialSwapper.ApplyHighlight(_behaviour.gameObject,
                 BuildingSystemManager.Instance.UnderConstructionMaterial);
-            _buildingTask = new BuildingTask(_behaviour, TaskType.Building);
         }
 
         public override void Tick()

@@ -29,11 +29,19 @@ namespace DefaultNamespace.TaskSystem
 
         public virtual void Complete()
         {
-            RewardComplete();
-            if (_progressBarUI)
-                GameObject.Destroy(_progressBarUI.gameObject);
             OnComplete?.Invoke();
+            RewardComplete();
+            RemoveTask();
+        }
+
+        public void RemoveTask()
+        {
+            OnRemove?.Invoke();
             TaskManager.Instance.RemoveTask(this);
+            _building?.ActiveTasks.Remove(this);
+            
+            if (_progressBarUI)
+                Object.Destroy(_progressBarUI.gameObject);
         }
 
         public virtual void UpdateProgress(Colonist colonist)
@@ -46,7 +54,7 @@ namespace DefaultNamespace.TaskSystem
                 _progressBarUI.transform.position = Transform.position;
             }
 
-            _progress += Time.deltaTime / ProgressPerFrame(colonist);
+            _progress += Time.deltaTime / TotalProgress(colonist);
             _progressBarUI.SetProgress(_progress);
             
             if (_progress >= 1)
@@ -55,9 +63,10 @@ namespace DefaultNamespace.TaskSystem
             }
         }
         
-        public abstract float ProgressPerFrame(Colonist colonist);
+        public abstract float TotalProgress(Colonist colonist);
         public abstract void RewardComplete();
 
         public Action OnComplete { get; set; }
+        public Action OnRemove { get; set; }
     }
 }

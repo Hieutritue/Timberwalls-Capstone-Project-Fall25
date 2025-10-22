@@ -13,6 +13,7 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Enter()
         {
+            _behaviour.CurrentTask.OnRemove += _behaviour.TransitionToIdle;
             RunToTask();
         }
 
@@ -29,6 +30,7 @@ namespace DefaultNamespace.ColonistSystem.States
         public override void Exit()
         {
             _behaviour.AiDestinationSetter.enabled = false;
+            _behaviour.CurrentTask.OnRemove -= _behaviour.TransitionToIdle;
         }
         
         public void RunToTask()

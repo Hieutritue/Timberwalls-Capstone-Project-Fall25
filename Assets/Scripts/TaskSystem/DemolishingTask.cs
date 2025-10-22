@@ -10,10 +10,10 @@ namespace DefaultNamespace.TaskSystem
         {
         }
 
-        public override float ProgressPerFrame(Colonist colonist)
+        public override float TotalProgress(Colonist colonist)
         {
             return FormulaCollection.ProgressPerFrameBasedOnSkillLevel(_building.PlaceableSo.BaseBuildTime,
-                colonist.ColonistSo.Skills[SkillType.Engineering]) * 2;
+                colonist.ColonistSo.Skills[SkillType.Engineering]) / 2;
         }
 
         public override void RewardComplete()

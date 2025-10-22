@@ -9,7 +9,6 @@ namespace BuildingSystem
     public class ResourceGatheringFurniture : Furniture, IWorkable
     {
         public ResourceGatheringFurnitureSo GatheringFurnitureSo => (ResourceGatheringFurnitureSo)PlaceableSo;
-        private ITask _gatheringTask;
         public void Work()
         {
             GatheringFurnitureSo.Consumption.ForEach(resourceWithAmount =>
@@ -28,13 +27,12 @@ namespace BuildingSystem
 
         public void CreateTask()
         {
-            if(_gatheringTask != null) return;
-            _gatheringTask = new ResourceGatheringTask(this, TaskType.Mining);
+            ActiveTasks.Add(new ResourceGatheringTask(this, TaskType.Mining));
         }
 
         public void ClearTask()
         {
-            _gatheringTask = null;
+            ActiveTasks.RemoveAll(t=> t is ResourceGatheringTask);
         }
     }
 }

@@ -43,6 +43,7 @@ namespace DefaultNamespace.PlacementStates
                 CheckRemoval(placeableInstance);
                 gridData.RemovePlaceableInstanceOccupiedAt(gridPosition);
             };
+            building.ActiveTasks.Add(demolishingTask);
         }
 
         // remove placeable from any containers or rooms before deleting

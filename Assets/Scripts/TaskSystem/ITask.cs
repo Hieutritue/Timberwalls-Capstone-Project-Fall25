@@ -12,8 +12,10 @@ namespace DefaultNamespace.TaskSystem
         Transform Transform { get; }
         void Create();
         void Complete();
+        void RemoveTask();
         void UpdateProgress(Colonist colonist);
         Action OnComplete { get; set; }
+        Action OnRemove { get; set; }
     }
 
     public enum TaskType
