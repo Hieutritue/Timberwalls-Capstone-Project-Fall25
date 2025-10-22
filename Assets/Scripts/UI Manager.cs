@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public void OnBuildingPressed()
     {
         CheckAndOpenUIContainer(buildingMenu);
+        
     }
 
     public void OnResearchPressed()

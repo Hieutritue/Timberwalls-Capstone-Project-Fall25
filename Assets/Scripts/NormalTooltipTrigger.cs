@@ -3,13 +3,13 @@ using UnityEngine.EventSystems;
 
 public class NormalTooltipTrigger :  MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField]private string message;
+    [SerializeField]private NormalTooltipSO itemData;
     
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!string.IsNullOrEmpty(message))
+        if (!string.IsNullOrEmpty(itemData.message))
         {
-            NormalTooltipManager.ShowTooltipStatic(message);
+            NormalTooltipManager.ShowTooltipStatic(itemData.message);
         }
     }
 
