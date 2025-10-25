@@ -1,5 +1,6 @@
 ﻿using _Scripts.StateMachine;
 using DefaultNamespace.TaskSystem;
+using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem.States
 {
@@ -28,6 +29,7 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Exit()
         {
+            Debug.LogWarning(_behaviour.CurrentTask);
             _behaviour.CurrentTask.OnComplete -= _behaviour.TransitionToIdle;
             _behaviour.CurrentTask.OnComplete -= _behaviour.CurrentTask.Building.TransitionToIdle;
             _behaviour.CurrentTask.OnRemove -= _behaviour.TransitionToIdle;

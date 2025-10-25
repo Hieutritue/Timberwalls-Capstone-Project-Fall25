@@ -17,8 +17,8 @@ namespace DefaultNamespace.ColonistSystem
         [Header("PathFinding")]
         public AIDestinationSetter AiDestinationSetter;
         
-        public ITask CurrentTask => TaskManager.Instance.AssignedTasks.ContainsKey(this) ? TaskManager.Instance.AssignedTasks[this] : null;
-        
+        public ITask CurrentTask { get; set; }
+
         public StateMachine StateMachine = new StateMachine();
         public FindingFacilityColonistState FindingFacilityState;
         public RunningToFacilityColonistState RunningToFacilityState;
@@ -29,15 +29,37 @@ namespace DefaultNamespace.ColonistSystem
         private void Start()
         {
             InitData();
-            InitStateMachine();
-            ColonistManager.Instance.AddColonist(this);
+            InitStateMachine(); 
         }
 
         private void Update()
         {
-            StateMachine.Update();
+            // StateMachine.Update();
+            if (CurrentTask == null)
+            {
+                TaskManager.Instance.AssignTaskForColonist(this);
+            }
+            else
+            {
+                var distanceToTarget =
+                    Vector3.Distance(transform.position, CurrentTask.Transform.position);
+                if (distanceToTarget < GameManager.Instance.GeneralNumberSO.ConstructionRange)
+                {
+                    CurrentTask.UpdateProgress(this);
+                }
+                else
+                {
+                    RunToTask();
+                }
+            }
         }
         
+        
+        public void RunToTask()
+        {
+            AiDestinationSetter.enabled = true;
+            AiDestinationSetter.target = CurrentTask.Transform;
+        }
         private void InitData()
         {
             foreach (var stat in ColonistSo.Stats)

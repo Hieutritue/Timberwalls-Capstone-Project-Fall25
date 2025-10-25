@@ -9,27 +9,6 @@ namespace DefaultNamespace.TaskSystem
     public class TaskManager : MonoSingleton<TaskManager>
     {
         public List<ITask> Tasks = new();
-        public Dictionary<Colonist, ITask> AssignedTasks = new();
-
-        public void AssignTask(Colonist colonist, ITask task)
-        {
-            if (AssignedTasks.ContainsKey(colonist))
-            {
-                AssignedTasks[colonist] = task;
-            }
-            else
-            {
-                AssignedTasks.Add(colonist, task);
-            }
-        }
-
-        public void UnassignTask(Colonist colonist)
-        {
-            if (AssignedTasks.ContainsKey(colonist))
-            {
-                AssignedTasks.Remove(colonist);
-            }
-        }
 
         public void AddTask(ITask task)
         {
@@ -44,29 +23,35 @@ namespace DefaultNamespace.TaskSystem
         public void CheckTaskAssignments()
         {
             var colonists = ColonistManager.Instance.Colonists;
-            Tasks.ForEach(task =>
-            {
-                // first colonist without a task
-                var availableColonist = colonists.FirstOrDefault(c => !AssignedTasks.ContainsKey(c));
-                if (availableColonist != null && !AssignedTasks.ContainsValue(task))
-                {
-                    AssignTask(availableColonist, task);
-                }
-            });
+            colonists.ForEach(AssignTaskForColonist);
         }
 
-        public void CheckTaskForColonist(Colonist colonist)
+        public ITask GetBestTaskForColonist(Colonist colonist)
         {
-            var availableTask = Tasks.Where(task => !AssignedTasks.ContainsValue(task));
+            var availableTask = Tasks.Where(task => !task.AssignedColonist || task.AssignedColonist == colonist)
+                .ToList();
+            if (availableTask.Count <= 0)
+                return null;
             var priorityMatrix = TaskPriorityMatrix.Instance;
             var priorityRow = priorityMatrix.GetRow(colonist);
             // sort task based on priority in priorityRow, higher first then distance to colonist, closest first
-            var task = availableTask.OrderByDescending(task => priorityRow.GetPriorityForTaskType(task.TaskType))
-                .ThenBy(task => Vector3.Distance(colonist.transform.position, task.Transform.position)).FirstOrDefault();
-            
+            var taskList = availableTask.OrderByDescending(task => priorityRow.GetPriorityForTaskType(task.TaskType))
+                .ThenBy(task => Vector3.Distance(colonist.transform.position, task.Transform.position)).ToList();
+            Debug.Log($"Checking task for colonist: {colonist.ColonistSo.NPCName}\n" +
+                      $"Available Tasks: {string.Join(", ", availableTask.Select(t => t.TaskType.ToString()))}\n" +
+                      $"Sorted Tasks: {string.Join(", ", taskList.Select(t => t.TaskType.ToString()))}");
+
+            return taskList[0];
+        }
+
+        public void AssignTaskForColonist(Colonist colonist)
+        {
+            var task = GetBestTaskForColonist(colonist);
             if (task != null)
             {
-                AssignTask(colonist, task);
+                if (colonist.CurrentTask != null) colonist.CurrentTask.AssignedColonist = null;
+                task.AssignedColonist = colonist;
+                colonist.CurrentTask = task;
             }
         }
 
@@ -74,10 +59,6 @@ namespace DefaultNamespace.TaskSystem
         public void LogTasks()
         {
             Debug.Log($"Total Tasks: {Tasks.Count}");
-            foreach (var task in Tasks)
-            {
-                Debug.Log($"Task: {task}, Assigned to: {AssignedTasks.FirstOrDefault(x => x.Value == task).Key}");
-            }
         }
 
         public void RemoveTask(ITask task)
@@ -85,12 +66,8 @@ namespace DefaultNamespace.TaskSystem
             if (Tasks.Contains(task))
             {
                 Tasks.Remove(task);
-            }
-
-            var assignedColonist = AssignedTasks.FirstOrDefault(x => x.Value == task).Key;
-            if (assignedColonist != null)
-            {
-                AssignedTasks.Remove(assignedColonist);
+                task.AssignedColonist.CurrentTask = null;
+                task.AssignedColonist = null;
             }
 
             CheckTaskAssignments();

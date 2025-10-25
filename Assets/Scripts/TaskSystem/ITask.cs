@@ -7,6 +7,7 @@ namespace DefaultNamespace.TaskSystem
 {
     public interface ITask
     {
+        Colonist AssignedColonist { get; set; }
         Building Building { get; }
         TaskType TaskType { get;}
         Transform Transform { get; }
