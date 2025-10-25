@@ -30,7 +30,7 @@ namespace DefaultNamespace.TaskSystem
                 AssignedTasks.Remove(colonist);
             }
         }
-        
+
         public void AddTask(ITask task)
         {
             if (!Tasks.Contains(task))
@@ -55,6 +55,21 @@ namespace DefaultNamespace.TaskSystem
             });
         }
 
+        public void CheckTaskForColonist(Colonist colonist)
+        {
+            var availableTask = Tasks.Where(task => !AssignedTasks.ContainsValue(task));
+            var priorityMatrix = TaskPriorityMatrix.Instance;
+            var priorityRow = priorityMatrix.GetRow(colonist);
+            // sort task based on priority in priorityRow, higher first then distance to colonist, closest first
+            var task = availableTask.OrderByDescending(task => priorityRow.GetPriorityForTaskType(task.TaskType))
+                .ThenBy(task => Vector3.Distance(colonist.transform.position, task.Transform.position)).FirstOrDefault();
+            
+            if (task != null)
+            {
+                AssignTask(colonist, task);
+            }
+        }
+
         [Button]
         public void LogTasks()
         {
@@ -64,7 +79,7 @@ namespace DefaultNamespace.TaskSystem
                 Debug.Log($"Task: {task}, Assigned to: {AssignedTasks.FirstOrDefault(x => x.Value == task).Key}");
             }
         }
-        
+
         public void RemoveTask(ITask task)
         {
             if (Tasks.Contains(task))
@@ -77,10 +92,8 @@ namespace DefaultNamespace.TaskSystem
             {
                 AssignedTasks.Remove(assignedColonist);
             }
-            
+
             CheckTaskAssignments();
-            
-            task = null;
         }
     }
 }

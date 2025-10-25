@@ -30,7 +30,7 @@ namespace DefaultNamespace.ColonistSystem
         {
             InitData();
             InitStateMachine();
-            ColonistManager.Instance.Colonists.Add(this);
+            ColonistManager.Instance.AddColonist(this);
         }
 
         private void Update()
@@ -57,7 +57,7 @@ namespace DefaultNamespace.ColonistSystem
 
         private void OnDestroy()
         {
-            ColonistManager.Instance.Colonists.Remove(this);
+            ColonistManager.Instance.RemoveColonist(this);
         }
         
         public void TransitionToIdle()
