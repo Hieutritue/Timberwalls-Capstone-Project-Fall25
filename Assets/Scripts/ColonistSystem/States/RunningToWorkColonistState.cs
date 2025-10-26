@@ -29,7 +29,6 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Exit()
         {
-            _behaviour.AiDestinationSetter.enabled = false;
             _behaviour.CurrentTask.OnRemove -= _behaviour.TransitionToIdle;
         }
     }

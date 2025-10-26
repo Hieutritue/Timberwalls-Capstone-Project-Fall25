@@ -60,6 +60,19 @@ namespace DefaultNamespace.ColonistSystem
             AiDestinationSetter.enabled = true;
             AiDestinationSetter.target = CurrentTask.Transform;
         }
+
+        public bool CanReachPosition(Transform target)
+        {
+            var startNode = AstarPath.active.GetNearest(transform.position).node;
+            var endNode = AstarPath.active.GetNearest(target.position).node;
+
+            // Check if both nodes belong to the same area
+            bool reachable = (startNode.Area == endNode.Area);
+            Debug.Log($"Checking reachability from {transform.position} to {target.position}: {reachable}");
+
+            return reachable;
+        }
+        
         private void InitData()
         {
             foreach (var stat in ColonistSo.Stats)

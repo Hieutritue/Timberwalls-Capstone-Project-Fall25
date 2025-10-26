@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace.ColonistSystem;
+using DefaultNamespace.General;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -28,21 +29,34 @@ namespace DefaultNamespace.TaskSystem
 
         public ITask GetBestTaskForColonist(Colonist colonist)
         {
-            var availableTask = Tasks.Where(task => !task.AssignedColonist || task.AssignedColonist == colonist)
+            float reachRadius =
+                GameManager.Instance.GeneralNumberSO.ConstructionRange; // distance within which colonist can work
+
+            var availableTasks = Tasks
+                .Where(task =>
+                {
+                    // Task must be unassigned or assigned to this colonist
+                    bool canTakeTask = !task.AssignedColonist || task.AssignedColonist == colonist;
+
+                    return /*PathfindingUtility.CanGetCloseEnough(colonist.transform.position, task.Transform.position,
+                        GameManager.Instance.GeneralNumberSO.ConstructionRange) && */canTakeTask;
+                })
                 .ToList();
-            if (availableTask.Count <= 0)
+
+            if (availableTasks.Count == 0)
                 return null;
+
             var priorityMatrix = TaskPriorityMatrix.Instance;
             var priorityRow = priorityMatrix.GetRow(colonist);
-            // sort task based on priority in priorityRow, higher first then distance to colonist, closest first
-            var taskList = availableTask.OrderByDescending(task => priorityRow.GetPriorityForTaskType(task.TaskType))
-                .ThenBy(task => Vector3.Distance(colonist.transform.position, task.Transform.position)).ToList();
-            Debug.Log($"Checking task for colonist: {colonist.ColonistSo.NPCName}\n" +
-                      $"Available Tasks: {string.Join(", ", availableTask.Select(t => t.TaskType.ToString()))}\n" +
-                      $"Sorted Tasks: {string.Join(", ", taskList.Select(t => t.TaskType.ToString()))}");
+
+            var taskList = availableTasks
+                .OrderByDescending(task => priorityRow.GetPriorityForTaskType(task.TaskType))
+                .ThenBy(task => Vector3.Distance(colonist.transform.position, task.Transform.position))
+                .ToList();
 
             return taskList[0];
         }
+
 
         public void AssignTaskForColonist(Colonist colonist)
         {
@@ -66,7 +80,7 @@ namespace DefaultNamespace.TaskSystem
             if (Tasks.Contains(task))
             {
                 Tasks.Remove(task);
-                task.AssignedColonist.CurrentTask = null;
+                if (task.AssignedColonist) task.AssignedColonist.CurrentTask = null;
                 task.AssignedColonist = null;
             }
 

@@ -18,6 +18,8 @@ namespace DefaultNamespace.ColonistSystem
         {
             OnColonistAdded += TaskPriorityMatrix.Instance.AddRow;
             OnColonistRemoved += TaskPriorityMatrix.Instance.RemoveRow;
+            
+            TaskPriorityMatrix.Instance.Setup();
         }
 
 
