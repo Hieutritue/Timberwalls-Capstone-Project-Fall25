@@ -32,4 +32,15 @@ public class Bullet : MonoBehaviour
         Pool.Release(this);
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent<IDamageable>(out IDamageable damageable))
+        {
+            damageable.Damage(stats.damage, stats.name);
+        }
+        Pool.Release(this);
+    }
 }
+
+

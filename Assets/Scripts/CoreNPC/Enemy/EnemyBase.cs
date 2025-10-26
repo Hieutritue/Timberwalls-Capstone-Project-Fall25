@@ -11,6 +11,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected Transform targetTransform;
     protected float lastAttackTime;
     protected State CurrentState;
+    protected Vector3 walkDir;
     protected enum State { Walk, Attack, Death }
 
     protected virtual void Start()
@@ -19,6 +20,8 @@ public class EnemyBase : MonoBehaviour, IDamageable
         if (target != null)
         {
             targetTransform = target.transform;
+            if (this.transform.position.x - targetTransform.position.x < 0) walkDir = Vector3.right;
+            else walkDir = Vector3.left;
         }
 
         CurrentState = State.Walk;
@@ -66,7 +69,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected virtual void WalkLeft()
     {
-        transform.position += Vector3.left * stats.movementSpeed * Time.deltaTime;
+        transform.position += walkDir * stats.movementSpeed * Time.deltaTime;
     }
 
     protected virtual void AttackTarget()

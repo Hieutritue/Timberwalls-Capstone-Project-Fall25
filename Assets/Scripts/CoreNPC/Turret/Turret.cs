@@ -19,9 +19,14 @@ public class Turret : MonoBehaviour
     [SerializeField] private float fireRate = 2f;
 
     private Enemy currentTarget;
+    private PlayerSpoof p;
     private float lastFireTime;
     private int defaultCapacity = 20;
     private int maxCapacity = 100;
+
+    // Cached modifiers
+    private float rotationSpeedModifier = 1f;
+    private float fireRateModifier = 1f;
 
     private void Awake()
     {
@@ -29,17 +34,68 @@ public class Turret : MonoBehaviour
         rotationSpeed = stats.traverseSpeed;
         fireRate = stats.cyclics;
         bulletPool = new ObjectPool<Bullet>(CreateBullet, OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject, true, defaultCapacity, maxCapacity);
+
+        p = new PlayerSpoof(Random.Range(1, 11), Random.Range(0, 2));
+        UpdateModifiers();
     }
 
     void Update()
     {
+        // Toggle PlayerSpoof with Space key
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (p == null)
+            {
+                p = new PlayerSpoof(Random.Range(1, 11), Random.Range(0, 2));
+                Debug.Log("PlayerSpoof created");
+            }
+            else
+            {
+                p = null;
+                Debug.Log("PlayerSpoof set to null");
+            }
+            UpdateModifiers();
+        }
         FindTarget();
 
-        if (currentTarget != null)
+        if (p == null) return;
+        else
         {
-            RotateTowardsTarget();
-            TryFire();
+            
+
+            if (currentTarget != null)
+            {
+                RotateTowardsTarget();
+                TryFire();
+            }
         }
+    }
+
+    void UpdateModifiers()
+    {
+        // Reset modifiers
+        rotationSpeedModifier = 1f;
+        fireRateModifier = 1f;
+
+        if (p == null) return;
+
+        // Marksmanship: Each level adds +5% to rotation and fire rate
+        float marksmanshipBonus = p.M_level * 0.05f;
+        rotationSpeedModifier += marksmanshipBonus;
+        fireRateModifier += marksmanshipBonus;
+
+        // Afflictions: Each affliction reduces stats by 25%
+        float afflictionPenalty = p.Affliction_number * 0.25f;
+        rotationSpeedModifier -= afflictionPenalty;
+        fireRateModifier -= afflictionPenalty;
+
+        // Ensure modifiers don't go below 10% (0.1)
+        rotationSpeedModifier = Mathf.Max(0.1f, rotationSpeedModifier);
+        fireRateModifier = Mathf.Max(0.1f, fireRateModifier);
+
+        Debug.Log($"Modifiers updated - Marksmanship Lvl: {p.M_level} (+{marksmanshipBonus * 100}%), " +
+                  $"Afflictions: {p.Affliction_number} (-{afflictionPenalty * 100}%), " +
+                  $"Final Rotation: {rotationSpeedModifier * 100}%, Final Fire Rate: {fireRateModifier * 100}%");
     }
 
     void FindTarget()
@@ -81,12 +137,18 @@ public class Turret : MonoBehaviour
         directionToTarget = directionToTarget.normalized;
 
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-        barrel.rotation = Quaternion.Slerp(barrel.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        // Apply rotation speed with modifier
+        float effectiveRotationSpeed = rotationSpeed * rotationSpeedModifier;
+        barrel.rotation = Quaternion.Slerp(barrel.rotation, targetRotation, effectiveRotationSpeed * Time.deltaTime);
     }
 
     void TryFire()
     {
-        if (Time.time >= lastFireTime + (1f / fireRate))
+        // Apply fire rate modifier
+        float effectiveFireRate = fireRate * fireRateModifier;
+
+        if (Time.time >= lastFireTime + (1f / effectiveFireRate))
         {
             Fire();
             lastFireTime = Time.time;
@@ -108,11 +170,9 @@ public class Turret : MonoBehaviour
             firingDirection.z = 0;
             firingDirection = firingDirection.normalized;
 
-            
-
             // Rotate bullet to match firing direction
             bullet.transform.rotation = Quaternion.LookRotation(firingDirection);
-            bullet.deactivate();    
+            bullet.deactivate();
 
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             if (rb != null)
@@ -121,7 +181,6 @@ public class Turret : MonoBehaviour
             }
         }
     }
-
 
     void OnDrawGizmosSelected()
     {
@@ -157,5 +216,17 @@ public class Turret : MonoBehaviour
     private void OnDestroyPooledObject(Bullet bullet)
     {
         Destroy(bullet.gameObject);
+    }
+}
+
+public class PlayerSpoof
+{
+    public int M_level { get; private set; }
+    public int Affliction_number { get; private set; }
+
+    public PlayerSpoof(int level, int affliction_number)
+    {
+        M_level = level;
+        this.Affliction_number = affliction_number;
     }
 }
