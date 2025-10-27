@@ -28,14 +28,14 @@ public class PlacementSystem : MonoBehaviour
     private PreviewPlacementState _previewPlacementState;
     private IdlePlacementState _idlePlacementState;
     
-    public List<RoomInstance> PlacedRooms => _roomGridData.PlacedInstances.Values
+    public List<RoomPlaceableInstance> PlacedRooms => _roomGridData.PlacedInstances.Values
         .Distinct()
-        .Select(pi => pi as RoomInstance)
+        .Select(pi => pi as RoomPlaceableInstance)
         .Where(ri => ri != null)
         .ToList();
-    public List<ItemInstance> PlacedItems => _itemsGridData.PlacedInstances.Values
+    public List<FurniturePlaceableInstance> PlacedItems => _itemsGridData.PlacedInstances.Values
         .Distinct()
-        .Select(pi => pi as ItemInstance)
+        .Select(pi => pi as FurniturePlaceableInstance)
         .Where(ii => ii != null)
         .ToList();
     private void InitStateMachine()

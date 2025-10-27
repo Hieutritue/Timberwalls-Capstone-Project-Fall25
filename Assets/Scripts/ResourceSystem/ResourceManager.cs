@@ -36,7 +36,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     {
         return StartingResources.Find(r => r.ResourceType == resourceType);
     }
-
+    
     public IReadOnlyDictionary<ResourceType, int> GetAll()
     {
         return _amounts;

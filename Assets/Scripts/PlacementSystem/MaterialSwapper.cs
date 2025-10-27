@@ -11,8 +11,6 @@ public class MaterialSwapper : MonoBehaviour
     // Apply highlight
     public void ApplyHighlight(GameObject gameObject, Material material)
     {
-        _originalMaterials.Clear(); // reset
-
         Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
 
         foreach (Renderer rend in renderers)
@@ -40,5 +38,21 @@ public class MaterialSwapper : MonoBehaviour
         }
 
         _originalMaterials.Clear();
+    }
+
+    public void RemoveHighlight(GameObject gameObject)
+    {
+        Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer rend in renderers)
+        {
+            if (_originalMaterials.TryGetValue(rend, out var original))
+            {
+                if (rend != null)
+                    rend.materials = original;
+
+                _originalMaterials.Remove(rend);
+            }
+        }
     }
 }

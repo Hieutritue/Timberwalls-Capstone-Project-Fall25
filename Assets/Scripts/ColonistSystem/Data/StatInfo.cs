@@ -9,7 +9,6 @@ namespace DefaultNamespace.ColonistSystem
     {
         public StatType StatType;
         public float MaxValue = 100;
-        public float BaseDecreaseRate;
         public float FulfillmentThreshold = 30;
     }
     
@@ -23,12 +22,6 @@ namespace DefaultNamespace.ColonistSystem
         public StatRuntime(StatInfo info)
         {
             Info = info;
-        }
-
-        public void Update(float deltaTime)
-        {
-            float change = Info.BaseDecreaseRate * DecreaseMultiplier * deltaTime;
-            Current = Mathf.Clamp(Current + change, 0, Info.MaxValue);
         }
     }
     

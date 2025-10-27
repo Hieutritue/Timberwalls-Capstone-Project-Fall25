@@ -1,4 +1,6 @@
 ﻿using _Scripts.StateMachine;
+using DefaultNamespace.TaskSystem;
+using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem.States
 {
@@ -15,7 +17,6 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Tick()
         {
-            
         }
 
         public override void Exit()
