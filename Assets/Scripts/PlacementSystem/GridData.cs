@@ -34,12 +34,12 @@ namespace DefaultNamespace
             switch (placeableSo.Type)
             {
                 case PlaceableType.Room:
-                    var roomInstance = gameObject.AddComponent<PlaceableInstances.RoomInstance>();
+                    var roomInstance = gameObject.AddComponent<PlaceableInstances.RoomPlaceableInstance>();
                     roomInstance.OccupiedCells = positionToOccupy;
                     roomInstance.PlaceableSo = placeableSo;
                     return roomInstance;
                 default:
-                    var itemInstance = gameObject.AddComponent<PlaceableInstances.ItemInstance>();
+                    var itemInstance = gameObject.AddComponent<PlaceableInstances.FurniturePlaceableInstance>();
                     itemInstance.OccupiedCells = positionToOccupy;
                     itemInstance.PlaceableSo = placeableSo;
                     return itemInstance;
