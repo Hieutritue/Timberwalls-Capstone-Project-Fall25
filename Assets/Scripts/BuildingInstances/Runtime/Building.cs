@@ -20,11 +20,13 @@ namespace BuildingSystem
         protected DemolishingBuildingState _demolishingBuildingState;
         
         public List<ITask> ActiveTasks = new List<ITask>();
+        public Collider[] Colliders;
         
         public IState CurrentState => _stateMachine.CurrentState;
         
         public void Start()
         {
+            Colliders = GetComponentsInChildren<Collider>();
             InitStateMachine();
         }
 
@@ -68,6 +70,7 @@ namespace BuildingSystem
             {
                 task.RemoveTask();
             }
+            AstarPath.active.Scan();
         }
     }
 }

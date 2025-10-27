@@ -14,7 +14,7 @@ namespace DefaultNamespace.ColonistSystem.States
         public override void Enter()
         {
             _behaviour.CurrentTask.OnRemove += _behaviour.TransitionToIdle;
-            RunToTask();
+            // RunToTask();
         }
 
         public override void Tick()
@@ -29,14 +29,7 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Exit()
         {
-            _behaviour.AiDestinationSetter.enabled = false;
             _behaviour.CurrentTask.OnRemove -= _behaviour.TransitionToIdle;
-        }
-        
-        public void RunToTask()
-        {
-            _behaviour.AiDestinationSetter.enabled = true;
-            _behaviour.AiDestinationSetter.target = TaskManager.Instance.AssignedTasks[_behaviour].Transform;
         }
     }
 }

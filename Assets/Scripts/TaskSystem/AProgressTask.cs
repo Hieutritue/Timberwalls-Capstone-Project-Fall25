@@ -12,6 +12,7 @@ namespace DefaultNamespace.TaskSystem
         protected Building _building;
         protected float _progress;
         protected ProgressBarUI _progressBarUI;
+        public Colonist AssignedColonist { get; set; }
         public Building Building => _building;
         public TaskType TaskType { get;}
         public Transform Transform => _building?.ProgressPoint;

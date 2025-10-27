@@ -17,8 +17,8 @@ namespace DefaultNamespace.ColonistSystem
         [Header("PathFinding")]
         public AIDestinationSetter AiDestinationSetter;
         
-        public ITask CurrentTask => TaskManager.Instance.AssignedTasks.ContainsKey(this) ? TaskManager.Instance.AssignedTasks[this] : null;
-        
+        public ITask CurrentTask { get; set; }
+
         public StateMachine StateMachine = new StateMachine();
         public FindingFacilityColonistState FindingFacilityState;
         public RunningToFacilityColonistState RunningToFacilityState;
@@ -29,13 +29,48 @@ namespace DefaultNamespace.ColonistSystem
         private void Start()
         {
             InitData();
-            InitStateMachine();
-            ColonistManager.Instance.Colonists.Add(this);
+            InitStateMachine(); 
         }
 
         private void Update()
         {
-            StateMachine.Update();
+            // StateMachine.Update();
+            if (CurrentTask == null)
+            {
+                TaskManager.Instance.AssignTaskForColonist(this);
+            }
+            else
+            {
+                var distanceToTarget =
+                    Vector3.Distance(transform.position, CurrentTask.Transform.position);
+                if (distanceToTarget < GameManager.Instance.GeneralNumberSO.ConstructionRange)
+                {
+                    CurrentTask.UpdateProgress(this);
+                }
+                else
+                {
+                    RunToTask();
+                }
+            }
+        }
+        
+        
+        public void RunToTask()
+        {
+            AiDestinationSetter.enabled = true;
+            AiDestinationSetter.target = CurrentTask.Transform;
+        }
+
+        public bool CanReachPosition(Transform target)
+        {
+            var startNode = AstarPath.active.GetNearest(transform.position).node;
+            var endNode = AstarPath.active.GetNearest(target.position).node;
+
+            // Check if both nodes belong to the same area
+            bool reachable = (startNode.Area == endNode.Area);
+            Debug.Log($"Checking reachability from {transform.position} to {target.position}: {reachable}");
+
+            return reachable;
         }
         
         private void InitData()
@@ -57,7 +92,7 @@ namespace DefaultNamespace.ColonistSystem
 
         private void OnDestroy()
         {
-            ColonistManager.Instance.Colonists.Remove(this);
+            ColonistManager.Instance.RemoveColonist(this);
         }
         
         public void TransitionToIdle()
