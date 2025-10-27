@@ -12,16 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1439e26ea682486d932aa6ce71092116, type: 3}
   m_Name: WoodStove
   m_EditorClassIdentifier: 
-  Size: {x: 0, y: 0}
-  Prefab: {fileID: 0}
-  Type: 0
-  PlacementConditions: 
-  Name: 
+  Size: {x: 1, y: 1}
+  Prefab: {fileID: 1541128845386549207, guid: a924ca447aace854896099ed9f77f04c, type: 3}
+  Type: 1
+  PlacementConditions: 0100000002000000
+  Name: Wood Stove
   Icon: {fileID: 0}
   Category: 0
-  Description: 
-  Costs: []
-  BaseBuildTime: 0
-  BaseTimeToProduce: 0
-  Consumption: []
-  OutputResource: []
+  Description: Use to cook raw food
+  Costs:
+  - Resource: {fileID: 11400000, guid: bd733fb24fdaa59409e0620063e3e1ba, type: 2}
+    Amount: 15
+  BaseBuildTime: 10
+  BaseTimeToProduce: 30
+  Consumption:
+  - Resource: {fileID: 11400000, guid: 3362e6b2490eef2409949e8042849435, type: 2}
+    Amount: 1
+  OutputResource:
+  - Resource: {fileID: 11400000, guid: b17e318129f9854439a260c41d6b7d3d, type: 2}
+    Amount: 1
