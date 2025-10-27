@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1439e26ea682486d932aa6ce71092116, type: 3}
+  m_Name: BatteryFactory
+  m_EditorClassIdentifier: 
+  Size: {x: 1, y: 2}
+  Prefab: {fileID: 397871131109849149, guid: 2424294c238868c4f9f509ba8c141c0b, type: 3}
+  Type: 1
+  PlacementConditions: 
+  Name: Battery factory
+  Icon: {fileID: 0}
+  Category: 0
+  Description: 
+  Costs:
+  - Resource: {fileID: 11400000, guid: ac4220259a4983544901b993183689ae, type: 2}
+    Amount: 10
+  - Resource: {fileID: 11400000, guid: 4b4be77cd7156df46a660217225772cd, type: 2}
+    Amount: 15
+  - Resource: {fileID: 11400000, guid: 89267f7d0ec1e5c478c259bdd9c8e9d2, type: 2}
+    Amount: 15
+  BaseBuildTime: 20
+  BaseTimeToProduce: 60
+  Consumption:
+  - Resource: {fileID: 11400000, guid: 89267f7d0ec1e5c478c259bdd9c8e9d2, type: 2}
+    Amount: 1
+  - Resource: {fileID: 11400000, guid: f981a6ea9cc13e54aab102b6be9b3cb3, type: 2}
+    Amount: 1
+  OutputResource:
+  - Resource: {fileID: 11400000, guid: 12496c3e4e05af44ba8a51d8a5c7c64d, type: 2}
+    Amount: 5

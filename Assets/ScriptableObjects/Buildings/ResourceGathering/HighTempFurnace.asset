@@ -10,22 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1439e26ea682486d932aa6ce71092116, type: 3}
-  m_Name: StoneFarm
+  m_Name: HighTempFurnace
   m_EditorClassIdentifier: 
   Size: {x: 1, y: 2}
-  Prefab: {fileID: 5778974827108061457, guid: ac7fc3695eef56c47a85bcee93284e87, type: 3}
+  Prefab: {fileID: 3654851581026220355, guid: bb3651badf276ac4f9e7e4e5175359c2, type: 3}
   Type: 1
-  PlacementConditions: 0100000002000000
-  Name: 
+  PlacementConditions: 
+  Name: High-temp furnace
   Icon: {fileID: 0}
   Category: 0
   Description: 
   Costs:
-  - Resource: {fileID: 11400000, guid: bd733fb24fdaa59409e0620063e3e1ba, type: 2}
-    Amount: 2
-  BaseBuildTime: 20
+  - Resource: {fileID: 11400000, guid: 899d5d837e176894089670f62b935e46, type: 2}
+    Amount: 15
+  - Resource: {fileID: 11400000, guid: ac4220259a4983544901b993183689ae, type: 2}
+    Amount: 20
+  - Resource: {fileID: 11400000, guid: f981a6ea9cc13e54aab102b6be9b3cb3, type: 2}
+    Amount: 15
+  BaseBuildTime: 30
   BaseTimeToProduce: 60
   Consumption: []
   OutputResource:
-  - Resource: {fileID: 11400000, guid: 118c7ead4b7e56446a52ac7a86f36b34, type: 2}
-    Amount: 15
+  - Resource: {fileID: 0}
+    Amount: 4

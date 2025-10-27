@@ -10,22 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1439e26ea682486d932aa6ce71092116, type: 3}
-  m_Name: WoodFarm
+  m_Name: PolymerPress
   m_EditorClassIdentifier: 
-  Size: {x: 2, y: 1}
-  Prefab: {fileID: 2695364817497320556, guid: a7763e7637d920446b541fb5f08ec975, type: 3}
+  Size: {x: 1, y: 2}
+  Prefab: {fileID: 5630760351458526596, guid: 01e19d6accf1ed74ebbd72a9b843ad0a, type: 3}
   Type: 1
-  PlacementConditions: 0200000001000000
-  Name: Wood farm
-  Icon: {fileID: 21300000, guid: 36829c3ee0345af4da13d52ff024765b, type: 3}
+  PlacementConditions: 
+  Name: Polymer press
+  Icon: {fileID: 0}
   Category: 0
-  Description: 'A farm which generate wood overtime '
+  Description: 
   Costs:
   - Resource: {fileID: 11400000, guid: bd733fb24fdaa59409e0620063e3e1ba, type: 2}
     Amount: 20
-  BaseBuildTime: 10
+  - Resource: {fileID: 11400000, guid: 118c7ead4b7e56446a52ac7a86f36b34, type: 2}
+    Amount: 15
+  - Resource: {fileID: 11400000, guid: 4b4be77cd7156df46a660217225772cd, type: 2}
+    Amount: 15
+  BaseBuildTime: 15
   BaseTimeToProduce: 60
   Consumption: []
   OutputResource:
-  - Resource: {fileID: 11400000, guid: bd733fb24fdaa59409e0620063e3e1ba, type: 2}
-    Amount: 15
+  - Resource: {fileID: 11400000, guid: ac4220259a4983544901b993183689ae, type: 2}
+    Amount: 10
