@@ -39,7 +39,7 @@ public class ItemTooltipManager : MonoBehaviour
             gameObject.SetActive(true);
             float textPaddingSize = 8f;
             Vector2 backgroundSize = new Vector2(itemDescription.rectTransform.rect.width + textPaddingSize,
-                itemDescription.preferredHeight + textPaddingSize);
+                                                 itemDescription.preferredHeight + textPaddingSize);
             backgroundTransform.sizeDelta = backgroundSize; //resize the background according to text size
         }
     }

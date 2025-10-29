@@ -27,8 +27,16 @@ public class BuildMenuManager : MonoBehaviour
 
     public void OnClickCategory(CategorySO categoryClicked)
     {
-        _currentCategory = categoryClicked;
-        ItemWindowManager.Instance.GenerateItems(categoryClicked);
+        bool isDifferentCategory;
+        if (_currentCategory == null) isDifferentCategory = true;
+        else if (categoryClicked.category == _currentCategory.category)  isDifferentCategory = false;
+        else   isDifferentCategory = false;
+        
+        if (isDifferentCategory)
+        {
+            _currentCategory = categoryClicked;
+            ItemWindowManager.Instance.GenerateItems(categoryClicked);
+        }
     }
     
 }

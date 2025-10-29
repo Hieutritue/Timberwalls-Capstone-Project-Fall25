@@ -7,7 +7,7 @@ public class NormalTooltipTrigger :  MonoBehaviour, IPointerEnterHandler, IPoint
     
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!string.IsNullOrEmpty(itemData.message))
+        if (itemData != null && !string.IsNullOrEmpty(itemData.message))
         {
             NormalTooltipManager.ShowTooltipStatic(itemData.message);
         }

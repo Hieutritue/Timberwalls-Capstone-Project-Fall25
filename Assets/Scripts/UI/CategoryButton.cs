@@ -16,13 +16,9 @@ public class CategoryButton : MonoBehaviour
         GetComponentInChildren<Button>().onClick.AddListener(OnClick);
     }
 
-
     private void OnClick()
     {
         menuManager.OnClickCategory(categoryData);
     }
-
- 
-
-   
+    
 }
