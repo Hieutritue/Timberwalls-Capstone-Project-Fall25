@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using System.Text.RegularExpressions;
@@ -25,22 +26,24 @@ public class ItemWindowManager : MonoBehaviour
 
     public void GenerateItems(CategorySO categoryClicked)
     {
-        RectTransform rectTransform = GetComponent<RectTransform>();
-        if (!gameObject.activeInHierarchy) gameObject.SetActive(true);
+        if (!gameObject.activeInHierarchy)
+            gameObject.SetActive(true);
 
-        //Reset previous state
+        RectTransform rectTransform = GetComponent<RectTransform>();
+
+        // ✅ Reset previous subcategories
         foreach (Transform child in subcategoryLayer.transform)
         {
             Destroy(child.gameObject);
         }
 
-        // Reset height to original
+        // ✅ Reset height to original
         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _originalItemWindowHeight);
 
-        //Update category title
+        // ✅ Update category title
         categoryName.text = StringTools.SplitCamelCase(categoryClicked.category.ToString());
 
-        //Generate new subcategories
+        // ✅ Generate new subcategories
         if (categoryClicked.subCategories.Count > 0)
         {
             foreach (var subCategory in categoryClicked.subCategories)
@@ -50,10 +53,9 @@ public class ItemWindowManager : MonoBehaviour
 
                 GameObject subcategoryItemContainer = subcategoryComp.GetItemContainer();
                 TextMeshProUGUI subcategoryName = subcategoryComp.GetSubcategoryName();
-
                 subcategoryName.SetText(subCategory.subCategoryName);
 
-                //Generate items
+                // ✅ Generate items
                 foreach (var item in subCategory.items)
                 {
                     var newItem = Instantiate(item.Prefab, subcategoryItemContainer.transform);
@@ -61,7 +63,7 @@ public class ItemWindowManager : MonoBehaviour
                         newItem.GetComponent<Image>().sprite = item.Icon;
                 }
 
-                //Resize subcategory height
+                // ✅ Resize subcategory height (keep your logic)
                 RectTransform subcategoryPrefabRect = newSubCategory.GetComponent<RectTransform>();
                 RectTransform subcategoryItemContainerRect = subcategoryItemContainer.GetComponent<RectTransform>();
 
@@ -70,12 +72,22 @@ public class ItemWindowManager : MonoBehaviour
                 float subcategoryPrefabHeight = subcategoryPrefabRect.rect.height;
                 float newSubcategoryPrefabHeight = subcategoryPrefabHeight + subcategoryItemContainerRect.rect.height;
 
-                subcategoryPrefabRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,
-                    newSubcategoryPrefabHeight);
+                subcategoryPrefabRect.SetSizeWithCurrentAnchors(
+                    RectTransform.Axis.Vertical,
+                    newSubcategoryPrefabHeight
+                );
             }
         }
 
-        //Resize the whole menu
+        // ✅ Recalculate layout height properly after Unity updates UI
+        StartCoroutine(RecalculateLayoutHeight(rectTransform));
+    }
+
+    private IEnumerator RecalculateLayoutHeight(RectTransform rectTransform)
+    {
+        // Wait until end of frame to allow Unity’s layout system to update everything
+        yield return new WaitForEndOfFrame();
+
         RectTransform subcategoryLayerRectTransform = subcategoryLayer.GetComponent<RectTransform>();
         LayoutRebuilder.ForceRebuildLayoutImmediate(subcategoryLayerRectTransform);
 

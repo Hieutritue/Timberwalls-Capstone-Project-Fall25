@@ -30,7 +30,7 @@ public class BuildMenuManager : MonoBehaviour
         bool isDifferentCategory;
         if (_currentCategory == null) isDifferentCategory = true;
         else if (categoryClicked.category == _currentCategory.category)  isDifferentCategory = false;
-        else   isDifferentCategory = false;
+        else isDifferentCategory = true;
         
         if (isDifferentCategory)
         {
