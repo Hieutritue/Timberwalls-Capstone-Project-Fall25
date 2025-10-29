@@ -10,22 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1439e26ea682486d932aa6ce71092116, type: 3}
-  m_Name: StoneFarm
+  m_Name: IronFurnace
   m_EditorClassIdentifier: 
   Size: {x: 1, y: 2}
-  Prefab: {fileID: 5778974827108061457, guid: ac7fc3695eef56c47a85bcee93284e87, type: 3}
+  Prefab: {fileID: 6387259080293352768, guid: d38c8e9b4e57a1a448fe2073bd9eb39c, type: 3}
   Type: 1
   PlacementConditions: 0100000002000000
-  Name: Stone farm
+  Name: Iron furnace
   Icon: {fileID: 0}
   Category: 0
   Description: 
   Costs:
-  - Resource: {fileID: 11400000, guid: bd733fb24fdaa59409e0620063e3e1ba, type: 2}
-    Amount: 2
-  BaseBuildTime: 20
+  - Resource: {fileID: 11400000, guid: 6e0e565f81f28384cba89259f2db7561, type: 2}
+    Amount: 30
+  BaseBuildTime: 15
   BaseTimeToProduce: 60
-  Consumption: []
+  Consumption:
+  - Resource: {fileID: 11400000, guid: 9ee4aa39b0b1074419063bdcd764d278, type: 2}
+    Amount: 10
   OutputResource:
-  - Resource: {fileID: 11400000, guid: 118c7ead4b7e56446a52ac7a86f36b34, type: 2}
-    Amount: 15
+  - Resource: {fileID: 11400000, guid: 6e0e565f81f28384cba89259f2db7561, type: 2}
+    Amount: 5
