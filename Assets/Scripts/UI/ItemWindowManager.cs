@@ -31,19 +31,16 @@ public class ItemWindowManager : MonoBehaviour
 
         RectTransform rectTransform = GetComponent<RectTransform>();
 
-        // ✅ Reset previous subcategories
+        //Reset previous subcategories
         foreach (Transform child in subcategoryLayer.transform)
         {
             Destroy(child.gameObject);
         }
 
-        // ✅ Reset height to original
+        //Reset height to original
         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _originalItemWindowHeight);
-
-        // ✅ Update category title
         categoryName.text = StringTools.SplitCamelCase(categoryClicked.category.ToString());
-
-        // ✅ Generate new subcategories
+        //Generate new subcategories
         if (categoryClicked.subCategories.Count > 0)
         {
             foreach (var subCategory in categoryClicked.subCategories)
@@ -55,7 +52,7 @@ public class ItemWindowManager : MonoBehaviour
                 TextMeshProUGUI subcategoryName = subcategoryComp.GetSubcategoryName();
                 subcategoryName.SetText(subCategory.subCategoryName);
 
-                // ✅ Generate items
+                //Generate items
                 foreach (var item in subCategory.items)
                 {
                     var newItem = Instantiate(item.Prefab, subcategoryItemContainer.transform);
@@ -63,7 +60,7 @@ public class ItemWindowManager : MonoBehaviour
                         newItem.GetComponent<Image>().sprite = item.Icon;
                 }
 
-                // ✅ Resize subcategory height (keep your logic)
+                //Resize subcategory height (keep your logic)
                 RectTransform subcategoryPrefabRect = newSubCategory.GetComponent<RectTransform>();
                 RectTransform subcategoryItemContainerRect = subcategoryItemContainer.GetComponent<RectTransform>();
 
@@ -79,7 +76,7 @@ public class ItemWindowManager : MonoBehaviour
             }
         }
 
-        // ✅ Recalculate layout height properly after Unity updates UI
+        //Recalculate layout height properly after Unity updates UI
         StartCoroutine(RecalculateLayoutHeight(rectTransform));
     }
 
