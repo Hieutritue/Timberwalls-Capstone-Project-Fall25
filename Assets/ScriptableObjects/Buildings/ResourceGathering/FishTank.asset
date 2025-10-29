@@ -13,15 +13,21 @@ MonoBehaviour:
   m_Name: FishTank
   m_EditorClassIdentifier: 
   Size: {x: 0, y: 0}
-  Prefab: {fileID: 0}
-  Type: 0
-  PlacementConditions: 
-  Name: 
-  Icon: {fileID: 0}
+  Prefab: {fileID: 4346636706718757673, guid: 43c1e8289e6f029408c48249198fa095, type: 3}
+  Type: 1
+  PlacementConditions: 0100000002000000
+  Name: Fish Tank
+  Icon: {fileID: -306654916, guid: 1c1f1d01ad00ab04eb01f0facbeedd7b, type: 3}
   Category: 0
   Description: 
-  Costs: []
-  BaseBuildTime: 0
-  BaseTimeToProduce: 0
+  Costs:
+  - Resource: {fileID: 11400000, guid: ac4220259a4983544901b993183689ae, type: 2}
+    Amount: 20
+  - Resource: {fileID: 11400000, guid: 899d5d837e176894089670f62b935e46, type: 2}
+    Amount: 10
+  BaseBuildTime: 20
+  BaseTimeToProduce: 5.45
   Consumption: []
-  OutputResource: []
+  OutputResource:
+  - Resource: {fileID: 11400000, guid: 3362e6b2490eef2409949e8042849435, type: 2}
+    Amount: 11

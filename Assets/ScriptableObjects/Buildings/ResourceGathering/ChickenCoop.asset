@@ -12,16 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1439e26ea682486d932aa6ce71092116, type: 3}
   m_Name: ChickenCoop
   m_EditorClassIdentifier: 
-  Size: {x: 0, y: 0}
-  Prefab: {fileID: 0}
-  Type: 0
+  Size: {x: 2, y: 2}
+  Prefab: {fileID: 8294693191735315724, guid: e48c0c7b08a14f34da112563bf0eb513, type: 3}
+  Type: 1
   PlacementConditions: 
-  Name: 
-  Icon: {fileID: 0}
+  Name: Chicken coop
+  Icon: {fileID: 598089189, guid: 2743e9e9c1f398846b2640331867a104, type: 3}
   Category: 0
   Description: 
-  Costs: []
-  BaseBuildTime: 0
-  BaseTimeToProduce: 0
+  Costs:
+  - Resource: {fileID: 11400000, guid: bd733fb24fdaa59409e0620063e3e1ba, type: 2}
+    Amount: 20
+  - Resource: {fileID: 11400000, guid: f981a6ea9cc13e54aab102b6be9b3cb3, type: 2}
+    Amount: 15
+  BaseBuildTime: 15
+  BaseTimeToProduce: 7.5
   Consumption: []
-  OutputResource: []
+  OutputResource:
+  - Resource: {fileID: 11400000, guid: 3362e6b2490eef2409949e8042849435, type: 2}
+    Amount: 1

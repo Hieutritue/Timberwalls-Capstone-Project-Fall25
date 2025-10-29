@@ -12,16 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1439e26ea682486d932aa6ce71092116, type: 3}
   m_Name: ElectricStove
   m_EditorClassIdentifier: 
-  Size: {x: 0, y: 0}
-  Prefab: {fileID: 0}
-  Type: 0
+  Size: {x: 2, y: 2}
+  Prefab: {fileID: 5275904839923071168, guid: 52e5b8fd8ac807449a6c9c122046a0d1, type: 3}
+  Type: 1
   PlacementConditions: 
-  Name: 
-  Icon: {fileID: 0}
+  Name: Electric stove
+  Icon: {fileID: 1034063805, guid: 1c1f1d01ad00ab04eb01f0facbeedd7b, type: 3}
   Category: 0
   Description: 
-  Costs: []
-  BaseBuildTime: 0
-  BaseTimeToProduce: 0
-  Consumption: []
-  OutputResource: []
+  Costs:
+  - Resource: {fileID: 11400000, guid: 12496c3e4e05af44ba8a51d8a5c7c64d, type: 2}
+    Amount: 5
+  - Resource: {fileID: 11400000, guid: f981a6ea9cc13e54aab102b6be9b3cb3, type: 2}
+    Amount: 20
+  - Resource: {fileID: 11400000, guid: ac4220259a4983544901b993183689ae, type: 2}
+    Amount: 15
+  BaseBuildTime: 15
+  BaseTimeToProduce: 6
+  Consumption:
+  - Resource: {fileID: 11400000, guid: 3362e6b2490eef2409949e8042849435, type: 2}
+    Amount: 1
+  OutputResource:
+  - Resource: {fileID: 11400000, guid: b17e318129f9854439a260c41d6b7d3d, type: 2}
+    Amount: 1

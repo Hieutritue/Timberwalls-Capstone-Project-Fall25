@@ -40,5 +40,10 @@ namespace DefaultNamespace.ColonistSystem
                 OnColonistRemoved?.Invoke(colonist);
             }
         }
+
+        public int GetColonistCount()
+        {
+            return Colonists.Count;
+        }
     }
 }

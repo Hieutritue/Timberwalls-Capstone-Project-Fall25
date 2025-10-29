@@ -1,13 +1,15 @@
 using System;
 using TMPro;
 using UnityEngine;
+using System.Text.RegularExpressions;
+using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class ItemWindowManager : MonoBehaviour
 {
-    [SerializeField] private GameObject categoryLayerPrefab;
-    [SerializeField] private GameObject categoryItemContainer;
+    [SerializeField] private GameObject subcategoryLayer;
+    [SerializeField] private GameObject subcategoryPrefab;
     [SerializeField] private TextMeshProUGUI categoryName;
-    [SerializeField] private TextMeshProUGUI tabName;
     public static ItemWindowManager Instance;
 
     private void Awake()
@@ -20,20 +22,39 @@ public class ItemWindowManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void GenerateItems(TabSO tabClicked)
+    public void GenerateItems(CategorySO categoryClicked)
     {
-        if(!gameObject.activeInHierarchy) gameObject.SetActive(true);
-        tabName.text = tabClicked.tabName;
-        if (categoryItemContainer.transform.childCount <= 0)
+        if (!gameObject.activeInHierarchy) gameObject.SetActive(true);
+        categoryName.text = StringTools.SplitCamelCase(categoryClicked.category.ToString());
+        //generate category
+        foreach (var subCategory in categoryClicked.subCategories)
         {
-            foreach (var category in tabClicked.tabCategories)
+            categoryName.SetText(StringTools.SplitCamelCase(categoryClicked.category.ToString()));
+            var newSubCategory = Instantiate(subcategoryPrefab, subcategoryLayer.transform);
+            Transform subcategoryItemContainer = newSubCategory.transform.Find("Subcategory item container");
+            //generate item in the category
+            foreach (var item in subCategory.items)
             {
-                categoryName.SetText(category.categoryName);
-                foreach (var item in category.items)
-                {
-                    Instantiate(item.itemPrefab, categoryItemContainer.transform);
-                }
+                var newItem = Instantiate(item.Prefab, subcategoryItemContainer);
+                newItem.GetComponent<Image>().sprite = item.Icon;
             }
+            
+            //resize the subcategoryPrefab to match item container
+            RectTransform subcategoryPrefabRect = newSubCategory.GetComponent<RectTransform>();
+            RectTransform subcategoryItemContainerRect = subcategoryItemContainer.GetComponent<RectTransform>();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(subcategoryItemContainerRect);
+            float subcategoryPrefabHeight = subcategoryPrefabRect.rect.height;
+            float newSubcategoryPrefabHeight = subcategoryPrefabHeight + subcategoryItemContainerRect.rect.height; 
+            subcategoryPrefabRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, newSubcategoryPrefabHeight);
+            
         }
+        //resize menu
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        RectTransform subcategoryLayerRectTransform = subcategoryLayer.GetComponent<RectTransform>();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(subcategoryLayerRectTransform);
+        float extraHeight = subcategoryLayer.GetComponent<RectTransform>().rect.height;
+        float newHeight = rectTransform.rect.height + extraHeight;
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, newHeight);
     }
+    
 }

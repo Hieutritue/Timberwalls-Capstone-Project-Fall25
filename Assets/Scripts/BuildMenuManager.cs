@@ -5,31 +5,30 @@ using UnityEngine;
 
 public class BuildMenuManager : MonoBehaviour
 {
-    [SerializeField]private List<TabSO> tabs; //Assign in inspector
-    [SerializeField]private GameObject tabPrefab;
+    [SerializeField]private GameObject categoryPrefab;
     [SerializeField]private GameObject menuContent;
     [SerializeField] private GameObject itemWindow;
-    private TabSO _currentTab;
+    private CategorySO _currentCategory;
 
     private void Start()
     {
-        GenerateTabs();
+        GenerateCategories();
     }
 
-    private void GenerateTabs()
+    private void GenerateCategories()
     {
-        foreach (TabSO tab in tabs)
+        foreach (BuildingCategory category in Enum.GetValues(typeof(BuildingCategory)))
         {
-            GameObject tabObj = Instantiate(tabPrefab, menuContent.transform);
-            TabButton tabButton = tabObj.GetComponent<TabButton>();
-            tabButton.Initialize(tab, this);
+            GameObject categoryObj = Instantiate(categoryPrefab, menuContent.transform);
+            CategoryButton categoryButton = categoryObj.GetComponent<CategoryButton>();
+            categoryButton.Initialize(category, this);
         }
     }
 
-    public void OnClickTab(TabSO tabClicked)
+    public void OnClickCategory(CategorySO categoryClicked)
     {
-        _currentTab = tabClicked;
-        ItemWindowManager.Instance.GenerateItems(tabClicked);
+        _currentCategory = categoryClicked;
+        ItemWindowManager.Instance.GenerateItems(categoryClicked);
     }
     
 }
