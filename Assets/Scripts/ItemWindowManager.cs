@@ -29,14 +29,16 @@ public class ItemWindowManager : MonoBehaviour
         //generate category
         foreach (var subCategory in categoryClicked.subCategories)
         {
-            categoryName.SetText(StringTools.SplitCamelCase(categoryClicked.category.ToString()));
             var newSubCategory = Instantiate(subcategoryPrefab, subcategoryLayer.transform);
-            Transform subcategoryItemContainer = newSubCategory.transform.Find("Subcategory item container");
+            GameObject subcategoryItemContainer = newSubCategory.GetComponent<Subcategory>().GetItemContainer();
+            TextMeshProUGUI subcategoryName = newSubCategory.GetComponent<Subcategory>().GetSubcategoryName();
+            subcategoryName.SetText(subCategory.subCategoryName);
             //generate item in the category
             foreach (var item in subCategory.items)
             {
-                var newItem = Instantiate(item.Prefab, subcategoryItemContainer);
-                newItem.GetComponent<Image>().sprite = item.Icon;
+                var newItem = Instantiate(item.Prefab, subcategoryItemContainer.transform);
+                if(item.Icon != null) newItem.GetComponent<Image>().sprite = item.Icon;
+                
             }
             
             //resize the subcategoryPrefab to match item container
