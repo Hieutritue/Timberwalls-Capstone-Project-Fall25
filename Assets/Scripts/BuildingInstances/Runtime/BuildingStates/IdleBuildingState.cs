@@ -11,9 +11,9 @@ namespace BuildingSystem.RoomStates
 
         public override void Enter()
         {
-            if(_behaviour is ResourceGatheringFurniture gatheringFurniture)
+            if(_behaviour is ITaskCreator taskCreator)
             {
-                gatheringFurniture.CreateTask();
+                taskCreator.CreateTask();
             }
         }
 

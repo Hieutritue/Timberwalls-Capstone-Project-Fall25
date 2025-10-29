@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.General;
@@ -16,21 +17,32 @@ namespace DefaultNamespace.TaskSystem
             if (!Tasks.Contains(task))
             {
                 Tasks.Add(task);
+                // CheckTaskAssignments();
+            }
+        }
+
+        private float _timer = 0f;
+        private void Update()
+        {
+            _timer += Time.deltaTime;
+            if (_timer >= 0.2f)
+            {
                 CheckTaskAssignments();
+                _timer = 0f;
             }
         }
 
         [Button]
         public void CheckTaskAssignments()
         {
-            var colonists = ColonistManager.Instance.Colonists;
-            colonists.ForEach(AssignTaskForColonist);
+            // Tasks.ForEach(AssignColonistToTask);
+            ColonistManager.Instance.Colonists.ForEach(AssignTaskForColonist);
         }
 
         public ITask GetBestTaskForColonist(Colonist colonist)
         {
             float reachRadius =
-                GameManager.Instance.GeneralNumberSO.ConstructionRange; // distance within which colonist can work
+                DataTable.Instance.GeneralNumberSo.ConstructionRange; // distance within which colonist can work
 
             var availableTasks = Tasks
                 .Where(task =>
@@ -51,17 +63,59 @@ namespace DefaultNamespace.TaskSystem
 
             var taskList = availableTasks
                 .OrderByDescending(task => priorityRow.GetPriorityForTaskType(task.TaskType))
-                .ThenBy(task => Vector3.Distance(colonist.transform.position, task.Transform.position))
+                .ThenBy(task => Vector3.Distance(colonist.transform.position, task.GetBuildingProgressPoint().position))
                 .ToList();
 
             return taskList[0];
         }
+        
+        public Colonist GetBestColonistForTask(ITask task)
+        {
+            var availableColonists = ColonistManager.Instance.Colonists
+                .Where(colonist =>
+                {
+                    // Colonist must be unassigned or assigned to this task
+                    bool canTakeTask = colonist.CurrentTask == null || colonist.CurrentTask == task;
 
+                    return /*PathfindingUtility.CanGetCloseEnough(colonist.transform.position, task.Transform.position,
+                        GameManager.Instance.GeneralNumberSO.ConstructionRange) && */canTakeTask;
+                })
+                .ToList();
+
+            if (availableColonists.Count == 0)
+                return null;
+
+            var priorityMatrix = TaskPriorityMatrix.Instance;
+
+            var colonistList = availableColonists
+                .OrderByDescending(colonist => priorityMatrix.GetRow(colonist).GetPriorityForTaskType(task.TaskType))
+                .ThenBy(colonist => Vector3.Distance(colonist.transform.position, task.GetBuildingProgressPoint().position))
+                .ToList();
+
+            return colonistList[0];
+        }
 
         public void AssignTaskForColonist(Colonist colonist)
         {
             var task = GetBestTaskForColonist(colonist);
+
+            if (task != colonist.CurrentTask)
+            {
+                colonist.StateMachine.TransitionTo(colonist.IdleState);
+            }
+            
             if (task != null)
+            {
+                if (colonist.CurrentTask != null) colonist.CurrentTask.AssignedColonist = null;
+                task.AssignedColonist = colonist;
+                colonist.CurrentTask = task;
+            }
+        }
+        
+        public void AssignColonistToTask(ITask task)
+        {
+            var colonist = GetBestColonistForTask(task);
+            if (colonist != null)
             {
                 if (colonist.CurrentTask != null) colonist.CurrentTask.AssignedColonist = null;
                 task.AssignedColonist = colonist;
@@ -84,7 +138,7 @@ namespace DefaultNamespace.TaskSystem
                 task.AssignedColonist = null;
             }
 
-            CheckTaskAssignments();
+            // CheckTaskAssignments();
         }
     }
 }

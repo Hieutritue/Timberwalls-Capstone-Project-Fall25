@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 135458893}
   - component: {fileID: 135458898}
   - component: {fileID: 135458897}
+  - component: {fileID: 135458899}
   m_Layer: 3
   m_Name: Colonist (1)
   m_TagString: Untagged
@@ -152,6 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColonistSo: {fileID: 11400000, guid: 2f332cff33ad1354a9dc5a86db462698, type: 2}
   AiDestinationSetter: {fileID: 135458898}
+  WanderingDestinationSetter: {fileID: 135458899}
+  FollowerEntity: {fileID: 135458897}
 --- !u!4 &135458896
 Transform:
   m_ObjectHideFlags: 0
@@ -186,7 +189,7 @@ MonoBehaviour:
     height: 2
   movement:
     follower:
-      rotationSpeed: 600
+      rotationSpeed: 598.09
       speed: 5
       maxRotationSpeed: 720
       maxOnSpotRotationSpeed: 720
@@ -325,6 +328,20 @@ MonoBehaviour:
   version: 1073741824
   target: {fileID: 0}
   useRotation: 0
+--- !u!114 &135458899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135458892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a99f767fdf945ea94d8494e5361ac8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Radius: 5
+  Delay: 4
 --- !u!224 &137850431 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7096315506815525768, guid: d0bff13620eebc6439c6ea79468aebe0,
@@ -3338,7 +3355,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f175b02724448f08bb7c2c97b221652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GeneralNumberSO: {fileID: 11400000, guid: 2be8e41706864fd4dbb9f9a9cc8b1f0a, type: 2}
+  GeneralNumberSo: {fileID: 11400000, guid: 2be8e41706864fd4dbb9f9a9cc8b1f0a, type: 2}
+  ColonistActionCollectionSo: {fileID: 11400000, guid: d2e567aa40e66624f98c1bf58a3f06a5,
+    type: 2}
 --- !u!4 &1033762627
 Transform:
   m_ObjectHideFlags: 0
@@ -3456,13 +3475,14 @@ GameObject:
   - component: {fileID: 1048587549}
   - component: {fileID: 1048587551}
   - component: {fileID: 1048587550}
+  - component: {fileID: 1048587553}
   m_Layer: 3
   m_Name: Colonist (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1048587549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3477,6 +3497,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColonistSo: {fileID: 11400000, guid: 2f332cff33ad1354a9dc5a86db462698, type: 2}
   AiDestinationSetter: {fileID: 1048587551}
+  WanderingDestinationSetter: {fileID: 1048587553}
+  FollowerEntity: {fileID: 1048587550}
 --- !u!114 &1048587550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3650,6 +3672,20 @@ Transform:
   - {fileID: 587610446}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1048587553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048587548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a99f767fdf945ea94d8494e5361ac8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Radius: 5
+  Delay: 4
 --- !u!1 &1104249359
 GameObject:
   m_ObjectHideFlags: 0
@@ -3662,7 +3698,7 @@ GameObject:
   - component: {fileID: 1104249362}
   - component: {fileID: 1104249361}
   - component: {fileID: 1104249360}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3753,8 +3789,8 @@ Transform:
   m_GameObject: {fileID: 1104249359}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.8, y: 0, z: 0}
-  m_LocalScale: {x: 3.667447, y: 1, z: 1}
+  m_LocalPosition: {x: 9.8, y: 0, z: -1.9707}
+  m_LocalScale: {x: 3.667447, y: 1, z: 0.6059}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3771,6 +3807,7 @@ GameObject:
   - component: {fileID: 1179806896}
   - component: {fileID: 1179806898}
   - component: {fileID: 1179806897}
+  - component: {fileID: 1179806900}
   m_Layer: 3
   m_Name: Colonist (2)
   m_TagString: Untagged
@@ -3792,6 +3829,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColonistSo: {fileID: 11400000, guid: 2f332cff33ad1354a9dc5a86db462698, type: 2}
   AiDestinationSetter: {fileID: 1179806898}
+  WanderingDestinationSetter: {fileID: 1179806900}
+  FollowerEntity: {fileID: 1179806897}
 --- !u!114 &1179806897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3965,6 +4004,20 @@ Transform:
   - {fileID: 708456219}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1179806900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179806895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a99f767fdf945ea94d8494e5361ac8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Radius: 5
+  Delay: 4
 --- !u!1 &1184317104
 GameObject:
   m_ObjectHideFlags: 0
@@ -3996,7 +4049,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1073741824
   data:
-    dataString: UEsDBBQAAAgIAAA4IezdUWNbbwIAAPgEAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1v2zAM/SuBz1tgx82Hd1zSdYd+DHGAFR12oC3aFipLmSQnTYv+94qykrjb6ovgRz6KfHz2S1Q2oKG0qNfAeGeiL6N4PPk0ikolrer0DTxdaq20wz2KQuT8GX1a4oA9iEcoBH5HXjc2ZB3BpeBt4VOnDm3hKRdqS9xZ3L9fshqvUda2IaYHuVxjzZUMt6QOQ8at0hsuMIDJZOFgG4D7f5CHE9IZJB6NZXWHDtmivoYD6hvFeMVLsO4uCv/63Qc3qDVw+XEO4y1K4xAXpWai1RFIV5GLF1A+1lp1km007FAbKLjg9kCpP4MwlKdR4A6kvdKwbfJOV1DiqaS6VXaNfzqufW6phMCS2sjRWi5r6uZlAB+Jvm1DlG1zMLw0eYmSIrIT4i90sjrjwo8L5pHqjqIdiI5Yi3SxmGbZ6JXEhTokeBk0GGcaJ/bSNcEZ3XrS+BS7QdN48SsQ5l0kyPwfzkbjcF+2T+z91cJ2pfbSQLsVToVvzrjemmnQiPpYHwut0AIXZAUXVXLZi3VqiSanubSyfsH95E9kV4cewvlMp5+/UrpE9pUWa5Yo3R1nRjaeZ/QEYpKM42z6ITu4OHDT2Xg2v7iYB+5kMp4kcRwvZoGf9AVMo/bU+11n3eh4FogCt279SyVlb4ah4EdaMNiZJhE0Gpu7o2zupDjcPwxoKMmmt7BrHXfZec+duXXH2XujRGnFZlmaMUwQCpwmn7NkihXEWZKx+byIi8hPwSW3HMQPV1/Yo8bunzAwgoTWV1xj6TY58p8HGZpp2F/x51YNzMFlpfLSGUbe9TVOYzsHgHA6s0v/8xh8NtHLa/T6BlBLAwQUAAAICAAAOCHst3o5Im4AAAB5AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDVM9Ez0VFQSi9KLMgoBgoYgjilmSkgdrSScVqKmaWxZUqqYWpiUqqpoa6loWlqWqKBpaFlirl5kkGSUixQfUllQapfYm4qRE9AYklGWmZeSmZeul5QanJicYk7yHCl2FoAUEsBAi0AFAAACAgAADgh7N1RY1tvAgAA+AQAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAADgh7Ld6OSJuAAAAeQAAAAkAJAAAAAAAAAAAAAAAvAIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAAB1AwAAAAA=
+    dataString: UEsDBBQAAAgIAAA4IewR5pQwewIAAAMFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1zmzAQ/Ssezg3DRwymx9ppeshHx3immXR6WNACmgjJlYQdJ5P/XknINmlaLhre7lvtvn3wGtQdSKg1yjUQOqjg8ywKk0+zoBZci0HewvOVlEIa3KHIWElf0KXFBtgDe4KK4Tekbad91hFcMtpXBrOJPTyXTGwtM4vG9yvS4g3yVneW50DK19hSwf0dqcGQUC3khjL0YJwsDKw98PABeTwhg0LLs0NpOaBBtihv4IDyVhDa0Bq0ucuGf/4agxuUEij/fw6hPXJlEBO1zQSrI5CuAhOvoH5qpRg42UjYoVRQUUb1wab+8LLYPIkMd8D1tYRtVw6ygRpPJcWd0Gv8PVDpcmvBGNa2jRK1pry13bxO4CPRta0sZdsdFK1VWSO3ET4w9hearM44c+OCerJ1Z8EO2GBZi3SxmBfF7M2KC61PcDJIUMYyRuylaYISe+tJ41PsFlXnxG+AqXcRL/M/OBuJ033pMXF0Vw/bldhzBf2WGRW+Gts6Y6ZeI9vH+lhohRoo8+YTfDmKdWrJTm7nkkK7BY+TP1tfG/Tgzxd7uvkbIWskX+xi1RK5uePMKMK8sI8nxnEYFXPPvojDIo/yKEqyD3W8n32VNAuz/PIy91WSJEziKIoWma+UhdF83IXqxN4Ocj9oowOe1bKBO+OFpeB8dMZU/SPNu+1M4wgSlS7NUXf3nB0eHic05Nazd7DrDXc5OAOeue1AyXvXBGlDsiItCMYIFc7jiyKeYwNRERckz6uoCtwUlFNNgX039Zk+Cm5+EBNXcOhdxTXWZq0z961YdxMJ+2v60ouJUyhvRFkb9/D7scZpbGMHYEZqcuX+JJNvKHh9C97+AFBLAwQUAAAICAAAOCHst3o5Im4AAAB5AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDVM9Ez0VFQSi9KLMgoBgoYgjilmSkgdrSScVqKmaWxZUqqYWpiUqqpoa6loWlqWqKBpaFlirl5kkGSUixQfUllQapfYm4qRE9AYklGWmZeSmZeul5QanJicYk7yHCl2FoAUEsBAi0AFAAACAgAADgh7BHmlDB7AgAAAwUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAADgh7Ld6OSJuAAAAeQAAAAkAJAAAAAAAAAAAAAAAyAIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAACBAwAAAAA=
     file_cachedStartup: {fileID: 0}
     cacheStartup: 0
   showNavGraphs: 1
@@ -5320,7 +5373,6 @@ MonoBehaviour:
   <Colonists>k__BackingField:
   - {fileID: 135458893}
   - {fileID: 1179806896}
-  - {fileID: 1048587549}
 --- !u!4 &1665453662
 Transform:
   m_ObjectHideFlags: 0

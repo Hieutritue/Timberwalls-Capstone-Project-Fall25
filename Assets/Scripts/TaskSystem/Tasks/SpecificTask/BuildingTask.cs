@@ -2,9 +2,6 @@
 using BuildingSystem;
 using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.General;
-using DefaultNamespace.WorldSpaceUISystem;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace DefaultNamespace.TaskSystem
 {
@@ -24,6 +21,16 @@ namespace DefaultNamespace.TaskSystem
 
         public BuildingTask(Building building, TaskType taskType) : base(building, taskType)
         {
+        }
+
+        public override void ColonistStartWork(Colonist colonist)
+        {
+            // TODO: Animation
+        }
+
+        public override void ColonistStopWork(Colonist colonist)
+        {
+            // TODO: Animation
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace BuildingSystem
 {
-    public class ResourceGatheringFurniture : Furniture, IWorkable
+    public class ResourceGatheringFurniture : Furniture, IWorkable, ITaskCreator
     {
         public ResourceGatheringFurnitureSo GatheringFurnitureSo => (ResourceGatheringFurnitureSo)PlaceableSo;
         public void Work()
@@ -27,12 +27,7 @@ namespace BuildingSystem
 
         public void CreateTask()
         {
-            ActiveTasks.Add(new ResourceGatheringTask(this, TaskType.Mining));
-        }
-
-        public void ClearTask()
-        {
-            ActiveTasks.RemoveAll(t=> t is ResourceGatheringTask);
+            AddTask(new ResourceGatheringTask(this, TaskType.Mining));
         }
     }
 }

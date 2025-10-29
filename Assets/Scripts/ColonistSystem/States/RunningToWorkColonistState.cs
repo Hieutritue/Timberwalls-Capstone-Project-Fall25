@@ -1,7 +1,4 @@
 ﻿using _Scripts.StateMachine;
-using DefaultNamespace.General;
-using DefaultNamespace.TaskSystem;
-using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem.States
 {
@@ -13,23 +10,19 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Enter()
         {
-            _behaviour.CurrentTask.OnRemove += _behaviour.TransitionToIdle;
-            // RunToTask();
+            _behaviour.AiDestinationSetter.enabled = true;
+            _behaviour.FollowerEntity.enabled = true;
         }
 
         public override void Tick()
         {
-            var distanceToTarget =
-                Vector3.Distance(_behaviour.transform.position, _behaviour.CurrentTask.Transform.position);
-            if (distanceToTarget < GameManager.Instance.GeneralNumberSO.ConstructionRange)
-            {
-                _behaviour.StateMachine.TransitionTo(_behaviour.WorkingState);
-            }
+            _behaviour.RunToTask();
         }
 
         public override void Exit()
         {
-            _behaviour.CurrentTask.OnRemove -= _behaviour.TransitionToIdle;
+            _behaviour.AiDestinationSetter.enabled = false;
+            _behaviour.FollowerEntity.enabled = false;
         }
     }
 }
