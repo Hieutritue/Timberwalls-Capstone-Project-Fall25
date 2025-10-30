@@ -13,6 +13,7 @@ public class BuildMenuManager : MonoBehaviour
     private void Start()
     {
         GenerateCategories();
+        gameObject.SetActive(false);
     }
 
     private void GenerateCategories()
@@ -38,5 +39,4 @@ public class BuildMenuManager : MonoBehaviour
             ItemWindowManager.Instance.GenerateItems(categoryClicked);
         }
     }
-    
 }

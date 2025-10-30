@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject researchPage;
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private GameObject tutorialMenu;
+    [SerializeField] private GameObject scheduleMenu;
     private readonly float normalSpeedValue = 1;
     private readonly float spedUpSpeedValue = 1.5f;
     private readonly float furtherSpedUpSpeedValue = 2;
@@ -16,6 +17,10 @@ public class UIManager : MonoBehaviour
         
     }
 
+    public void OnSchedulePressed()
+    {
+        CheckAndOpenUIContainer(scheduleMenu);
+    }
     public void OnResearchPressed()
     {
         CheckAndOpenUIContainer(researchPage);
