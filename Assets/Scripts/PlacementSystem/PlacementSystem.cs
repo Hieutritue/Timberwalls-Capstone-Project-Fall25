@@ -27,6 +27,7 @@ public class PlacementSystem : MonoBehaviour
     private DeleteModePlacementState _deleteModePlacementState;
     private PreviewPlacementState _previewPlacementState;
     private IdlePlacementState _idlePlacementState;
+    private CancelTaskState _cancelTaskState;
     
     public List<RoomPlaceableInstance> PlacedRooms => _roomGridData.PlacedInstances.Values
         .Distinct()
@@ -43,6 +44,7 @@ public class PlacementSystem : MonoBehaviour
         _deleteModePlacementState = new DeleteModePlacementState(this);
         _previewPlacementState = new PreviewPlacementState(this);
         _idlePlacementState = new IdlePlacementState(this);
+        _cancelTaskState = new CancelTaskState(this);
 
         _stateMachine.Initialize(_idlePlacementState);
     }
@@ -79,7 +81,7 @@ public class PlacementSystem : MonoBehaviour
         _stateMachine.TransitionTo(_previewPlacementState);
     }
 
-    public void ExitPlacementMode()
+    public void TransitionToIdleState()
     {
         _stateMachine.TransitionTo(_idlePlacementState);
     }
@@ -110,5 +112,10 @@ public class PlacementSystem : MonoBehaviour
     {
         if (BuildingSystemManager.Instance.CellIndicator.transform.childCount > 0)
             Destroy(BuildingSystemManager.Instance.CellIndicator.transform.GetChild(0)?.gameObject);
+    }
+
+    public void TransitionToCancelTaskState()
+    {
+        _stateMachine.TransitionTo(_cancelTaskState);
     }
 }

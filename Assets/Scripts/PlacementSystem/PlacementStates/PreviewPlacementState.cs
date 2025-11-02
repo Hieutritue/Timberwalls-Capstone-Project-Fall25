@@ -18,7 +18,7 @@ namespace DefaultNamespace.PlacementStates
         public override void Enter()
         {
             BuildingSystemManager.Instance.InputManager.OnClickNum += _behaviour.EnterPlacementMode;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick += _behaviour.ExitPlacementMode;
+            BuildingSystemManager.Instance.InputManager.OnMouseRightClick += _behaviour.TransitionToIdleState;
             BuildingSystemManager.Instance.InputManager.OnMouseLeftClick += PlaceCurrentObject;
             HidePreview();
             ShowPreview();
@@ -35,7 +35,7 @@ namespace DefaultNamespace.PlacementStates
         public override void Exit()
         {
             BuildingSystemManager.Instance.InputManager.OnClickNum -= _behaviour.EnterPlacementMode;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick -= _behaviour.ExitPlacementMode;
+            BuildingSystemManager.Instance.InputManager.OnMouseRightClick -= _behaviour.TransitionToIdleState;
             BuildingSystemManager.Instance.InputManager.OnMouseLeftClick -= PlaceCurrentObject;
 
             HidePreview();

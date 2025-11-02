@@ -109,13 +109,6 @@ public class Colonist : MonoBehaviour
                     1f,
                     1f);
 
-                Debug.Log(
-                    $"colonist: {gameObject.name}" +
-                    $", stat: {stat.StatType}" +
-                    $", base decrease rate: {stat.BaseRateOfDecrease}" +
-                    $", labor multiplier: {laborMultiplier}" +
-                    $", final decrease rate: {decreaseRate}");
-
                 SetStat(stat.StatType, StatDict[stat.StatType] - decreaseRate);
             }
 
