@@ -1,3 +1,4 @@
+using DefaultNamespace.ColonistSystem;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -8,13 +9,33 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private GameObject tutorialMenu;
     [SerializeField] private GameObject scheduleMenu;
-    private readonly float normalSpeedValue = 1;
-    private readonly float spedUpSpeedValue = 1.5f;
-    private readonly float furtherSpedUpSpeedValue = 2;
+    [SerializeField] private GameObject colonistDetailPanel;
+    [SerializeField] private readonly float normalSpeedValue = 1;
+    [SerializeField] private readonly float spedUpSpeedValue = 1.5f;
+    [SerializeField] private readonly float furtherSpedUpSpeedValue = 2;
+    
+    
     public void OnBuildingPressed()
     {
         CheckAndOpenUIContainer(buildingMenu);
         
+    }
+
+    public void OnViewNPCDetail(Colonist colonist)
+    {
+        OpenColonistDetail(colonist);
+    }
+
+    public void OnExitSchedule()
+    {
+        if (scheduleMenu == null)
+        {
+            Debug.LogError("No PriorityMatrix Game Object found");
+        }
+        else
+        {
+            scheduleMenu.SetActive(false);
+        }
     }
 
     public void OnSchedulePressed()
@@ -79,6 +100,27 @@ public class UIManager : MonoBehaviour
         {   
             UIContainer.SetActive(false);
         }
+    }
+
+    private void OpenColonistDetail(Colonist colonist)
+    {
+        if (colonistDetailPanel == null)
+        {
+            Debug.LogError($"colonistDetailPanel not found");
+            return;
+        }
+
+        if (colonist == null)
+        {
+            Debug.LogError($"Colonist is null");
+        }
+        colonistDetailPanel.SetActive(true);
+        loadColonistInfo(colonist);
+    }
+
+    private void loadColonistInfo(Colonist colonist)
+    {
+        
     }
     
 }
