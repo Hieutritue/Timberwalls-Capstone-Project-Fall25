@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1439e26ea682486d932aa6ce71092116, type: 3}
+  m_Name: CornField
+  m_EditorClassIdentifier: 
+  Size: {x: 2, y: 1}
+  Prefab: {fileID: 916259464992001967, guid: f590a8cf542b61948bd2507bbc789485, type: 3}
+  Type: 1
+  PlacementConditions: 0100000002000000
+  Name: Corn field
+  Icon: {fileID: -139026613, guid: 80c5f23f92b3f614eb723f300e42a37f, type: 3}
+  Category: 0
+  Description: A farm that give moderate amount of food
+  Costs:
+  - Resource: {fileID: 11400000, guid: bd733fb24fdaa59409e0620063e3e1ba, type: 2}
+    Amount: 10
+  - Resource: {fileID: 11400000, guid: 89267f7d0ec1e5c478c259bdd9c8e9d2, type: 2}
+    Amount: 15
+  BaseBuildTime: 10
+  BaseTimeToProduce: 12
+  Consumption: []
+  OutputResource:
+  - Resource: {fileID: 11400000, guid: 3362e6b2490eef2409949e8042849435, type: 2}
+    Amount: 1

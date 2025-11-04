@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BuildingSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "PlaceableSO", menuName = "ScriptableObjects/PlaceableSO", order = 1)]
 public class PlaceableSO : SerializedScriptableObject
@@ -17,6 +18,7 @@ public class PlaceableSO : SerializedScriptableObject
     public string Name;
     public Sprite Icon;
     public BuildingCategory Category;
+    
     [TextArea] public string Description;
 
     [Header("Construction")]
