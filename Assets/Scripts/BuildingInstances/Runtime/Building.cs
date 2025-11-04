@@ -73,7 +73,8 @@ namespace BuildingSystem
             {
                 task.RemoveTask();
             }
-            AstarPath.active.Scan();
+            
+            AstarPath.active?.Scan();
         }
 
         protected void AddTask(ITask task)
