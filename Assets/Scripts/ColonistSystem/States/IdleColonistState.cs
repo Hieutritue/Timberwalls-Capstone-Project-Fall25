@@ -1,6 +1,4 @@
 ﻿using _Scripts.StateMachine;
-using DefaultNamespace.TaskSystem;
-using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem.States
 {
@@ -12,16 +10,19 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Enter()
         {
-            
+            _behaviour.AiDestinationSetter.enabled = false;
+            _behaviour.FollowerEntity.enabled = true;
         }
 
         public override void Tick()
         {
+            _behaviour.WanderingDestinationSetter.Tick();
         }
 
         public override void Exit()
         {
-            
+            _behaviour.AiDestinationSetter.enabled = true;
+            _behaviour.FollowerEntity.enabled = false;
         }
     }
 }

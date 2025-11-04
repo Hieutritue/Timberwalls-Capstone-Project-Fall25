@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
         OnMouseLeftClick,
         OnMouseRightClick;
     public Action<PlaceableType> OnClickRemovePlaceable;
+    public Action OnClickCancelKey;
     public Action<int> OnClickNum;
     
     private void Awake()
@@ -40,6 +41,8 @@ public class InputManager : MonoBehaviour
             OnClickRemovePlaceable?.Invoke(PlaceableType.Room);
         if (Input.GetKeyDown(KeyCode.F))
             OnClickRemovePlaceable?.Invoke(PlaceableType.Furniture);
+        if (Input.GetKeyDown(KeyCode.C))
+            OnClickCancelKey?.Invoke();
     }
 
     public Vector3 GetSelectedMapPosition()

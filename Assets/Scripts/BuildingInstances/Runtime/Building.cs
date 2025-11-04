@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using _Scripts.StateMachine;
 using BuildingSystem.RoomStates;
 using DefaultNamespace.TaskSystem;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -20,6 +22,7 @@ namespace BuildingSystem
         protected DemolishingBuildingState _demolishingBuildingState;
         
         public List<ITask> ActiveTasks = new List<ITask>();
+        [HideInInspector]
         public Collider[] Colliders;
         
         public IState CurrentState => _stateMachine.CurrentState;
@@ -71,6 +74,18 @@ namespace BuildingSystem
                 task.RemoveTask();
             }
             AstarPath.active.Scan();
+        }
+
+        protected void AddTask(ITask task)
+        {
+            ActiveTasks.Add(task);
+        }
+
+        [Button]
+        public void LogTasks()
+        {
+            Debug.Log($"Building {name} has {ActiveTasks.Count} active tasks.\n" +
+                      $"{string.Join("\n", ActiveTasks.Select(t => t.TaskType.ToString()))}");
         }
     }
 }

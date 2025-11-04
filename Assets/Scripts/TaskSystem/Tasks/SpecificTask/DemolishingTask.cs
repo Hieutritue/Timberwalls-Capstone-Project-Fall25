@@ -19,5 +19,15 @@ namespace DefaultNamespace.TaskSystem
         public override void RewardComplete()
         {
         }
+        
+        public override void ColonistStartWork(Colonist colonist)
+        {
+            // TODO: Animation
+        }
+
+        public override void ColonistStopWork(Colonist colonist)
+        {
+            // TODO: Animation
+        }
     }
 }

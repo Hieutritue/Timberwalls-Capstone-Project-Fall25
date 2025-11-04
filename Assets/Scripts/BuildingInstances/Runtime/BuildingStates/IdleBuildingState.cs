@@ -1,4 +1,5 @@
-﻿using _Scripts.StateMachine;
+﻿using System.Linq;
+using _Scripts.StateMachine;
 using DefaultNamespace.TaskSystem;
 
 namespace BuildingSystem.RoomStates
@@ -11,10 +12,12 @@ namespace BuildingSystem.RoomStates
 
         public override void Enter()
         {
-            if(_behaviour is ResourceGatheringFurniture gatheringFurniture)
+            if (_behaviour is ITaskCreator taskCreator &&
+                !_behaviour.ActiveTasks.Any(t => t is not BuildingTask && t is not DemolishingTask))
             {
-                gatheringFurniture.CreateTask();
+                taskCreator.CreateTask();
             }
+
         }
 
         public override void Tick()

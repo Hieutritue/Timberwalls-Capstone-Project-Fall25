@@ -30,5 +30,31 @@ namespace DefaultNamespace.TaskSystem
                 gatheringFurniture.CreateTask();
             }
         }
+
+        public override void UpdateProgress(Colonist colonist)
+        {
+            SetColonistPosition(colonist);
+            base.UpdateProgress(colonist);
+        }
+        
+        
+        private void SetColonistPosition(Colonist colonist)
+        {
+            if (Building is Furniture furniture)
+            {
+                colonist.transform.position = furniture.ActionPoint.position;
+                colonist.transform.LookAt(furniture.ActionPoint.position + furniture.ActionPoint.forward);
+            }
+        }
+        
+        public override void ColonistStartWork(Colonist colonist)
+        {
+            // TODO: Animation
+        }
+
+        public override void ColonistStopWork(Colonist colonist)
+        {
+            // TODO: Animation
+        }
     }
 }

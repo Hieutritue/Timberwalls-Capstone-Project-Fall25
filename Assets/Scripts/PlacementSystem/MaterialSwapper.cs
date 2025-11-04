@@ -16,7 +16,8 @@ public class MaterialSwapper : MonoBehaviour
         foreach (Renderer rend in renderers)
         {
             // Save original
-            _originalMaterials[rend] = rend.materials;
+            if (!_originalMaterials.ContainsKey(rend))
+                _originalMaterials[rend] = rend.materials;
 
             // Replace with highlight material for all slots
             Material[] mats = new Material[rend.materials.Length];
@@ -50,8 +51,6 @@ public class MaterialSwapper : MonoBehaviour
             {
                 if (rend != null)
                     rend.materials = original;
-
-                _originalMaterials.Remove(rend);
             }
         }
     }
