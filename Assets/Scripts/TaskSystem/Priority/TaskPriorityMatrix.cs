@@ -14,8 +14,7 @@ namespace DefaultNamespace.TaskSystem
 
         private void Start()
         {
-            ColonistManager.Instance.OnColonistAdded += AddRow;
-            ColonistManager.Instance.OnColonistRemoved += RemoveRow;
+            gameObject.SetActive(false);
         }
 
         [Button]
@@ -37,6 +36,19 @@ namespace DefaultNamespace.TaskSystem
             var priorityRow = Instantiate(PriorityRowPrefab, Container);
             priorityRow.Setup(colonist);
             _priorityRows.Add(priorityRow);
+        }
+        
+        [Button]
+        public void LogRows()
+        {
+            foreach (var row in _priorityRows)
+            {
+                Debug.Log($"Colonist: {row.Colonist.ColonistSo.NPCName}");
+                foreach (var entry in row.PriorityBoxes)
+                {
+                    Debug.Log($"  Task Type: {entry.TaskType}, Priority: {entry.PriorityLevel}");
+                }
+            }
         }
         
         public void RemoveRow(Colonist colonist)
