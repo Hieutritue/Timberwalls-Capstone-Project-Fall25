@@ -17,8 +17,12 @@ namespace DefaultNamespace.ColonistSystem
         {
             OnColonistAdded += TaskPriorityMatrix.Instance.AddRow;
             OnColonistRemoved += TaskPriorityMatrix.Instance.RemoveRow;
+
+            OnColonistAdded += ScheduleMenu.Instance.AddScheduleOfColonist;
+            OnColonistRemoved += ScheduleMenu.Instance.RemoveScheduleOfColonist;
             
             TaskPriorityMatrix.Instance.Setup();
+            ScheduleMenu.Instance.Setup();
         }
 
 
