@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace DefaultNamespace.ScheduleSystem
         public Image ColonistIcon;
         public TMP_Text ColonistName;
         public List<ScheduleHourBox> HourBoxes;
+        [SerializeField] private Slider _slider;
 
         public void Setup(Colonist colonist)
         {
@@ -20,6 +22,11 @@ namespace DefaultNamespace.ScheduleSystem
             ColonistName.text = colonist.ColonistSo.NPCName;
 
             HourBoxes.ForEach(hb => ScheduleMenu.Instance.SetScheduleBox(hb));
+        }
+
+        private void Update()
+        {
+            _slider.value = (GameTimeManager.Instance.CurrentHour + GameTimeManager.Instance.HourProgress) / 24f;
         }
     }
 }

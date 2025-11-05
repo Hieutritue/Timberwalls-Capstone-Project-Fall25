@@ -1,7 +1,9 @@
+using DefaultNamespace;
 using DefaultNamespace.ColonistSystem;
+using TMPro;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoSingleton<UIManager>
 {
     [SerializeField] private GameObject priorityMatrix;
     [SerializeField] private GameObject buildingMenu;
@@ -13,7 +15,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private readonly float normalSpeedValue = 1;
     [SerializeField] private readonly float spedUpSpeedValue = 1.5f;
     [SerializeField] private readonly float furtherSpedUpSpeedValue = 2;
+    [SerializeField] private TMP_Text _populationText;
     
+    public void UpdatePopulationText(int currentPopulation, int maxPopulation)
+    {
+        if (_populationText != null)
+        {
+            _populationText.text = $"{currentPopulation} / {maxPopulation}";
+        }
+    }
     
     public void OnBuildingPressed()
     {
