@@ -15,8 +15,6 @@ namespace DefaultNamespace.TaskSystem
         private void Start()
         {
             gameObject.SetActive(false);
-            ColonistManager.Instance.OnColonistAdded += AddRow;
-            ColonistManager.Instance.OnColonistRemoved += RemoveRow;
         }
 
         [Button]
@@ -42,7 +40,6 @@ namespace DefaultNamespace.TaskSystem
             priorityRow.Setup(colonist);
             _priorityRows.Add(priorityRow);
         }
-
         public void RemoveRow(Colonist colonist)
         {
             var rowToRemove = _priorityRows.Find(row => row.Colonist == colonist);

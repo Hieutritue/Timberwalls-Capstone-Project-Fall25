@@ -13,7 +13,7 @@ namespace BuildingSystem.RoomStates
 
         public override void Enter()
         {
-            _behaviour.Colliders.ToList().ForEach(c => c.enabled = false);
+            // _behaviour.Colliders.ToList().ForEach(c => c.enabled = false);
             BuildingSystemManager.Instance.MaterialSwapper.ApplyHighlight(_behaviour.gameObject,
                 BuildingSystemManager.Instance.UnderConstructionMaterial);
         }
@@ -24,9 +24,10 @@ namespace BuildingSystem.RoomStates
 
         public override void Exit()
         {
-            _behaviour.Colliders.ToList().ForEach(c => c.enabled = true);
+            // _behaviour.Colliders.ToList().ForEach(c => c.enabled = true);
             AstarPath.active.Scan();
             BuildingSystemManager.Instance.MaterialSwapper.RemoveHighlight(_behaviour.gameObject);
+            
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using _Scripts.StateMachine;
 using DefaultNamespace;
+using UnityEngine;
 
 namespace BuildingSystem.RoomStates
 {
@@ -21,6 +22,7 @@ namespace BuildingSystem.RoomStates
 
         public override void Exit()
         {
+            BuildingSystemManager.Instance.MaterialSwapper.RemoveHighlight(_behaviour.gameObject);
         }
     }
 }
