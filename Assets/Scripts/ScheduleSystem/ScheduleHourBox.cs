@@ -11,6 +11,8 @@ namespace DefaultNamespace.ScheduleSystem
         [SerializeField]
         private Button _button;
 
+        public ScheduleType ScheduleType => _scheduleInfo.Type;
+        
         private void Start()
         {
             _button.onClick.AddListener(OnButtonClick);
