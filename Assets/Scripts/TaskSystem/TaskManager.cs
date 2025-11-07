@@ -113,7 +113,7 @@ namespace DefaultNamespace.TaskSystem
 
             if (task != colonist.CurrentTask)
             {
-                colonist.StateMachine.TransitionTo(colonist.IdleState);
+                colonist.TransitionToIdleState();
             }
 
             if (task != null)

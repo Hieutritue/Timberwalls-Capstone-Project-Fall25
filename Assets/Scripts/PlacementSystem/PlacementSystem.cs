@@ -57,7 +57,7 @@ public class PlacementSystem : MonoBehaviour
         InitStateMachine();
     }
 
-    public Vector3 MousePosition => BuildingSystemManager.Instance.InputManager.GetSelectedMapPosition();
+    public Vector3 MousePosition => InputManager.Instance.GetSelectedMapPosition();
 
     public Vector3Int GridPositionOfMouse(Vector3 mousePosition) =>
         BuildingSystemManager.Instance.Grid.WorldToCell(mousePosition);

@@ -17,9 +17,9 @@ namespace DefaultNamespace.PlacementStates
 
         public override void Enter()
         {
-            BuildingSystemManager.Instance.InputManager.OnMouseLeftClick += CreateTaskDemolishPlaceableAtMouse;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick += _behaviour.TransitionToIdleState;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick += ResetMaterial;
+            InputManager.Instance.OnMouseLeftClick += CreateTaskDemolishPlaceableAtMouse;
+            InputManager.Instance.OnMouseRightClick += _behaviour.TransitionToIdleState;
+            InputManager.Instance.OnMouseRightClick += ResetMaterial;
 
             _lastPlaceableInstance = null;
             _behaviour.ResetLastGridPosition();
@@ -81,21 +81,22 @@ namespace DefaultNamespace.PlacementStates
             {
                 ResetMaterial();
             }
-
+            
             if (placeableInstance)
             {
                 materialSwapper.ApplyHighlight(placeableInstance.gameObject,
                     BuildingSystemManager.Instance.RemovePlaceableMaterial);
             }
-
+            
             _lastPlaceableInstance = placeableInstance;
+            
         }
 
         public override void Exit()
         {
-            BuildingSystemManager.Instance.InputManager.OnMouseLeftClick -= CreateTaskDemolishPlaceableAtMouse;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick -= _behaviour.TransitionToIdleState;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick -= ResetMaterial;
+            InputManager.Instance.OnMouseLeftClick -= CreateTaskDemolishPlaceableAtMouse;
+            InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
+            InputManager.Instance.OnMouseRightClick -= ResetMaterial;
         }
 
         public void ChangePlaceableType(PlaceableType placeableType)

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using DefaultNamespace;
+using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : MonoSingleton<CameraController>
 {
     [Header("Movement Settings")]
     public float panSpeed = 20f;
@@ -24,28 +25,38 @@ public class CameraController : MonoBehaviour
     private float targetZoom;
     private Vector3 velocity = Vector3.zero;
     private float currentZoomVelocity = 0f;
-
-    private Camera cam;
-
+    
+    [Header("Follow Target")]
+    [SerializeField] private Vector3 _followOffset = new Vector3(0, 10, 0);
+    
+    private Transform _followTarget;
+    private bool _isFollowing = false;
+    
     void Start()
     {
-        cam = GetComponent<Camera>();
         targetPosition = transform.position;
         targetZoom = transform.position.y; // Zoom based on Y-position
     }
 
     void Update()
     {
-        HandlePan();
+        var userMoved = HandlePan();
         HandleZoom();
+        
+        if (userMoved && _isFollowing)
+            StopFollowing();
+
+        if (_isFollowing && _followTarget != null)
+            targetPosition = _followTarget.position + _followOffset;
+        
         ApplySmoothing();
         ApplyBounds();
     }
 
-    void HandlePan()
+    bool HandlePan()
     {
         Vector3 panInput = Vector3.zero;
-
+        var userMoved = false;
         // Edge scrolling
         if (enableEdgeScrolling)
         {
@@ -60,15 +71,13 @@ public class CameraController : MonoBehaviour
         {
             panInput.x -= Input.GetAxis("Mouse X") * panSpeed * 0.01f;
             panInput.y -= Input.GetAxis("Mouse Y") * panSpeed * 0.01f;
+            userMoved = true;
         }
-
-        // WASD keyboard pan
-        panInput.x += Input.GetAxis("Horizontal") * panSpeed * Time.deltaTime;
-        panInput.y += Input.GetAxis("Vertical") * panSpeed * Time.deltaTime;
 
         // Adjust pan speed based on zoom level (closer = slower pan)
         float zoomFactor = Mathf.Lerp(0.5f, 1.5f, (targetZoom - minZoom) / (maxZoom - minZoom));
         targetPosition += panInput * zoomFactor;
+        return userMoved;
     }
 
     void HandleZoom()
@@ -106,5 +115,17 @@ public class CameraController : MonoBehaviour
         pos.z = Mathf.Clamp(pos.z, bounds.yMin + boundPadding, bounds.yMax - boundPadding);
 
         transform.position = pos;
+    }
+
+    public void Follow(Transform colonistTransform)
+    {
+        _followTarget = colonistTransform;
+        _isFollowing = true;
+    }
+    
+    public void StopFollowing()
+    {
+        _isFollowing = false;
+        _followTarget = null;
     }
 }

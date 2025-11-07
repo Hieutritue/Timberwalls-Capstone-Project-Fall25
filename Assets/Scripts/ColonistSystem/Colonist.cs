@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.ColonistSystem.States;
+using DefaultNamespace.ColonistSystem.UI;
 using DefaultNamespace.General;
 using DefaultNamespace.TaskSystem;
 using Pathfinding;
@@ -13,6 +15,7 @@ using StateMachine = _Scripts.StateMachine.StateMachine;
 public class Colonist : MonoBehaviour
 {
     public ColonistSO ColonistSo;
+    [SerializeField] private CurrentStateWordSO _currentStateWordSo;
     [ShowInInspector] public Dictionary<StatType, float> StatDict = new();
 
     [Header("PathFinding")] public AIDestinationSetter AiDestinationSetter;
@@ -21,18 +24,32 @@ public class Colonist : MonoBehaviour
 
     public ITask CurrentTask { get; set; }
 
-    public StateMachine StateMachine = new StateMachine();
-    public FindingFacilityColonistState FindingFacilityState;
-    public RunningToFacilityColonistState RunningToFacilityState;
-    public FulfillingNeedColonistState FulfillingNeedState;
-    public IdleColonistState IdleState;
-    public RunningToWorkColonistState RunningToWorkState;
-    public WorkingColonistState WorkingState;
+    private StateMachine _stateMachine = new StateMachine();
+    private IdleColonistState _idleState;
+    private RunningToWorkColonistState _runningToWorkState;
+    private WorkingColonistState _workingState;
+
+    private string _currentState;
+    public Action<string> OnCurrentStateChanged;
+    public Action<StatType, float> OnStatChanged;
+    
+    public ColonistMouseEventController MouseEventController;
+
+    public string CurrentState
+    {
+        get => _currentState;
+        set
+        {
+            _currentState = value;
+            OnCurrentStateChanged?.Invoke(_currentState);
+        }
+    }
 
     private void Start()
     {
         InitData();
         InitStateMachine();
+        MouseEventController.Setup(this);
     }
 
     private float _timerToCheckState = 0f;
@@ -47,7 +64,7 @@ public class Colonist : MonoBehaviour
 
     private void Update()
     {
-        StateMachine.Update();
+        _stateMachine.Update();
         AutoDecreaseStats();
 
         _timerToCheckState += Time.deltaTime;
@@ -62,7 +79,7 @@ public class Colonist : MonoBehaviour
     {
         if (CurrentTask == null)
         {
-            StateMachine.TransitionTo(IdleState);
+            _stateMachine.TransitionTo(_idleState);
             return;
         }
 
@@ -76,11 +93,11 @@ public class Colonist : MonoBehaviour
 
         if (distanceToTarget > allowedRange)
         {
-            StateMachine.TransitionTo(RunningToWorkState);
+            _stateMachine.TransitionTo(_runningToWorkState);
             return;
         }
 
-        StateMachine.TransitionTo(WorkingState);
+        _stateMachine.TransitionTo(_workingState);
     }
 
     public void AutoDecreaseStats()
@@ -122,6 +139,7 @@ public class Colonist : MonoBehaviour
         if (StatDict.ContainsKey(statType))
         {
             StatDict[statType] = Mathf.Clamp(value, 0, ColonistSo.Stats.Find(s => s.StatType == statType).MaxValue);
+            OnStatChanged?.Invoke(statType, StatDict[statType]);
         }
     }
 
@@ -140,13 +158,27 @@ public class Colonist : MonoBehaviour
 
     private void InitStateMachine()
     {
-        FindingFacilityState = new FindingFacilityColonistState(this);
-        RunningToFacilityState = new RunningToFacilityColonistState(this);
-        FulfillingNeedState = new FulfillingNeedColonistState(this);
-        IdleState = new IdleColonistState(this);
-        RunningToWorkState = new RunningToWorkColonistState(this);
-        WorkingState = new WorkingColonistState(this);
-        StateMachine.Initialize(IdleState);
+        _idleState = new IdleColonistState(this);
+        _runningToWorkState = new RunningToWorkColonistState(this);
+        _workingState = new WorkingColonistState(this);
+
+        _stateMachine.OnStateChanged += (state) =>
+        {
+            CurrentState = state switch
+            {
+                FindingFacilityColonistState => "FindingFacilityState",
+                RunningToFacilityColonistState => "RunningToFacilityState",
+                FulfillingNeedColonistState => "FulfillingNeedState",
+                IdleColonistState => _currentStateWordSo.IdleWord,
+                RunningToWorkColonistState =>
+                    $"{_currentStateWordSo.RunningToWord} {CurrentTask.Building.PlaceableSo.Name}",
+                WorkingColonistState =>
+                    $"{CurrentTask.TaskType.ToString()} {_currentStateWordSo.AtWord} {CurrentTask.Building.PlaceableSo.Name}",
+                _ => "UnknownState"
+            };
+        };
+
+        _stateMachine.Initialize(_idleState);
     }
 
     private void OnDestroy()
@@ -170,6 +202,11 @@ public class Colonist : MonoBehaviour
     [Button]
     public void LogStateInfo()
     {
-        Debug.Log($"Current State: {StateMachine.CurrentState.GetType().Name}");
+        Debug.Log($"Current State: {_stateMachine.CurrentState.GetType().Name}");
+    }
+
+    public void TransitionToIdleState()
+    {
+        _stateMachine.TransitionTo(_idleState);
     }
 }
