@@ -1,15 +1,22 @@
 ﻿public enum BuildingCategory
 {
-    ResourceGathering,
+    Construction,
+    Living,
+    Resource,
     Science,
-    Bedroom,
-    Bathroom,
-    Kitchen,
-    Decoration,
     Medical,
-    Farm,
-    Rocket,
-    Building,
-    Shield,
-    Weapon,
+    Entertainment,
+    Defense,
+}
+
+public enum BuildingSubCategory
+{
+    //Living
+    Bedroom, Bathroom, Kitchen,
+    //Resource
+    Extracting, Refining,
+    //Science
+    Contacting, Researching, Flying ,
+    //Entertainment
+    Decorating, Playing,
 }
