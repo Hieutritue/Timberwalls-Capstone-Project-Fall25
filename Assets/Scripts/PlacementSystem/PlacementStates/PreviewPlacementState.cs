@@ -9,7 +9,7 @@ namespace DefaultNamespace.PlacementStates
 {
     public class PreviewPlacementState : AState<PlacementSystem>
     {
-        private int _currentPlaceableIndex = -1;
+        private PlaceableSO _currentPlaceable = null;
 
         public PreviewPlacementState(PlacementSystem behaviour) : base(behaviour)
         {
@@ -17,9 +17,8 @@ namespace DefaultNamespace.PlacementStates
 
         public override void Enter()
         {
-            BuildingSystemManager.Instance.InputManager.OnClickNum += _behaviour.EnterPlacementMode;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick += _behaviour.TransitionToIdleState;
-            BuildingSystemManager.Instance.InputManager.OnMouseLeftClick += PlaceCurrentObject;
+            InputManager.Instance.OnMouseRightClick += _behaviour.TransitionToIdleState;
+            InputManager.Instance.OnMouseLeftClick += PlaceCurrentObject;
             HidePreview();
             ShowPreview();
         }
@@ -34,9 +33,8 @@ namespace DefaultNamespace.PlacementStates
 
         public override void Exit()
         {
-            BuildingSystemManager.Instance.InputManager.OnClickNum -= _behaviour.EnterPlacementMode;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick -= _behaviour.TransitionToIdleState;
-            BuildingSystemManager.Instance.InputManager.OnMouseLeftClick -= PlaceCurrentObject;
+            InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
+            InputManager.Instance.OnMouseLeftClick -= PlaceCurrentObject;
 
             HidePreview();
         }
@@ -44,7 +42,7 @@ namespace DefaultNamespace.PlacementStates
 
         public PlaceableSO GetCurrentObjectToPlace()
         {
-            return _behaviour.PlaceableCollectionSo.GetPlaceableByIndex(_currentPlaceableIndex);
+            return _currentPlaceable;
         }
 
         private void ChangePreviewMaterial(Vector3Int gridPosition)
@@ -66,7 +64,7 @@ namespace DefaultNamespace.PlacementStates
 
         public void PlaceCurrentObject()
         {
-            if (_currentPlaceableIndex == -1) return;
+            if (!_currentPlaceable) return;
             Vector3 mousePosition = _behaviour.MousePosition;
             Vector3Int gridPosition = _behaviour.GridPositionOfMouse(mousePosition);
             Vector3 spawnPosition = BuildingSystemManager.Instance.Grid.CellToWorld(gridPosition);
@@ -124,9 +122,9 @@ namespace DefaultNamespace.PlacementStates
             BuildingSystemManager.Instance.CellIndicator.SetActive(false);
         }
 
-        public void ChangeCurrentPlaceableIndex(int index)
+        public void ChangeCurrentPlaceable(PlaceableSO placeableSo)
         {
-            _currentPlaceableIndex = index;
+            _currentPlaceable = placeableSo;
             HidePreview();
             ShowPreview();
         }

@@ -40,7 +40,7 @@ namespace DefaultNamespace.TaskSystem
         
         private void SetColonistPosition(Colonist colonist)
         {
-            if (Building is Furniture furniture)
+            if (Building is ResourceGatheringFurniture furniture)
             {
                 colonist.transform.position = furniture.ActionPoint.position;
                 colonist.transform.LookAt(furniture.ActionPoint.position + furniture.ActionPoint.forward);

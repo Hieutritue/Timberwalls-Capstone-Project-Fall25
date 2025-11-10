@@ -1,8 +1,9 @@
 using System;
+using DefaultNamespace;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager : MonoSingleton<InputManager>
 {
     [SerializeField] private LayerMask _placementLayerMask;
     
@@ -16,7 +17,7 @@ public class InputManager : MonoBehaviour
     public Action OnClickCancelKey;
     public Action<int> OnClickNum;
     
-    private void Awake()
+    private void Start()
     {
         _mainCamera = Camera.main;
     }
