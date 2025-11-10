@@ -74,10 +74,10 @@ public class PlacementSystem : MonoBehaviour
         _stateMachine.Update();
     }
 
-    public void EnterPlacementMode(int id)
+    public void EnterPlacementMode(PlaceableSO placeableSo)
     {
         ResetLastGridPosition();
-        _previewPlacementState.ChangeCurrentPlaceableIndex(id - 1);
+        _previewPlacementState.ChangeCurrentPlaceable(placeableSo);
         _stateMachine.TransitionTo(_previewPlacementState);
     }
 
@@ -114,7 +114,7 @@ public class PlacementSystem : MonoBehaviour
             Destroy(BuildingSystemManager.Instance.CellIndicator.transform.GetChild(0)?.gameObject);
     }
 
-    public void TransitionToCancelTaskState()
+    public void EnterCancelMode()
     {
         _stateMachine.TransitionTo(_cancelTaskState);
     }

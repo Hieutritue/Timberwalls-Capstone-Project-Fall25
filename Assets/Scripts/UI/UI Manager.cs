@@ -72,12 +72,17 @@ public class UIManager : MonoSingleton<UIManager>
     
     public void OnCancelPressed()
     {
-        
+        BuildingSystemManager.Instance.PlacementSystem.EnterCancelMode();
     }
     
-    public void OnDestroyPressed()
+    public void OnDemolishRoomPressed()
     {
-        
+        BuildingSystemManager.Instance.PlacementSystem.EnterDeleteMode(PlaceableType.Room);
+    }
+    
+    public void OnDemolishFurniturePressed()
+    {
+        BuildingSystemManager.Instance.PlacementSystem.EnterDeleteMode(PlaceableType.Furniture);
     }
     
     public void OnPriorityPressed()
