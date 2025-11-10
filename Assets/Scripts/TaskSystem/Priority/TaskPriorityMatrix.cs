@@ -14,31 +14,32 @@ namespace DefaultNamespace.TaskSystem
 
         private void Start()
         {
-            ColonistManager.Instance.OnColonistAdded += AddRow;
-            ColonistManager.Instance.OnColonistRemoved += RemoveRow;
+            gameObject.SetActive(false);
         }
 
         [Button]
         public void Setup()
         {
-            foreach (var colonist in ColonistManager.Instance.Colonists)
+            if (ColonistManager.Instance.GetColonistCount() > 0)
             {
-                AddRow(colonist);
+                foreach (var colonist in ColonistManager.Instance.Colonists)
+                {
+                    AddRow(colonist);
+                }
             }
         }
-        
+
         public PriorityRow GetRow(Colonist colonist)
         {
             return _priorityRows.Find(row => row.Colonist == colonist);
         }
-        
+
         public void AddRow(Colonist colonist)
         {
             var priorityRow = Instantiate(PriorityRowPrefab, Container);
             priorityRow.Setup(colonist);
             _priorityRows.Add(priorityRow);
         }
-        
         public void RemoveRow(Colonist colonist)
         {
             var rowToRemove = _priorityRows.Find(row => row.Colonist == colonist);

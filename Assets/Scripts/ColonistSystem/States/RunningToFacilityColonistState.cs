@@ -1,6 +1,4 @@
 ﻿using _Scripts.StateMachine;
-using DefaultNamespace.General;
-using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem.States
 {

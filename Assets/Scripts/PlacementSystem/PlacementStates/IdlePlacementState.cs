@@ -14,6 +14,7 @@ public class IdlePlacementState : AState<PlacementSystem>
     {
         BuildingSystemManager.Instance.InputManager.OnClickNum += _behaviour.EnterPlacementMode;
         BuildingSystemManager.Instance.InputManager.OnClickRemovePlaceable += _behaviour.EnterDeleteMode;
+        BuildingSystemManager.Instance.InputManager.OnClickCancelKey += _behaviour.TransitionToCancelTaskState;
     }
 
     public override void Tick()
@@ -24,6 +25,7 @@ public class IdlePlacementState : AState<PlacementSystem>
     {
         BuildingSystemManager.Instance.InputManager.OnClickNum -= _behaviour.EnterPlacementMode;
         BuildingSystemManager.Instance.InputManager.OnClickRemovePlaceable -= _behaviour.EnterDeleteMode;
+        BuildingSystemManager.Instance.InputManager.OnClickCancelKey -= _behaviour.TransitionToCancelTaskState;
     }
 
 }

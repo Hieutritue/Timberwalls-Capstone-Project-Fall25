@@ -18,7 +18,7 @@ namespace DefaultNamespace.PlacementStates
         public override void Enter()
         {
             BuildingSystemManager.Instance.InputManager.OnMouseLeftClick += CreateTaskDemolishPlaceableAtMouse;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick += _behaviour.ExitPlacementMode;
+            BuildingSystemManager.Instance.InputManager.OnMouseRightClick += _behaviour.TransitionToIdleState;
             BuildingSystemManager.Instance.InputManager.OnMouseRightClick += ResetMaterial;
 
             _lastPlaceableInstance = null;
@@ -73,7 +73,8 @@ namespace DefaultNamespace.PlacementStates
 
             if (building && (placeableInstance == _lastPlaceableInstance 
                              || building.IsUnderConstruction() 
-                             || building.IsDemolishing())) return;
+                             || building.IsDemolishing())) 
+                return;
 
             var materialSwapper = BuildingSystemManager.Instance.MaterialSwapper;
             if (_lastPlaceableInstance)
@@ -93,7 +94,7 @@ namespace DefaultNamespace.PlacementStates
         public override void Exit()
         {
             BuildingSystemManager.Instance.InputManager.OnMouseLeftClick -= CreateTaskDemolishPlaceableAtMouse;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick -= _behaviour.ExitPlacementMode;
+            BuildingSystemManager.Instance.InputManager.OnMouseRightClick -= _behaviour.TransitionToIdleState;
             BuildingSystemManager.Instance.InputManager.OnMouseRightClick -= ResetMaterial;
         }
 
@@ -104,6 +105,9 @@ namespace DefaultNamespace.PlacementStates
 
         public void ResetMaterial()
         {
+            var lastBuilding = _lastPlaceableInstance?.GetComponent<Building>();
+            if (lastBuilding && (lastBuilding.IsUnderConstruction() || lastBuilding.IsDemolishing()))
+                return;
             if (_lastPlaceableInstance)
                 BuildingSystemManager.Instance.MaterialSwapper.RemoveHighlight(_lastPlaceableInstance.gameObject);
         }

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1439e26ea682486d932aa6ce71092116, type: 3}
+  m_Name: GasStove
+  m_EditorClassIdentifier: 
+  Size: {x: 0, y: 0}
+  Prefab: {fileID: 6509336164124956877, guid: 220b3f5a31e08534c8340427c6c5ca97, type: 3}
+  Type: 1
+  PlacementConditions: 0200000001000000
+  Name: Gas stove
+  Icon: {fileID: 236065921, guid: 0b8cbced01d3121429ffe4e264e4a891, type: 3}
+  Category: 0
+  Description: 
+  Costs:
+  - Resource: {fileID: 11400000, guid: 89267f7d0ec1e5c478c259bdd9c8e9d2, type: 2}
+    Amount: 30
+  - Resource: {fileID: 11400000, guid: 6e0e565f81f28384cba89259f2db7561, type: 2}
+    Amount: 15
+  - Resource: {fileID: 11400000, guid: c0722abba4b52d142868cf40f8123b8d, type: 2}
+    Amount: 5
+  BaseBuildTime: 15
+  BaseTimeToProduce: 12
+  Consumption:
+  - Resource: {fileID: 11400000, guid: 3362e6b2490eef2409949e8042849435, type: 2}
+    Amount: 1
+  OutputResource:
+  - Resource: {fileID: 11400000, guid: b17e318129f9854439a260c41d6b7d3d, type: 2}
+    Amount: 1

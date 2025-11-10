@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using DefaultNamespace.TaskSystem;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem
@@ -39,6 +38,11 @@ namespace DefaultNamespace.ColonistSystem
                 Colonists.Remove(colonist);
                 OnColonistRemoved?.Invoke(colonist);
             }
+        }
+
+        public int GetColonistCount()
+        {
+            return Colonists.Count;
         }
     }
 }
