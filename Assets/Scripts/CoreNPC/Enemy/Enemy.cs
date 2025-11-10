@@ -46,4 +46,6 @@ public class Enemy : EnemyBase
     {
         base.WalkLeft();
     }
+
+   
 }

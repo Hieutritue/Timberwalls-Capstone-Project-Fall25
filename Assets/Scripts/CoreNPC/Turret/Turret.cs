@@ -17,12 +17,17 @@ public class Turret : MonoBehaviour
     [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private IObjectPool<Bullet> bulletPool;
     [SerializeField] private float fireRate = 2f;
+    [SerializeField] private float firingAngleThreshold = 5f;  // Add this - angle tolerance for firing
 
     private Enemy currentTarget;
+    private Enemy previousTarget;
+    private float targetAcquiredTime;
     private PlayerSpoof p;
     private float lastFireTime;
     private int defaultCapacity = 20;
     private int maxCapacity = 100;
+
+    
 
     // Cached modifiers
     private float rotationSpeedModifier = 1f;
@@ -98,36 +103,6 @@ public class Turret : MonoBehaviour
                   $"Final Rotation: {rotationSpeedModifier * 100}%, Final Fire Rate: {fireRateModifier * 100}%");
     }
 
-    void FindTarget()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, enemyLayer);
-
-        if (hits.Length > 0)
-        {
-            // Find closest enemy
-            currentTarget = null;
-            float closestDistance = Mathf.Infinity;
-
-            foreach (Collider hit in hits)
-            {
-                Enemy enemy = hit.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    float distance = Mathf.Abs(transform.position.x - hit.transform.position.x);
-                    if (distance < closestDistance)
-                    {
-                        closestDistance = distance;
-                        currentTarget = enemy;
-                    }
-                }
-            }
-        }
-        else
-        {
-            currentTarget = null;
-        }
-    }
-
     void RotateTowardsTarget()
     {
         if (currentTarget == null) return;
@@ -143,8 +118,62 @@ public class Turret : MonoBehaviour
         barrel.rotation = Quaternion.Slerp(barrel.rotation, targetRotation, effectiveRotationSpeed * Time.deltaTime);
     }
 
+    void FindTarget()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, enemyLayer);
+
+        if (hits.Length > 0)
+        {
+            // Find closest enemy
+            Enemy newTarget = null;
+            float closestDistance = Mathf.Infinity;
+
+            foreach (Collider hit in hits)
+            {
+                Enemy enemy = hit.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    float distance = Mathf.Abs(transform.position.x - hit.transform.position.x);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        newTarget = enemy;
+                    }
+                }
+            }
+
+            // Track when target changes
+            if (newTarget != currentTarget)
+            {
+                previousTarget = currentTarget;
+                currentTarget = newTarget;
+                targetAcquiredTime = Time.time;
+            }
+        }
+        else
+        {
+            currentTarget = null;
+        }
+    }
+
     void TryFire()
     {
+        if (currentTarget == null) return;
+
+        // Don't fire immediately after acquiring new target (optional delay)
+        float timeSinceAcquired = Time.time - targetAcquiredTime;
+        if (timeSinceAcquired < 0.1f) return; // Small delay after target switch
+
+        // Check if barrel is aimed close enough to target
+        Vector3 directionToTarget = (currentTarget.transform.position - barrel.position).normalized;
+        directionToTarget.z = 0;
+        directionToTarget = directionToTarget.normalized;
+
+        float angleToTarget = Vector3.Angle(barrel.forward, directionToTarget);
+
+        // Only fire if aimed within threshold
+        if (angleToTarget > firingAngleThreshold) return;
+
         // Apply fire rate modifier
         float effectiveFireRate = fireRate * fireRateModifier;
 

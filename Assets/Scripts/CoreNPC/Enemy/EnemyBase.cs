@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour, IDamageable
 {
-    [Header("Target")]
-    [SerializeField] protected GameObject target;
+    protected GameObject target;
 
     [Header("Stats")]
     [SerializeField] protected EnemySO stats;
@@ -16,6 +15,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected virtual void Start()
     {
+        target = GameObject.FindGameObjectWithTag("Player");
 
         if (target != null)
         {
@@ -97,10 +97,25 @@ public class EnemyBase : MonoBehaviour, IDamageable
         // }
     }
 
+    public virtual void ResetEnemy()
+    {
+        // Reset health and any other state
+
+        // Reset animations, velocities, etc.
+    }
+
     protected virtual void Die()
     {
-        CurrentState = State.Death;
-        // Add death logic here (animation, disable, destroy, etc.)
+        // Return to pool instead of destroying
+        PooledEnemy pooledEnemy = GetComponent<PooledEnemy>();
+        if (pooledEnemy != null)
+        {
+            pooledEnemy.ReturnToPool();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     protected virtual void OnDrawGizmosSelected()
