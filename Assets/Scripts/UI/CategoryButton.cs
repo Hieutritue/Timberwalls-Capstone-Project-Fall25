@@ -4,15 +4,14 @@ using UnityEngine.UI;
 
 public class CategoryButton : MonoBehaviour
 {
-    private CategorySO categoryData;
+    private BuildingCategory categoryData;
     private BuildMenuManager menuManager;
 
     public void Initialize(BuildingCategory category, BuildMenuManager manager)
     {
+        categoryData = category;
         menuManager = manager;
         GetComponentInChildren<TMPro.TextMeshProUGUI>().text = StringTools.SplitCamelCase(category.ToString());
-        CategorySO categorySo = CategoryList.instance.GetCategoryDataBasedOnBuildingCategory(category);
-        categoryData = categorySo;
         GetComponentInChildren<Button>().onClick.AddListener(OnClick);
     }
 

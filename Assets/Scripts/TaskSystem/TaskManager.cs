@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.General;
+using DefaultNamespace.ScheduleSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace DefaultNamespace.TaskSystem
         }
 
         private float _timer = 0f;
+
         private void Update()
         {
             _timer += Time.deltaTime;
@@ -41,17 +43,26 @@ namespace DefaultNamespace.TaskSystem
 
         public ITask GetBestTaskForColonist(Colonist colonist)
         {
-            float reachRadius =
-                DataTable.Instance.GeneralNumberSo.ConstructionRange; // distance within which colonist can work
+            if (!colonist)
+                return null;
+
+            var currentSchedule = ScheduleMenu.Instance.ScheduleOfColonists
+                .FirstOrDefault(sc => sc.Colonist == colonist)?
+                .HourBoxes[GameTimeManager.Instance.CurrentHour]
+                .ScheduleType;
+
+            if (currentSchedule == null) return null;
 
             var availableTasks = Tasks
                 .Where(task =>
                 {
+                    // Task must be of the type allowed by the colonist's current schedule
+                    if (!currentSchedule.Value.GetAssociatedTaskTypes().Contains(task.TaskType))
+                        return false;
                     // Task must be unassigned or assigned to this colonist
                     bool canTakeTask = !task.AssignedColonist || task.AssignedColonist == colonist;
 
-                    return /*PathfindingUtility.CanGetCloseEnough(colonist.transform.position, task.Transform.position,
-                        GameManager.Instance.GeneralNumberSO.ConstructionRange) && */canTakeTask;
+                    return canTakeTask;
                 })
                 .ToList();
 
@@ -68,7 +79,7 @@ namespace DefaultNamespace.TaskSystem
 
             return taskList[0];
         }
-        
+
         public Colonist GetBestColonistForTask(ITask task)
         {
             var availableColonists = ColonistManager.Instance.Colonists
@@ -89,7 +100,8 @@ namespace DefaultNamespace.TaskSystem
 
             var colonistList = availableColonists
                 .OrderByDescending(colonist => priorityMatrix.GetRow(colonist).GetPriorityForTaskType(task.TaskType))
-                .ThenBy(colonist => Vector3.Distance(colonist.transform.position, task.GetBuildingProgressPoint().position))
+                .ThenBy(colonist =>
+                    Vector3.Distance(colonist.transform.position, task.GetBuildingProgressPoint().position))
                 .ToList();
 
             return colonistList[0];
@@ -101,9 +113,9 @@ namespace DefaultNamespace.TaskSystem
 
             if (task != colonist.CurrentTask)
             {
-                colonist.StateMachine.TransitionTo(colonist.IdleState);
+                colonist.TransitionToIdleState();
             }
-            
+
             if (task != null)
             {
                 if (colonist.CurrentTask != null) colonist.CurrentTask.AssignedColonist = null;
@@ -111,7 +123,7 @@ namespace DefaultNamespace.TaskSystem
                 colonist.CurrentTask = task;
             }
         }
-        
+
         public void AssignColonistToTask(ITask task)
         {
             var colonist = GetBestColonistForTask(task);
