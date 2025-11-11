@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DefaultNamespace.UI.Build;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildMenuManager : MonoBehaviour
 {
@@ -11,17 +12,19 @@ public class BuildMenuManager : MonoBehaviour
     [SerializeField] private GameObject menuContent;
     [SerializeField] private GameObject itemWindow;
     [SerializeField] private GameObject subCategoryParent;
+    [SerializeField] private VerticalLayoutGroup subCategoryLayoutGroup;
 
     private BuildingCategory _currentCategory = BuildingCategory.Living;
     private Dictionary<BuildingCategory, List<SubCategoryPanel>> _categoryToSubCategories 
         = new Dictionary<BuildingCategory, List<SubCategoryPanel>>();
+    private CategoryButton _firstCategoryButton;
 
     private void Start()
     {
         GenerateCategories();
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
         // click first category by default
-        OnClickCategory(_currentCategory);
+        _firstCategoryButton.Button.onClick.Invoke();
     }
 
     private void GenerateCategories()
@@ -32,6 +35,8 @@ public class BuildMenuManager : MonoBehaviour
             LoadSubCategories(category);
             CategoryButton categoryButton = categoryObj.GetComponent<CategoryButton>();
             categoryButton.Initialize(category, this);
+            if(!_firstCategoryButton)
+                _firstCategoryButton = categoryButton;
         }
     }
 
@@ -47,6 +52,11 @@ public class BuildMenuManager : MonoBehaviour
 
         // Activate new subcategories
         SetActiveSubCategories(categoryClicked);
+        
+        // Force layout rebuild
+        LayoutRebuilder.ForceRebuildLayoutImmediate(subCategoryParent.transform as RectTransform);
+        // subCategoryLayoutGroup.enabled = false;
+        // subCategoryLayoutGroup.enabled = true;
     }
     
     private void SetActiveSubCategories(BuildingCategory category)
