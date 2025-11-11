@@ -1,252 +1,163 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
+/// <summary>
+/// Turret base class capable of firing both straight and arching projectiles.
+/// </summary>
 public class Turret : MonoBehaviour
 {
-    [Header("Detection")]
-    [SerializeField] private TurretSO stats;
-    [SerializeField] private float detectionRadius = 15f;
-    [SerializeField] private LayerMask enemyLayer;
+    public enum LaunchMode { Straight, Arching }
 
-    [Header("Rotation")]
-    [SerializeField] private float rotationSpeed = 5f;
-    [SerializeField] private Transform barrel;
+    [Header("Turret Settings")]
+    [SerializeField] protected TurretSO stats;
+    [SerializeField] protected LaunchMode launchMode = LaunchMode.Straight;
+    [SerializeField] protected Transform barrel;
+    [SerializeField] protected Transform firePoint;
+    [SerializeField] protected LayerMask enemyLayer;
+    [SerializeField] protected Bullet bulletPrefab;
 
-    [Header("Firing")]
-    [SerializeField] private Transform firePoint;
-    [SerializeField] private Bullet bulletPrefab;
-    [SerializeField] private IObjectPool<Bullet> bulletPool;
-    [SerializeField] private float fireRate = 2f;
-    [SerializeField] private float firingAngleThreshold = 5f;  // Add this - angle tolerance for firing
+    protected IObjectPool<Bullet> bulletPool;
+    protected Enemy currentTarget;
+    protected float lastFireTime;
 
-    private Enemy currentTarget;
-    private Enemy previousTarget;
-    private float targetAcquiredTime;
-    private PlayerSpoof p;
-    private float lastFireTime;
-    private int defaultCapacity = 20;
-    private int maxCapacity = 100;
-
-    
-
-    // Cached modifiers
-    private float rotationSpeedModifier = 1f;
-    private float fireRateModifier = 1f;
-
-    private void Awake()
+    // ============================================================
+    // INITIALIZATION
+    // ============================================================
+    protected virtual void Awake()
     {
-        detectionRadius = stats.attackRange;
-        rotationSpeed = stats.traverseSpeed;
-        fireRate = stats.cyclics;
-        bulletPool = new ObjectPool<Bullet>(CreateBullet, OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject, true, defaultCapacity, maxCapacity);
-
-        p = new PlayerSpoof(Random.Range(1, 11), Random.Range(0, 2));
-        UpdateModifiers();
+        bulletPool = new ObjectPool<Bullet>(
+            CreateBullet, OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
+            true, 20, 100);
     }
 
-    void Update()
+    // ============================================================
+    // UPDATE LOOP
+    // ============================================================
+    protected virtual void Update()
     {
-        // Toggle PlayerSpoof with Space key
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (p == null)
-            {
-                p = new PlayerSpoof(Random.Range(1, 11), Random.Range(0, 2));
-                Debug.Log("PlayerSpoof created");
-            }
-            else
-            {
-                p = null;
-                Debug.Log("PlayerSpoof set to null");
-            }
-            UpdateModifiers();
-        }
         FindTarget();
 
-        if (p == null) return;
-        else
+        if (currentTarget != null)
         {
-            
-
-            if (currentTarget != null)
-            {
-                RotateTowardsTarget();
-                TryFire();
-            }
+            RotateTowards(currentTarget.transform.position);
+            TryFire();
         }
     }
 
-    void UpdateModifiers()
+    // ============================================================
+    // TARGETING
+    // ============================================================
+    protected virtual void FindTarget()
     {
-        // Reset modifiers
-        rotationSpeedModifier = 1f;
-        fireRateModifier = 1f;
-
-        if (p == null) return;
-
-        // Marksmanship: Each level adds +5% to rotation and fire rate
-        float marksmanshipBonus = p.M_level * 0.05f;
-        rotationSpeedModifier += marksmanshipBonus;
-        fireRateModifier += marksmanshipBonus;
-
-        // Afflictions: Each affliction reduces stats by 25%
-        float afflictionPenalty = p.Affliction_number * 0.25f;
-        rotationSpeedModifier -= afflictionPenalty;
-        fireRateModifier -= afflictionPenalty;
-
-        // Ensure modifiers don't go below 10% (0.1)
-        rotationSpeedModifier = Mathf.Max(0.1f, rotationSpeedModifier);
-        fireRateModifier = Mathf.Max(0.1f, fireRateModifier);
-
-        Debug.Log($"Modifiers updated - Marksmanship Lvl: {p.M_level} (+{marksmanshipBonus * 100}%), " +
-                  $"Afflictions: {p.Affliction_number} (-{afflictionPenalty * 100}%), " +
-                  $"Final Rotation: {rotationSpeedModifier * 100}%, Final Fire Rate: {fireRateModifier * 100}%");
-    }
-
-    void RotateTowardsTarget()
-    {
-        if (currentTarget == null) return;
-
-        Vector3 directionToTarget = (currentTarget.transform.position - barrel.position).normalized;
-        directionToTarget.z = 0;
-        directionToTarget = directionToTarget.normalized;
-
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-
-        // Apply rotation speed with modifier
-        float effectiveRotationSpeed = rotationSpeed * rotationSpeedModifier;
-        barrel.rotation = Quaternion.Slerp(barrel.rotation, targetRotation, effectiveRotationSpeed * Time.deltaTime);
-    }
-
-    void FindTarget()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, enemyLayer);
-
-        if (hits.Length > 0)
-        {
-            // Find closest enemy
-            Enemy newTarget = null;
-            float closestDistance = Mathf.Infinity;
-
-            foreach (Collider hit in hits)
-            {
-                Enemy enemy = hit.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    float distance = Mathf.Abs(transform.position.x - hit.transform.position.x);
-                    if (distance < closestDistance)
-                    {
-                        closestDistance = distance;
-                        newTarget = enemy;
-                    }
-                }
-            }
-
-            // Track when target changes
-            if (newTarget != currentTarget)
-            {
-                previousTarget = currentTarget;
-                currentTarget = newTarget;
-                targetAcquiredTime = Time.time;
-            }
-        }
-        else
+        Collider[] hits = Physics.OverlapSphere(transform.position, stats.attackRange, enemyLayer);
+        if (hits.Length == 0)
         {
             currentTarget = null;
+            return;
         }
-    }
 
-    void TryFire()
-    {
-        if (currentTarget == null) return;
+        float closest = float.MaxValue;
+        Enemy nearest = null;
 
-        // Don't fire immediately after acquiring new target (optional delay)
-        float timeSinceAcquired = Time.time - targetAcquiredTime;
-        if (timeSinceAcquired < 0.1f) return; // Small delay after target switch
-
-        // Check if barrel is aimed close enough to target
-        Vector3 directionToTarget = (currentTarget.transform.position - barrel.position).normalized;
-        directionToTarget.z = 0;
-        directionToTarget = directionToTarget.normalized;
-
-        float angleToTarget = Vector3.Angle(barrel.forward, directionToTarget);
-
-        // Only fire if aimed within threshold
-        if (angleToTarget > firingAngleThreshold) return;
-
-        // Apply fire rate modifier
-        float effectiveFireRate = fireRate * fireRateModifier;
-
-        if (Time.time >= lastFireTime + (1f / effectiveFireRate))
+        foreach (Collider c in hits)
         {
-            Fire();
-            lastFireTime = Time.time;
+            float d = Vector3.Distance(transform.position, c.transform.position);
+            if (d < closest && c.TryGetComponent(out Enemy e))
+            {
+                closest = d;
+                nearest = e;
+            }
         }
+
+        currentTarget = nearest;
     }
 
-    void Fire()
+    protected virtual void RotateTowards(Vector3 targetPos)
+    {
+        Vector3 dir = (targetPos - barrel.position).normalized;
+        dir.y = 0;
+        Quaternion look = Quaternion.LookRotation(dir);
+        barrel.rotation = Quaternion.Slerp(barrel.rotation, look, stats.traverseSpeed * Time.deltaTime);
+    }
+
+    // ============================================================
+    // FIRING
+    // ============================================================
+    protected virtual void TryFire()
+    {
+        if (Time.time < lastFireTime + (1f / stats.cyclics))
+            return;
+
+        Fire();
+        lastFireTime = Time.time;
+    }
+
+    protected virtual void Fire()
     {
         if (currentTarget == null) return;
 
         Bullet bullet = bulletPool.Get();
-        if (bullet != null)
-        {
-            bullet.transform.position = firePoint.position;
-            bullet.pool = bulletPool;
-
-            // Direction from firePoint directly to target (X-Z plane only)
-            Vector3 firingDirection = (currentTarget.transform.position - firePoint.position);
-            firingDirection.z = 0;
-            firingDirection = firingDirection.normalized;
-
-            // Rotate bullet to match firing direction
-            bullet.transform.rotation = Quaternion.LookRotation(firingDirection);
-            bullet.deactivate();
-
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.linearVelocity = bullet.transform.forward * bullet.stats.bulletSpeed;
-            }
-        }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        // Detection radius
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
-
-        // Target line
-        if (currentTarget != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, currentTarget.transform.position);
-        }
-    }
-
-    private Bullet CreateBullet()
-    {
-        Bullet bullet = Instantiate(bulletPrefab);
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
         bullet.pool = bulletPool;
-        return bullet;
+        bullet.Activate();
+
+        Vector3 targetPos = currentTarget.transform.position;
+
+        if (launchMode == LaunchMode.Arching && bullet is ArchingBullet arching)
+        {
+            arching.LaunchAtTarget(firePoint.position, targetPos, bullet.Stats.bulletSpeed);
+        }
+        else
+        {
+            Vector3 dir = (targetPos - firePoint.position).normalized;
+            bullet.Launch(dir, bullet.Stats.bulletSpeed);
+        }
     }
 
-    private void OnGetFromPool(Bullet bullet)
-    {
-        bullet.gameObject.SetActive(true);
-    }
+    // ============================================================
+    // POOL CALLBACKS
+    // ============================================================
+    protected virtual Bullet CreateBullet() => Instantiate(bulletPrefab);
+    protected virtual void OnGetFromPool(Bullet b) => b.gameObject.SetActive(true);
+    protected virtual void OnReleaseToPool(Bullet b) => b.gameObject.SetActive(false);
+    protected virtual void OnDestroyPooledObject(Bullet b) => Destroy(b.gameObject);
 
-    private void OnReleaseToPool(Bullet bullet)
-    {
-        bullet.gameObject.SetActive(false);
-    }
+#if UNITY_EDITOR
+protected virtual void OnDrawGizmos()
+{
+    if (!firePoint || !stats) return;
+    if (launchMode != LaunchMode.Arching) return;
 
-    private void OnDestroyPooledObject(Bullet bullet)
+    // Just a temporary dummy target — replace with currentTarget if you want dynamic preview
+    Vector3 targetPos = (Application.isPlaying && currentTarget != null)
+        ? currentTarget.transform.position
+        : firePoint.position + firePoint.forward * stats.attackRange;
+
+    // Try calculate velocity
+    if (BallisticUtility.CalculateLaunchVelocity(
+        firePoint.position, targetPos, bulletPrefab.Stats.bulletSpeed, 9.81f, false, out Vector3 velocity))
     {
-        Destroy(bullet.gameObject);
+        // Draw predicted arc
+        var points = BallisticUtility.GenerateTrajectoryPoints(firePoint.position, velocity, 9.81f);
+        Gizmos.color = Color.cyan;
+        for (int i = 0; i < points.Count - 1; i++)
+            Gizmos.DrawLine(points[i], points[i + 1]);
+
+        // Draw impact marker
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(points[^1], 0.25f);
+    }
+    else
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(firePoint.position, firePoint.forward * stats.attackRange);
     }
 }
+#endif
+}
+
 
 public class PlayerSpoof
 {
@@ -257,5 +168,57 @@ public class PlayerSpoof
     {
         M_level = level;
         this.Affliction_number = affliction_number;
+    }
+}
+
+public static class BallisticUtility
+{
+    /// <summary>
+    /// Calculates the launch velocity vector to hit a target at a given speed and gravity.
+    /// </summary>
+    public static bool CalculateLaunchVelocity(Vector3 start, Vector3 target, float speed, float gravity, bool highArc, out Vector3 velocity)
+    {
+        Vector3 toTarget = target - start;
+        Vector3 toTargetXZ = new Vector3(toTarget.x, 0f, toTarget.z);
+
+        float dxz = toTargetXZ.magnitude;
+        float dy = toTarget.y;
+        float g = gravity;
+
+        float v2 = speed * speed;
+        float underRoot = v2 * v2 - g * (g * dxz * dxz + 2 * dy * v2);
+
+        if (underRoot < 0f)
+        {
+            velocity = Vector3.zero;
+            return false;
+        }
+
+        float root = Mathf.Sqrt(underRoot);
+        float tanTheta = highArc ? (v2 + root) / (g * dxz) : (v2 - root) / (g * dxz);
+        float angle = Mathf.Atan(tanTheta);
+
+        Vector3 dirXZ = toTargetXZ.normalized;
+        velocity = dirXZ * Mathf.Cos(angle) * speed;
+        velocity.y = Mathf.Sin(angle) * speed;
+        return true;
+    }
+
+    /// <summary>
+    /// Generates a list of world points approximating the projectile's arc for Gizmos or LineRenderer.
+    /// </summary>
+    public static List<Vector3> GenerateTrajectoryPoints(Vector3 start, Vector3 velocity, float gravity, int steps = 30, float timestep = 0.1f)
+    {
+        List<Vector3> points = new List<Vector3>(steps);
+        Vector3 current = start;
+        Vector3 vel = velocity;
+
+        for (int i = 0; i < steps; i++)
+        {
+            points.Add(current);
+            vel += Vector3.down * gravity * timestep;
+            current += vel * timestep;
+        }
+        return points;
     }
 }
