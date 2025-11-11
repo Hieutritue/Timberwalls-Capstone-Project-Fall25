@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67ddd9faba7b4ed5b8d24a3cbcd0f266, type: 3}
-  m_Name: DiningTable
+  m_Name: Water Tap
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -47,17 +47,19 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Size: {x: 2, y: 1}
-  Prefab: {fileID: 4264903963880827351, guid: b07349071434d384799bf3d2f1b5d71d, type: 3}
+  Size: {x: 1, y: 2}
+  Prefab: {fileID: 7156187528172945830, guid: 2e2b806b522b86641902688d245e3458, type: 3}
   Type: 1
-  PlacementConditions: 0200000001000000
-  Name: Dining Table
-  Icon: {fileID: 21300000, guid: abf36cf5c3f490d4c90ebcb2b21c73f1, type: 3}
+  PlacementConditions: 0100000002000000
+  Name: Water Tap
+  Icon: {fileID: 21300000, guid: 1991dc36405b297429f0facbd4a77fb5, type: 3}
   Category: 1
-  SubCategory: 3
+  SubCategory: 2
   Description: 
   Costs:
-  - Resource: {fileID: 11400000, guid: bd733fb24fdaa59409e0620063e3e1ba, type: 2}
+  - Resource: {fileID: 11400000, guid: 765e6a9a9cd635e449ead229cadc3ae1, type: 2}
+    Amount: 15
+  - Resource: {fileID: 11400000, guid: 9ee4aa39b0b1074419063bdcd764d278, type: 2}
     Amount: 20
-  BaseBuildTime: 15
+  BaseBuildTime: 10
   Consumption: []
