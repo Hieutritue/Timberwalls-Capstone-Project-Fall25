@@ -101,6 +101,11 @@ public class UIManager : MonoSingleton<UIManager>
             priorityMatrix.SetActive(false);
         }
     }
+    
+    public void OnIdleModePressed()
+    {
+        BuildingSystemManager.Instance.PlacementSystem.TransitionToIdleState();
+    }
     private void CheckAndOpenUIContainer(GameObject UIContainer)
     {
         if (UIContainer == null)
