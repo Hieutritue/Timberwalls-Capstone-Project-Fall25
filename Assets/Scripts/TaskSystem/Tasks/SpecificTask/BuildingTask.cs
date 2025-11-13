@@ -16,7 +16,8 @@ namespace DefaultNamespace.TaskSystem
         public override float TotalProgress(Colonist colonist)
         {
             return FormulaCollection.ProgressPerFrameBasedOnSkillLevel(_building.PlaceableSo.BaseBuildTime,
-                colonist.ColonistSo.Skills[SkillType.Engineering]);
+                colonist.ColonistSo.Skills[SkillType.Engineering],
+                colonist.TaskCompletionSpeedMultiplier);
         }
 
         public BuildingTask(Building building, TaskType taskType) : base(building, taskType)

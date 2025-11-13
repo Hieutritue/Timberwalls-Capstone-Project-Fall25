@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using DefaultNamespace.ColonistSystem;
+using DefaultNamespace.ColonistSystem.AfflictionSystem;
 using DefaultNamespace.ColonistSystem.States;
 using DefaultNamespace.ColonistSystem.UI;
 using DefaultNamespace.General;
@@ -32,8 +34,15 @@ public class Colonist : MonoBehaviour
     private string _currentState;
     public Action<string> OnCurrentStateChanged;
     public Action<StatType, float> OnStatChanged;
-    
+
     public ColonistMouseEventController MouseEventController;
+    [ReadOnly] public float TaskCompletionSpeedMultiplier = 1f;
+    public Dictionary<StatType, float> AfflictionStatRodModifiers = new();
+    [SerializeField] private List<AfflictionSO> _allAfflictions;
+    private Dictionary<AfflictionSO,bool> _activeAfflictions = new();
+    public Dictionary<AfflictionSO,bool> ActiveAfflictions => _activeAfflictions;
+    public bool CanWork { get; set; } = true;
+    
 
     public string CurrentState
     {
@@ -49,6 +58,7 @@ public class Colonist : MonoBehaviour
     {
         InitData();
         InitStateMachine();
+        RegisterAfflictionChanges();
         MouseEventController.Setup(this);
     }
 
@@ -78,6 +88,12 @@ public class Colonist : MonoBehaviour
     private void StateMachineStateCheck()
     {
         if (CurrentTask == null)
+        {
+            _stateMachine.TransitionTo(_idleState);
+            return;
+        }
+        
+        if (CurrentTask is not APersonalActionTask && !CanWork)
         {
             _stateMachine.TransitionTo(_idleState);
             return;
@@ -124,7 +140,7 @@ public class Colonist : MonoBehaviour
                     stat.BaseRateOfDecrease,
                     laborMultiplier,
                     1f,
-                    1f);
+                    AfflictionStatRodModifiers[stat.StatType]);
 
                 SetStat(stat.StatType, StatDict[stat.StatType] - decreaseRate);
             }
@@ -153,7 +169,10 @@ public class Colonist : MonoBehaviour
     private void InitData()
     {
         foreach (var stat in ColonistSo.Stats)
+        {
             StatDict[stat.StatType] = stat.MaxValue;
+            AfflictionStatRodModifiers[stat.StatType] = 1f;
+        }
     }
 
     private void InitStateMachine()
@@ -208,5 +227,31 @@ public class Colonist : MonoBehaviour
     public void TransitionToIdleState()
     {
         _stateMachine.TransitionTo(_idleState);
+    }
+
+    private void CheckAffliction(StatType statType, float statValue)
+    {
+        foreach (var afflictionSo in _allAfflictions)
+        {
+            if (afflictionSo.StatTypeCondition != statType) continue;
+            if (statValue >= afflictionSo.MinCondition && statValue < afflictionSo.MaxCondition)
+            {
+                if (_activeAfflictions.ContainsKey(afflictionSo) && _activeAfflictions[afflictionSo])
+                    continue;
+                // Apply affliction if not already applied
+                afflictionSo.StartAffliction(this);
+            }
+            else
+            {
+                if (!_activeAfflictions.ContainsKey(afflictionSo) || !_activeAfflictions[afflictionSo])
+                    continue;
+                // Remove affliction if condition no longer met
+                afflictionSo.EndAffliction(this);
+            }
+        }
+    }
+    private void RegisterAfflictionChanges()
+    {
+        OnStatChanged += CheckAffliction;
     }
 }
