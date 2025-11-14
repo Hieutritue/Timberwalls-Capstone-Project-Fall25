@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &978458457796335447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3618889641814629695}
+  m_Layer: 0
+  m_Name: ActionPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3618889641814629695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978458457796335447}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -4.711, y: 0.05, z: -3.975}
+  m_LocalScale: {x: 1.492537, y: 1.4925373, z: 1.492537}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1721684346006553617}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4589359529351958709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1076015086338004885}
+  m_Layer: 0
+  m_Name: ProgressPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1076015086338004885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4589359529351958709}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -6.1, y: 0.95, z: -3}
+  m_LocalScale: {x: 1.492537, y: 1.4925373, z: 1.492537}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1721684346006553617}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6094292207532882725
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,6 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1721684346006553617}
+  - component: {fileID: 3756547605006779853}
   m_Layer: 0
   m_Name: NiobiumMine
   m_TagString: Untagged
@@ -29,9 +92,59 @@ Transform:
   m_LocalScale: {x: 0.67, y: 0.67, z: 0.67}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 5522374604977375542}
+  - {fileID: 5447289871138451048}
+  - {fileID: 1076015086338004885}
+  - {fileID: 3618889641814629695}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &3756547605006779853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6094292207532882725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d325b39755cd4dcaab125a310d7b7c8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlaceableSo: {fileID: 11400000, guid: dd9754385d57e2241ae01086f88de014, type: 2}
+  ProgressPoint: {fileID: 1076015086338004885}
+  Colliders: []
+  ActionPoint: {fileID: 3618889641814629695}
+--- !u!1 &6159091086594672462
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5447289871138451048}
+  m_Layer: 0
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5447289871138451048
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6159091086594672462}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5522374604977375542}
+  m_Father: {fileID: 1721684346006553617}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1003084611712764375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -600,7 +713,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1721684346006553617}
+    m_TransformParent: {fileID: 5447289871138451048}
     m_Modifications:
     - target: {fileID: 3856910222128226012, guid: 727b60746c017414e93edcb26829d672,
         type: 3}
@@ -620,7 +733,7 @@ PrefabInstance:
     - target: {fileID: 3856910222128226012, guid: 727b60746c017414e93edcb26829d672,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.96
+      value: -2.9600008
       objectReference: {fileID: 0}
     - target: {fileID: 3856910222128226012, guid: 727b60746c017414e93edcb26829d672,
         type: 3}
@@ -630,7 +743,7 @@ PrefabInstance:
     - target: {fileID: 3856910222128226012, guid: 727b60746c017414e93edcb26829d672,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.96
+      value: -2.9600008
       objectReference: {fileID: 0}
     - target: {fileID: 3856910222128226012, guid: 727b60746c017414e93edcb26829d672,
         type: 3}
@@ -640,17 +753,17 @@ PrefabInstance:
     - target: {fileID: 3856910222128226012, guid: 727b60746c017414e93edcb26829d672,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3856910222128226012, guid: 727b60746c017414e93edcb26829d672,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3856910222128226012, guid: 727b60746c017414e93edcb26829d672,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3856910222128226012, guid: 727b60746c017414e93edcb26829d672,
         type: 3}
