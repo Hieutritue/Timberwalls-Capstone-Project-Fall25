@@ -6,17 +6,15 @@ namespace DefaultNamespace.ColonistSystem.AfflictionSystem
         menuName = "Colonist System/Affliction System/Affliction Effects/Stat RoD Multiplier Effect")]
     public class StatRodMultiplierSO : AAfflictionEffect
     {
-        public string EffectName { get; }
-        public string Description { get; }
-        public StatType StatType { get; }
-        public float Value { get; }
+        public StatType StatType;
+        public float Value;
 
-        public void ApplyEffect(Colonist colonist)
+        public override void ApplyEffect(Colonist colonist)
         {
             colonist.AfflictionStatRodModifiers[StatType] *= Value;
         }
 
-        public void RemoveEffect(Colonist colonist)
+        public override void RemoveEffect(Colonist colonist)
         {
             colonist.AfflictionStatRodModifiers[StatType] /= Value;
         }

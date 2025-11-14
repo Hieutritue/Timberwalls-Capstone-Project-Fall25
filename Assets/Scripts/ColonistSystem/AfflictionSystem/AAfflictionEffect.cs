@@ -4,9 +4,8 @@ namespace DefaultNamespace.ColonistSystem.AfflictionSystem
 {
     public abstract class AAfflictionEffect : ScriptableObject
     {
-        public string EffectName { get; }
-        public string Description { get; }
-        public float Value { get; }
+        public string EffectName;
+        public string Description;
 
         public virtual void ApplyEffect(Colonist colonist)
         {

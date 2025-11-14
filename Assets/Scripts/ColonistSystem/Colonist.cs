@@ -41,6 +41,7 @@ public class Colonist : MonoBehaviour
     [SerializeField] private List<AfflictionSO> _allAfflictions;
     private Dictionary<AfflictionSO,bool> _activeAfflictions = new();
     public Dictionary<AfflictionSO,bool> ActiveAfflictions => _activeAfflictions;
+    public Action OnActiveAfflictionsChanged;
     public bool CanWork { get; set; } = true;
     
 
@@ -63,6 +64,7 @@ public class Colonist : MonoBehaviour
     }
 
     private float _timerToCheckState = 0f;
+    private float _timerToTickAfflictions = 0f;
     private float _timerToDecreaseStats = 0f;
     private bool _autoDecreaseStatsEnabled = true;
 
@@ -76,6 +78,7 @@ public class Colonist : MonoBehaviour
     {
         _stateMachine.Update();
         AutoDecreaseStats();
+        CheckTickAfflictions();
 
         _timerToCheckState += Time.deltaTime;
         if (_timerToCheckState >= 0.2f)
@@ -85,15 +88,26 @@ public class Colonist : MonoBehaviour
         }
     }
 
+    private void CheckTickAfflictions()
+    {
+        _timerToTickAfflictions += Time.deltaTime;
+        if (_timerToTickAfflictions >= 1f)
+        {
+            foreach (var afflictionPair in _activeAfflictions)
+            {
+                if (afflictionPair.Value)
+                {
+                    afflictionPair.Key.TickAffliction(this);
+                }
+            }
+
+            _timerToTickAfflictions = 0f;
+        }
+    }
+
     private void StateMachineStateCheck()
     {
         if (CurrentTask == null)
-        {
-            _stateMachine.TransitionTo(_idleState);
-            return;
-        }
-        
-        if (CurrentTask is not APersonalActionTask && !CanWork)
         {
             _stateMachine.TransitionTo(_idleState);
             return;
@@ -240,6 +254,8 @@ public class Colonist : MonoBehaviour
                     continue;
                 // Apply affliction if not already applied
                 afflictionSo.StartAffliction(this);
+                _activeAfflictions[afflictionSo] = true;
+                OnActiveAfflictionsChanged?.Invoke();
             }
             else
             {
@@ -247,6 +263,8 @@ public class Colonist : MonoBehaviour
                     continue;
                 // Remove affliction if condition no longer met
                 afflictionSo.EndAffliction(this);
+                _activeAfflictions[afflictionSo] = false;
+                OnActiveAfflictionsChanged?.Invoke();
             }
         }
     }
