@@ -1,36 +1,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public abstract class Animals : MonoBehaviour
 {
+    [Header("Animal Settings")]
     public List<GameObject> animals = new List<GameObject>();
     public float moveSpeed = 3f;
     public float range = 3f;
     public float stoppingDistance = 0.3f;
-    public float stuckCheckTime = 1f; 
+    public float stuckCheckTime = 1f;
 
-    private Vector3[] targetPositions;
-    private Vector3[] startPositions;
-    private Vector3[] lastPositions;
-    private float[] stuckTimers;
-    void Start()
+    protected Vector3[] targetPositions;
+    protected Vector3[] startPositions;
+    protected Vector3[] lastPositions;
+    protected float[] stuckTimers;
+
+    protected Rigidbody[] animalRigidbodies;
+
+    protected virtual void Start()
     {
         int animalLayer = LayerMask.NameToLayer("Animal");
         Physics.IgnoreLayerCollision(animalLayer, animalLayer, true);
+
         int count = animals.Count;
 
         targetPositions = new Vector3[count];
         startPositions = new Vector3[count];
         lastPositions = new Vector3[count];
         stuckTimers = new float[count];
+        animalRigidbodies = new Rigidbody[count];
 
         for (int i = 0; i < count; i++)
         {
-            startPositions[i] = animals[i].transform.position;
-            lastPositions[i] = animals[i].transform.position;
+            GameObject animal = animals[i];
+            startPositions[i] = animal.transform.position;
+            lastPositions[i] = animal.transform.position;
 
-            // Add redirect component for collision turning
-            var redirect = animals[i].AddComponent<ObjectRedirect>();
+            // Ensure each animal has a Rigidbody
+            Rigidbody rb = animal.GetComponent<Rigidbody>();
+            if (rb == null) rb = animal.AddComponent<Rigidbody>();
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; // Optional: allow Y rotation
+            rb.useGravity = false;
+            animalRigidbodies[i] = rb;
+
+            // Add redirect component for collisions
+            var redirect = animal.AddComponent<ObjectRedirect>();
             redirect.index = i;
             redirect.controller = this;
 
@@ -38,49 +53,50 @@ public abstract class Animals : MonoBehaviour
         }
     }
 
-    void Update()
+    protected virtual void FixedUpdate()
     {
         for (int i = 0; i < animals.Count; i++)
         {
-            var animal = animals[i];
+            GameObject animal = animals[i];
             if (animal == null) continue;
 
+            Rigidbody rb = animalRigidbodies[i];
             Vector3 target = targetPositions[i];
 
-            // Calculate movement
-            Vector3 nextPos = Vector3.MoveTowards(
-                animal.transform.position,
-                target,
-                moveSpeed * Time.deltaTime
-            );
-
-            // Smooth turning
-            Vector3 dir = (target - animal.transform.position).normalized;
-            if (dir.sqrMagnitude > 0.01f)
+            // Stop movement entirely if velocity is zero (optional)
+            if (rb.linearVelocity.sqrMagnitude < 0.01f)
             {
-                Quaternion targetRot = Quaternion.LookRotation(dir);
-                animal.transform.rotation = Quaternion.Slerp(
-                    animal.transform.rotation,
-                    targetRot,
-                    Time.deltaTime * 2f   // lower = slower turn
-                );
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
             }
 
-            // Move
-            animal.transform.position = nextPos;
+            // Calculate direction
+            Vector3 dir = (target - animal.transform.position);
+            float distance = dir.magnitude;
 
-            // Reached target?
-            if (Vector3.Distance(animal.transform.position, target) < stoppingDistance)
+            if (distance < stoppingDistance)
             {
                 SetNewTarget(i);
                 continue;
             }
 
-            // STUCK DETECTION
+            dir.Normalize();
+
+            // Smooth rotation
+            if (dir.sqrMagnitude > 0.01f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(dir);
+                rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, Time.fixedDeltaTime * 2f));
+            }
+
+            // Move using Rigidbody
+            rb.MovePosition(rb.position + dir * moveSpeed * Time.fixedDeltaTime);
+
+            // Stuck detection
             float moved = (animal.transform.position - lastPositions[i]).sqrMagnitude;
             if (moved < 0.0001f)
             {
-                stuckTimers[i] += Time.deltaTime;
+                stuckTimers[i] += Time.fixedDeltaTime;
                 if (stuckTimers[i] > stuckCheckTime)
                 {
                     SetNewTarget(i);
@@ -96,17 +112,22 @@ public abstract class Animals : MonoBehaviour
         }
     }
 
-    public void SetNewTarget(int index)
+    public virtual void SetNewTarget(int index)
     {
         float randomX = Random.Range(-range, range);
         float randomZ = Random.Range(-range, range);
-
         Vector3 start = startPositions[index];
 
-        targetPositions[index] = new Vector3(
-            start.x + randomX,
-            start.y,
-            start.z + randomZ
-        );
+        targetPositions[index] = new Vector3(start.x + randomX, start.y, start.z + randomZ);
+    }
+
+    /// <summary>
+    /// Stops an animal entirely by zeroing its Rigidbody velocity.
+    /// </summary>
+    public void StopAnimal(int index)
+    {
+        Rigidbody rb = animalRigidbodies[index];
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
     }
 }
