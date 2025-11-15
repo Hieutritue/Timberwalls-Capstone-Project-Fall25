@@ -32,6 +32,7 @@ public class Colonist : MonoBehaviour
     private WorkingColonistState _workingState;
 
     private string _currentState;
+    public string CurrentStateWord => _currentState;
     public Action<string> OnCurrentStateChanged;
     public Action<StatType, float> OnStatChanged;
 
@@ -108,6 +109,12 @@ public class Colonist : MonoBehaviour
     private void StateMachineStateCheck()
     {
         if (CurrentTask == null)
+        {
+            _stateMachine.TransitionTo(_idleState);
+            return;
+        }
+        
+        if (!CanWork && CurrentTask is not APersonalActionTask)
         {
             _stateMachine.TransitionTo(_idleState);
             return;
@@ -262,8 +269,8 @@ public class Colonist : MonoBehaviour
                 if (!_activeAfflictions.ContainsKey(afflictionSo) || !_activeAfflictions[afflictionSo])
                     continue;
                 // Remove affliction if condition no longer met
-                afflictionSo.EndAffliction(this);
                 _activeAfflictions[afflictionSo] = false;
+                afflictionSo.EndAffliction(this);
                 OnActiveAfflictionsChanged?.Invoke();
             }
         }

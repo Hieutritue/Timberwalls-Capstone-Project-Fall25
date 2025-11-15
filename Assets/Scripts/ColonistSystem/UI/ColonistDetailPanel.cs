@@ -45,6 +45,7 @@ namespace DefaultNamespace.ColonistSystem.UI
             colonist.OnActiveAfflictionsChanged += HandleAfflictionChange;
             
             // Current State
+            ChangeStateText(colonist.CurrentStateWord);
             colonist.OnCurrentStateChanged += ChangeStateText;
             
             // Stats
