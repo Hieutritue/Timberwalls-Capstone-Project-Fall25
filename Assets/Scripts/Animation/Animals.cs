@@ -41,9 +41,7 @@ public abstract class Animals : MonoBehaviour
             Rigidbody rb = animal.GetComponent<Rigidbody>();
             if (rb == null) rb = animal.AddComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; // Optional: allow Y rotation
-            rb.useGravity = false;
             animalRigidbodies[i] = rb;
-
             // Add redirect component for collisions
             var redirect = animal.AddComponent<ObjectRedirect>();
             redirect.index = i;
