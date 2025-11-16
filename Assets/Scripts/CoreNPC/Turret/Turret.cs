@@ -8,6 +8,17 @@ using UnityEngine.Pool;
 public class Turret : MonoBehaviour
 {
     public enum LaunchMode { Straight, Arching }
+    public enum RotationAxis
+    {
+        X, // rotate around X (2D “flip up/down” on YZ plane)
+        Y, // rotate around Y (typical ground turret on XZ plane)
+        Z  // rotate around Z (classic 2D XY rotation)
+    }
+
+
+    [Header("Aiming")]
+    [SerializeField] protected RotationAxis rotationAxis = RotationAxis.Y;
+    [SerializeField] protected Vector3 barrelRotationOffsetEuler = Vector3.zero;
 
     [Header("Turret Settings")]
     [SerializeField] protected TurretSO stats;
@@ -20,6 +31,17 @@ public class Turret : MonoBehaviour
     protected IObjectPool<Bullet> bulletPool;
     protected Enemy currentTarget;
     protected float lastFireTime;
+    protected float turningDir;
+
+    [Header("Aiming Dynamics")]
+    [SerializeField] private float aimAcceleration = 4f;     // how fast rotation speeds up
+    [SerializeField] private float aimDeceleration = 4f;     // how fast rotation slows down
+    [SerializeField] private float maxRotationSpeed = 360f;  // degrees per second
+
+    private Vector3 smoothedAimDir;
+    private bool aimInitialized = false;
+    private float currentTurnSpeed = 0f;
+
 
     // ============================================================
     // INITIALIZATION
@@ -29,6 +51,10 @@ public class Turret : MonoBehaviour
         bulletPool = new ObjectPool<Bullet>(
             CreateBullet, OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
             true, 20, 100);
+
+        aimAcceleration = stats.traverseSpeed/2;
+        aimDeceleration = 14;
+        maxRotationSpeed = stats.traverseSpeed;
     }
 
     // ============================================================
@@ -72,14 +98,92 @@ public class Turret : MonoBehaviour
 
         currentTarget = nearest;
     }
-
     protected virtual void RotateTowards(Vector3 targetPos)
     {
-        Vector3 dir = (targetPos - barrel.position).normalized;
-        dir.y = 0;
-        Quaternion look = Quaternion.LookRotation(dir);
-        barrel.rotation = Quaternion.Slerp(barrel.rotation, look, stats.traverseSpeed * Time.deltaTime);
+        if (!barrel) return;
+
+        // -------------------------------
+        // 1. Raw direction to target
+        // -------------------------------
+        Vector3 newDir = (targetPos - barrel.position);
+
+        // Project onto rotation plane
+        switch (rotationAxis)
+        {
+            case RotationAxis.Y: newDir.y = 0; break;
+            case RotationAxis.X: newDir.x = 0; break;
+            case RotationAxis.Z: newDir.z = 0; break;
+        }
+
+        if (newDir.sqrMagnitude < 0.0001f) return;
+        newDir.Normalize();
+
+        // -------------------------------
+        // 2. Initialize on first frame
+        // -------------------------------
+        if (!aimInitialized)
+        {
+            smoothedAimDir = newDir;
+            aimInitialized = true;
+        }
+
+        // -------------------------------
+        // 3. Blend aim direction (prevents snapping)
+        // -------------------------------
+        smoothedAimDir = Vector3.Lerp(
+            smoothedAimDir,
+            newDir,
+            Time.deltaTime * stats.traverseSpeed * 0.75f   // soft blending
+        );
+
+        // -------------------------------
+        // 4. Compute desired rotation
+        // -------------------------------
+        Vector3 up = rotationAxis switch
+        {
+            RotationAxis.Y => Vector3.up,
+            RotationAxis.X => Vector3.right,
+            RotationAxis.Z => Vector3.forward,
+            _ => Vector3.up
+        };
+
+        Quaternion desiredRot = Quaternion.LookRotation(smoothedAimDir, up);
+        Quaternion offsetRot = Quaternion.Euler(barrelRotationOffsetEuler);
+        desiredRot *= offsetRot;
+
+        // -------------------------------
+        // 5. Determine current angle difference
+        // -------------------------------
+        float angleDiff = Quaternion.Angle(barrel.rotation, desiredRot);
+
+        // -------------------------------
+        // 6. Accelerate / decelerate turning speed
+        // -------------------------------
+        if (angleDiff > 0.5f)
+        {
+            // speeding up
+            currentTurnSpeed += aimAcceleration * Time.deltaTime;
+        }
+        else
+        {
+            // slowing down
+            currentTurnSpeed -= aimDeceleration * Time.deltaTime;
+        }
+
+        currentTurnSpeed = Mathf.Clamp(currentTurnSpeed, 0f, maxRotationSpeed);
+
+        // -------------------------------
+        // 7. Rotate at our velocity
+        // -------------------------------
+        float t = (currentTurnSpeed / maxRotationSpeed);
+
+        barrel.rotation = Quaternion.Slerp(
+            barrel.rotation,
+            desiredRot,
+            t * stats.traverseSpeed * Time.deltaTime
+        );
     }
+
 
     // ============================================================
     // FIRING

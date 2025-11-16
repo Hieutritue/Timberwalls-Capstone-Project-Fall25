@@ -11,17 +11,47 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected float lastAttackTime;
     protected State CurrentState;
     protected Vector3 walkDir;
+    protected int health;
     protected enum State { Walk, Attack, Death }
+
+    protected virtual void Awake()
+    {
+        health = stats.health;
+    }
 
     protected virtual void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player");
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-        if (target != null)
+        if (players.Length > 0)
         {
-            targetTransform = target.transform;
-            if (this.transform.position.x - targetTransform.position.x < 0) walkDir = Vector3.right;
-            else walkDir = Vector3.left;
+            GameObject closest = null;
+            float closestDist = float.MaxValue;
+            Vector3 myPos = transform.position;
+
+            foreach (GameObject p in players)
+            {
+                float dist = (p.transform.position - myPos).sqrMagnitude; // fast distance check
+
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closest = p;
+                }
+            }
+
+            target = closest;
+
+            if (target != null)
+            {
+                targetTransform = target.transform;
+
+                // Determine walking direction based on X-axis
+                if (transform.position.x - targetTransform.position.x < 0)
+                    walkDir = Vector3.right;
+                else
+                    walkDir = Vector3.left;
+            }
         }
 
         CurrentState = State.Walk;
@@ -135,5 +165,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public virtual void Damage(int amount, string EnemyName)
     {
         Debug.Log($"Damage amount is {amount} by {EnemyName}");
+        health -= amount;  
+        if (health <= 0) Die();
     }
 }

@@ -51,7 +51,7 @@ Rigidbody:
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8192
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -61,7 +61,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &9115845489860903796
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -95,8 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa357d97cac1db140b6991c620f20dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeoutDelay: 5
   stats: {fileID: 11400000, guid: 8fdd617fcbba1954082c2a02076d2011, type: 2}
+  timeoutDelay: 5
+  useGravity: 0
+  gravityScale: 1
 --- !u!1001 &2877415288426299016
 PrefabInstance:
   m_ObjectHideFlags: 0
