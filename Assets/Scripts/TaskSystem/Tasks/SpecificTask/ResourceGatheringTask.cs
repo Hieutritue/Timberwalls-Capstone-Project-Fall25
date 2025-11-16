@@ -16,7 +16,8 @@ namespace DefaultNamespace.TaskSystem
             {
                 return FormulaCollection.ProgressPerFrameBasedOnSkillLevel(
                     gatheringFurniture.GatheringFurnitureSo.BaseTimeToProduce,
-                    colonist.ColonistSo.Skills[SkillType.Metallurgy]);
+                    colonist.ColonistSo.Skills[SkillType.Metallurgy],
+                    colonist.TaskCompletionSpeedMultiplier);
             }
 
             return 0;

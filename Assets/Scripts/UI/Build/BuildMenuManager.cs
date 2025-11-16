@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DefaultNamespace.UI.Build;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildMenuManager : MonoBehaviour
 {
@@ -11,17 +12,20 @@ public class BuildMenuManager : MonoBehaviour
     [SerializeField] private GameObject menuContent;
     [SerializeField] private GameObject itemWindow;
     [SerializeField] private GameObject subCategoryParent;
+    [SerializeField] private VerticalLayoutGroup subCategoryLayoutGroup;
 
-    private BuildingCategory _currentCategory = BuildingCategory.Living;
-    private Dictionary<BuildingCategory, List<SubCategoryPanel>> _categoryToSubCategories 
+    private Dictionary<BuildingCategory, List<SubCategoryPanel>> _categoryToSubCategories
         = new Dictionary<BuildingCategory, List<SubCategoryPanel>>();
+
+    private CategoryButton _currentCategoryButtonSelected;
 
     private void Start()
     {
         GenerateCategories();
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
         // click first category by default
-        OnClickCategory(_currentCategory);
+        _currentCategoryButtonSelected.Button.onClick.Invoke();
+        _currentCategoryButtonSelected.Button.Select();
     }
 
     private void GenerateCategories()
@@ -32,23 +36,28 @@ public class BuildMenuManager : MonoBehaviour
             LoadSubCategories(category);
             CategoryButton categoryButton = categoryObj.GetComponent<CategoryButton>();
             categoryButton.Initialize(category, this);
+            if (!_currentCategoryButtonSelected)
+                _currentCategoryButtonSelected = categoryButton;
         }
     }
 
-    public void OnClickCategory(BuildingCategory categoryClicked)
+    public void OnClickCategory(CategoryButton categoryClicked)
     {
-        if (_currentCategory == categoryClicked)
-            return;
-        
         // Deactivate previous subcategories
-        SetActiveSubCategories(_currentCategory);
+        SetActiveSubCategories(_currentCategoryButtonSelected.CategoryData);
 
-        _currentCategory = categoryClicked;
+        if (_currentCategoryButtonSelected != categoryClicked)
+            _currentCategoryButtonSelected.SetSelected(false);
+        _currentCategoryButtonSelected = categoryClicked;
+        _currentCategoryButtonSelected.SetSelected(true);
 
         // Activate new subcategories
-        SetActiveSubCategories(categoryClicked);
+        SetActiveSubCategories(_currentCategoryButtonSelected.CategoryData);
+
+        // Force layout rebuild
+        LayoutRebuilder.ForceRebuildLayoutImmediate(subCategoryParent.transform as RectTransform);
     }
-    
+
     private void SetActiveSubCategories(BuildingCategory category)
     {
         foreach (var kvp in _categoryToSubCategories)
@@ -60,7 +69,7 @@ public class BuildMenuManager : MonoBehaviour
             }
         }
     }
-    
+
     private void LoadSubCategories(BuildingCategory buildingCategory)
     {
         // Load new subcategories
@@ -72,6 +81,7 @@ public class BuildMenuManager : MonoBehaviour
             {
                 _categoryToSubCategories[buildingCategory] = new List<SubCategoryPanel>();
             }
+
             _categoryToSubCategories[buildingCategory].Add(subCategoryPanel);
             // Further initialization can be done here
         }

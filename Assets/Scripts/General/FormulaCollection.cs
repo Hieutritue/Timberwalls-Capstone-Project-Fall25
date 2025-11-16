@@ -4,9 +4,9 @@ namespace DefaultNamespace.General
 {
     public static class FormulaCollection
     {
-        public static float ProgressPerFrameBasedOnSkillLevel(float baseTime, int skillLevel)
+        public static float ProgressPerFrameBasedOnSkillLevel(float baseTime, int skillLevel, float taskCompletionMultiplier)
         {
-            return baseTime * (1 - skillLevel * 0.05f);
+            return baseTime * (1 - skillLevel * 0.05f) * (1 / taskCompletionMultiplier);
         }
         
         public static float GetRateOfDecrease(float baseRate, float laborMultiplier, float roomMultiplier, float afflictionMultiplier)
