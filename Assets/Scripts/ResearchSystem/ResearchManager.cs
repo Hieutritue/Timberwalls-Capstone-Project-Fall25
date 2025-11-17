@@ -23,7 +23,11 @@ namespace DefaultNamespace.ResearchSystem
                     return false;
             }
 
-            // resource check here
+            foreach (var costEntry in research.Costs)
+            {
+                if (ResourceManager.Instance.Get(costEntry.Resource.ResourceType) < costEntry.Amount)
+                    return false;
+            }
 
             return true;
         }
@@ -33,11 +37,14 @@ namespace DefaultNamespace.ResearchSystem
             if (!CanUnlock(research))
                 return false;
 
-            // resource deduction here
+            foreach (var costEntry in research.Costs)
+            {
+                ResourceManager.Instance.Set(costEntry.Resource.ResourceType, ResourceManager.Instance.Get(costEntry.Resource.ResourceType - costEntry.Amount));
+            }
 
             UnlockedResearch[research] = true;
 
-            // mark buildings unlockable
+            // mark buildings unlocked
             foreach (var b in research.unlocksBuildings)
                 UnlockedBuildings[b] = true;
 

@@ -13,7 +13,13 @@ public class ResourceManager : MonoSingleton<ResourceManager>
 
     private Dictionary<ResourceType, int> _amounts = new();
 
-    public event Action<ResourceType, int> OnResourceChanged;
+    public event Action<ResourceType, int> OnResourceChanged; 
+    public static event Action OnInitialized;
+
+    private void Awake()
+    {
+        OnInitialized?.Invoke(); // tell everyone “I’m alive now, b-baka!”
+    }
 
     private void Start()
     {

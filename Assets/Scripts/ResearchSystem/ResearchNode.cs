@@ -1,3 +1,4 @@
+using BuildingSystem;
 using DefaultNamespace.ResearchSystem;
 using System.Collections.Generic;
 using TMPro;
@@ -11,10 +12,13 @@ public class ResearchNode : MonoBehaviour
     [SerializeField] private TextMeshProUGUI researchName;
     [SerializeField] private Transform unlocksContainer;
     [SerializeField] private UnlockItemUI unlockItemPrefab;
+    [SerializeField] private Transform costContainer;
+    [SerializeField] private CostEntryUI costEntryPrefab;
     [SerializeField] private Image lockOverlay;
     [SerializeField] private Image unlockedGlow;
 
     private readonly List<UnlockItemUI> unlockEntries = new();
+    private readonly List<CostEntryUI> costEntries = new();
 
     public System.Action<ResearchSO> OnResearchUnlocked;
 
@@ -30,6 +34,7 @@ public class ResearchNode : MonoBehaviour
         researchName.text = research.researchName;
 
         BuildUnlockList();
+        BuildCostList();
         RefreshVisuals();
     }
 
@@ -48,6 +53,44 @@ public class ResearchNode : MonoBehaviour
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)unlocksContainer);
+    }
+
+    void BuildCostList()
+    {
+        if (costContainer == null)
+        {
+            Debug.LogWarning($"{name}: costContainer is not assigned.");
+            return;
+        }
+
+        if (costEntryPrefab == null)
+        {
+            Debug.LogWarning($"{name}: costEntryPrefab is not assigned.");
+            return;
+        }
+
+        foreach (var entry in costEntries)
+        {
+            if (entry != null && entry.gameObject != null)
+                Destroy(entry.gameObject);
+        }
+
+        costEntries.Clear();
+
+        if (research == null || research.Costs == null || research.Costs.Count == 0)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)costContainer);
+            return;
+        }
+
+        foreach (var cost in research.Costs)
+        {
+            var entry = Instantiate(costEntryPrefab, costContainer);
+            entry.Setup(cost);
+            costEntries.Add(entry);
+        }
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)costContainer);
     }
 
     void TryUnlock()

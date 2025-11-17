@@ -1,6 +1,8 @@
 using DefaultNamespace;
+using DefaultNamespace.ResearchSystem;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Drawing.Text;
 using TMPro;
 using UnityEngine;
@@ -10,6 +12,7 @@ public class ResearchTooltipManager : MonoSingleton<ResearchTooltipManager>
 {
     private static ResearchTooltipManager instance;
 
+    [SerializeField] private Camera camera;
     [SerializeField] private ResearchTooltip researchTooltip;
 
     private void Awake()
@@ -19,11 +22,16 @@ public class ResearchTooltipManager : MonoSingleton<ResearchTooltipManager>
 
     private void Update()
     {
+        RectTransform parentRect = transform.parent as RectTransform;
+        if (parentRect == null)
+            return;
+
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            transform.parent.GetComponent<RectTransform>(),
+            parentRect,
             Input.mousePosition,
             null,
-            out Vector2 localPoint);
+            out var localPoint
+        );
 
         transform.localPosition = localPoint;
     }
@@ -45,12 +53,13 @@ public class ResearchTooltipManager : MonoSingleton<ResearchTooltipManager>
 
     private void InternalShowResearchTooltip(ResearchSO research)
     {
+        //string unlockStatus = ResearchManager.Instance.IsUnlocked(research) ? "Unlocked" : "Locked";
         string unlocks = "";
         foreach (var building in research.unlocksBuildings)
         {
             unlocks += $"{building.Name}, ";
         }
-
+        
         if (unlocks.Length > 2)
         {
             unlocks = unlocks.Substring(0, unlocks.Length - 2);
@@ -75,7 +84,7 @@ public class ResearchTooltipManager : MonoSingleton<ResearchTooltipManager>
         string body1 = $"- Description: {construct.Description}";
         string body2 = $"- Construction costs: {constructionCosts}";
 
-        researchTooltip.ShowTooltip(header, body1, body2);
+        researchTooltip.ShowTooltip(header, "Description: Produces 10 raw copper perminute. must be built on the ground.", "");
     }
 
     public static void Hide()
