@@ -94,12 +94,16 @@ public class Colonist : MonoBehaviour
         _timerToTickAfflictions += Time.deltaTime;
         if (_timerToTickAfflictions >= 1f)
         {
-            foreach (var afflictionPair in _activeAfflictions)
+            // Snapshot the currently active afflictions to avoid modifying the collection
+            // while iterating (TickAffliction may add/remove entries).
+            var activeAfflictionsSnapshot = _activeAfflictions
+                .Where(kv => kv.Value)
+                .Select(kv => kv.Key)
+                .ToList();
+
+            foreach (var affliction in activeAfflictionsSnapshot)
             {
-                if (afflictionPair.Value)
-                {
-                    afflictionPair.Key.TickAffliction(this);
-                }
+                affliction.TickAffliction(this);
             }
 
             _timerToTickAfflictions = 0f;
