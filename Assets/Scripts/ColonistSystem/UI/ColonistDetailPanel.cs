@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using TMPro;
@@ -23,11 +24,14 @@ namespace DefaultNamespace.ColonistSystem.UI
 
         private void RenderColonist(Colonist colonist)
         {
-            LayerUtils.SetLayerRecursively(colonist.MouseEventController.gameObject, LayerMask.NameToLayer("Selected Colonist"));
+            LayerUtils.SetLayerRecursively(colonist.MouseEventController.gameObject,
+                LayerMask.NameToLayer("Selected Colonist"));
 
             _colonist = colonist;
             _colonistPortrait.sprite = colonist.ColonistSo.Portrait;
             _colonistNameText.text = colonist.ColonistSo.NPCName;
+            
+            // Skills
             _skillPairs.ForEach((sp, index) =>
             {
                 sp.SkillNameText.text = ((SkillType)index).ToString();
@@ -35,8 +39,16 @@ namespace DefaultNamespace.ColonistSystem.UI
                     ? colonist.ColonistSo.Skills[(SkillType)index].ToString()
                     : "0";
             });
-            // TODO: Afflictions
+            
+            // Afflictions
+            HandleAfflictionChange();
+            colonist.OnActiveAfflictionsChanged += HandleAfflictionChange;
+            
+            // Current State
+            ChangeStateText(colonist.CurrentStateWord);
             colonist.OnCurrentStateChanged += ChangeStateText;
+            
+            // Stats
             _statPairs.ForEach((statPair, index) =>
             {
                 var statType = (StatType)index;
@@ -51,7 +63,9 @@ namespace DefaultNamespace.ColonistSystem.UI
         {
             if (_colonist == null) return;
 
-            LayerUtils.SetLayerRecursively(_colonist.MouseEventController.gameObject, LayerMask.NameToLayer("Colonist"));
+            LayerUtils.SetLayerRecursively(_colonist.MouseEventController.gameObject,
+                LayerMask.NameToLayer("Colonist"));
+            _colonist.OnActiveAfflictionsChanged -= HandleAfflictionChange;
             _colonist.OnCurrentStateChanged -= ChangeStateText;
             _colonist.OnStatChanged -= HandleStatChange;
         }
@@ -60,7 +74,7 @@ namespace DefaultNamespace.ColonistSystem.UI
         {
             _currentStateText.text = state;
         }
-        
+
         private void HandleStatChange(StatType statType, float newValue)
         {
             var statPair = _statPairs[(int)statType];
@@ -68,6 +82,16 @@ namespace DefaultNamespace.ColonistSystem.UI
             {
                 statPair.StatSlider.value = newValue;
             }
+        }
+
+        private void HandleAfflictionChange()
+        {
+            if (!_colonist) return;
+
+            _afflictionsText.text = string
+                .Join(", ", _colonist.ActiveAfflictions
+                    .Where(a => a.Value)
+                    .Select(ak => ak.Key.AfflictionName));
         }
 
         [Button]
@@ -86,7 +110,7 @@ namespace DefaultNamespace.ColonistSystem.UI
             _colonist = null;
 
             gameObject.SetActive(false);
-            
+
             _colonistNameText.text = "";
             _currentStateText.text = "";
             _afflictionsText.text = "";

@@ -56,6 +56,9 @@ namespace DefaultNamespace.TaskSystem
             var availableTasks = Tasks
                 .Where(task =>
                 {
+                    // If colonist can't work, they can only do personal tasks
+                    if (!colonist.CanWork && task is not APersonalActionTask)
+                        return false;
                     // Task must be of the type allowed by the colonist's current schedule
                     if (!currentSchedule.Value.GetAssociatedTaskTypes().Contains(task.TaskType))
                         return false;
