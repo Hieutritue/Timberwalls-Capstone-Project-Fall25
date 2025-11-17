@@ -40,7 +40,7 @@ public class CameraController : MonoSingleton<CameraController>
 
     void Update()
     {
-        var userMoved = HandlePan();
+        var userMoved = HandlePan(); 
         HandleZoom();
         
         if (userMoved && _isFollowing)
@@ -69,14 +69,16 @@ public class CameraController : MonoSingleton<CameraController>
         // Mouse drag pan (middle mouse)
         if (Input.GetKey(panKey))
         {
-            panInput.x -= Input.GetAxis("Mouse X") * panSpeed * 0.01f;
-            panInput.y -= Input.GetAxis("Mouse Y") * panSpeed * 0.01f;
+            // use raw mouse axes and apply panSpeed and unscaledDeltaTime when applying movement below
+            panInput.x -= Input.GetAxis("Mouse X");
+            panInput.y -= Input.GetAxis("Mouse Y");
             userMoved = true;
         }
 
         // Adjust pan speed based on zoom level (closer = slower pan)
         float zoomFactor = Mathf.Lerp(0.5f, 1.5f, (targetZoom - minZoom) / (maxZoom - minZoom));
-        targetPosition += panInput * zoomFactor;
+        // Apply pan movement using unscaled delta time so camera still moves when timeScale == 0
+        targetPosition += panInput * panSpeed * zoomFactor * Time.unscaledDeltaTime;
         return userMoved;
     }
 
@@ -85,18 +87,19 @@ public class CameraController : MonoSingleton<CameraController>
         float scroll = Input.mouseScrollDelta.y;
         if (scroll != 0f)
         {
-            float newZoom = targetZoom + scroll * zoomSpeed;
+            // Use unscaledDeltaTime so zoom still works when timeScale == 0
+            float newZoom = targetZoom + scroll * zoomSpeed * Time.unscaledDeltaTime;
             targetZoom = Mathf.Clamp(newZoom, minZoom, maxZoom);
         }
     }
 
     void ApplySmoothing()
     {
-        // Smooth position (XY plane for panning)
-        Vector3 newPos = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        // Smooth position (XY plane for panning) using unscaledDeltaTime
+        Vector3 newPos = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime, Mathf.Infinity, Time.unscaledDeltaTime);
 
-        // Smooth zoom (z-position)
-        float newZ = Mathf.SmoothDamp(transform.position.z, targetZoom, ref currentZoomVelocity, smoothTime);
+        // Smooth zoom (z-position) using unscaledDeltaTime
+        float newZ = Mathf.SmoothDamp(transform.position.z, targetZoom, ref currentZoomVelocity, smoothTime, Mathf.Infinity, Time.unscaledDeltaTime);
         newPos.z = newZ;
 
         transform.position = newPos;

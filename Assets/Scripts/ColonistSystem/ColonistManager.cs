@@ -21,12 +21,12 @@ namespace DefaultNamespace.ColonistSystem
 
             OnColonistAdded += ScheduleMenu.Instance.AddScheduleOfColonist;
             OnColonistRemoved += ScheduleMenu.Instance.RemoveScheduleOfColonist;
-            
+
             OnColonistAdded += colonist =>
             {
                 UIManager.Instance.UpdatePopulationText(Colonists.Count, _maxColonistCount);
             };
-            
+
             TaskPriorityMatrix.Instance.Setup();
             ScheduleMenu.Instance.Setup();
             UIManager.Instance.UpdatePopulationText(Colonists.Count, _maxColonistCount);
@@ -35,11 +35,6 @@ namespace DefaultNamespace.ColonistSystem
 
         public void AddColonist(Colonist colonist)
         {
-            if (Colonists.Count >= _maxColonistCount)
-            {
-                Debug.LogWarning("Cannot add more colonists. Maximum capacity reached.");
-                return;
-            }
             if (!Colonists.Contains(colonist))
             {
                 Colonists.Add(colonist);
@@ -59,6 +54,20 @@ namespace DefaultNamespace.ColonistSystem
         public int GetColonistCount()
         {
             return Colonists.Count;
+        }
+
+        public Colonist SpawnColonist(ColonistSO colonistSo, Vector3 spawnPosition)
+        {
+            if (Colonists.Count >= _maxColonistCount)
+            {
+                Debug.LogWarning("Cannot add more colonists. Maximum capacity reached.");
+                return null;
+            }
+
+            var colonist = Instantiate(colonistSo.ColonistModelPrefab, spawnPosition, Quaternion.identity);
+            colonist.ColonistSo = colonistSo;
+            AddColonist(colonist);
+            return colonist;
         }
     }
 }

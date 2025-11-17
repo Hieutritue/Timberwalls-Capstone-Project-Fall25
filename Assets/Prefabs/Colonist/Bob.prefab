@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 965311447297151388}
   - component: {fileID: 7801624217730625414}
   m_Layer: 3
-  m_Name: Colonist (1)
+  m_Name: Bob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4994879733747434830}
+  - {fileID: 7036192927094064299}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4527147882455694238
@@ -54,7 +54,7 @@ MonoBehaviour:
   AiDestinationSetter: {fileID: 2326855912009844428}
   WanderingDestinationSetter: {fileID: 7801624217730625414}
   FollowerEntity: {fileID: 965311447297151388}
-  MouseEventController: {fileID: 5919433346880220292}
+  MouseEventController: {fileID: 6783433961031449701}
   TaskCompletionSpeedMultiplier: 1
   _allAfflictions:
   - {fileID: 11400000, guid: 6c953010d35ea0743a77e293d529c178, type: 2}
@@ -238,18 +238,99 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Radius: 5
   Delay: 4
+--- !u!1 &8037844570652997318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7036192927094064299}
+  - component: {fileID: 81534585132065819}
+  - component: {fileID: 6783433961031449701}
+  m_Layer: 3
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7036192927094064299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8037844570652997318}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4994879733747434830}
+  m_Father: {fileID: 2926617773393894582}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &81534585132065819
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8037844570652997318}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.7216527
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6496967, z: 0}
+--- !u!114 &6783433961031449701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8037844570652997318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4e708909304501a650e06191dcb6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3184972835167118100
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 2926617773393894582}
+    m_TransformParent: {fileID: 7036192927094064299}
     m_Modifications:
     - target: {fileID: 7566569440625662602, guid: 43e376138aa84ff498815d3fd57a1b33,
         type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7593679528629701042, guid: 43e376138aa84ff498815d3fd57a1b33,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 02ca63a26aa15b043915fad16a16307f, type: 2}
+    - target: {fileID: 7593679528629701042, guid: 43e376138aa84ff498815d3fd57a1b33,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'Shoulder_L'\n\tFrom animation clip 'Colonist_Walk'"
       objectReference: {fileID: 0}
     - target: {fileID: 7593679528639101440, guid: 43e376138aa84ff498815d3fd57a1b33,
         type: 3}
@@ -1069,17 +1150,17 @@ PrefabInstance:
     - target: {fileID: 7593679528639587930, guid: 43e376138aa84ff498815d3fd57a1b33,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7593679528639587930, guid: 43e376138aa84ff498815d3fd57a1b33,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7593679528639587930, guid: 43e376138aa84ff498815d3fd57a1b33,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7593679528639587930, guid: 43e376138aa84ff498815d3fd57a1b33,
         type: 3}
@@ -1099,15 +1180,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7593679528639101562, guid: 43e376138aa84ff498815d3fd57a1b33,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5207380124614526563}
-    - targetCorrespondingSourceObject: {fileID: 7593679528639101562, guid: 43e376138aa84ff498815d3fd57a1b33,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5919433346880220292}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43e376138aa84ff498815d3fd57a1b33, type: 3}
 --- !u!4 &4994879733747434830 stripped
 Transform:
@@ -1115,44 +1188,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3184972835167118100}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4994879733747931502 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7593679528639101562, guid: 43e376138aa84ff498815d3fd57a1b33,
-    type: 3}
-  m_PrefabInstance: {fileID: 3184972835167118100}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &5207380124614526563
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4994879733747931502}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2.1525488
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.5762744, z: 0}
---- !u!114 &5919433346880220292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4994879733747931502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc4e708909304501a650e06191dcb6f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
