@@ -6,6 +6,7 @@ namespace DefaultNamespace.General
     public class DataTable : MonoSingleton<DataTable>
     {
         public GeneralNumberSO GeneralNumberSo;
-        [FormerlySerializedAs("PersonalActionCollectionSo")] public ColonistActionCollectionSo ColonistActionCollectionSo;
+        public ColonistActionCollectionSo ColonistActionCollectionSo;
+        public BuildingsCollectionSo BuildingsCollectionSo;
     }
 }

@@ -14,8 +14,8 @@ namespace DefaultNamespace.PlacementStates
 
         public override void Enter()
         {
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick += _behaviour.TransitionToIdleState;
-            BuildingSystemManager.Instance.InputManager.OnMouseLeftClick += CancelTaskPointingAt;
+            InputManager.Instance.OnMouseRightClick += _behaviour.TransitionToIdleState;
+            InputManager.Instance.OnMouseLeftClick += CancelTaskPointingAt;
         }
 
         public override void Tick()
@@ -51,8 +51,8 @@ namespace DefaultNamespace.PlacementStates
 
         public override void Exit()
         {
-            BuildingSystemManager.Instance.InputManager.OnMouseLeftClick -= CancelTaskPointingAt;
-            BuildingSystemManager.Instance.InputManager.OnMouseRightClick -= _behaviour.TransitionToIdleState;
+            InputManager.Instance.OnMouseLeftClick -= CancelTaskPointingAt;
+            InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
         }
     }
 }

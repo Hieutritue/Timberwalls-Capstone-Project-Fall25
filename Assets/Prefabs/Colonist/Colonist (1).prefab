@@ -49,9 +49,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ColonistSo: {fileID: 11400000, guid: 2f332cff33ad1354a9dc5a86db462698, type: 2}
+  _currentStateWordSo: {fileID: 11400000, guid: 6f211552197b64a4a907c8757b1bc413,
+    type: 2}
   AiDestinationSetter: {fileID: 2326855912009844428}
   WanderingDestinationSetter: {fileID: 7801624217730625414}
   FollowerEntity: {fileID: 965311447297151388}
+  MouseEventController: {fileID: 5919433346880220292}
+  TaskCompletionSpeedMultiplier: 1
+  _allAfflictions:
+  - {fileID: 11400000, guid: 6c953010d35ea0743a77e293d529c178, type: 2}
+  - {fileID: 11400000, guid: b3024f8081eed934080214004bd1af3e, type: 2}
+  - {fileID: 11400000, guid: 0d6964f0d0520514ca1bb4abb7cbdd61, type: 2}
+  - {fileID: 11400000, guid: cb85dabeb8776954c9c641aecfa359c8, type: 2}
+  - {fileID: 11400000, guid: d7a52bfaedc004a4f8c79d38c494e869, type: 2}
+  - {fileID: 11400000, guid: d4e37f6b7cbfdee489ef3c240eb25c81, type: 2}
+  - {fileID: 11400000, guid: f1e131625680cea4a9cbb5131672a261, type: 2}
+  - {fileID: 11400000, guid: 186d35a599dd9b648a6b1a6a749ad897, type: 2}
+  - {fileID: 11400000, guid: 197fd2bfac24b794ba6a875331894bed, type: 2}
+  - {fileID: 11400000, guid: a1c7b5d3f8ec5dc4eacaf820f2e39325, type: 2}
 --- !u!114 &2326855912009844428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,7 +1099,15 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7593679528639101562, guid: 43e376138aa84ff498815d3fd57a1b33,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5207380124614526563}
+    - targetCorrespondingSourceObject: {fileID: 7593679528639101562, guid: 43e376138aa84ff498815d3fd57a1b33,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5919433346880220292}
   m_SourcePrefab: {fileID: 100100000, guid: 43e376138aa84ff498815d3fd57a1b33, type: 3}
 --- !u!4 &4994879733747434830 stripped
 Transform:
@@ -1092,3 +1115,44 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3184972835167118100}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4994879733747931502 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7593679528639101562, guid: 43e376138aa84ff498815d3fd57a1b33,
+    type: 3}
+  m_PrefabInstance: {fileID: 3184972835167118100}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &5207380124614526563
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4994879733747931502}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.1525488
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5762744, z: 0}
+--- !u!114 &5919433346880220292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4994879733747931502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4e708909304501a650e06191dcb6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

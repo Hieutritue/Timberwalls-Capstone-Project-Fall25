@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using DefaultNamespace.ColonistSystem;
+using DefaultNamespace.ColonistSystem.AfflictionSystem;
 using DefaultNamespace.ColonistSystem.States;
+using DefaultNamespace.ColonistSystem.UI;
 using DefaultNamespace.General;
 using DefaultNamespace.TaskSystem;
 using Pathfinding;
@@ -13,6 +17,7 @@ using StateMachine = _Scripts.StateMachine.StateMachine;
 public class Colonist : MonoBehaviour
 {
     public ColonistSO ColonistSo;
+    [SerializeField] private CurrentStateWordSO _currentStateWordSo;
     [ShowInInspector] public Dictionary<StatType, float> StatDict = new();
 
     [Header("PathFinding")] public AIDestinationSetter AiDestinationSetter;
@@ -21,21 +26,46 @@ public class Colonist : MonoBehaviour
 
     public ITask CurrentTask { get; set; }
 
-    public StateMachine StateMachine = new StateMachine();
-    public FindingFacilityColonistState FindingFacilityState;
-    public RunningToFacilityColonistState RunningToFacilityState;
-    public FulfillingNeedColonistState FulfillingNeedState;
-    public IdleColonistState IdleState;
-    public RunningToWorkColonistState RunningToWorkState;
-    public WorkingColonistState WorkingState;
+    private StateMachine _stateMachine = new StateMachine();
+    private IdleColonistState _idleState;
+    private RunningToWorkColonistState _runningToWorkState;
+    private WorkingColonistState _workingState;
+
+    private string _currentState;
+    public string CurrentStateWord => _currentState;
+    public Action<string> OnCurrentStateChanged;
+    public Action<StatType, float> OnStatChanged;
+
+    public ColonistMouseEventController MouseEventController;
+    [ReadOnly] public float TaskCompletionSpeedMultiplier = 1f;
+    public Dictionary<StatType, float> AfflictionStatRodModifiers = new();
+    [SerializeField] private List<AfflictionSO> _allAfflictions;
+    private Dictionary<AfflictionSO,bool> _activeAfflictions = new();
+    public Dictionary<AfflictionSO,bool> ActiveAfflictions => _activeAfflictions;
+    public Action OnActiveAfflictionsChanged;
+    public bool CanWork { get; set; } = true;
+    
+
+    public string CurrentState
+    {
+        get => _currentState;
+        set
+        {
+            _currentState = value;
+            OnCurrentStateChanged?.Invoke(_currentState);
+        }
+    }
 
     private void Start()
     {
         InitData();
         InitStateMachine();
+        RegisterAfflictionChanges();
+        MouseEventController.Setup(this);
     }
 
     private float _timerToCheckState = 0f;
+    private float _timerToTickAfflictions = 0f;
     private float _timerToDecreaseStats = 0f;
     private bool _autoDecreaseStatsEnabled = true;
 
@@ -47,8 +77,9 @@ public class Colonist : MonoBehaviour
 
     private void Update()
     {
-        StateMachine.Update();
+        _stateMachine.Update();
         AutoDecreaseStats();
+        CheckTickAfflictions();
 
         _timerToCheckState += Time.deltaTime;
         if (_timerToCheckState >= 0.2f)
@@ -58,11 +89,34 @@ public class Colonist : MonoBehaviour
         }
     }
 
+    private void CheckTickAfflictions()
+    {
+        _timerToTickAfflictions += Time.deltaTime;
+        if (_timerToTickAfflictions >= 1f)
+        {
+            foreach (var afflictionPair in _activeAfflictions)
+            {
+                if (afflictionPair.Value)
+                {
+                    afflictionPair.Key.TickAffliction(this);
+                }
+            }
+
+            _timerToTickAfflictions = 0f;
+        }
+    }
+
     private void StateMachineStateCheck()
     {
         if (CurrentTask == null)
         {
-            StateMachine.TransitionTo(IdleState);
+            _stateMachine.TransitionTo(_idleState);
+            return;
+        }
+        
+        if (!CanWork && CurrentTask is not APersonalActionTask)
+        {
+            _stateMachine.TransitionTo(_idleState);
             return;
         }
 
@@ -76,11 +130,11 @@ public class Colonist : MonoBehaviour
 
         if (distanceToTarget > allowedRange)
         {
-            StateMachine.TransitionTo(RunningToWorkState);
+            _stateMachine.TransitionTo(_runningToWorkState);
             return;
         }
 
-        StateMachine.TransitionTo(WorkingState);
+        _stateMachine.TransitionTo(_workingState);
     }
 
     public void AutoDecreaseStats()
@@ -107,7 +161,7 @@ public class Colonist : MonoBehaviour
                     stat.BaseRateOfDecrease,
                     laborMultiplier,
                     1f,
-                    1f);
+                    AfflictionStatRodModifiers[stat.StatType]);
 
                 SetStat(stat.StatType, StatDict[stat.StatType] - decreaseRate);
             }
@@ -122,6 +176,7 @@ public class Colonist : MonoBehaviour
         if (StatDict.ContainsKey(statType))
         {
             StatDict[statType] = Mathf.Clamp(value, 0, ColonistSo.Stats.Find(s => s.StatType == statType).MaxValue);
+            OnStatChanged?.Invoke(statType, StatDict[statType]);
         }
     }
 
@@ -135,18 +190,35 @@ public class Colonist : MonoBehaviour
     private void InitData()
     {
         foreach (var stat in ColonistSo.Stats)
+        {
             StatDict[stat.StatType] = stat.MaxValue;
+            AfflictionStatRodModifiers[stat.StatType] = 1f;
+        }
     }
 
     private void InitStateMachine()
     {
-        FindingFacilityState = new FindingFacilityColonistState(this);
-        RunningToFacilityState = new RunningToFacilityColonistState(this);
-        FulfillingNeedState = new FulfillingNeedColonistState(this);
-        IdleState = new IdleColonistState(this);
-        RunningToWorkState = new RunningToWorkColonistState(this);
-        WorkingState = new WorkingColonistState(this);
-        StateMachine.Initialize(IdleState);
+        _idleState = new IdleColonistState(this);
+        _runningToWorkState = new RunningToWorkColonistState(this);
+        _workingState = new WorkingColonistState(this);
+
+        _stateMachine.OnStateChanged += (state) =>
+        {
+            CurrentState = state switch
+            {
+                FindingFacilityColonistState => "FindingFacilityState",
+                RunningToFacilityColonistState => "RunningToFacilityState",
+                FulfillingNeedColonistState => "FulfillingNeedState",
+                IdleColonistState => _currentStateWordSo.IdleWord,
+                RunningToWorkColonistState =>
+                    $"{_currentStateWordSo.RunningToWord} {CurrentTask.Building.PlaceableSo.Name}",
+                WorkingColonistState =>
+                    $"{CurrentTask.TaskType.ToString()} {_currentStateWordSo.AtWord} {CurrentTask.Building.PlaceableSo.Name}",
+                _ => "UnknownState"
+            };
+        };
+
+        _stateMachine.Initialize(_idleState);
     }
 
     private void OnDestroy()
@@ -170,6 +242,41 @@ public class Colonist : MonoBehaviour
     [Button]
     public void LogStateInfo()
     {
-        Debug.Log($"Current State: {StateMachine.CurrentState.GetType().Name}");
+        Debug.Log($"Current State: {_stateMachine.CurrentState.GetType().Name}");
+    }
+
+    public void TransitionToIdleState()
+    {
+        _stateMachine.TransitionTo(_idleState);
+    }
+
+    private void CheckAffliction(StatType statType, float statValue)
+    {
+        foreach (var afflictionSo in _allAfflictions)
+        {
+            if (afflictionSo.StatTypeCondition != statType) continue;
+            if (statValue >= afflictionSo.MinCondition && statValue < afflictionSo.MaxCondition)
+            {
+                if (_activeAfflictions.ContainsKey(afflictionSo) && _activeAfflictions[afflictionSo])
+                    continue;
+                // Apply affliction if not already applied
+                afflictionSo.StartAffliction(this);
+                _activeAfflictions[afflictionSo] = true;
+                OnActiveAfflictionsChanged?.Invoke();
+            }
+            else
+            {
+                if (!_activeAfflictions.ContainsKey(afflictionSo) || !_activeAfflictions[afflictionSo])
+                    continue;
+                // Remove affliction if condition no longer met
+                _activeAfflictions[afflictionSo] = false;
+                afflictionSo.EndAffliction(this);
+                OnActiveAfflictionsChanged?.Invoke();
+            }
+        }
+    }
+    private void RegisterAfflictionChanges()
+    {
+        OnStatChanged += CheckAffliction;
     }
 }

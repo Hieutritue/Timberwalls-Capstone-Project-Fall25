@@ -11,6 +11,8 @@ public class ItemWindowManager : MonoBehaviour
     [SerializeField] private GameObject subcategoryLayer;
     [SerializeField] private GameObject subcategoryPrefab;
     [SerializeField] private TextMeshProUGUI categoryName;
+    [SerializeField] private GameObject subcategoryItemPrefab;
+    //[SerializeField] private GameObject rectTransformGameObject;
     public static ItemWindowManager Instance;
     private readonly float _originalItemWindowHeight = 200f;
 
@@ -55,7 +57,9 @@ public class ItemWindowManager : MonoBehaviour
                 //Generate items
                 foreach (var item in subCategory.items)
                 {
-                    var newItem = Instantiate(item.Prefab, subcategoryItemContainer.transform);
+                    var itemGenerate = subcategoryItemPrefab;
+                    itemGenerate.name = item.Name;;
+                    var newItem = Instantiate(itemGenerate, subcategoryItemContainer.transform);
                     if (item.Icon != null)
                         newItem.GetComponent<Image>().sprite = item.Icon;
                 }
