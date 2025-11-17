@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace DefaultNamespace.UI.Build
@@ -8,6 +9,7 @@ namespace DefaultNamespace.UI.Build
         public PlaceableSO PlaceableData;
         [SerializeField] private Image _iconImage;
         [SerializeField] private Button _button;
+        [SerializeField] private TMP_Text _nameText;
         public void Init(PlaceableSO placeable)
         {
             PlaceableData = placeable;
@@ -16,6 +18,7 @@ namespace DefaultNamespace.UI.Build
             {
                 BuildingSystemManager.Instance.PlacementSystem.EnterPlacementMode(placeable);
             });
+            _nameText.text = placeable.Name;
         }
     }
 }
