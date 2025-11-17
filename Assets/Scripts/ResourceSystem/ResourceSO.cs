@@ -30,6 +30,10 @@ namespace ResourceSystem
         SuperCoolant,
         RawFood,
         CookedFood,
-        Pills
+        Pills,
+        ResearchPointI,
+        ResearchPointII,
+        ResearchPointIII,
+        ContactPoint
     }
 }
