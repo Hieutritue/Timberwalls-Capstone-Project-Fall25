@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/ResearchTree", fileName = "ResearchTree")]
+[CreateAssetMenu(menuName = "ScriptableObjects/Research/ResearchTree", fileName = "ResearchTreeSO")]
 public class ResearchTreeSO : ScriptableObject
 {
     public ResearchCategory category;
