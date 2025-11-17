@@ -359,7 +359,11 @@ public class Turret : MonoBehaviour
     protected virtual Bullet CreateBullet() => Instantiate(bulletPrefab);
     protected virtual void OnGetFromPool(Bullet b) => b.gameObject.SetActive(true);
     protected virtual void OnReleaseToPool(Bullet b) => b.gameObject.SetActive(false);
-    protected virtual void OnDestroyPooledObject(Bullet b) => Destroy(b.gameObject);
+    protected virtual void OnDestroyPooledObject(Bullet b)
+    {
+        if (b == null) return;
+        Destroy(b.gameObject);
+    }
 
 }
 

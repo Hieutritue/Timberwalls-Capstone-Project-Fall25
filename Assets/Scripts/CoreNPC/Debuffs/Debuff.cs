@@ -1,41 +1,50 @@
 using UnityEngine;
 
-public abstract class Debuff
+public abstract class Debuff : ScriptableObject
 {
-    public float Duration { get; private set; }
-    public float TimeRemaining { get; private set; }
+    [Header("Debuff Settings")]
+    public float duration = 2f;
 
-    protected IDebuffable target;
-
-    protected Debuff(float duration)
-    {
-        Duration = duration;
-        TimeRemaining = duration;
-    }
+    [System.NonSerialized] protected IDebuffable target;
+    [System.NonSerialized] protected float timeRemaining;
 
     public void Initialize(IDebuffable targetEntity)
     {
         target = targetEntity;
+        timeRemaining = duration;
         OnApply();
     }
 
-    public bool Update(float deltaTime)
+    public void Refresh()
     {
-        TimeRemaining -= deltaTime;
+        timeRemaining = duration;
+    }
+
+    public bool Tick(float deltaTime)
+    {
+        timeRemaining -= deltaTime;
         OnUpdate(deltaTime);
 
-        if (TimeRemaining <= 0f)
+        if (timeRemaining <= 0f)
         {
             OnExpire();
-            return true; // signal expired
+            return true;
         }
-
         return false;
     }
 
+    // Default stat modifiers (override in child debuffs)
+    public virtual float ModifyMovement(float baseValue) => baseValue;
+    public virtual float ModifyAttackCooldown(float baseValue) => baseValue;
+    public virtual float ModifyDamageTaken(float baseValue) => baseValue;
+
     protected virtual void OnApply() { }
     protected virtual void OnUpdate(float dt) { }
-    protected virtual void OnExpire() { }
+    public virtual void OnExpire() { }
 
-     public abstract Debuff Clone();
+    // Default clone: duplicate this asset as a runtime instance
+    public virtual Debuff Clone()
+    {
+        return Instantiate(this);
+    }
 }

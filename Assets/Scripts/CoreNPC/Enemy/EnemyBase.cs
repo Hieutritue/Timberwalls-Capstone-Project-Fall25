@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyBase : MonoBehaviour, IDamageable
+public class EnemyBase : MonoBehaviour, IDamageable, IDebuffable
 {
     protected GameObject target;
 
@@ -14,10 +14,12 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected int health;
     protected enum State { Walk, Attack, Death }
 
+    private DebuffManager debuffs = new DebuffManager();
+
     protected virtual void Awake()
     {
-        health = stats.health;
-        
+        ResetEnemy();
+
     }
 
     protected virtual void Start()
@@ -62,6 +64,8 @@ public class EnemyBase : MonoBehaviour, IDamageable
     {
         if (CurrentState == State.Death) return;
 
+        debuffs.Update(Time.deltaTime);
+
         UpdateState();
         ExecuteState();
     }
@@ -100,7 +104,19 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected virtual void WalkLeft()
     {
-        transform.position += walkDir * stats.movementSpeed * Time.deltaTime;
+        if (targetTransform == null) return;
+
+        bool targetRight = targetTransform.position.x > transform.position.x;
+        walkDir = targetRight ? Vector3.right : Vector3.left;
+
+        // Optional: flip enemy visually
+        transform.localScale = new Vector3(
+            targetRight ? 1 : -1,
+            transform.localScale.y,
+            transform.localScale.z);
+
+        float speed = debuffs.ModifyMovement(stats.movementSpeed);
+        transform.position += walkDir * speed * Time.deltaTime;
     }
 
     protected virtual void AttackTarget()
@@ -130,9 +146,25 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     public virtual void ResetEnemy()
     {
-        // Reset health and any other state
+        // Reset health
+        health = stats.health;
 
-        // Reset animations, velocities, etc.
+        // Reset debuffs (optional but recommended)
+        debuffs = new DebuffManager();
+
+        // Recalculate walking direction (IMPORTANT FIX)
+        if (targetTransform != null)
+        {
+            walkDir = (targetTransform.position.x > transform.position.x)
+                ? Vector3.right
+                : Vector3.left;
+        }
+
+        // Reset state
+        CurrentState = State.Walk;
+
+        // Reset animation/timers if you use them later
+        lastAttackTime = 0f;
     }
 
     protected virtual void Die()
@@ -166,7 +198,14 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public virtual void Damage(int amount, string EnemyName)
     {
         Debug.Log($"Damage amount is {amount} by {EnemyName}");
-        health -= amount;  
+        float damageMult = debuffs.ModifyDamageTaken(1f);
+        health -= Mathf.RoundToInt(amount * damageMult);
         if (health <= 0) Die();
+    }
+
+    public void ApplyDebuff(Debuff debuff)
+    {
+        if (debuff == null) return;
+        debuffs.Apply(debuff, this);
     }
 }
