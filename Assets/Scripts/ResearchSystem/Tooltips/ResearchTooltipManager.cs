@@ -84,7 +84,7 @@ public class ResearchTooltipManager : MonoSingleton<ResearchTooltipManager>
         string body1 = $"- Description: {construct.Description}";
         string body2 = $"- Construction costs: {constructionCosts}";
 
-        researchTooltip.ShowTooltip(header, "Description: Produces 10 raw copper perminute. must be built on the ground.", "");
+        researchTooltip.ShowTooltip(header, body1, "");
     }
 
     public static void Hide()
