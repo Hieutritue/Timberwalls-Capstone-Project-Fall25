@@ -17,6 +17,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected virtual void Awake()
     {
         health = stats.health;
+        
     }
 
     protected virtual void Start()

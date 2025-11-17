@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour
     protected Coroutine deactivationCoroutine;
     protected bool hasHit;
 
-    public IObjectPool<Bullet> pool { set => Pool = value; }
+    public IObjectPool<Bullet> pool {get => Pool; set => Pool = value; }
     public BulletSO Stats => stats;
 
     // ============================================================

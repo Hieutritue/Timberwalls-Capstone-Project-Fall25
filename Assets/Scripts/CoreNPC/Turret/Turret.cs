@@ -8,13 +8,21 @@ using UnityEngine.Pool;
 public class Turret : MonoBehaviour
 {
     public enum LaunchMode { Straight, Arching }
+
+    [Header("Arching Visual Tilt")]
+    [SerializeField]
+    AnimationCurve tiltCurve =
+    new AnimationCurve(
+        new Keyframe(0f, 0f),     // close = no tilt
+        new Keyframe(10f, 20f),   // medium = 20 degrees
+        new Keyframe(20f, 30f)    // far = max tilt
+    );
     public enum RotationAxis
     {
-        X, // rotate around X (2D “flip up/down” on YZ plane)
+        X, // rotate around X (2D ï¿½flip up/downï¿½ on YZ plane)
         Y, // rotate around Y (typical ground turret on XZ plane)
         Z  // rotate around Z (classic 2D XY rotation)
     }
-
 
     [Header("Aiming")]
     [SerializeField] protected RotationAxis rotationAxis = RotationAxis.Y;
@@ -24,9 +32,10 @@ public class Turret : MonoBehaviour
     [SerializeField] protected TurretSO stats;
     [SerializeField] protected LaunchMode launchMode = LaunchMode.Straight;
     [SerializeField] protected Transform barrel;
-    [SerializeField] protected Transform firePoint;
+    [SerializeField] protected Transform[] firePoints;   // MULTIPLE     
     [SerializeField] protected LayerMask enemyLayer;
     [SerializeField] protected Bullet bulletPrefab;
+
 
     protected IObjectPool<Bullet> bulletPool;
     protected Enemy currentTarget;
@@ -41,6 +50,8 @@ public class Turret : MonoBehaviour
     private Vector3 smoothedAimDir;
     private bool aimInitialized = false;
     private float currentTurnSpeed = 0f;
+    private Vector3 lastLaunchDirection = Vector3.forward;
+    private int fireIndex = 0;
 
 
     // ============================================================
@@ -52,7 +63,7 @@ public class Turret : MonoBehaviour
             CreateBullet, OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
             true, 20, 100);
 
-        aimAcceleration = stats.traverseSpeed/2;
+        aimAcceleration = stats.traverseSpeed / 2;
         aimDeceleration = 14;
         maxRotationSpeed = stats.traverseSpeed;
     }
@@ -70,6 +81,21 @@ public class Turret : MonoBehaviour
             TryFire();
         }
     }
+
+    protected Transform GetNextFirePoint()
+    {
+        if (firePoints == null || firePoints.Length == 0)
+            return barrel;   // fallback
+
+        Transform fp = firePoints[fireIndex];
+
+        fireIndex++;
+        if (fireIndex >= firePoints.Length)
+            fireIndex = 0;
+
+        return fp;
+    }
+
 
     // ============================================================
     // TARGETING
@@ -102,12 +128,76 @@ public class Turret : MonoBehaviour
     {
         if (!barrel) return;
 
-        // -------------------------------
-        // 1. Raw direction to target
-        // -------------------------------
+        // ============================================================
+        // ARCHING MODE: Smooth horizontal rotation + cosmetic tilt
+        // ============================================================
+        if (launchMode == LaunchMode.Arching)
+        {
+            // 1. Horizontal direction (yaw only)
+            Vector3 toTarget = targetPos - barrel.position;
+
+            switch (rotationAxis)
+            {
+                case RotationAxis.Y: toTarget.y = 0; break;   // horizontal for ground turret
+                case RotationAxis.X: toTarget.x = 0; break;
+                case RotationAxis.Z: toTarget.z = 0; break;
+            }
+
+            if (toTarget.sqrMagnitude < 0.001f) return;
+            toTarget.Normalize();
+
+            // 2. Smooth aim direction (prevent snapping)
+            if (!aimInitialized)
+            {
+                smoothedAimDir = toTarget;
+                aimInitialized = true;
+            }
+
+            smoothedAimDir = Vector3.Lerp(
+                smoothedAimDir,
+                toTarget,
+                Time.deltaTime * stats.traverseSpeed * 0.75f
+            );
+
+            Quaternion yawOnly = Quaternion.LookRotation(smoothedAimDir, Vector3.up);
+
+            // 3. Compute COSMETIC tilt from distance
+            float dist = Vector3.Distance(barrel.position, targetPos);
+            float tiltAmount = tiltCurve.Evaluate(dist);     // evaluate curve
+
+            // 4. Combine tilt into rotation
+            Quaternion tiltRot = Quaternion.Euler(-tiltAmount, 0f, 0f);
+
+            Quaternion desired = yawOnly * tiltRot * Quaternion.Euler(barrelRotationOffsetEuler);
+
+            // 5. Rotate smoothly with acceleration
+            float angleDiff = Quaternion.Angle(barrel.rotation, desired);
+
+            if (angleDiff > 0.5f)
+                currentTurnSpeed += aimAcceleration * Time.deltaTime;
+            else
+                currentTurnSpeed -= aimDeceleration * Time.deltaTime;
+
+            currentTurnSpeed = Mathf.Clamp(currentTurnSpeed, 0f, maxRotationSpeed);
+
+            float t = currentTurnSpeed / maxRotationSpeed;
+
+            barrel.rotation = Quaternion.Slerp(
+                barrel.rotation,
+                desired,
+                t * stats.traverseSpeed * Time.deltaTime
+            );
+
+            return;
+        }
+
+
+        // ============================================================
+        // STRAIGHT MODE (original)
+        // ============================================================
+
         Vector3 newDir = (targetPos - barrel.position);
 
-        // Project onto rotation plane
         switch (rotationAxis)
         {
             case RotationAxis.Y: newDir.y = 0; break;
@@ -118,27 +208,18 @@ public class Turret : MonoBehaviour
         if (newDir.sqrMagnitude < 0.0001f) return;
         newDir.Normalize();
 
-        // -------------------------------
-        // 2. Initialize on first frame
-        // -------------------------------
         if (!aimInitialized)
         {
             smoothedAimDir = newDir;
             aimInitialized = true;
         }
 
-        // -------------------------------
-        // 3. Blend aim direction (prevents snapping)
-        // -------------------------------
         smoothedAimDir = Vector3.Lerp(
             smoothedAimDir,
             newDir,
-            Time.deltaTime * stats.traverseSpeed * 0.75f   // soft blending
+            Time.deltaTime * stats.traverseSpeed * 0.75f
         );
 
-        // -------------------------------
-        // 4. Compute desired rotation
-        // -------------------------------
         Vector3 up = rotationAxis switch
         {
             RotationAxis.Y => Vector3.up,
@@ -147,42 +228,28 @@ public class Turret : MonoBehaviour
             _ => Vector3.up
         };
 
-        Quaternion desiredRot = Quaternion.LookRotation(smoothedAimDir, up);
-        Quaternion offsetRot = Quaternion.Euler(barrelRotationOffsetEuler);
-        desiredRot *= offsetRot;
+        Quaternion desiredRot = Quaternion.LookRotation(smoothedAimDir, up)
+                                * Quaternion.Euler(barrelRotationOffsetEuler);
 
-        // -------------------------------
-        // 5. Determine current angle difference
-        // -------------------------------
-        float angleDiff = Quaternion.Angle(barrel.rotation, desiredRot);
+        float diff = Quaternion.Angle(barrel.rotation, desiredRot);
 
-        // -------------------------------
-        // 6. Accelerate / decelerate turning speed
-        // -------------------------------
-        if (angleDiff > 0.5f)
-        {
-            // speeding up
+        if (diff > 0.5f)
             currentTurnSpeed += aimAcceleration * Time.deltaTime;
-        }
         else
-        {
-            // slowing down
             currentTurnSpeed -= aimDeceleration * Time.deltaTime;
-        }
 
-        currentTurnSpeed = Mathf.Clamp(currentTurnSpeed, 0f, maxRotationSpeed);
+        currentTurnSpeed = Mathf.Clamp(currentTurnSpeed, 0, maxRotationSpeed);
 
-        // -------------------------------
-        // 7. Rotate at our velocity
-        // -------------------------------
-        float t = (currentTurnSpeed / maxRotationSpeed);
+        float tt = currentTurnSpeed / maxRotationSpeed;
 
         barrel.rotation = Quaternion.Slerp(
-            barrel.rotation,
-            desiredRot,
-            t * stats.traverseSpeed * Time.deltaTime
+            barrel.rotation, desiredRot,
+            tt * stats.traverseSpeed * Time.deltaTime
         );
     }
+
+
+
 
 
     // ============================================================
@@ -197,13 +264,70 @@ public class Turret : MonoBehaviour
         lastFireTime = Time.time;
     }
 
+    private void RotateTowardsLaunchDirection()
+    {
+        if (!barrel) return;
+
+        // Remove vertical for 2.5D rotation
+        Vector3 dir = lastLaunchDirection;
+        dir.y = 0;
+
+        if (dir.sqrMagnitude < 0.001f)
+            return;
+
+        Quaternion desiredRot = Quaternion.LookRotation(dir, Vector3.up);
+
+        barrel.rotation = Quaternion.Slerp(
+            barrel.rotation,
+            desiredRot,
+            stats.traverseSpeed * Time.deltaTime
+        );
+    }
+
+    private void RotateHorizontallyTowardTarget(Vector3 targetPos)
+    {
+        if (!barrel) return;
+
+        // raw direction
+        Vector3 dir = targetPos - barrel.position;
+
+        // flatten to XZ plane
+        dir.y = 0f;
+
+        // if too small, use existing forward (prevents snapping)
+        if (dir.sqrMagnitude < 0.01f)
+            dir = barrel.forward;
+
+        dir.Normalize();
+
+        // artificial stabilization so it never points straight up/down visually
+        float stability = 0.35f;
+        dir = Vector3.Lerp(dir, barrel.forward, stability).normalized;
+
+        // compute rotation
+        Quaternion desiredRot = Quaternion.LookRotation(dir, Vector3.up);
+
+        // smooth rotation (no snapping)
+        barrel.rotation = Quaternion.Slerp(
+            barrel.rotation,
+            desiredRot,
+            stats.traverseSpeed * Time.deltaTime
+        );
+    }
+
+
+
+
     protected virtual void Fire()
     {
         if (currentTarget == null) return;
 
+        // ---- MULTI BARREL SUPPORT ----
+        Transform fp = GetNextFirePoint();
+
         Bullet bullet = bulletPool.Get();
-        bullet.transform.position = firePoint.position;
-        bullet.transform.rotation = firePoint.rotation;
+        bullet.transform.position = fp.position;
+        bullet.transform.rotation = fp.rotation;
         bullet.pool = bulletPool;
         bullet.Activate();
 
@@ -211,14 +335,23 @@ public class Turret : MonoBehaviour
 
         if (launchMode == LaunchMode.Arching && bullet is ArchingBullet arching)
         {
-            arching.LaunchAtTarget(firePoint.position, targetPos, bullet.Stats.bulletSpeed);
+            Vector3 targetPos2D = currentTarget.transform.position;
+            targetPos2D.z = fp.position.z;
+
+            Vector3 rawDir = (targetPos2D - fp.position).normalized;
+            Vector3 launchDir = (rawDir + Vector3.up * 0.5f).normalized;
+
+            lastLaunchDirection = launchDir;   // used by rotate smoothing
+
+            arching.LaunchAtTarget(fp.position, targetPos2D, bullet.Stats.bulletSpeed);
         }
         else
         {
-            Vector3 dir = (targetPos - firePoint.position).normalized;
+            Vector3 dir = (targetPos - fp.position).normalized;
             bullet.Launch(dir, bullet.Stats.bulletSpeed);
         }
     }
+
 
     // ============================================================
     // POOL CALLBACKS
@@ -228,38 +361,6 @@ public class Turret : MonoBehaviour
     protected virtual void OnReleaseToPool(Bullet b) => b.gameObject.SetActive(false);
     protected virtual void OnDestroyPooledObject(Bullet b) => Destroy(b.gameObject);
 
-#if UNITY_EDITOR
-protected virtual void OnDrawGizmos()
-{
-    if (!firePoint || !stats) return;
-    if (launchMode != LaunchMode.Arching) return;
-
-    // Just a temporary dummy target — replace with currentTarget if you want dynamic preview
-    Vector3 targetPos = (Application.isPlaying && currentTarget != null)
-        ? currentTarget.transform.position
-        : firePoint.position + firePoint.forward * stats.attackRange;
-
-    // Try calculate velocity
-    if (BallisticUtility.CalculateLaunchVelocity(
-        firePoint.position, targetPos, bulletPrefab.Stats.bulletSpeed, 9.81f, false, out Vector3 velocity))
-    {
-        // Draw predicted arc
-        var points = BallisticUtility.GenerateTrajectoryPoints(firePoint.position, velocity, 9.81f);
-        Gizmos.color = Color.cyan;
-        for (int i = 0; i < points.Count - 1; i++)
-            Gizmos.DrawLine(points[i], points[i + 1]);
-
-        // Draw impact marker
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(points[^1], 0.25f);
-    }
-    else
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(firePoint.position, firePoint.forward * stats.attackRange);
-    }
-}
-#endif
 }
 
 

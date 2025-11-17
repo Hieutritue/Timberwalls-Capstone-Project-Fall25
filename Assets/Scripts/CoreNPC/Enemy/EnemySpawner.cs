@@ -4,9 +4,13 @@ using System.Linq;
 using UnityEngine.Pool;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Unity.Entities.UniversalDelegates;
+using Unity.VisualScripting;
+using UnityEngine.Events;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public static UnityEvent OnWaveCompleted;
 
     [SerializeField] private float base_spawn_interval = 2.0f;
     [SerializeField] private DifficultyThemeSO difficulty;
@@ -18,11 +22,13 @@ public class EnemySpawner : MonoBehaviour
 
     private int left_spawn_count = 0;
     private int right_spawn_count = 0;
+    private int upper_spawn_limit = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         enemies_list = difficulty.enemies_list;
+        upper_spawn_limit = difficulty.enemy_spawn_upper_limit;
 
         spawn_points = GameObject.FindGameObjectsWithTag("Spawner")
                             .Select(go => go.transform)
@@ -33,12 +39,13 @@ public class EnemySpawner : MonoBehaviour
         foreach (var enemy in enemies_list) total_weight += enemy.weight;
 
         InvokeRepeating("spawn_enemy", act_spawn_interval, act_spawn_interval);
+        
 
     }
 
     private void spawn_enemy()
     {
-        int rand_point = Random.Range(0, total_weight);
+        int rand_point = UnityEngine.Random.Range(0, total_weight);
         EnemyTableSO enemy_to_spawn = weighted_choice(rand_point);
 
         if (enemy_to_spawn != null) for (int i = 1; i <= enemy_to_spawn.enemy_spawn_count; i++)
@@ -46,7 +53,15 @@ public class EnemySpawner : MonoBehaviour
                 Transform spawn_point = get_balanced_spawn_point();
                 Vector3 spawn_pos = get_spawn_pos_with_offset(spawn_point.position);
 
-                enemyPool.SpawnEnemy(enemy_to_spawn.enemy_prefab, spawn_pos, Quaternion.identity);
+                if (upper_spawn_limit != 0)
+                {
+                    enemyPool.SpawnEnemy(enemy_to_spawn.enemy_prefab, spawn_pos, Quaternion.identity);
+                    upper_spawn_limit -= 1;
+                } else
+                {
+                    CancelInvoke(nameof(spawn_enemy));
+                    OnWaveCompleted?.Invoke();
+                }
             }
 
     }
@@ -63,6 +78,7 @@ public class EnemySpawner : MonoBehaviour
     {
         List<Transform> left_spawns = new List<Transform>();
         List<Transform> right_spawns = new List<Transform>();
+    
 
         // Separate spawns by side
         for (int i = 0; i < spawn_points.Count; i++)

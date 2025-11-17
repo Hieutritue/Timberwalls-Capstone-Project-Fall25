@@ -1,78 +1,88 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-/// <summary>
-/// Bullet subclass that calculates a realistic parabolic (arching) trajectory
-/// from muzzle to target using ballistic motion equations.
-/// </summary>
 public class ArchingBullet : Bullet
 {
-    [Header("Ballistic Settings")]
-    [SerializeField] private bool useHighArc = false;  // false = low angle, true = high arc
-    [SerializeField] private float gravity = 9.81f;
+    [Header("Fake Arc Settings")]
+    [SerializeField] private float arcHeight = 3f;
 
-    /// <summary>
-    /// Launches the bullet toward the target with a calculated arc based on gravity and speed.
-    /// </summary>
-    public void LaunchAtTarget(Vector3 startPos, Vector3 targetPos, float launchSpeed)
+    private Vector3 startPos;
+    private Vector3 targetPos;
+    private float travelTime;
+    private float timer;
+
+    public void LaunchAtTarget(Vector3 start, Vector3 target, float speed)
     {
-        useGravity = true;
-        rb.useGravity = true;
-        rb.isKinematic = false;
+        // Store original positions
+        startPos = start;
 
-        Vector3 velocity;
-        if (ComputeLaunchVelocity(startPos, targetPos, launchSpeed, out velocity))
-        {
-            rb.linearVelocity = velocity;
-        }
-        else
-        {
-            // Fallback to straight line if arc is not possible
-            Vector3 dir = (targetPos - startPos).normalized;
-            rb.linearVelocity = dir * launchSpeed;
-        }
+        // Lock target to same Z-plane (2.5D world)
+        target.z = start.z;
+        targetPos = target;
+
+        float distance = Vector3.Distance(startPos, targetPos);
+
+        travelTime = distance / speed;
+        timer = 0f;
+
+        rb.useGravity = false;
+        rb.isKinematic = true;
+
+        OnActivate();
     }
 
-    /// <summary>
-    /// Computes ballistic launch velocity needed to hit the target position.
-    /// Returns false if no valid solution exists.
-    /// </summary>
-    private bool ComputeLaunchVelocity(Vector3 start, Vector3 target, float speed, out Vector3 velocity)
+    private void Update()
     {
-        Vector3 toTarget = target - start;
-        Vector3 toTargetXZ = new Vector3(toTarget.x, 0, toTarget.z);
+        if (travelTime <= 0f) 
+            return;
 
-        float dxz = toTargetXZ.magnitude;
-        float dy = toTarget.y;
-        float g = gravity * gravityScale;
+        timer += Time.deltaTime;
+        float t = Mathf.Clamp01(timer / travelTime);
 
-        float v2 = speed * speed;
-        float underRoot = v2 * v2 - g * (g * dxz * dxz + 2 * dy * v2);
+        // Horizontal motion (XZ)
+        Vector3 horizontal = Vector3.Lerp(startPos, targetPos, t);
 
-        if (underRoot < 0f)
+        // Parabolic vertical arc
+        float height = arcHeight * (1 - Mathf.Pow(2 * t - 1, 2));
+
+        Vector3 pos = horizontal;
+        pos.y += height;
+
+        transform.position = pos;
+
+        // Make the projectile face its motion direction
+        if (t > 0f)
         {
-            velocity = Vector3.zero;
-            return false; // No valid ballistic arc
+            Vector3 dir = pos - transform.position;
+            if (dir.sqrMagnitude > 0.0001f)
+                transform.forward = dir.normalized;
         }
 
-        float root = Mathf.Sqrt(underRoot);
+        // End of arc
+        if (t >= 1f)
+            Impact();
+    }
 
-        float tanTheta = useHighArc
-            ? (v2 + root) / (g * dxz)
-            : (v2 - root) / (g * dxz);
+    private void Impact()
+    {
+        // Damage if very close to collider
+        Collider[] results = Physics.OverlapSphere(transform.position, 0.6f);
+        foreach (var r in results)
+        {
+            if (r.TryGetComponent<IDamageable>(out var hit))
+            {
+                hit.Damage(stats.damage, stats.name);
+                OnHit(hit);
+                break;
+            }
+        }
 
-        float angle = Mathf.Atan(tanTheta);
-
-        Vector3 dirXZ = toTargetXZ.normalized;
-        velocity = dirXZ * Mathf.Cos(angle) * speed;
-        velocity.y = Mathf.Sin(angle) * speed;
-
-        return true;
+        Deactivate();
     }
 
     protected override void OnDeactivate()
     {
         base.OnDeactivate();
         rb.useGravity = false;
+        rb.isKinematic = false;
     }
 }
-
