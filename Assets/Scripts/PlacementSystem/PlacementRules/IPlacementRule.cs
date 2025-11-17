@@ -13,5 +13,6 @@ public enum PlacementConditionType
     NotOccupied,
     OnFloor,
     OnEdge,
-    OnCeiling
+    OnCeiling,
+    StairRule
 }

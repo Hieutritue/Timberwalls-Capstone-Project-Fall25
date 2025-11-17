@@ -12,6 +12,7 @@ using Pathfinding;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using StateMachine = _Scripts.StateMachine.StateMachine;
 
 public class Colonist : MonoBehaviour
@@ -68,6 +69,8 @@ public class Colonist : MonoBehaviour
     private float _timerToTickAfflictions = 0f;
     private float _timerToDecreaseStats = 0f;
     private bool _autoDecreaseStatsEnabled = true;
+    
+    [SerializeField] private bool _canDecreaseStatsTest = true;
 
     public bool AutoDecreaseStatsEnabled
     {
@@ -143,7 +146,7 @@ public class Colonist : MonoBehaviour
 
     public void AutoDecreaseStats()
     {
-        if (!_autoDecreaseStatsEnabled) return;
+        if (!_autoDecreaseStatsEnabled || !_canDecreaseStatsTest) return;
         _timerToDecreaseStats += Time.deltaTime;
         if (_timerToDecreaseStats >= 1f)
         {

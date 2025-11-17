@@ -7,6 +7,7 @@ using DefaultNamespace.TaskSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Util;
 
 namespace BuildingSystem
 {
@@ -30,7 +31,16 @@ namespace BuildingSystem
         public void Start()
         {
             Colliders = GetComponentsInChildren<Collider>();
+            // SetCollidersToTrigger(true);
             InitStateMachine();
+        }
+        
+        public void SetCollidersToTrigger(bool isTrigger)
+        {
+            foreach (var collider in Colliders)
+            {
+                collider.isTrigger = isTrigger;
+            }
         }
 
         private void InitStateMachine()
@@ -87,6 +97,11 @@ namespace BuildingSystem
         {
             Debug.Log($"Building {name} has {ActiveTasks.Count} active tasks.\n" +
                       $"{string.Join("\n", ActiveTasks.Select(t => t.TaskType.ToString()))}");
+        }
+        
+        private void ChangeLayer(LayerMask layerMask)
+        {
+            LayerUtils.SetLayerRecursively(gameObject, layerMask);
         }
     }
 }
