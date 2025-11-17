@@ -80,5 +80,10 @@ namespace DefaultNamespace.ScheduleSystem
         {
             return (CurrentHour + HourProgress) / HoursPerDay;
         }
+
+        public void SetTimeScale(float timeScale)
+        {
+            Time.timeScale = timeScale;
+        }
     }
 }

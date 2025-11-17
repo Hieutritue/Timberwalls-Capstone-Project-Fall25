@@ -1,4 +1,6 @@
-﻿using General;
+﻿using System.Collections.Generic;
+using DefaultNamespace.ColonistSystem;
+using General;
 using UnityEngine.Serialization;
 
 namespace DefaultNamespace.General
@@ -8,5 +10,6 @@ namespace DefaultNamespace.General
         public GeneralNumberSO GeneralNumberSo;
         public ColonistActionCollectionSo ColonistActionCollectionSo;
         public BuildingsCollectionSo BuildingsCollectionSo;
+        public List<ColonistSO> ColonistSos;
     }
 }
