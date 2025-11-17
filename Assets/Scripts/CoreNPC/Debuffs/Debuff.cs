@@ -36,4 +36,6 @@ public abstract class Debuff
     protected virtual void OnApply() { }
     protected virtual void OnUpdate(float dt) { }
     protected virtual void OnExpire() { }
+
+     public abstract Debuff Clone();
 }

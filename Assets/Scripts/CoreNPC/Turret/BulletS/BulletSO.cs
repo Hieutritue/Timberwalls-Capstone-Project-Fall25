@@ -5,4 +5,5 @@ public class BulletSO : ScriptableObject
 {
     public int damage;
     public int bulletSpeed;
+    public Debuff[] debuffs;
 }

@@ -17,13 +17,17 @@ public class Bullet : MonoBehaviour
     [SerializeField] protected bool useGravity = false;
     [SerializeField] protected float gravityScale = 1f;
 
+    [Header("Debuffs (applied on hit)")]
+    protected Debuff[] debuffsToApply;
+    // These are "template" debuffs (SlowDebuff, BurnDebuff, etc.)
+
     protected Rigidbody rb;
     protected Collider bulletCollider;
     protected IObjectPool<Bullet> Pool;
     protected Coroutine deactivationCoroutine;
     protected bool hasHit;
 
-    public IObjectPool<Bullet> pool {get => Pool; set => Pool = value; }
+    public IObjectPool<Bullet> pool { get => Pool; set => Pool = value; }
     public BulletSO Stats => stats;
 
     // ============================================================
@@ -33,6 +37,7 @@ public class Bullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         bulletCollider = GetComponent<Collider>();
+        debuffsToApply = stats.debuffs;
     }
 
     // ============================================================
@@ -53,6 +58,19 @@ public class Bullet : MonoBehaviour
         if (deactivationCoroutine != null)
             StopCoroutine(deactivationCoroutine);
         deactivationCoroutine = StartCoroutine(DeactivateAfter(timeoutDelay));
+    }
+    protected void ApplyDebuffs(IDebuffable target)
+    {
+        if (stats.debuffs == null || stats.debuffs.Length == 0)
+            return;
+
+        foreach (var debuff in stats.debuffs)
+        {
+            if (debuff == null) continue;
+
+            Debuff instance = debuff.Clone();
+            target.ApplyDebuff(instance);
+        }
     }
 
     public virtual void Launch(Vector3 direction, float speed)
@@ -88,10 +106,18 @@ public class Bullet : MonoBehaviour
 
         bulletCollider.enabled = false;
 
-        if (other.TryGetComponent(out IDamageable target))
+        // DAMAGE
+        if (other.TryGetComponent(out IDamageable damageable))
         {
-            target.Damage(stats.damage, stats.name);
-            OnHit(target);
+            damageable.Damage(stats.damage, stats.name);
+
+            // Apply debuffs here for SINGLE-TARGET bullets
+            if (other.TryGetComponent<IDebuffable>(out var debuffable))
+            {
+                ApplyDebuffs(debuffable);
+            }
+
+            OnHit(damageable);
         }
 
         Deactivate();
