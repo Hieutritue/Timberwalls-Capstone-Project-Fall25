@@ -16,7 +16,8 @@ namespace DefaultNamespace.TaskSystem
             {
                 return FormulaCollection.ProgressPerFrameBasedOnSkillLevel(
                     gatheringFurniture.GatheringFurnitureSo.BaseTimeToProduce,
-                    colonist.ColonistSo.Skills[SkillType.Metallurgy]);
+                    colonist.ColonistSo.Skills[SkillType.Metallurgy],
+                    colonist.TaskCompletionSpeedMultiplier);
             }
 
             return 0;
@@ -40,7 +41,7 @@ namespace DefaultNamespace.TaskSystem
         
         private void SetColonistPosition(Colonist colonist)
         {
-            if (Building is Furniture furniture)
+            if (Building is ResourceGatheringFurniture furniture)
             {
                 colonist.transform.position = furniture.ActionPoint.position;
                 colonist.transform.LookAt(furniture.ActionPoint.position + furniture.ActionPoint.forward);

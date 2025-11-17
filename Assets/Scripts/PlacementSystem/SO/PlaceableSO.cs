@@ -18,6 +18,7 @@ public class PlaceableSO : SerializedScriptableObject
     public string Name;
     public Sprite Icon;
     public BuildingCategory Category;
+    public BuildingSubCategory SubCategory;
     
     [TextArea] public string Description;
 
