@@ -9,9 +9,11 @@ namespace ResourceSystem
     {
         [Header("UI References")] [SerializeField]
         private ScrollRect ScrollRect;
+
         [SerializeField] private Transform ContentParent;
         [SerializeField] private ResourceDetail resourceDetailPrefab;
-
+        [SerializeField] private Transform _supplyParent;
+        [SerializeField] private Transform _researchPointParent;
         private readonly Dictionary<ResourceType, ResourceDetail> _details = new();
 
         private void Start()
@@ -20,11 +22,22 @@ namespace ResourceSystem
 
             foreach (var resourceSo in manager.GetAllResourceSOs())
             {
-                var detail = Instantiate(resourceDetailPrefab, ContentParent);
+                ResourceDetail detail;
+                if (resourceSo.IsSupply)
+                {
+                    detail = Instantiate(resourceDetailPrefab, _supplyParent);
+                }
+                else if (resourceSo.IsResearchPoint)
+                {
+                    detail = Instantiate(resourceDetailPrefab, _researchPointParent);
+                }
+                else
+                    detail = Instantiate(resourceDetailPrefab, ContentParent);
+
                 detail.Setup(resourceSo.ResourceType, 0);
                 _details.Add(resourceSo.ResourceType, detail);
             }
-            
+
             manager.OnResourceChanged += HandleResourceChanged;
         }
 
