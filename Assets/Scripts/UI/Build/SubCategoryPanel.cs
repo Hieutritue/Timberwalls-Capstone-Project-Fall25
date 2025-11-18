@@ -31,6 +31,7 @@ namespace DefaultNamespace.UI.Build
         
         public void LoadBuildings()
         {
+            Debug.LogWarning("LOAD BUILDINGS");
             // remove all children first
             foreach (var buildingUI in _buildingUIs)
             {
@@ -40,6 +41,7 @@ namespace DefaultNamespace.UI.Build
                 .Select(kvp => kvp.Key).ToList();
             foreach (var placeable in placeables)
             {
+                Debug.LogWarning($"Placing building UI for {placeable.name}");
                 var buildingUI = Instantiate(_buildingUIPrefab, transform);
                 buildingUI.Init(placeable);
                 _buildingUIs.Add(buildingUI);

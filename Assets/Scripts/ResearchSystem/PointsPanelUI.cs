@@ -5,43 +5,27 @@ using UnityEngine;
 
 public class PointsPanelUI : MonoBehaviour
 {
-    [Header("Research Point Displays")]
-    [SerializeField] private TextMeshProUGUI basicCount;        // ResearchPointI
+    [Header("Research Point Displays")] [SerializeField]
+    private TextMeshProUGUI basicCount; // ResearchPointI
+
     [SerializeField] private TextMeshProUGUI intermediateCount; // ResearchPointII
-    [SerializeField] private TextMeshProUGUI advancedCount;     // ResearchPointIII
+    [SerializeField] private TextMeshProUGUI advancedCount; // ResearchPointIII
 
     private readonly Dictionary<ResourceType, TextMeshProUGUI> _uiMap = new();
 
-    private void Awake()
+    private void Start()
     {
         _uiMap[ResourceType.ResearchPointI] = basicCount;
         _uiMap[ResourceType.ResearchPointII] = intermediateCount;
         _uiMap[ResourceType.ResearchPointIII] = advancedCount;
-    }
 
-    private void OnEnable()
-    {
-        if (ResourceManager.Instance != null)
-        {
-            ResourceManager.Instance.OnResourceChanged += HandleResourceChanged;
-            RefreshAll();
-        }
-        else
-        {
-            ResourceManager.OnInitialized += OnResourceManagerReady;
-        }
-    }
-
-    private void OnResourceManagerReady()
-    {
-        ResourceManager.OnInitialized -= OnResourceManagerReady;
         ResourceManager.Instance.OnResourceChanged += HandleResourceChanged;
-        RefreshAll();
-    }
-
-    private void OnDisable()
-    {
-        ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
+        ResourceManager.Instance.Set(ResourceType.ResearchPointI,
+            ResourceManager.Instance.Get(ResourceType.ResearchPointI));
+        ResourceManager.Instance.Set(ResourceType.ResearchPointII,
+            ResourceManager.Instance.Get(ResourceType.ResearchPointII));
+        ResourceManager.Instance.Set(ResourceType.ResearchPointIII,
+            ResourceManager.Instance.Get(ResourceType.ResearchPointIII));
     }
 
     private void HandleResourceChanged(ResourceType type, int newAmount)
@@ -50,14 +34,6 @@ public class PointsPanelUI : MonoBehaviour
         {
             if (tmp != null)
                 tmp.text = newAmount.ToString("N0");
-        }
-    }
-
-    private void RefreshAll()
-    {
-        foreach (var kvp in ResourceManager.Instance.GetAll())
-        {
-            HandleResourceChanged(kvp.Key, kvp.Value);
         }
     }
 }
