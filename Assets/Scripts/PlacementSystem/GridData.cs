@@ -89,6 +89,11 @@ namespace DefaultNamespace
                         if (!rule4.IsValid(roomGridData))
                             return false;
                         break;
+                    case PlacementConditionType.StairRule:
+                        var rule5 = new NotOccupiedByStairRule(placeableSo.Size, gridPosition);
+                        if (rule5.IsValid(this))
+                            return true;
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
