@@ -8,7 +8,7 @@ public class ResearchTreeUI : MonoBehaviour
     public ResearchTreeSO resourceTree;
     public ResearchTreeSO defenseTree;
     public ResearchTreeSO baseTree;
-    public ResearchNodeUI skillNodePrefab;
+    public ResearchNode skillNodePrefab;
 
     [Header("UI Containers")]
     public RectTransform content; // draggable area
