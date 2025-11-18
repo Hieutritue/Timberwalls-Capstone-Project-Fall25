@@ -1,20 +1,44 @@
+using DefaultNamespace.ResearchSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasRenderer))]
 public class UISquareLineRenderer : Graphic
 {
-    public RectTransform from;
-    public RectTransform to;
-    public float thickness = 5f;
-    public float minHorizontalOffset = 50f; // optional extra spacing
+    [SerializeField] private RectTransform from;
+    [SerializeField] private RectTransform to;
+    [SerializeField] private float thickness = 5f;
+    [SerializeField] private float minHorizontalOffset = 50f;
+
+    [Header("Line State Colors")]
+    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Color dimColor = new Color(1f, 1f, 1f, 0.01f);
+
+    private ResearchNode fromNode;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        if (from != null)
+            fromNode = from.GetComponent<ResearchNode>();
+    }
 
     protected override void OnPopulateMesh(VertexHelper vh)
     {
         vh.Clear();
         if (from == null || to == null) return;
 
-        // Get edge positions
+        // PICK COLOR BASED ON UNLOCK STATE
+        bool isUnlocked = false;
+        if (fromNode != null && fromNode.research != null)
+        {
+            isUnlocked = ResearchManager.Instance.IsUnlocked(fromNode.research);
+        }
+
+        this.color = isUnlocked ? normalColor : dimColor;
+
+        // get positions
         Vector2 start = WorldToLocal(GetEdgePosition(from, true));
         Vector2 end = WorldToLocal(GetEdgePosition(to, false));
 
@@ -28,11 +52,9 @@ public class UISquareLineRenderer : Graphic
                 midX = start.x - minHorizontalOffset;
         }
 
-        // Define corner points
         Vector2 corner1 = new Vector2(midX, start.y);
         Vector2 corner2 = new Vector2(midX, end.y);
 
-        // Draw 3 orthogonal segments
         DrawSegment(vh, start, corner1);
         DrawSegment(vh, corner1, corner2);
         DrawSegment(vh, corner2, end);

@@ -49,7 +49,7 @@ namespace DefaultNamespace.ResearchSystem
 
             foreach (var costEntry in research.Costs)
             {
-                ResourceManager.Instance.Set(costEntry.Resource.ResourceType, ResourceManager.Instance.Get(costEntry.Resource.ResourceType - costEntry.Amount));
+                ResourceManager.Instance.Set(costEntry.Resource.ResourceType, ResourceManager.Instance.Get(costEntry.Resource.ResourceType) - costEntry.Amount);
             }
 
             UnlockedResearch[research] = true;
