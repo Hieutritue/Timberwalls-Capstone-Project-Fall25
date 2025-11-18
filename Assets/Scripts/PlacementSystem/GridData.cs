@@ -12,6 +12,8 @@ namespace DefaultNamespace
     {
         public Dictionary<Vector3Int, PlaceableInstance> PlacedInstances { get; } = new();
 
+        public Action OnGridDataChanged;
+        
         public PlaceableInstance AddObjectAt(Vector3Int gridPosition,
             PlaceableSO placeableSo,
             GameObject gameObject
@@ -26,6 +28,7 @@ namespace DefaultNamespace
                 throw new Exception($"Occupied position at {position}");
             }
 
+            OnGridDataChanged?.Invoke();
             return placeableInstance;
         }
 
@@ -116,6 +119,8 @@ namespace DefaultNamespace
                 PlacedInstances.Remove(cell);
             }
             placeableInstance.DestroyGameObject();
+            
+            OnGridDataChanged?.Invoke();
         }
         
         public PlaceableInstance RemovePlaceableInstanceOccupiedAt(Vector3Int gridPosition)
