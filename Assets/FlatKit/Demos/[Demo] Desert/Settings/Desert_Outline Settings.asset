@@ -13,6 +13,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - OUTLINE_FADE_OUT
   - OUTLINE_USE_COLOR
   - OUTLINE_USE_DEPTH
   - OUTLINE_USE_NORMALS
@@ -41,14 +42,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ColorThresholdMax: 0.1
-    - _ColorThresholdMin: 0.1
-    - _DepthThresholdMax: 15
-    - _DepthThresholdMin: 12
-    - _FadeRangeEnd: 50
-    - _FadeRangeStart: 10
-    - _NormalThresholdMax: 1
-    - _NormalThresholdMin: 0.25
+    - _ColorThresholdMax: 3.17
+    - _ColorThresholdMin: 1.47
+    - _DepthThresholdMax: 13
+    - _DepthThresholdMin: 11.4
+    - _FadeRangeEnd: 15.78
+    - _FadeRangeStart: 15.7
+    - _NormalThresholdMax: 1.55
+    - _NormalThresholdMin: 0.9
     - _Thickness: 2
     m_Colors:
     - _EdgeColor: {r: 0, g: 0, b: 0, a: 1}
@@ -69,18 +70,18 @@ MonoBehaviour:
   edgeColor: {r: 0, g: 0, b: 0, a: 1}
   thickness: 2
   resolutionInvariant: 0
-  fadeWithDistance: 0
-  fadeRangeStart: 10
-  fadeRangeEnd: 50
+  fadeWithDistance: 1
+  fadeRangeStart: 15.7
+  fadeRangeEnd: 15.78
   useDepth: 1
-  minDepthThreshold: 12
-  maxDepthThreshold: 15
+  minDepthThreshold: 11.4
+  maxDepthThreshold: 13
   useNormals: 1
-  minNormalsThreshold: 0.25
-  maxNormalsThreshold: 1
+  minNormalsThreshold: 0.9
+  maxNormalsThreshold: 1.55
   useColor: 1
-  minColorThreshold: 0.1
-  maxColorThreshold: 0.1
+  minColorThreshold: 1.47
+  maxColorThreshold: 3.17
   renderEvent: 550
   outlineOnly: 0
   applyInSceneView: 1

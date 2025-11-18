@@ -45,6 +45,7 @@ namespace DefaultNamespace.ResourceSystem
         {
             if (AmountText)
                 AmountText.text = newAmount.ToString();
+            gameObject.SetActive(newAmount != 0);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ResourceSystem
 {
@@ -9,8 +10,17 @@ namespace ResourceSystem
         public ResourceType ResourceType;
         public string ResourceName;
         public ItemTooltipSO TooltipSO;
+
+        public bool IsSupply => ResourceType == ResourceType.ContactPoint ||
+                                ResourceType == ResourceType.Pills ||
+                                ResourceType == ResourceType.CookedFood ||
+                                ResourceType == ResourceType.RawFood;
+
+        public bool IsResearchPoint => ResourceType == ResourceType.ResearchPointI ||
+                                       ResourceType == ResourceType.ResearchPointII ||
+                                       ResourceType == ResourceType.ResearchPointIII;
     }
-    
+
     public enum ResourceType
     {
         Wood,
