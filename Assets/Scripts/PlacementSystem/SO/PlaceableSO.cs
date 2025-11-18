@@ -13,6 +13,7 @@ public class PlaceableSO : SerializedScriptableObject
     public GameObject Prefab;
     public PlaceableType Type;
     public List<PlacementConditionType> PlacementConditions;
+    public bool IsStair;
     
     [Header("Basic Info")]
     public string Name;
@@ -31,5 +32,5 @@ public enum PlaceableType
 {
     Room,
     Furniture,
-    Decoration
+    Stair
 }
