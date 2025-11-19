@@ -14,14 +14,14 @@ public class UISquareLineRenderer : Graphic
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color dimColor = new Color(1f, 1f, 1f, 0.01f);
 
-    private ResearchNode fromNode;
+    private ResearchNode toNode;
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
         if (from != null)
-            fromNode = from.GetComponent<ResearchNode>();
+            toNode = to.GetComponent<ResearchNode>();
     }
 
     protected override void OnPopulateMesh(VertexHelper vh)
@@ -29,11 +29,11 @@ public class UISquareLineRenderer : Graphic
         vh.Clear();
         if (from == null || to == null) return;
 
-        // PICK COLOR BASED ON UNLOCK STATE
+        // pick color based on unlock state
         bool isUnlocked = false;
-        if (fromNode != null && fromNode.research != null)
+        if (toNode != null && toNode.research != null)
         {
-            isUnlocked = ResearchManager.Instance.IsUnlocked(fromNode.research);
+            isUnlocked = ResearchManager.Instance.IsUnlocked(toNode.research);
         }
 
         this.color = isUnlocked ? normalColor : dimColor;
