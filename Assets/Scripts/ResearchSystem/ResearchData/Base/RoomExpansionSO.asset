@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98aea45eb1f4afa4097deadff5c12b5b, type: 3}
   m_Name: RoomExpansionSO
   m_EditorClassIdentifier: 
-  researchName: RoomExpansion
+  researchName: Room Expansion
   description: 
   category: 4
   prerequisites: []
   Costs:
   - Resource: {fileID: 11400000, guid: bc6c4a2770ca22943b7f9fa0bb229c16, type: 2}
     Amount: 10
-  unlocksBuildings: []
+  unlocksBuildings:
+  - {fileID: 11400000, guid: 4dc99ee37d1917b418ed71512e2820a9, type: 2}
+  - {fileID: 11400000, guid: 2e6e904ad35b8774ca9466d301a5b07f, type: 2}
