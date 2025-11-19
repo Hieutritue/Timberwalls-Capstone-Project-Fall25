@@ -38,6 +38,8 @@ namespace ResourceSystem.Storage
                 detail.Setup(resourceSo,999);
                 _resourceStorageDetailUIs[resourceSo.ResourceType] = detail;
             }
+            
+            gameObject.SetActive(false);
         }
 
         public int GetMaxCapacityForResourceType(ResourceType resourceType)

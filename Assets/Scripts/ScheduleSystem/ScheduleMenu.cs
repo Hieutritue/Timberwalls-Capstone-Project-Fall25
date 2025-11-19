@@ -26,6 +26,8 @@ public class ScheduleMenu : MonoSingleton<ScheduleMenu>
     [Button]
     public void Setup()
     {
+        SetDefaultSchedulesForColonist();
+        
         SelectSchedule(ScheduleInfos[0]);
 
         if (ColonistManager.Instance.GetColonistCount() > 0)
@@ -35,14 +37,18 @@ public class ScheduleMenu : MonoSingleton<ScheduleMenu>
                 AddScheduleOfColonist(colonist);
             }
         }
+    }
 
+    [Button]
+    public void SetDefaultSchedulesForColonist()
+    {
         for (int i = 0; i < _defaultScheduleInfosOfColonist.Count; i++)
         {
             var defaultBox = _defaultScheduleOfColonist.HourBoxes[i];
             defaultBox.ScheduleInfo = _defaultScheduleInfosOfColonist[i];
         }
     }
-
+    
     public void SelectSchedule(ScheduleInfo scheduleInfo)
     {
         if (CurrentScheduleInfo)
