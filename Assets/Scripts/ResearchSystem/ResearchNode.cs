@@ -1,5 +1,7 @@
 using BuildingSystem;
 using DefaultNamespace.ResearchSystem;
+using ResourceSystem;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -22,6 +24,26 @@ public class ResearchNode : MonoBehaviour
 
     public System.Action<ResearchSO> OnResearchUnlocked;
 
+    private void OnEnable()
+    {
+        if (ResourceManager.Instance != null)
+            ResourceManager.Instance.OnResourceChanged += HandleResourceChanged;
+
+        UpdateVisuals(); // force refresh
+    }
+
+    private void OnDisable()
+    {
+        if (ResourceManager.Instance != null)
+            ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
+    }
+
+    private void OnDestroy()
+    {
+        if (ResourceManager.Instance != null)
+            ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
+    }
+
     void Start()
     {
         Setup(research);
@@ -35,7 +57,7 @@ public class ResearchNode : MonoBehaviour
 
         BuildUnlockList();
         BuildCostList();
-        RefreshVisuals();
+        UpdateVisuals();
     }
 
     void BuildUnlockList()
@@ -97,7 +119,9 @@ public class ResearchNode : MonoBehaviour
     {
         if (ResearchManager.Instance.Unlock(research))
         {
-            RefreshVisuals();
+            if (ResourceManager.Instance != null)
+                ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
+            UpdateVisuals();
         }
     }
 
@@ -111,7 +135,27 @@ public class ResearchNode : MonoBehaviour
         return ResearchManager.Instance.IsUnlocked(research);
     }
 
-    void RefreshVisuals()
+    private void HandleResourceChanged(ResourceType type, int amount)
+    {
+        try
+        {
+            foreach (var costEntry in research.Costs)
+            {
+                if (costEntry.Resource.ResourceType == type)
+                {
+                    UpdateVisuals();
+                    break;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"ResearchNode error: {ex}");
+        }
+    }
+
+
+    void UpdateVisuals()
     {
         unlockedGlow.color = Color.white;
         unlockedGlow.gameObject.SetActive(false);

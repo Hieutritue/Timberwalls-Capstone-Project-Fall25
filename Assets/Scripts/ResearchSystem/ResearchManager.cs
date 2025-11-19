@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DefaultNamespace.General;
 
 namespace DefaultNamespace.ResearchSystem
 {
@@ -7,6 +8,15 @@ namespace DefaultNamespace.ResearchSystem
     {
         public Dictionary<ResearchSO, bool> UnlockedResearch = new();
         public Dictionary<PlaceableSO, bool> UnlockedBuildings = new();
+
+        private void Start()
+        {
+            // TODO: Set ngược lại khi load game
+            DataTable.Instance.BuildingsCollectionSo.AllBuildings.ForEach(b =>
+            {
+                UnlockedBuildings[b] = !b.InitiallyUnlocked;
+            });
+        }
 
         public event Action<ResearchSO> OnResearchUnlocked;
 
@@ -39,7 +49,7 @@ namespace DefaultNamespace.ResearchSystem
 
             foreach (var costEntry in research.Costs)
             {
-                ResourceManager.Instance.Set(costEntry.Resource.ResourceType, ResourceManager.Instance.Get(costEntry.Resource.ResourceType - costEntry.Amount));
+                ResourceManager.Instance.Set(costEntry.Resource.ResourceType, ResourceManager.Instance.Get(costEntry.Resource.ResourceType) - costEntry.Amount);
             }
 
             UnlockedResearch[research] = true;

@@ -29,7 +29,7 @@ namespace ResourceSystem
                 }
                 else if (resourceSo.IsResearchPoint)
                 {
-                    detail = Instantiate(resourceDetailPrefab, _researchPointParent);
+                    continue;
                 }
                 else
                     detail = Instantiate(resourceDetailPrefab, ContentParent);

@@ -16,11 +16,6 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     public event Action<ResourceType, int> OnResourceChanged; 
     public static event Action OnInitialized;
 
-    private void Awake()
-    {
-        OnInitialized?.Invoke(); // tell everyone “I’m alive now, b-baka!”
-    }
-
     private void Start()
     {
         foreach (var res in StartingResources)
@@ -53,8 +48,8 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         return StartingResources;
     }
     [Button]
-    public void AddWood(int amount)
+    public void AddResouce(ResourceType resourceType, int amount)
     {
-        Set(ResourceType.Wood, Get(ResourceType.Wood) + amount);
+        Set(resourceType, Get(resourceType) + amount);
     }
 }

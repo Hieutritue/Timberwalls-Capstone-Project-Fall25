@@ -1,6 +1,7 @@
 ﻿using BuildingSystem;
 using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.General;
+using ResourceSystem.Storage;
 
 namespace DefaultNamespace.TaskSystem
 {
@@ -8,6 +9,14 @@ namespace DefaultNamespace.TaskSystem
     {
         public ResourceGatheringTask(Building building, TaskType taskType) : base(building, taskType)
         {
+        }
+        
+        public bool ResourceReachedMaxCapacity()
+        {
+            var resourceType = ((ResourceGatheringFurniture)_building).GatheringFurnitureSo.OutputResource[0].Resource.ResourceType;
+            var maxCapacity = ResourceStorageManager.Instance.GetMaxCapacityForResourceType(resourceType);
+            
+            return ResourceManager.Instance.Get(resourceType) >= maxCapacity;
         }
 
         public override float TotalProgress(Colonist colonist)

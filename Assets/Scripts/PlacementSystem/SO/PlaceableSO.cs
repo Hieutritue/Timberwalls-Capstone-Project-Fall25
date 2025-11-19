@@ -26,6 +26,9 @@ public class PlaceableSO : SerializedScriptableObject
     [Header("Construction")]
     public List<ResourceWithAmount> Costs;
     public float BaseBuildTime;
+    
+    [Header("Research")]
+    public bool InitiallyUnlocked;
 }
 
 public enum PlaceableType
