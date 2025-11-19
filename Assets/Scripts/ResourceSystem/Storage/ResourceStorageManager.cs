@@ -12,10 +12,10 @@ namespace ResourceSystem.Storage
         [SerializeField] private Transform _supplyParent;
         [SerializeField] private Transform _researchPointParent;
         [SerializeField] private Transform _materialParent;
-        
+
         [SerializeField] private ResourceStorageDetailUI _resourceStorageDetailUIPrefab;
-        
-        private Dictionary<ResourceType, ResourceStorageDetailUI> _resourceStorageDetailUIs = new ();
+
+        private Dictionary<ResourceType, ResourceStorageDetailUI> _resourceStorageDetailUIs = new();
 
         private void Start()
         {
@@ -24,7 +24,10 @@ namespace ResourceSystem.Storage
             foreach (var resourceSo in manager.GetAllResourceSOs())
             {
                 ResourceStorageDetailUI detail;
-                if (resourceSo.IsSupply)
+
+                if (resourceSo.ResourceType == ResourceType.ContactPoint)
+                    continue;
+                if (resourceSo.IsSupply)    
                 {
                     detail = Instantiate(_resourceStorageDetailUIPrefab, _supplyParent);
                 }
@@ -35,10 +38,10 @@ namespace ResourceSystem.Storage
                 else
                     detail = Instantiate(_resourceStorageDetailUIPrefab, _materialParent);
 
-                detail.Setup(resourceSo,999);
+                detail.Setup(resourceSo, 999);
                 _resourceStorageDetailUIs[resourceSo.ResourceType] = detail;
             }
-            
+
             gameObject.SetActive(false);
         }
 
