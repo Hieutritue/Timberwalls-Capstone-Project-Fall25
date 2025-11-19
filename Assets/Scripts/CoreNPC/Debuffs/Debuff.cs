@@ -20,7 +20,7 @@ public abstract class Debuff : ScriptableObject
         timeRemaining = duration;
     }
 
-    public bool Tick(float deltaTime)
+    public virtual bool Tick(float deltaTime, EnemyBase enemy = null)
     {
         timeRemaining -= deltaTime;
         OnUpdate(deltaTime);
@@ -37,7 +37,7 @@ public abstract class Debuff : ScriptableObject
     public virtual float ModifyMovement(float baseValue) => baseValue;
     public virtual float ModifyAttackCooldown(float baseValue) => baseValue;
     public virtual float ModifyDamageTaken(float baseValue) => baseValue;
-
+    public virtual float ModifyHealthValue(float baseValue) => baseValue;
     protected virtual void OnApply() { }
     protected virtual void OnUpdate(float dt) { }
     public virtual void OnExpire() { }

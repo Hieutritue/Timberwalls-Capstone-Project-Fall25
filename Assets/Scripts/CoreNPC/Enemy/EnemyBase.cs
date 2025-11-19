@@ -14,12 +14,11 @@ public class EnemyBase : MonoBehaviour, IDamageable, IDebuffable
     protected int health;
     protected enum State { Walk, Attack, Death }
 
-    private DebuffManager debuffs = new DebuffManager();
+    private DebuffManager debuffs;
 
     protected virtual void Awake()
     {
         ResetEnemy();
-
     }
 
     protected virtual void Start()
@@ -121,7 +120,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IDebuffable
 
     protected virtual void AttackTarget()
     {
-        if (Time.time >= lastAttackTime + stats.attackCooldown)
+        if (Time.time >= lastAttackTime + debuffs.ModifyAttackCooldown(stats.attackCooldown))
         {
             PerformAttack();
             lastAttackTime = Time.time;
@@ -150,7 +149,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IDebuffable
         health = stats.health;
 
         // Reset debuffs (optional but recommended)
-        debuffs = new DebuffManager();
+        debuffs = new DebuffManager(this);
 
         // Recalculate walking direction (IMPORTANT FIX)
         if (targetTransform != null)
