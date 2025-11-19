@@ -16,7 +16,11 @@ public class CameraController : MonoSingleton<CameraController>
 
     [Header("Bounds (Optional - for map limits)")]
     public bool useBounds = false;
-    public Rect bounds = new Rect(-50, -50, 100, 100);
+
+    public float minX = 0f;
+    public float maxX = 100f;
+    public float minY = 0f;
+    public float maxY = 100f;
 
     [Header("Smoothing")]
     public float smoothTime = 0.1f;
@@ -31,9 +35,10 @@ public class CameraController : MonoSingleton<CameraController>
     
     private Transform _followTarget;
     private bool _isFollowing = false;
-    
+    private Vector3 _startingPosition;
     void Start()
     {
+        _startingPosition = transform.position;
         targetPosition = transform.position;
         targetZoom = transform.position.y; // Zoom based on Y-position
     }
@@ -109,15 +114,15 @@ public class CameraController : MonoSingleton<CameraController>
     {
         if (!useBounds) return;
 
-        Vector3 pos = transform.position;
-        float zoom = pos.y;
+        Vector3 pos = targetPosition;
+        float zoom = targetPosition.y;
 
         // Adjust bounds based on zoom (perspective cameras see more when higher)
         float boundPadding = zoom * 0.5f; // Rough estimate for FOV
-        pos.x = Mathf.Clamp(pos.x, bounds.xMin + boundPadding, bounds.xMax - boundPadding);
-        pos.z = Mathf.Clamp(pos.z, bounds.yMin + boundPadding, bounds.yMax - boundPadding);
+        pos.x = Mathf.Clamp(pos.x, _startingPosition.x - minX, _startingPosition.x + maxX);
+        pos.y = Mathf.Clamp(pos.y, _startingPosition.y - minY, _startingPosition.y + maxY);
 
-        transform.position = pos;
+        targetPosition = pos;
     }
 
     public void Follow(Transform colonistTransform)
