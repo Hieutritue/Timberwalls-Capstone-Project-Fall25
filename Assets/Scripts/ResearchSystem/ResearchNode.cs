@@ -3,6 +3,7 @@ using DefaultNamespace.ResearchSystem;
 using ResourceSystem;
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -129,7 +130,7 @@ public class ResearchNode : MonoBehaviour
         {
             if (ResourceManager.Instance != null)
                 ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
-            UpdateVisuals();
+            ResearchManager.Instance.UpdateNodeVisuals();
         }
     }
 
@@ -143,12 +144,13 @@ public class ResearchNode : MonoBehaviour
         return ResearchManager.Instance.IsUnlocked(research);
     }
 
+    [Button]
     private void HandleResourceChanged(ResourceType type, int amount)
     {
         try
         {
             if (research == null || research.Costs == null) return;
-
+            Debug.LogWarning($"Node name {research.researchName}, type: {type}, amount: {amount}");
             foreach (var costEntry in research.Costs)
             {
                 if (costEntry.Resource == null) continue;
@@ -166,7 +168,7 @@ public class ResearchNode : MonoBehaviour
     }
 
 
-    void UpdateVisuals()
+    public void UpdateVisuals()
     {
         if (researchName == null || unlockedGlow == null || lockOverlay == null || unlockButton == null)
         {
