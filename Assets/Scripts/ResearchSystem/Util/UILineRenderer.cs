@@ -36,7 +36,8 @@ public class UISquareLineRenderer : Graphic
             isUnlocked = ResearchManager.Instance.IsUnlocked(toNode.research);
         }
 
-        this.color = isUnlocked ? normalColor : dimColor;
+        // use a local color variable instead of setting this.color
+        Color lineColor = isUnlocked ? normalColor : dimColor;
 
         // get positions
         Vector2 start = WorldToLocal(GetEdgePosition(from, true));
@@ -55,12 +56,12 @@ public class UISquareLineRenderer : Graphic
         Vector2 corner1 = new Vector2(midX, start.y);
         Vector2 corner2 = new Vector2(midX, end.y);
 
-        DrawSegment(vh, start, corner1);
-        DrawSegment(vh, corner1, corner2);
-        DrawSegment(vh, corner2, end);
+        DrawSegment(vh, start, corner1, lineColor);
+        DrawSegment(vh, corner1, corner2, lineColor);
+        DrawSegment(vh, corner2, end, lineColor);
     }
 
-    private void DrawSegment(VertexHelper vh, Vector2 a, Vector2 b)
+    private void DrawSegment(VertexHelper vh, Vector2 a, Vector2 b, Color col)
     {
         Vector2 dir = (b - a).normalized;
         Vector2 normal = new Vector2(-dir.y, dir.x) * (thickness / 2f);
@@ -70,7 +71,7 @@ public class UISquareLineRenderer : Graphic
         UIVertex v3 = UIVertex.simpleVert;
         UIVertex v4 = UIVertex.simpleVert;
 
-        v1.color = v2.color = v3.color = v4.color = color;
+        v1.color = v2.color = v3.color = v4.color = col;
 
         v1.position = a + normal;
         v2.position = a - normal;
