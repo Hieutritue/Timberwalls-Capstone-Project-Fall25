@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6608184751043295520}
+  - component: {fileID: 8648937879316516025}
   m_Layer: 0
   m_Name: Flamethrower
   m_TagString: Untagged
@@ -32,6 +33,69 @@ Transform:
   - {fileID: 2202819669087971839}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8648937879316516025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5250523640510546735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913cfc642922cf748b380549d70705cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetType: 0
+  priority: 0
+  groundHeightThreshold: 0.5
+  tiltCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 10
+      value: 20
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 20
+      value: 30
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rotationAxis: 0
+  barrelRotationOffsetEuler: {x: 14.89, y: 0, z: 0}
+  stats: {fileID: 11400000, guid: d6b61d46a4b01a34a94f306c50eddb9d, type: 2}
+  launchMode: 0
+  barrel: {fileID: 8861514539312656341}
+  firePoints:
+  - {fileID: 7593136104995501141}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  bulletPrefab: {fileID: 8936475925188957419, guid: 798b10233c05c30458131b48404712f5,
+    type: 3}
+  aimAcceleration: 4
+  aimDeceleration: 4
+  maxRotationSpeed: 360
 --- !u!1 &6711441192741733641
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,14 +120,45 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6711441192741733641}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09810398, y: 0, z: 0, w: 0.9951762}
+  m_LocalRotation: {x: 0.12957436, y: 0, z: 0, w: 0.99156976}
   m_LocalPosition: {x: -3.8, y: -0.3, z: -4.25}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2645049985308666767}
   m_Father: {fileID: 2342840901988786854}
-  m_LocalEulerAnglesHint: {x: 11.26, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 14.89, y: 0, z: 0}
+--- !u!1 &8901954506624313517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7593136104995501141}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7593136104995501141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8901954506624313517}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.001, y: 0.051, z: 1.425}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1435702599965767124}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &429584276830358628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -149,7 +244,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1592747561289087408, guid: fec935c142e56204882be452a259cfc5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7593136104995501141}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fec935c142e56204882be452a259cfc5, type: 3}
 --- !u!4 &1435702599965767124 stripped

@@ -4,7 +4,7 @@ public class ExplosiveBullet : Bullet
 {
     [Header("Explosion Settings")]
     [SerializeField] private float explosionRadius = 3f;
-    [SerializeField] private LayerMask enemyLayer;
+    
 
     // Ensures the explosion happens ONLY once
     private bool hasExploded = false;

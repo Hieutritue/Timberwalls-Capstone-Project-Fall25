@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
     [Header("Base Settings")]
     [SerializeField] protected BulletSO stats;
     [SerializeField] protected float timeoutDelay = 5f;
+    [SerializeField] protected LayerMask enemyLayer;
 
     [Header("Physics Settings")]
     [SerializeField] protected bool useGravity = false;

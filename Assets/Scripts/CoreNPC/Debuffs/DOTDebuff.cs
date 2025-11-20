@@ -39,10 +39,4 @@ public class DOTDebuff : Debuff
 
         return base.Tick(deltaTime);
     }
-
-    public override float ModifyHealthValue(float baseValue)
-    {
-        // DOT does NOT modify stats → return unmodified
-        return baseValue;
-    }
 }

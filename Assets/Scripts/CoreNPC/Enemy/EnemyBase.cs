@@ -16,6 +16,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IDebuffable
 
     private DebuffManager debuffs;
 
+    private bool isDead = false;
+
     protected virtual void Awake()
     {
         ResetEnemy();
@@ -143,10 +145,12 @@ public class EnemyBase : MonoBehaviour, IDamageable, IDebuffable
         // }
     }
 
+public virtual bool checkDead() => isDead;
     public virtual void ResetEnemy()
     {
         // Reset health
         health = stats.health;
+        isDead = false;
 
         // Reset debuffs (optional but recommended)
         debuffs = new DebuffManager(this);
@@ -167,18 +171,16 @@ public class EnemyBase : MonoBehaviour, IDamageable, IDebuffable
     }
 
     protected virtual void Die()
-    {
-        // Return to pool instead of destroying
-        PooledEnemy pooledEnemy = GetComponent<PooledEnemy>();
-        if (pooledEnemy != null)
-        {
-            pooledEnemy.ReturnToPool();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+{
+    if (isDead) return;    // <<---- IMPORTANT FIX
+    isDead = true;
+
+    PooledEnemy pooledEnemy = GetComponent<PooledEnemy>();
+    if (pooledEnemy != null)
+         pooledEnemy.ReturnToPool();
+    else
+         Destroy(gameObject);
+}
 
     protected virtual void OnDrawGizmosSelected()
     {

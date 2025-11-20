@@ -38,7 +38,7 @@ public abstract class Debuff : ScriptableObject
     public virtual float ModifyAttackCooldown(float baseValue) => baseValue;
     public virtual float ModifyDamageTaken(float baseValue) => baseValue;
     public virtual float ModifyHealthValue(float baseValue) => baseValue;
-    protected virtual void OnApply() { }
+    public virtual void OnApply() { }
     protected virtual void OnUpdate(float dt) { }
     public virtual void OnExpire() { }
 

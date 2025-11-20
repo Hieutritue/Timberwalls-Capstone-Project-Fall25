@@ -7,7 +7,31 @@ using UnityEngine.Pool;
 /// </summary>
 public class Turret : MonoBehaviour
 {
-    public enum LaunchMode { Straight, Arching }
+    public enum LaunchMode { Straight, Arching, Flamethrower }
+    public enum TargetType
+    {
+        Any,
+        GroundOnly,
+        AirOnly
+    }
+
+    public enum TargetPriority
+    {
+        ClosestToTurret,
+        FurthestFromTurret,
+        HighestElevation,
+        ClosestToGround
+    }
+
+
+    [Header("Target Filtering")]
+    [SerializeField] private TargetType targetType = TargetType.Any;
+
+    [Header("Target Priority")]
+    [SerializeField] private TargetPriority priority = TargetPriority.ClosestToTurret;
+
+    [SerializeField] private float groundHeightThreshold = 0.5f;
+
 
     [Header("Arching Visual Tilt")]
     [SerializeField]
@@ -103,27 +127,27 @@ public class Turret : MonoBehaviour
     protected virtual void FindTarget()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, stats.attackRange, enemyLayer);
+
         if (hits.Length == 0)
         {
             currentTarget = null;
             return;
         }
 
-        float closest = float.MaxValue;
-        Enemy nearest = null;
+        // STEP 1 — Filter by ground/air/any
+        List<Enemy> candidates = FilterByType(hits);
 
-        foreach (Collider c in hits)
+        if (candidates.Count == 0)
         {
-            float d = Vector3.Distance(transform.position, c.transform.position);
-            if (d < closest && c.TryGetComponent(out Enemy e))
-            {
-                closest = d;
-                nearest = e;
-            }
+            currentTarget = null;
+            return;
         }
 
-        currentTarget = nearest;
+        // STEP 2 — Apply priority rule
+        currentTarget = SelectByPriority(candidates);
     }
+
+
     protected virtual void RotateTowards(Vector3 targetPos)
     {
         if (!barrel) return;
@@ -257,6 +281,12 @@ public class Turret : MonoBehaviour
     // ============================================================
     protected virtual void TryFire()
     {
+        if (launchMode == LaunchMode.Flamethrower)
+        {
+            Fire();    // continuous, no cycle time
+            return;
+        }
+
         if (Time.time < lastFireTime + (1f / stats.cyclics))
             return;
 
@@ -315,7 +345,134 @@ public class Turret : MonoBehaviour
         );
     }
 
+    private Enemy GetClosest(List<Enemy> list)
+    {
+        float best = float.MaxValue;
+        Enemy chosen = null;
 
+        foreach (var e in list)
+        {
+            float d = Vector3.Distance(transform.position, e.transform.position);
+            if (d < best)
+            {
+                best = d;
+                chosen = e;
+            }
+        }
+        return chosen;
+    }
+
+
+    private Enemy GetFurthest(List<Enemy> list)
+    {
+        float best = float.MinValue;
+        Enemy chosen = null;
+
+        foreach (var e in list)
+        {
+            float d = Vector3.Distance(transform.position, e.transform.position);
+            if (d > best)
+            {
+                best = d;
+                chosen = e;
+            }
+        }
+        return chosen;
+    }
+
+
+    private Enemy GetHighestY(List<Enemy> list)
+    {
+        float best = float.MinValue;
+        Enemy chosen = null;
+
+        foreach (var e in list)
+        {
+            float y = e.transform.position.y;
+            if (y > best)
+            {
+                best = y;
+                chosen = e;
+            }
+        }
+        return chosen;
+    }
+
+    private Enemy GetLowestY(List<Enemy> list)
+    {
+        float best = float.MaxValue;
+        Enemy chosen = null;
+
+        foreach (var e in list)
+        {
+            float y = e.transform.position.y;
+            if (y < best)
+            {
+                best = y;
+                chosen = e;
+            }
+        }
+        return chosen;
+    }
+
+
+    private List<Enemy> FilterByType(Collider[] hits)
+{
+    List<Enemy> ground = new List<Enemy>();
+    List<Enemy> air = new List<Enemy>();
+
+    foreach (var h in hits)
+    {
+        if (!h.TryGetComponent(out Enemy e))
+            continue;
+
+        float y = e.transform.position.y;
+
+        if (y <= groundHeightThreshold)
+            ground.Add(e);
+        else
+            air.Add(e);
+    }
+
+    switch (targetType)
+    {
+        case TargetType.GroundOnly:
+            // Prefer ground → fallback to air
+            return ground.Count > 0 ? ground : air;
+
+        case TargetType.AirOnly:
+            // Prefer air → fallback to ground
+            return air.Count > 0 ? air : ground;
+
+        case TargetType.Any:
+        default:
+            // Merge both (ground first)
+            ground.AddRange(air);
+            return ground;
+    }
+}
+
+
+    private Enemy SelectByPriority(List<Enemy> list)
+    {
+        switch (priority)
+        {
+            case TargetPriority.ClosestToTurret:
+                return GetClosest(list);
+
+            case TargetPriority.FurthestFromTurret:
+                return GetFurthest(list);
+
+            case TargetPriority.HighestElevation:
+                return GetHighestY(list);
+
+            case TargetPriority.ClosestToGround:
+                return GetLowestY(list);
+
+            default:
+                return list[0];
+        }
+    }
 
 
     protected virtual void Fire()
@@ -325,32 +482,58 @@ public class Turret : MonoBehaviour
         // ---- MULTI BARREL SUPPORT ----
         Transform fp = GetNextFirePoint();
 
+        Vector3 targetPos = currentTarget.transform.position;
+
+        // ============================================================
+        // FLAMETHROWER (Hitbox bullet, no aiming logic)
+        // ============================================================
+        if (launchMode == LaunchMode.Flamethrower)
+        {
+            Bullet flame = bulletPool.Get();
+
+            flame.transform.position = fp.position;
+            flame.transform.rotation = fp.rotation;
+            flame.pool = bulletPool;
+            flame.Activate();
+
+            return;  // IMPORTANT: stop here
+        }
+
+        // ============================================================
+        // COMMON BULLET CREATION (Straight or Arching)
+        // ============================================================
         Bullet bullet = bulletPool.Get();
         bullet.transform.position = fp.position;
         bullet.transform.rotation = fp.rotation;
         bullet.pool = bulletPool;
         bullet.Activate();
 
-        Vector3 targetPos = currentTarget.transform.position;
-
+        // ============================================================
+        // ARCHING MODE
+        // ============================================================
         if (launchMode == LaunchMode.Arching && bullet is ArchingBullet arching)
         {
+            // project target onto 2D plane
             Vector3 targetPos2D = currentTarget.transform.position;
             targetPos2D.z = fp.position.z;
 
             Vector3 rawDir = (targetPos2D - fp.position).normalized;
             Vector3 launchDir = (rawDir + Vector3.up * 0.5f).normalized;
 
-            lastLaunchDirection = launchDir;   // used by rotate smoothing
+            lastLaunchDirection = launchDir;
 
             arching.LaunchAtTarget(fp.position, targetPos2D, bullet.Stats.bulletSpeed);
+            return;
         }
-        else
-        {
-            Vector3 dir = (targetPos - fp.position).normalized;
-            bullet.Launch(dir, bullet.Stats.bulletSpeed);
-        }
+
+        // ============================================================
+        // STRAIGHT MODE
+        // ============================================================
+        Vector3 dir = (targetPos - fp.position).normalized;
+        bullet.Launch(dir, bullet.Stats.bulletSpeed);
     }
+
+
 
 
     // ============================================================
