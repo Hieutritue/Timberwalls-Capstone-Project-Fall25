@@ -103,5 +103,15 @@ namespace BuildingSystem
         {
             LayerUtils.SetLayerRecursively(gameObject, layerMask);
         }
+
+        public virtual void OnConstructed()
+        {
+            
+        }
+        
+        public virtual void OnDemolished()
+        {
+            
+        }
     }
 }
