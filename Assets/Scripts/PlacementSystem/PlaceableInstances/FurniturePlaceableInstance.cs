@@ -1,4 +1,6 @@
-﻿namespace DefaultNamespace.PlaceableInstances
+﻿using BuildingSystem;
+
+namespace DefaultNamespace.PlaceableInstances
 {
     public class FurniturePlaceableInstance : PlaceableInstance
     {

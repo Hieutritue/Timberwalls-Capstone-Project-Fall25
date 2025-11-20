@@ -28,7 +28,10 @@ namespace BuildingSystem.RoomStates
             // _behaviour.Colliders.ToList().ForEach(c => c.enabled = true);
             AstarPath.active.Scan();
             BuildingSystemManager.Instance.MaterialSwapper.RemoveHighlight(_behaviour.gameObject);
-            _behaviour.OnConstructed();
+            _behaviour.Constructed();
+            
+            if(_behaviour is Room room)
+                room.InitRoom();
         }
     }
 }

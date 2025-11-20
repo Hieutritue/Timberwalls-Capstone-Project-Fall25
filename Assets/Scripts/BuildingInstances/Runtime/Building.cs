@@ -28,7 +28,7 @@ namespace BuildingSystem
         
         public IState CurrentState => _stateMachine.CurrentState;
         
-        public void Start()
+        public virtual void Start()
         {
             Colliders = GetComponentsInChildren<Collider>();
             // SetCollidersToTrigger(true);
@@ -85,6 +85,7 @@ namespace BuildingSystem
             }
             
             AstarPath.active?.Scan();
+            Demolished();
         }
 
         protected void AddTask(ITask task)
@@ -104,14 +105,17 @@ namespace BuildingSystem
             LayerUtils.SetLayerRecursively(gameObject, layerMask);
         }
 
-        public virtual void OnConstructed()
+        public Action OnConstructed;
+        public Action OnDemolished;
+        
+        public virtual void Constructed()
         {
-            
+            OnConstructed?.Invoke();
         }
         
-        public virtual void OnDemolished()
+        public virtual void Demolished()
         {
-            
+            OnDemolished?.Invoke();
         }
     }
 }
