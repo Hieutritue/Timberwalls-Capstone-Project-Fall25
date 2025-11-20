@@ -150,7 +150,6 @@ public class ResearchNode : MonoBehaviour
         try
         {
             if (research == null || research.Costs == null) return;
-            Debug.LogWarning($"Node name {research.researchName}, type: {type}, amount: {amount}");
             foreach (var costEntry in research.Costs)
             {
                 if (costEntry.Resource == null) continue;
