@@ -19,7 +19,7 @@ namespace DefaultNamespace.PlacementRules
             // room instance
             var placeableInstance = gridData.GetPlaceableInstanceAt(belowPos);
             
-            if (placeableInstance.PlaceableSo.Size.y < _objectSize.y)
+            if (!placeableInstance || placeableInstance.PlaceableSo.Size.y < _objectSize.y)
             {
                 return false;
             }

@@ -22,7 +22,7 @@ public static class BuildingCategoryExtensions
                     { BuildingSubCategory.Bedroom, BuildingSubCategory.Bathroom, BuildingSubCategory.Kitchen };
             case BuildingCategory.Resource:
                 return new List<BuildingSubCategory>()
-                    { BuildingSubCategory.Extracting, BuildingSubCategory.Refining };
+                    { BuildingSubCategory.Food, BuildingSubCategory.Extracting, BuildingSubCategory.Refining };
             case BuildingCategory.Science:
                 return new List<BuildingSubCategory>()
                     { BuildingSubCategory.Contacting, BuildingSubCategory.Researching, BuildingSubCategory.Flying };
@@ -71,5 +71,8 @@ public enum BuildingSubCategory
     Playing,
 
     //Defense
-    Defense
+    Defense,
+    
+    //Resource
+    Food,
 }
