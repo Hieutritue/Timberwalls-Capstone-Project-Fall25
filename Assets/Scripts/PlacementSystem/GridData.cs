@@ -97,6 +97,11 @@ namespace DefaultNamespace
                         if (rule5.IsValid(this))
                             return true;
                         break;
+                    case PlacementConditionType.NotOnEdge:
+                        var rule6 = new OnRoomEdgeRule(placeableSo.Size, gridPosition);
+                        if (rule6.IsValid(roomGridData))
+                            return false;
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
