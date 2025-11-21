@@ -26,6 +26,7 @@ namespace BuildingSystem
         private void OnContainingItemsAdded(Furniture furniture)
         {
             furniture.OnConstructed += EvaluateRoomSpecifics;
+            furniture.OnConstructed += () => furniture.ContainingRoom = this;
             furniture.OnDemolished += EvaluateRoomSpecifics;
         }
 
