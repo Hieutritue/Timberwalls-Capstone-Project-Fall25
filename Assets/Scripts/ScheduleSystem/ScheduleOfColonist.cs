@@ -15,13 +15,26 @@ namespace DefaultNamespace.ScheduleSystem
         public List<ScheduleHourBox> HourBoxes;
         [SerializeField] private Slider _slider;
 
-        public void Setup(Colonist colonist)
+        public void Setup(Colonist colonist, ScheduleOfColonist defaultScheduleOfColonist)
         {
             Colonist = colonist;
             ColonistIcon.sprite = colonist.ColonistSo.Portrait;
             ColonistName.text = colonist.ColonistSo.NPCName;
 
-            HourBoxes.ForEach(hb => ScheduleMenu.Instance.SetScheduleBox(hb));
+            SetScheduleBoxes(defaultScheduleOfColonist);
+            // HourBoxes.ForEach(hb => ScheduleMenu.Instance.SetScheduleBox(hb));
+        }
+        
+        private void SetScheduleBoxes(ScheduleOfColonist defaultScheduleOfColonist)
+        {
+            if (defaultScheduleOfColonist != null)
+            {
+                for (int i = 0; i < HourBoxes.Count; i++)
+                {
+                    var defaultBox = defaultScheduleOfColonist.HourBoxes[i];
+                    HourBoxes[i].ScheduleInfo = defaultBox.ScheduleInfo;
+                }
+            }
         }
 
         private void Update()

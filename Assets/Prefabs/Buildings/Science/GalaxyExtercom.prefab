@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3808984109238459251}
   - component: {fileID: 619273653212282407}
   - component: {fileID: 1379841909287759987}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: SM_Prop_Old_Television_01_Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,6 +86,69 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &508818808320111281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3171432543241531061}
+  m_Layer: 0
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3171432543241531061
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508818808320111281}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.23, y: 0.01, z: -0.19}
+  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 5689735035898612118}
+  m_Father: {fileID: 7802188573406124533}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &2321141439252609838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4539730129937813780}
+  m_Layer: 0
+  m_Name: ProgressPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4539730129937813780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2321141439252609838}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.01, y: 0.44, z: -2.56}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7802188573406124533}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4090004728095970336
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +160,7 @@ GameObject:
   - component: {fileID: 2725650238325228187}
   - component: {fileID: 8202799868714961931}
   - component: {fileID: 913903999703243916}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: SM_Bld_Corp_Comms_01_Dish_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +244,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7802188573406124533}
-  m_Layer: 0
+  - component: {fileID: 4609934961715971145}
+  m_Layer: 25
   m_Name: GalaxyExtercom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,14 +260,30 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8848261965422402200}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.80999994, y: 0.80999994, z: 0.80999994}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5689735035898612118}
+  - {fileID: 3171432543241531061}
+  - {fileID: 4539730129937813780}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4609934961715971145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8848261965422402200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1435e6ef3e944bea89c6360d8d1215a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlaceableSo: {fileID: 11400000, guid: 597427e34bc4d3e42abea2c64fc840c0, type: 2}
+  ProgressPoint: {fileID: 4539730129937813780}
+  Colliders: []
 --- !u!1001 &1586445042508416
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -267,6 +347,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Canopy_Pole_01
       objectReference: {fileID: 0}
+    - target: {fileID: 2890390288478540505, guid: 3bc2af8e047dde142bd5723cacf43c99,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -284,22 +369,22 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 7802188573406124533}
+    m_TransformParent: {fileID: 3171432543241531061}
     m_Modifications:
     - target: {fileID: 4814188958905614182, guid: 85ae94c477dbb1c4ca670a0da622765e,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.98
+      value: 1.9799999
       objectReference: {fileID: 0}
     - target: {fileID: 4814188958905614182, guid: 85ae94c477dbb1c4ca670a0da622765e,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.98
+      value: 1.9800001
       objectReference: {fileID: 0}
     - target: {fileID: 4814188958905614182, guid: 85ae94c477dbb1c4ca670a0da622765e,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.98
+      value: 1.9799999
       objectReference: {fileID: 0}
     - target: {fileID: 4814188958905614182, guid: 85ae94c477dbb1c4ca670a0da622765e,
         type: 3}
@@ -324,7 +409,7 @@ PrefabInstance:
     - target: {fileID: 4814188958905614182, guid: 85ae94c477dbb1c4ca670a0da622765e,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4814188958905614182, guid: 85ae94c477dbb1c4ca670a0da622765e,
         type: 3}
@@ -334,7 +419,7 @@ PrefabInstance:
     - target: {fileID: 4814188958905614182, guid: 85ae94c477dbb1c4ca670a0da622765e,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4814188958905614182, guid: 85ae94c477dbb1c4ca670a0da622765e,
         type: 3}
@@ -360,6 +445,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Bld_Floor_Small_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297570122353698268, guid: 85ae94c477dbb1c4ca670a0da622765e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -396,6 +486,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Prop_Street_Pole_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3973828210310312637, guid: 81d60be3e3694ff4299e0712a1038483,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4354434517197957127, guid: 81d60be3e3694ff4299e0712a1038483,
         type: 3}
@@ -497,6 +592,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Prop_Antenna_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 329054009260428055, guid: 8fb51fe1cfd799648b58ed3e9c0f1612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1142463278020202925, guid: 8fb51fe1cfd799648b58ed3e9c0f1612,
         type: 3}
@@ -637,6 +737,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Pill_Dispenser_01
       objectReference: {fileID: 0}
+    - target: {fileID: 6496768688454843907, guid: a83a2c0dc9b6325489db8acb7e2e59ba,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633101602175172035, guid: a83a2c0dc9b6325489db8acb7e2e59ba,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -735,6 +845,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Antenna_04
       objectReference: {fileID: 0}
+    - target: {fileID: 3339776790245238359, guid: 8214cbeeb7bcc4a4f919544ff0931148,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -758,6 +873,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Prop_Street_Console_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891451946828131203, guid: 655fed6447c61b240bbb4d9c3cdc75f2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5236064645837828409, guid: 655fed6447c61b240bbb4d9c3cdc75f2,
         type: 3}
@@ -925,6 +1045,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Prop_Monitor_06
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209375697772040907, guid: 849baf7ff9b23454983f4171f2122e71,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

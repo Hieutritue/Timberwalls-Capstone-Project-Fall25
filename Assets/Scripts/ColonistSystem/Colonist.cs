@@ -12,6 +12,7 @@ using Pathfinding;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using StateMachine = _Scripts.StateMachine.StateMachine;
 
 public class Colonist : MonoBehaviour
@@ -68,6 +69,8 @@ public class Colonist : MonoBehaviour
     private float _timerToTickAfflictions = 0f;
     private float _timerToDecreaseStats = 0f;
     private bool _autoDecreaseStatsEnabled = true;
+    
+    [SerializeField] private bool _canDecreaseStatsTest = true;
 
     public bool AutoDecreaseStatsEnabled
     {
@@ -94,12 +97,16 @@ public class Colonist : MonoBehaviour
         _timerToTickAfflictions += Time.deltaTime;
         if (_timerToTickAfflictions >= 1f)
         {
-            foreach (var afflictionPair in _activeAfflictions)
+            // Snapshot the currently active afflictions to avoid modifying the collection
+            // while iterating (TickAffliction may add/remove entries).
+            var activeAfflictionsSnapshot = _activeAfflictions
+                .Where(kv => kv.Value)
+                .Select(kv => kv.Key)
+                .ToList();
+
+            foreach (var affliction in activeAfflictionsSnapshot)
             {
-                if (afflictionPair.Value)
-                {
-                    afflictionPair.Key.TickAffliction(this);
-                }
+                affliction.TickAffliction(this);
             }
 
             _timerToTickAfflictions = 0f;
@@ -139,7 +146,7 @@ public class Colonist : MonoBehaviour
 
     public void AutoDecreaseStats()
     {
-        if (!_autoDecreaseStatsEnabled) return;
+        if (!_autoDecreaseStatsEnabled || !_canDecreaseStatsTest) return;
         _timerToDecreaseStats += Time.deltaTime;
         if (_timerToDecreaseStats >= 1f)
         {

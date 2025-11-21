@@ -13,7 +13,8 @@ public class ResourceManager : MonoSingleton<ResourceManager>
 
     private Dictionary<ResourceType, int> _amounts = new();
 
-    public event Action<ResourceType, int> OnResourceChanged;
+    public event Action<ResourceType, int> OnResourceChanged; 
+    public static event Action OnInitialized;
 
     private void Start()
     {
@@ -47,8 +48,8 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         return StartingResources;
     }
     [Button]
-    public void AddWood(int amount)
+    public void AddResouce(ResourceType resourceType, int amount)
     {
-        Set(ResourceType.Wood, Get(ResourceType.Wood) + amount);
+        Set(resourceType, Get(resourceType) + amount);
     }
 }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 669766677461021322}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: Plant GrowPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +47,10 @@ PrefabInstance:
     - target: {fileID: 1475762141449186, guid: f37eb4461c31cda46910037f011d9953, type: 3}
       propertyPath: m_Name
       value: Pot variant 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475762141449186, guid: f37eb4461c31cda46910037f011d9953, type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4724533791255012, guid: f37eb4461c31cda46910037f011d9953, type: 3}
       propertyPath: m_LocalScale.x
@@ -200,6 +204,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4076947960583160968, guid: b2ee797f8842883419338b3b72327385,
         type: 3}
+      propertyPath: m_Layer
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4076947960583160968, guid: b2ee797f8842883419338b3b72327385,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -274,13 +283,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4043422721566152570, guid: 3f4f2054c553d14409642dd152dc7101,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043422721566152570, guid: 3f4f2054c553d14409642dd152dc7101,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043422721566152570, guid: 3f4f2054c553d14409642dd152dc7101,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043422721566152570, guid: 3f4f2054c553d14409642dd152dc7101,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.199
+      value: 0.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043422721566152570, guid: 3f4f2054c553d14409642dd152dc7101,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4043422721566152570, guid: 3f4f2054c553d14409642dd152dc7101,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.13
+      value: -0.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043422721566152570, guid: 3f4f2054c553d14409642dd152dc7101,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6405067680483647637, guid: 3f4f2054c553d14409642dd152dc7101,
         type: 3}
@@ -302,11 +336,42 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 669766677461021322}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6405067680483647637, guid: 3f4f2054c553d14409642dd152dc7101,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4457475951077840203}
   m_SourcePrefab: {fileID: 100100000, guid: 3f4f2054c553d14409642dd152dc7101, type: 3}
+--- !u!1 &857675222049580795 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6405067680483647637, guid: 3f4f2054c553d14409642dd152dc7101,
+    type: 3}
+  m_PrefabInstance: {fileID: 5981989833696560750}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4457475951077840203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857675222049580795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7cd7de985dd49e3b2edcd52048a166e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlaceableSo: {fileID: 11400000, guid: f450eef4f24ced945a93a6d0d98fef30, type: 2}
+  ProgressPoint: {fileID: 8306479031752860858}
+  Colliders: []
 --- !u!4 &7717291269802348820 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4043422721566152570, guid: 3f4f2054c553d14409642dd152dc7101,
+    type: 3}
+  m_PrefabInstance: {fileID: 5981989833696560750}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8306479031752860858 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2324638766337581780, guid: 3f4f2054c553d14409642dd152dc7101,
     type: 3}
   m_PrefabInstance: {fileID: 5981989833696560750}
   m_PrefabAsset: {fileID: 0}
@@ -321,6 +386,10 @@ PrefabInstance:
     - target: {fileID: 1490591207700898, guid: ef259daeb71bd424fb619cb3d551ffb5, type: 3}
       propertyPath: m_Name
       value: Pot variant 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1490591207700898, guid: ef259daeb71bd424fb619cb3d551ffb5, type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1490591207700898, guid: ef259daeb71bd424fb619cb3d551ffb5, type: 3}
       propertyPath: m_IsActive
@@ -458,6 +527,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8703308449554827289, guid: fabcd19959a1eae47ab1b6417f9fc2dc,
         type: 3}
+      propertyPath: m_Layer
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8703308449554827289, guid: fabcd19959a1eae47ab1b6417f9fc2dc,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -483,6 +557,10 @@ PrefabInstance:
     - target: {fileID: 1232884996045470, guid: d194838adb73ce841a9e1626c9d51744, type: 3}
       propertyPath: m_Name
       value: Plant Variant 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232884996045470, guid: d194838adb73ce841a9e1626c9d51744, type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1232884996045470, guid: d194838adb73ce841a9e1626c9d51744, type: 3}
       propertyPath: m_IsActive
@@ -567,6 +645,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Plant Variant 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5142269627487088819, guid: 5bc6f7365f9100642ae1f13f3fe8722d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5142269627487088819, guid: 5bc6f7365f9100642ae1f13f3fe8722d,
         type: 3}
@@ -736,6 +819,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Plant Variant 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9157948776178362304, guid: edb6d9d8431c04e4b983185f8a30cf8c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 9157948776178362304, guid: edb6d9d8431c04e4b983185f8a30cf8c,
         type: 3}

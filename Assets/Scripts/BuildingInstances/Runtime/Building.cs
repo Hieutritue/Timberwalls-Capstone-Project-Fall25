@@ -7,6 +7,7 @@ using DefaultNamespace.TaskSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Util;
 
 namespace BuildingSystem
 {
@@ -27,10 +28,19 @@ namespace BuildingSystem
         
         public IState CurrentState => _stateMachine.CurrentState;
         
-        public void Start()
+        public virtual void Start()
         {
             Colliders = GetComponentsInChildren<Collider>();
+            // SetCollidersToTrigger(true);
             InitStateMachine();
+        }
+        
+        public void SetCollidersToTrigger(bool isTrigger)
+        {
+            foreach (var collider in Colliders)
+            {
+                collider.isTrigger = isTrigger;
+            }
         }
 
         private void InitStateMachine()
@@ -75,6 +85,7 @@ namespace BuildingSystem
             }
             
             AstarPath.active?.Scan();
+            Demolished();
         }
 
         protected void AddTask(ITask task)
@@ -87,6 +98,24 @@ namespace BuildingSystem
         {
             Debug.Log($"Building {name} has {ActiveTasks.Count} active tasks.\n" +
                       $"{string.Join("\n", ActiveTasks.Select(t => t.TaskType.ToString()))}");
+        }
+        
+        private void ChangeLayer(LayerMask layerMask)
+        {
+            LayerUtils.SetLayerRecursively(gameObject, layerMask);
+        }
+
+        public Action OnConstructed;
+        public Action OnDemolished;
+        
+        public virtual void Constructed()
+        {
+            OnConstructed?.Invoke();
+        }
+        
+        public virtual void Demolished()
+        {
+            OnDemolished?.Invoke();
         }
     }
 }

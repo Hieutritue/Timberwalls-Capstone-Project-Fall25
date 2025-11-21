@@ -12,6 +12,8 @@ namespace DefaultNamespace
     {
         public Dictionary<Vector3Int, PlaceableInstance> PlacedInstances { get; } = new();
 
+        public Action OnGridDataChanged;
+        
         public PlaceableInstance AddObjectAt(Vector3Int gridPosition,
             PlaceableSO placeableSo,
             GameObject gameObject
@@ -26,6 +28,7 @@ namespace DefaultNamespace
                 throw new Exception($"Occupied position at {position}");
             }
 
+            OnGridDataChanged?.Invoke();
             return placeableInstance;
         }
 
@@ -89,6 +92,16 @@ namespace DefaultNamespace
                         if (!rule4.IsValid(roomGridData))
                             return false;
                         break;
+                    case PlacementConditionType.StairRule:
+                        var rule5 = new NotOccupiedByStairRule(placeableSo.Size, gridPosition);
+                        if (rule5.IsValid(this))
+                            return true;
+                        break;
+                    case PlacementConditionType.NotOnEdge:
+                        var rule6 = new OnRoomEdgeRule(placeableSo.Size, gridPosition);
+                        if (rule6.IsValid(roomGridData))
+                            return false;
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -111,6 +124,8 @@ namespace DefaultNamespace
                 PlacedInstances.Remove(cell);
             }
             placeableInstance.DestroyGameObject();
+            
+            OnGridDataChanged?.Invoke();
         }
         
         public PlaceableInstance RemovePlaceableInstanceOccupiedAt(Vector3Int gridPosition)

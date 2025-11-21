@@ -15,6 +15,8 @@ public class ScheduleMenu : MonoSingleton<ScheduleMenu>
     public Transform ScheduleOfColonistsContainer;
     [ReadOnly] public ScheduleInfo CurrentScheduleInfo;
     [ReadOnly] public List<ScheduleOfColonist> ScheduleOfColonists;
+    [SerializeField] private ScheduleOfColonist _defaultScheduleOfColonist;
+    [SerializeField] private List<ScheduleInfo> _defaultScheduleInfosOfColonist;
 
     void Start()
     {
@@ -24,6 +26,8 @@ public class ScheduleMenu : MonoSingleton<ScheduleMenu>
     [Button]
     public void Setup()
     {
+        SetDefaultSchedulesForColonist();
+        
         SelectSchedule(ScheduleInfos[0]);
 
         if (ColonistManager.Instance.GetColonistCount() > 0)
@@ -35,6 +39,16 @@ public class ScheduleMenu : MonoSingleton<ScheduleMenu>
         }
     }
 
+    [Button]
+    public void SetDefaultSchedulesForColonist()
+    {
+        for (int i = 0; i < _defaultScheduleInfosOfColonist.Count; i++)
+        {
+            var defaultBox = _defaultScheduleOfColonist.HourBoxes[i];
+            defaultBox.ScheduleInfo = _defaultScheduleInfosOfColonist[i];
+        }
+    }
+    
     public void SelectSchedule(ScheduleInfo scheduleInfo)
     {
         if (CurrentScheduleInfo)
@@ -54,7 +68,7 @@ public class ScheduleMenu : MonoSingleton<ScheduleMenu>
     public void AddScheduleOfColonist(Colonist colonist)
     {
         var scheduleOfColonist = Instantiate(ScheduleOfColonistPrefab, ScheduleOfColonistsContainer);
-        scheduleOfColonist.Setup(colonist);
+        scheduleOfColonist.Setup(colonist, _defaultScheduleOfColonist);
         ScheduleOfColonists.Add(scheduleOfColonist);
     }
 

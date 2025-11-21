@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BuildingSystem;
+using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.General;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -11,25 +12,44 @@ namespace DefaultNamespace.TaskSystem
         public override void UpdateProgress(Colonist colonist)
         {
             Timer += Time.deltaTime;
-            if (Timer >= 1)
-            {
-                DataTable.Instance.ColonistActionCollectionSo.PersonalActionsWithEffects[TaskType.Sleeping].ForEach(
-                    effect =>
+            if (!(Timer >= 1)) return;
+            DataTable.Instance.ColonistActionCollectionSo.PersonalActionsWithEffects[TaskType.Sleeping].ForEach(
+                effect =>
+                {
+                    var roomMultiplier = 1f;
+                    if (PersonalActionFurniture.ContainingRoom.CurrentSpecificRoomSo)
                     {
-                        var furnitureMultiplier =
-                            PersonalActionFurniture.PersonalActionFurnitureSo.StatMultipliers.GetValueOrDefault(
-                                effect.Key, 1f);
+                        roomMultiplier =
+                            PersonalActionFurniture.ContainingRoom.CurrentSpecificRoomSo.StatMultipliers
+                                .GetValueOrDefault(effect.Key, 1f);
+                    }
+
+                    var furnitureMultiplier =
+                        PersonalActionFurniture.PersonalActionFurnitureSo
+                            .StatMultipliers.GetValueOrDefault(effect.Key, 1f);
+
+                    // if health, only increase if furniture is medical
+                    if (effect.Key == StatType.Health)
+                    {
+                        if (PersonalActionFurniture.PlaceableSo.Category == BuildingCategory.Medical)
+                            colonist.SetStat(effect.Key, colonist.StatDict[effect.Key] +
+                                                         FormulaCollection.GetRateOfIncrease(
+                                                             effect.Value,
+                                                             furnitureMultiplier, roomMultiplier)); // Clamp stat
+                    }
+                    else
+                    {
                         colonist.SetStat(effect.Key, colonist.StatDict[effect.Key] +
                                                      FormulaCollection.GetRateOfIncrease(
                                                          effect.Value,
-                                                         furnitureMultiplier, 1)); // Clamp stat
-                        // TODO: only heal if bed is medical bed
-                    });
-                Timer = 0f;
-            }
+                                                         furnitureMultiplier, roomMultiplier)); // Clamp stat
+                    }
+                });
+            Timer = 0f;
         }
 
-        public SleepingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint, taskType)
+        public SleepingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint,
+            taskType)
         {
         }
     }
