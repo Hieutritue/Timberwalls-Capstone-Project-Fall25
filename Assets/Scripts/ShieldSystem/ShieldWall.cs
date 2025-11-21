@@ -9,6 +9,9 @@ namespace ShieldSystem
 {
     public class ShieldWall : MonoBehaviour
     {
+        public BoxCollider LeftWallCollider;
+        public BoxCollider RightWallCollider;
+        
         private GridData RoomGrid => BuildingSystemManager.Instance?.PlacementSystem?.GetGridData(PlaceableType.Room);
         [SerializeField]
         private Transform _shieldCenter;

@@ -18,5 +18,15 @@ namespace DefaultNamespace.General
         {
             return baseRate * furnitureMultiplier * roomMultiplier;
         }
+        
+        public static float GetFireRate(float baseFireRate, int skillLevel)
+        {
+            return baseFireRate * (1 + skillLevel * 0.05f);
+        }
+        
+        public static float GetTurretRotationSpeed(float baseSpeed, int skillLevel)
+        {
+            return baseSpeed * (1 + skillLevel * 0.05f);
+        }
     }
 }

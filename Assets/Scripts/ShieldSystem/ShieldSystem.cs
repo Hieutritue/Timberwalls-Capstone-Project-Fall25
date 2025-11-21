@@ -7,16 +7,18 @@ namespace DefaultNamespace.ShieldSystem
 {
     public class ShieldSystem : MonoSingleton<ShieldSystem>
     {
+        public ShieldWall ShieldWall;
+        
         [SerializeField] private ShieldHpLevelSO[] _shieldHpSos;
         [SerializeField] private ShieldMaintainabilityLevelSo[] _shieldMaintainabilitySos;
         
         private ShieldHpLevelSO _currentHpLevelSo;
         private ShieldMaintainabilityLevelSo _currentMaintainabilitySo;
-        private int _currentHealth;
-        private int _maxHealth;
+        private float _currentHealth;
+        private float _maxHealth;
 
         public Action OnCurrentHealthChanged;
-        public int CurrentHealth
+        public float CurrentHealth
         {
             get => _currentHealth;
             set
@@ -27,7 +29,7 @@ namespace DefaultNamespace.ShieldSystem
         }
         
         public Action OnMaxHealthChanged;
-        public int MaxHealth
+        public float MaxHealth
         {
             get => _maxHealth;
             set
@@ -62,6 +64,11 @@ namespace DefaultNamespace.ShieldSystem
             }
             
             _currentMaintainabilitySo = _shieldMaintainabilitySos[level];
+        }
+        
+        public void ReceiveDamage(float damage)
+        {
+            CurrentHealth -= damage;
         }
     }
 }
