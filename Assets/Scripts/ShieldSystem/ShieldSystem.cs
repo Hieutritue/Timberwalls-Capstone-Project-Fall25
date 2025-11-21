@@ -1,4 +1,5 @@
 ﻿using System;
+using ShieldSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -6,9 +7,11 @@ namespace DefaultNamespace.ShieldSystem
 {
     public class ShieldSystem : MonoSingleton<ShieldSystem>
     {
-        [SerializeField] private ShieldLevelSO[] _shieldLevelSos;
+        [SerializeField] private ShieldHpLevelSO[] _shieldHpSos;
+        [SerializeField] private ShieldMaintainabilityLevelSo[] _shieldMaintainabilitySos;
         
-        private ShieldLevelSO _currentLevelSo;
+        private ShieldHpLevelSO _currentHpLevelSo;
+        private ShieldMaintainabilityLevelSo _currentMaintainabilitySo;
         private int _currentHealth;
         private int _maxHealth;
 
@@ -35,9 +38,9 @@ namespace DefaultNamespace.ShieldSystem
         }
         
         [Button]
-        public void SetShieldLevel(int level)
+        public void SetShieldHpLevel(int level)
         {
-            if (level < 0 || level >= _shieldLevelSos.Length)
+            if (level < 0 || level >= _shieldHpSos.Length)
             {
                 Debug.LogError("Invalid shield level: " + level);
                 return;
@@ -45,9 +48,20 @@ namespace DefaultNamespace.ShieldSystem
             
             var missingHealth = MaxHealth - CurrentHealth;
 
-            _currentLevelSo = _shieldLevelSos[level];
-            MaxHealth = Mathf.RoundToInt(_currentLevelSo.Health);
+            _currentHpLevelSo = _shieldHpSos[level];
+            MaxHealth = Mathf.RoundToInt(_currentHpLevelSo.Health);
             CurrentHealth = MaxHealth - missingHealth;
+        }
+        
+        public void SetShieldMaintainabilityLevel(int level)
+        {
+            if (level < 0 || level >= _shieldMaintainabilitySos.Length)
+            {
+                Debug.LogError("Invalid shield maintainability level: " + level);
+                return;
+            }
+            
+            _currentMaintainabilitySo = _shieldMaintainabilitySos[level];
         }
     }
 }
