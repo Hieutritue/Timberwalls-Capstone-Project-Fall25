@@ -31,7 +31,9 @@ namespace DefaultNamespace.TaskSystem
                     effect =>
                     {
                         var roomMultiplier = 1f;
-                        if (PersonalActionFurniture.ContainingRoom.CurrentSpecificRoomSo)
+                        
+                        if (PersonalActionFurniture.ContainingRoom.CurrentSpecificRoomSo &&
+                            PersonalActionFurniture.ContainingRoom.CurrentSpecificRoomSo.StatMultipliers != null)
                         {
                             roomMultiplier =
                                 PersonalActionFurniture.ContainingRoom.CurrentSpecificRoomSo.StatMultipliers
