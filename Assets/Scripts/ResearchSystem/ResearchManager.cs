@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using DefaultNamespace.General;
+using Pathfinding.Collections;
+using UnityEngine;
 
 namespace DefaultNamespace.ResearchSystem
 {
@@ -8,6 +10,7 @@ namespace DefaultNamespace.ResearchSystem
     {
         public Dictionary<ResearchSO, bool> UnlockedResearch = new();
         public Dictionary<PlaceableSO, bool> UnlockedBuildings = new();
+        [SerializeField] private List<ResearchNode> researchNodes = new();
 
         private void Start()
         {
@@ -16,6 +19,8 @@ namespace DefaultNamespace.ResearchSystem
             {
                 UnlockedBuildings[b] = !b.InitiallyUnlocked;
             });
+            
+            gameObject.SetActive(false);
         }
 
         public event Action<ResearchSO> OnResearchUnlocked;
@@ -60,6 +65,11 @@ namespace DefaultNamespace.ResearchSystem
 
             OnResearchUnlocked?.Invoke(research);
             return true;
+        }
+        
+        public void UpdateNodeVisuals()
+        {
+            researchNodes.ForEach(node => node.UpdateVisuals());
         }
     }
 }

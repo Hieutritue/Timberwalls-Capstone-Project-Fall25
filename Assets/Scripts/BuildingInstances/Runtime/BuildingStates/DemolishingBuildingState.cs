@@ -23,6 +23,7 @@ namespace BuildingSystem.RoomStates
         public override void Exit()
         {
             BuildingSystemManager.Instance.MaterialSwapper.RemoveHighlight(_behaviour.gameObject);
+            _behaviour.Demolished();
         }
     }
 }

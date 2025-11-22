@@ -3,6 +3,7 @@ using DefaultNamespace.ResearchSystem;
 using ResourceSystem;
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,8 +29,6 @@ public class ResearchNode : MonoBehaviour
     {
         if (ResourceManager.Instance != null)
             ResourceManager.Instance.OnResourceChanged += HandleResourceChanged;
-
-        UpdateVisuals(); // force refresh
     }
 
     private void OnDisable()
@@ -48,12 +47,15 @@ public class ResearchNode : MonoBehaviour
     {
         Setup(research);
         unlockButton.onClick.AddListener(TryUnlock);
+
+        UpdateVisuals();
     }
 
     public void Setup(ResearchSO research)
     {
         this.research = research;
-        researchName.text = research.researchName;
+        if (researchName != null)
+            researchName.text = research != null ? research.researchName : "<No Research>";
 
         BuildUnlockList();
         BuildCostList();
@@ -62,10 +64,17 @@ public class ResearchNode : MonoBehaviour
 
     void BuildUnlockList()
     {
-        foreach (var entry in unlockEntries)
-            Destroy(entry.gameObject);
+        for (int i = unlockEntries.Count - 1; i >= 0; i--)
+        {
+            var entry = unlockEntries[i];
+            if (entry != null && entry.gameObject != null)
+                Destroy(entry.gameObject);
+        }
 
         unlockEntries.Clear();
+
+        if (research == null || unlockItemPrefab == null || unlocksContainer == null)
+            return;
 
         foreach (var building in research.unlocksBuildings)
         {
@@ -121,7 +130,7 @@ public class ResearchNode : MonoBehaviour
         {
             if (ResourceManager.Instance != null)
                 ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
-            UpdateVisuals();
+            ResearchManager.Instance.UpdateNodeVisuals();
         }
     }
 
@@ -135,12 +144,15 @@ public class ResearchNode : MonoBehaviour
         return ResearchManager.Instance.IsUnlocked(research);
     }
 
+    [Button]
     private void HandleResourceChanged(ResourceType type, int amount)
     {
         try
         {
+            if (research == null || research.Costs == null) return;
             foreach (var costEntry in research.Costs)
             {
+                if (costEntry.Resource == null) continue;
                 if (costEntry.Resource.ResourceType == type)
                 {
                     UpdateVisuals();
@@ -155,13 +167,25 @@ public class ResearchNode : MonoBehaviour
     }
 
 
-    void UpdateVisuals()
+    public void UpdateVisuals()
     {
+        if (researchName == null || unlockedGlow == null || lockOverlay == null || unlockButton == null)
+        {
+            return;
+        }
+
         unlockedGlow.color = Color.white;
         unlockedGlow.gameObject.SetActive(false);
         lockOverlay.gameObject.SetActive(false);
-        bool unlocked = IsUnlocked();
-        bool canUnlock = CanUnlock();
+
+        bool unlocked = false;
+        bool canUnlock = false;
+
+        if (research != null && ResearchManager.Instance != null)
+        {
+            unlocked = ResearchManager.Instance.IsUnlocked(research);
+            canUnlock = ResearchManager.Instance.CanUnlock(research);
+        }
 
         if (unlocked)
         {

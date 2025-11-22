@@ -274,36 +274,42 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 15579201811482509, guid: 0dd16dc10b0ab41448512b2394a93cee,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8377963339429357945}
+      addedObject: {fileID: -6786385001227068539}
   m_SourcePrefab: {fileID: 100100000, guid: 0dd16dc10b0ab41448512b2394a93cee, type: 3}
+--- !u!4 &1343729291047859043 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3717357078029556051, guid: 0dd16dc10b0ab41448512b2394a93cee,
+    type: 3}
+  m_PrefabInstance: {fileID: 2392350636588771888}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1560867666345998433 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3790349621197247057, guid: 0dd16dc10b0ab41448512b2394a93cee,
+    type: 3}
+  m_PrefabInstance: {fileID: 2392350636588771888}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2379043034585509309 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 15579201811482509, guid: 0dd16dc10b0ab41448512b2394a93cee,
     type: 3}
   m_PrefabInstance: {fileID: 2392350636588771888}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &8377963339429357945
-Animator:
-  serializedVersion: 7
+--- !u!114 &-6786385001227068539
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2379043034585509309}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2b9fd2b78d8164b4c9271e34e0ba5d70, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d325b39755cd4dcaab125a310d7b7c8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlaceableSo: {fileID: 11400000, guid: 8b669ae059c2c4d4da8a93722ce81e97, type: 2}
+  ProgressPoint: {fileID: 1560867666345998433}
+  Colliders: []
+  ActionPoint: {fileID: 1343729291047859043}
 --- !u!4 &7226171891487155778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5006827640540925042, guid: 0dd16dc10b0ab41448512b2394a93cee,

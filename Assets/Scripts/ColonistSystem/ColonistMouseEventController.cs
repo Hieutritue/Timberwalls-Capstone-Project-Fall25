@@ -13,7 +13,7 @@ namespace DefaultNamespace.ColonistSystem
         {
             _colonist = colonist;
         }
-        private void OnMouseDown()
+        public void OnMouseDown()
         {
             ColonistDetailPanel.Instance.ClosePanel();
             ColonistDetailPanel.Instance.OpenPanel(_colonist);

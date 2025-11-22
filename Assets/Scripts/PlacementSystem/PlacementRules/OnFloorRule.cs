@@ -16,7 +16,14 @@ namespace DefaultNamespace.PlacementRules
         public bool IsValid(GridData gridData)
         {
             var belowPos = new Vector3Int(_gridPosition.x, _gridPosition.y, _gridPosition.z);
+            // room instance
             var placeableInstance = gridData.GetPlaceableInstanceAt(belowPos);
+            
+            if (!placeableInstance || placeableInstance.PlaceableSo.Size.y < _objectSize.y)
+            {
+                return false;
+            }
+            
             var floorOfInstanceContainingBelowPos = placeableInstance?.GetFloorCells();
 
             return floorOfInstanceContainingBelowPos != null 

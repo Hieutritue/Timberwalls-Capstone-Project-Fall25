@@ -11,11 +11,4 @@ namespace BuildingSystem
         public Dictionary<StatType,float> StatMultipliers;
         public List<ResourceWithAmount> Consumption;
     }
-    
-    [System.Serializable]
-    public class StatWithMultiplier
-    {
-        public StatType StatType;
-        public float Multiplier;
-    }
 }

@@ -7,6 +7,7 @@ using DefaultNamespace.ColonistSystem.AfflictionSystem;
 using DefaultNamespace.ColonistSystem.States;
 using DefaultNamespace.ColonistSystem.UI;
 using DefaultNamespace.General;
+using DefaultNamespace.NotificationSystem;
 using DefaultNamespace.TaskSystem;
 using Pathfinding;
 using Sirenix.OdinInspector;
@@ -41,11 +42,11 @@ public class Colonist : MonoBehaviour
     [ReadOnly] public float TaskCompletionSpeedMultiplier = 1f;
     public Dictionary<StatType, float> AfflictionStatRodModifiers = new();
     [SerializeField] private List<AfflictionSO> _allAfflictions;
-    private Dictionary<AfflictionSO,bool> _activeAfflictions = new();
-    public Dictionary<AfflictionSO,bool> ActiveAfflictions => _activeAfflictions;
+    private Dictionary<AfflictionSO, bool> _activeAfflictions = new();
+    public Dictionary<AfflictionSO, bool> ActiveAfflictions => _activeAfflictions;
     public Action OnActiveAfflictionsChanged;
     public bool CanWork { get; set; } = true;
-    
+
 
     public string CurrentState
     {
@@ -69,7 +70,7 @@ public class Colonist : MonoBehaviour
     private float _timerToTickAfflictions = 0f;
     private float _timerToDecreaseStats = 0f;
     private bool _autoDecreaseStatsEnabled = true;
-    
+
     [SerializeField] private bool _canDecreaseStatsTest = true;
 
     public bool AutoDecreaseStatsEnabled
@@ -120,7 +121,7 @@ public class Colonist : MonoBehaviour
             _stateMachine.TransitionTo(_idleState);
             return;
         }
-        
+
         if (!CanWork && CurrentTask is not APersonalActionTask)
         {
             _stateMachine.TransitionTo(_idleState);
@@ -257,8 +258,16 @@ public class Colonist : MonoBehaviour
         _stateMachine.TransitionTo(_idleState);
     }
 
+    private string _activeAfflictionsText => string.Join(", ",
+        _activeAfflictions
+            .Where(a => a.Value)
+            .Select(a => a.Key.AfflictionName)
+            .ToArray());
+
+
     private void CheckAffliction(StatType statType, float statValue)
     {
+        bool hasAfflictionChanged = false;
         foreach (var afflictionSo in _allAfflictions)
         {
             if (afflictionSo.StatTypeCondition != statType) continue;
@@ -270,6 +279,8 @@ public class Colonist : MonoBehaviour
                 afflictionSo.StartAffliction(this);
                 _activeAfflictions[afflictionSo] = true;
                 OnActiveAfflictionsChanged?.Invoke();
+
+                hasAfflictionChanged = true;
             }
             else
             {
@@ -279,9 +290,18 @@ public class Colonist : MonoBehaviour
                 _activeAfflictions[afflictionSo] = false;
                 afflictionSo.EndAffliction(this);
                 OnActiveAfflictionsChanged?.Invoke();
+
+                hasAfflictionChanged = true;
             }
         }
+
+        if (!hasAfflictionChanged) return;
+        NotificationSystem.Instance.RemoveNotification(this, NotificationType.Affliction);
+        if (_activeAfflictionsText == "") return;
+        NotificationSystem.Instance.AddNotification(this, NotificationType.Affliction,
+            $"{ColonistSo.NPCName} is {_activeAfflictionsText}");
     }
+
     private void RegisterAfflictionChanges()
     {
         OnStatChanged += CheckAffliction;
