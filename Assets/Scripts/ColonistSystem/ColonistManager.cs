@@ -1,6 +1,7 @@
-﻿using System;
+﻿using DefaultNamespace.TaskSystem;
+using System;
 using System.Collections.Generic;
-using DefaultNamespace.TaskSystem;
+using System.Linq;
 using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem
@@ -54,6 +55,16 @@ namespace DefaultNamespace.ColonistSystem
         public int GetColonistCount()
         {
             return Colonists.Count;
+        }
+
+        public List<ColonistSO> BuildAvailablePool()
+        {
+            var all = General.DataTable.Instance.ColonistSos;
+            var existing = Colonists
+                             .Select(c => c.ColonistSo)
+                             .ToHashSet();
+
+            return all.Where(so => !existing.Contains(so)).ToList();
         }
 
         public Colonist SpawnColonist(ColonistSO colonistSo, Vector3 spawnPosition)
