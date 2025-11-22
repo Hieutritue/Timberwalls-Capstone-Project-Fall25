@@ -94,16 +94,17 @@ public class EnemiesGeneralPool : MonoBehaviour
     }
 
     private void OnGetFromPool(GameObject enemy)
-    {
-        enemy.SetActive(true);
+{
+    enemy.SetActive(true);
 
-        // Reset enemy state if needed
-        Enemy enemyScript = enemy.GetComponent<Enemy>();
-        if (enemyScript != null)
-        {
-            enemyScript.ResetEnemy();
-        }
-    }
+    // Support OLD Enemy system
+    if (enemy.TryGetComponent(out Enemy oldEnemy))
+        oldEnemy.ResetEnemy();
+
+    // Support NEW EnemyInstance system
+    if (enemy.TryGetComponent(out DefaultNamespace.Enemy.EnemyInstance newEnemy))
+        newEnemy.ResetForPooling();
+}
 
     private void OnReleaseToPool(GameObject enemy)
     {
