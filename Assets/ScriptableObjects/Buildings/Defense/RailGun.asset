@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bca5abf265640dea8fcb8bdc7b8f417, type: 3}
-  m_Name: StoneCatapult
+  m_Name: RailGun
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,21 +21,25 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Size: {x: 3, y: 4}
-  Prefab: {fileID: 5295292718754014882, guid: 1f8d4f1ae374b274fb447e0335e7d6f7, type: 3}
+  Size: {x: 3, y: 5}
+  Prefab: {fileID: 5295292718754014882, guid: 01bbc031cda751845a3b61c6c4a8b759, type: 3}
   Type: 1
-  PlacementConditions: 00000000
+  PlacementConditions: 010000000200000004000000
   IsStair: 0
-  Name: 
+  Name: Rail Gun
   Icon: {fileID: 0}
   Category: 6
   SubCategory: 12
   Description: 
-  Costs: []
+  Costs:
+  - Resource: {fileID: 11400000, guid: ac4220259a4983544901b993183689ae, type: 2}
+    Amount: 10
+  - Resource: {fileID: 11400000, guid: 12496c3e4e05af44ba8a51d8a5c7c64d, type: 2}
+    Amount: 10
   BaseBuildTime: 1
   InitiallyUnlocked: 0
-  BulletSpeed: 10
-  AttackRange: 115.43
-  BaseFireRate: 1
-  BaseDamage: 5
-  BaseTraverseSpeed: 50
+  BulletSpeed: 3
+  AttackRange: 40
+  BaseFireRate: 60
+  BaseDamage: 75
+  BaseTraverseSpeed: 30

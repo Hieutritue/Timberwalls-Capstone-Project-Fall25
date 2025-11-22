@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bca5abf265640dea8fcb8bdc7b8f417, type: 3}
-  m_Name: StoneCatapult
+  m_Name: FlameThrower
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -22,20 +22,28 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   Size: {x: 3, y: 4}
-  Prefab: {fileID: 5295292718754014882, guid: 1f8d4f1ae374b274fb447e0335e7d6f7, type: 3}
+  Prefab: {fileID: 5295292718754014882, guid: ff488d05f8728a14d9d9dc308205110c, type: 3}
   Type: 1
-  PlacementConditions: 00000000
+  PlacementConditions: 010000000200000004000000
   IsStair: 0
-  Name: 
+  Name: Flame Thrower
   Icon: {fileID: 0}
   Category: 6
   SubCategory: 12
   Description: 
-  Costs: []
+  Costs:
+  - Resource: {fileID: 11400000, guid: c0722abba4b52d142868cf40f8123b8d, type: 2}
+    Amount: 10
+  - Resource: {fileID: 11400000, guid: 89267f7d0ec1e5c478c259bdd9c8e9d2, type: 2}
+    Amount: 5
+  - Resource: {fileID: 11400000, guid: f981a6ea9cc13e54aab102b6be9b3cb3, type: 2}
+    Amount: 10
+  - Resource: {fileID: 11400000, guid: 899d5d837e176894089670f62b935e46, type: 2}
+    Amount: 15
   BaseBuildTime: 1
   InitiallyUnlocked: 0
-  BulletSpeed: 10
-  AttackRange: 115.43
-  BaseFireRate: 1
+  BulletSpeed: 0
+  AttackRange: 10
+  BaseFireRate: 60
   BaseDamage: 5
-  BaseTraverseSpeed: 50
+  BaseTraverseSpeed: 30

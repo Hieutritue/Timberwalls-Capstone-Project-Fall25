@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bca5abf265640dea8fcb8bdc7b8f417, type: 3}
-  m_Name: StoneCatapult
+  m_Name: LongshotCannon
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,21 +21,25 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Size: {x: 3, y: 4}
-  Prefab: {fileID: 5295292718754014882, guid: 1f8d4f1ae374b274fb447e0335e7d6f7, type: 3}
+  Size: {x: 3, y: 3}
+  Prefab: {fileID: 5295292718754014882, guid: 34cae01443336714abee29eeca34e807, type: 3}
   Type: 1
-  PlacementConditions: 00000000
+  PlacementConditions: 010000000200000004000000
   IsStair: 0
-  Name: 
+  Name: Longshot Cannon
   Icon: {fileID: 0}
   Category: 6
   SubCategory: 12
   Description: 
-  Costs: []
+  Costs:
+  - Resource: {fileID: 11400000, guid: 4b4be77cd7156df46a660217225772cd, type: 2}
+    Amount: 15
+  - Resource: {fileID: 11400000, guid: 6e0e565f81f28384cba89259f2db7561, type: 2}
+    Amount: 15
   BaseBuildTime: 1
   InitiallyUnlocked: 0
   BulletSpeed: 10
-  AttackRange: 115.43
+  AttackRange: 100
   BaseFireRate: 1
-  BaseDamage: 5
-  BaseTraverseSpeed: 50
+  BaseDamage: 50
+  BaseTraverseSpeed: 60

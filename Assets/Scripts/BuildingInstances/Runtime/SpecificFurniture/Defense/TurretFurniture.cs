@@ -90,7 +90,7 @@ namespace BuildingSystem
                 FormulaCollection.GetTurretRotationSpeed(_turretSo.BaseTraverseSpeed, SkillLevel) * Time.deltaTime
             );
 
-            _partToRotate.rotation = Quaternion.Euler(0, 0, newAngle);
+            _partToRotate.rotation = Quaternion.Euler(_partToRotate.rotation.x, 0, newAngle);
         }
 
         // ------------------------------------------
