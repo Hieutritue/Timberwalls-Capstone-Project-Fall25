@@ -1,4 +1,5 @@
 ﻿using System;
+using ShieldSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -6,14 +7,18 @@ namespace DefaultNamespace.ShieldSystem
 {
     public class ShieldSystem : MonoSingleton<ShieldSystem>
     {
-        [SerializeField] private ShieldLevelSO[] _shieldLevelSos;
+        public ShieldWall ShieldWall;
         
-        private ShieldLevelSO _currentLevelSo;
-        private int _currentHealth;
-        private int _maxHealth;
+        [SerializeField] private ShieldHpLevelSO[] _shieldHpSos;
+        [SerializeField] private ShieldMaintainabilityLevelSo[] _shieldMaintainabilitySos;
+        
+        private ShieldHpLevelSO _currentHpLevelSo;
+        private ShieldMaintainabilityLevelSo _currentMaintainabilitySo;
+        private float _currentHealth;
+        private float _maxHealth;
 
         public Action OnCurrentHealthChanged;
-        public int CurrentHealth
+        public float CurrentHealth
         {
             get => _currentHealth;
             set
@@ -24,7 +29,7 @@ namespace DefaultNamespace.ShieldSystem
         }
         
         public Action OnMaxHealthChanged;
-        public int MaxHealth
+        public float MaxHealth
         {
             get => _maxHealth;
             set
@@ -35,9 +40,9 @@ namespace DefaultNamespace.ShieldSystem
         }
         
         [Button]
-        public void SetShieldLevel(int level)
+        public void SetShieldHpLevel(int level)
         {
-            if (level < 0 || level >= _shieldLevelSos.Length)
+            if (level < 0 || level >= _shieldHpSos.Length)
             {
                 Debug.LogError("Invalid shield level: " + level);
                 return;
@@ -45,9 +50,25 @@ namespace DefaultNamespace.ShieldSystem
             
             var missingHealth = MaxHealth - CurrentHealth;
 
-            _currentLevelSo = _shieldLevelSos[level];
-            MaxHealth = Mathf.RoundToInt(_currentLevelSo.Health);
+            _currentHpLevelSo = _shieldHpSos[level];
+            MaxHealth = Mathf.RoundToInt(_currentHpLevelSo.Health);
             CurrentHealth = MaxHealth - missingHealth;
+        }
+        
+        public void SetShieldMaintainabilityLevel(int level)
+        {
+            if (level < 0 || level >= _shieldMaintainabilitySos.Length)
+            {
+                Debug.LogError("Invalid shield maintainability level: " + level);
+                return;
+            }
+            
+            _currentMaintainabilitySo = _shieldMaintainabilitySos[level];
+        }
+        
+        public void ReceiveDamage(float damage)
+        {
+            CurrentHealth -= damage;
         }
     }
 }
