@@ -38,7 +38,23 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
         
         public void OnRecruitButtonPressed()
         {
+            if (_colonistSo == null)
+            {
+                Debug.LogError("ColonistSO is not set up for this option.");
+                return;
+            }
+
+            foreach (var cost in _colonistSo.RecruitmentCosts)
+            {
+                if (ResourceManager.Instance.Get(cost.Resource.ResourceType) < cost.Amount)
+                {
+                    Debug.Log("Not enough resources to recruit this colonist.");
+                    return;
+                }
+            }
+
             ColonistManager.Instance.SpawnColonist(_colonistSo, Vector3.zero);
+            ColonistSelectionPanel.Instance.HideSpawnChoices();
         }
     }
 }
