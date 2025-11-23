@@ -7,7 +7,7 @@ namespace DefaultNamespace
     {
         public static T Instance { get; private set; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             Instance = this as T;
         }

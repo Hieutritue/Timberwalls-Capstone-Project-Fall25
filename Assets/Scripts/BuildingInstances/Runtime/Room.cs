@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using _Scripts.StateMachine;
 using BuildingSystem.RoomStates;
 using BuildingSystem.SpecificRoom;
@@ -13,8 +14,7 @@ namespace BuildingSystem
     public class Room : Building
     {
         private RoomPlaceableInstance _roomPlaceableInstance;
-        [ReadOnly]
-        public SpecificRoomSo CurrentSpecificRoomSo;
+        [ReadOnly] public SpecificRoomSo CurrentSpecificRoomSo;
         [SerializeField] private List<SpecificRoomModel> _specificRoomModels;
 
         public void InitRoom()
@@ -22,7 +22,7 @@ namespace BuildingSystem
             _roomPlaceableInstance = GetComponent<RoomPlaceableInstance>();
             _roomPlaceableInstance.OnAddFurnitureToRoom += OnContainingItemsAdded;
         }
-        
+
         private void OnContainingItemsAdded(Furniture furniture)
         {
             furniture.OnConstructed += EvaluateRoomSpecifics;
@@ -34,7 +34,7 @@ namespace BuildingSystem
         {
             _specificRoomModels.ForEach(CheckRoomRequirements);
         }
-        
+
         private void CheckRoomRequirements(SpecificRoomModel r)
         {
             var meetsRequirements = true;
@@ -54,6 +54,13 @@ namespace BuildingSystem
             if (meetsRequirements)
             {
                 r.RoomGameObject.SetActive(true);
+
+                if (CurrentSpecificRoomSo && CurrentSpecificRoomSo != r.SpecificRoomSo)
+                {
+                    _specificRoomModels.First(sr => sr.SpecificRoomSo == CurrentSpecificRoomSo).RoomGameObject
+                        .SetActive(false);
+                }
+
                 CurrentSpecificRoomSo = r.SpecificRoomSo;
             }
             else

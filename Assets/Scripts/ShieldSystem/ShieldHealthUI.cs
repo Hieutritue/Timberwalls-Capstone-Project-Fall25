@@ -18,8 +18,8 @@ namespace DefaultNamespace.ShieldSystem
 
         private void UpdateShieldHealthUI()
         {
-            int currentHealth = ShieldSystem.Instance.CurrentHealth;
-            int maxHealth = ShieldSystem.Instance.MaxHealth;
+            float currentHealth = ShieldSystem.Instance.CurrentHealth;
+            float maxHealth = ShieldSystem.Instance.MaxHealth;
 
             _shieldHealthText.text = $"{currentHealth} / {maxHealth} HP";
             _shieldHealthSlider.maxValue = maxHealth;
