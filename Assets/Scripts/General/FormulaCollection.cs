@@ -1,4 +1,5 @@
 ﻿using DefaultNamespace.ColonistSystem;
+using UnityEngine;
 
 namespace DefaultNamespace.General
 {
@@ -27,6 +28,11 @@ namespace DefaultNamespace.General
         public static float GetTurretRotationSpeed(float baseSpeed, int skillLevel)
         {
             return baseSpeed * (1 + skillLevel * 0.05f);
+        }
+        
+        public static float GetShieldRecoveryRate(float baseRecoveryRate, int totalEngineeringSkill)
+        {
+            return baseRecoveryRate * (1 - Mathf.Pow(0.9f, totalEngineeringSkill / 10f)) / (1 - 0.9f);
         }
     }
 }

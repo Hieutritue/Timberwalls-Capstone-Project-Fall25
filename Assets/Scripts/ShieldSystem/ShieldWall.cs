@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using DefaultNamespace;
+using DefaultNamespace.ShieldSystem;
 using Sirenix.OdinInspector;
 using UnityEngine.Serialization;
 using Util; // types like GridData live in DefaultNamespace
@@ -11,37 +14,29 @@ namespace ShieldSystem
     {
         public BoxCollider LeftWallCollider;
         public BoxCollider RightWallCollider;
-        
+
         private GridData RoomGrid => BuildingSystemManager.Instance?.PlacementSystem?.GetGridData(PlaceableType.Room);
-        [SerializeField]
-        private Transform _shieldCenter;
+        [SerializeField] private Transform _shieldCenter;
 
         // The left and right wall transforms (assign in inspector)
-        [SerializeField]
-        private Transform _leftWallParent;
-        [SerializeField]
-        private Transform _leftWall;
-        [SerializeField]
-        private Transform _rightWallParent;
-        [SerializeField]
-        private Transform _rightWall;
+        [SerializeField] private Transform _leftWallParent;
+        [SerializeField] private Transform _leftWall;
+        [SerializeField] private Transform _rightWallParent;
+        [SerializeField] private Transform _rightWall;
 
-        [Tooltip("Minimum horizontal distance (in Unity units) from _shieldCenter to each wall")]
-        [SerializeField]
+        [Tooltip("Minimum horizontal distance (in Unity units) from _shieldCenter to each wall")] [SerializeField]
         private float _minDistanceFromCenter = 3.5f;
-        [SerializeField]
-        private float _horizontalOffset = 1f;
-        [SerializeField]
-        private float _verticalOffset = 1f;
 
-        [Tooltip("Size of one grid cell in Unity units")]
-        [SerializeField]
+        [SerializeField] private float _horizontalOffset = 1f;
+        [SerializeField] private float _verticalOffset = 1f;
+
+        [Tooltip("Size of one grid cell in Unity units")] [SerializeField]
         private float _cellSize = 1f;
 
         private void Start()
         {
-            RebuildShieldWalls();   
-            
+            RebuildShieldWalls();
+
             RoomGrid.OnGridDataChanged += RebuildShieldWalls;
         }
 /*
@@ -67,8 +62,12 @@ namespace ShieldSystem
             if (RoomGrid == null || RoomGrid.PlacedInstances == null || RoomGrid.PlacedInstances.Count == 0)
             {
                 // No room data - place walls at min distance from center
-                _leftWallParent.transform.position = _leftWallParent.transform.position.With(x: _shieldCenter.position.x - _minDistanceFromCenter - _horizontalOffset);
-                _rightWallParent.transform.position = _rightWallParent.transform.position.With(x: _shieldCenter.position.x + _minDistanceFromCenter + _horizontalOffset);
+                _leftWallParent.transform.position =
+                    _leftWallParent.transform.position.With(x: _shieldCenter.position.x - _minDistanceFromCenter -
+                                                               _horizontalOffset);
+                _rightWallParent.transform.position =
+                    _rightWallParent.transform.position.With(x: _shieldCenter.position.x + _minDistanceFromCenter +
+                                                                _horizontalOffset);
                 _leftWall.localScale = _leftWall.localScale.With(y: _verticalOffset);
                 _rightWall.localScale = _rightWall.localScale.With(y: _verticalOffset);
                 return;
@@ -78,8 +77,12 @@ namespace ShieldSystem
             var keys = RoomGrid.PlacedInstances.Keys.ToList();
             if (keys.Count == 0)
             {
-                _leftWallParent.transform.position = _leftWallParent.transform.position.With(x: _shieldCenter.position.x - _minDistanceFromCenter - _horizontalOffset);
-                _rightWallParent.transform.position = _rightWallParent.transform.position.With(x: _shieldCenter.position.x + _minDistanceFromCenter + _horizontalOffset);
+                _leftWallParent.transform.position =
+                    _leftWallParent.transform.position.With(x: _shieldCenter.position.x - _minDistanceFromCenter -
+                                                               _horizontalOffset);
+                _rightWallParent.transform.position =
+                    _rightWallParent.transform.position.With(x: _shieldCenter.position.x + _minDistanceFromCenter +
+                                                                _horizontalOffset);
                 _leftWall.localScale = _leftWall.localScale.With(y: _verticalOffset);
                 _rightWall.localScale = _rightWall.localScale.With(y: _verticalOffset);
                 return;
@@ -118,6 +121,70 @@ namespace ShieldSystem
             Vector3 rightScale = _rightWall.localScale;
             rightScale.y = Mathf.Max(0.01f, height);
             _rightWall.localScale = rightScale;
+        }
+
+        public void SetMaterial(Material mat)
+        {
+            LeftWallCollider.GetComponent<Renderer>().material = mat;
+            RightWallCollider.GetComponent<Renderer>().material = mat;
+        }
+
+
+        [SerializeField] private ShieldHpLevelSO[] _shieldHpSos;
+        [SerializeField] private List<Material> _shieldMaterials;
+
+
+        private ShieldHpLevelSO _currentHpLevelSo;
+        private float _currentHealth;
+        private float _maxHealth;
+
+        public Action<float, float> OnCurrentHealthChanged;
+
+        [field: SerializeField]
+        public float CurrentHealth
+        {
+            get => _currentHealth;
+            set
+            {
+                _currentHealth = Mathf.Clamp(value, 0, _maxHealth);
+                OnCurrentHealthChanged?.Invoke(_currentHealth, MaxHealth);
+            }
+        }
+
+        public Action<float, float> OnMaxHealthChanged;
+
+        public float MaxHealth
+        {
+            get => _maxHealth;
+            set
+            {
+                _maxHealth = Mathf.Max(0, value);
+                OnMaxHealthChanged?.Invoke(CurrentHealth, _maxHealth);
+            }
+        }
+
+        [Button]
+        public void SetShieldHpLevel(int level)
+        {
+            if (level < 0 || level >= _shieldHpSos.Length)
+            {
+                Debug.LogError("Invalid shield level: " + level);
+                return;
+            }
+
+            var missingHealth = MaxHealth - CurrentHealth;
+
+            _currentHpLevelSo = _shieldHpSos[level];
+            MaxHealth = Mathf.RoundToInt(_currentHpLevelSo.Health);
+            CurrentHealth = MaxHealth - missingHealth;
+
+            SetMaterial(_shieldMaterials[level]);
+        }
+
+
+        public void ReceiveDamage(float damage)
+        {
+            CurrentHealth -= damage;
         }
     }
 }

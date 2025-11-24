@@ -13,7 +13,10 @@ public static class TaskExtension
 
         if (task.Building == null)
         {
-            Debug.LogWarning($"Task of type {task.TaskType} has no assigned building.");
+            if (task is FixingTask fixingTask && fixingTask.ShieldGenerator != null)
+            {
+                return fixingTask.ActionPoint;
+            }
             return null;
         }
 

@@ -13,11 +13,6 @@ namespace DefaultNamespace.TaskSystem
             AddStat(colonist, TaskType.Eating);
         }
 
-        public override void ColonistStartWork(Colonist colonist)
-        {
-            base.ColonistStartWork(colonist);
-        }
-
         public EatingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint, taskType)
         {
         }
