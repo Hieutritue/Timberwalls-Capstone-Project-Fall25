@@ -13,7 +13,7 @@ namespace DefaultNamespace.ColonistSystem.States
         public override void Enter()
         {
             _currentTask = _behaviour.CurrentTask;
-            _behaviour.AiDestinationSetter.enabled = false;
+            // _behaviour.AiDestinationSetter.enabled = false;
             _behaviour.FollowerEntity.enabled = false;
             _behaviour.CurrentTask.ColonistStartWork(_behaviour);
         }
@@ -26,8 +26,8 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Exit()
         {
-            _behaviour.CurrentTask?.ColonistStopWork(_behaviour);
-            _behaviour.AiDestinationSetter.enabled = true;
+            _currentTask?.ColonistStopWork(_behaviour);
+            // _behaviour.AiDestinationSetter.enabled = true;
             _behaviour.FollowerEntity.enabled = true;
         }
     }

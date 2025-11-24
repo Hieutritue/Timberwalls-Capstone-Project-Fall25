@@ -5,6 +5,7 @@ namespace DefaultNamespace.TaskSystem
 {
     public interface ITask
     {
+        string LocationName { get; }
         Colonist AssignedColonist { get; set; }
         Building Building { get; }
         TaskType TaskType { get; }
@@ -19,7 +20,7 @@ namespace DefaultNamespace.TaskSystem
     public enum TaskType
     {
         Mining,
-        Smithing,
+        Refining,
         Farming,
         Building,
         Fixing,

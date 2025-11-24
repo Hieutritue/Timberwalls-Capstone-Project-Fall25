@@ -107,7 +107,7 @@ public static class ScheduleTypeExtension
             ScheduleType.Work => new List<TaskType>
             {
                 TaskType.Mining,
-                TaskType.Smithing,
+                TaskType.Refining,
                 TaskType.Farming,
                 TaskType.Building,
                 TaskType.Fixing,

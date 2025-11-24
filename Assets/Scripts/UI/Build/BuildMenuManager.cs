@@ -22,10 +22,10 @@ public class BuildMenuManager : MonoBehaviour
     private void Start()
     {
         GenerateCategories();
-        // gameObject.SetActive(false);
         // click first category by default
         _currentCategoryButtonSelected.Button.onClick.Invoke();
         _currentCategoryButtonSelected.Button.Select();
+        gameObject.SetActive(false);
     }
 
     private void GenerateCategories()

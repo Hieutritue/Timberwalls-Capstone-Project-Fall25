@@ -20,9 +20,6 @@ namespace DefaultNamespace.PlacementRules
             {
                 if (gridData.PlacedInstances.TryGetValue(pos, out var instance) && instance != null && instance.PlaceableSo != null)
                 {
-                    Debug.LogWarning($"Is Stair: {instance.PlaceableSo.IsStair} for instance at pos {pos}");
-                    Debug.LogWarning($"Is Stair: {instance.PlaceableSo.IsStair} for instance at pos {pos}");
-                    if (instance.PlaceableSo.IsStair)
                     if (instance.PlaceableSo.IsStair)
                         return false;
                 }

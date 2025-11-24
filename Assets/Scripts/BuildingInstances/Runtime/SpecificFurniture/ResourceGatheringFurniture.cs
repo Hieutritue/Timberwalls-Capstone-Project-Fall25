@@ -29,7 +29,17 @@ namespace BuildingSystem
 
         public void CreateTask()
         {
-            AddTask(new ResourceGatheringTask(this, TaskType.Mining));
+            var task = GatheringFurnitureSo.TaskType switch 
+            {
+                TaskType.Mining => new ResourceGatheringTask(this, TaskType.Mining),
+                TaskType.Cooking => new ResourceGatheringTask(this, TaskType.Cooking),
+                TaskType.Farming => new ResourceGatheringTask(this, TaskType.Farming),
+                TaskType.Research => new ResourceGatheringTask(this, TaskType.Research),
+                TaskType.Refining => new ResourceGatheringTask(this, TaskType.Refining),
+                TaskType.ManufacturingMeds => new ResourceGatheringTask(this, TaskType.ManufacturingMeds),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            AddTask(task);
         }
     }
 }

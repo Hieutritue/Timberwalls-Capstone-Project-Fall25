@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -13,6 +14,11 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
         [SerializeField] private List<ColonistSelectionOption> _colonistOptions;
         
         [SerializeField] private List<ColonistSO> _colonistSos;
+
+        private void Start()
+        {
+            gameObject.SetActive(false);
+        }
 
         [Button]
         public void SetColonists()

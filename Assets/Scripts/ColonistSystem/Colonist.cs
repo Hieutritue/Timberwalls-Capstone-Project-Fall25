@@ -214,14 +214,11 @@ public class Colonist : MonoBehaviour
         {
             CurrentState = state switch
             {
-                FindingFacilityColonistState => "FindingFacilityState",
-                RunningToFacilityColonistState => "RunningToFacilityState",
-                FulfillingNeedColonistState => "FulfillingNeedState",
                 IdleColonistState => _currentStateWordSo.IdleWord,
                 RunningToWorkColonistState =>
-                    $"{_currentStateWordSo.RunningToWord} {CurrentTask.Building.PlaceableSo.Name}",
+                    $"{_currentStateWordSo.RunningToWord} {CurrentTask.LocationName}",
                 WorkingColonistState =>
-                    $"{CurrentTask.TaskType.ToString()} {_currentStateWordSo.AtWord} {CurrentTask.Building.PlaceableSo.Name}",
+                    $"{CurrentTask.TaskType.ToString()} {_currentStateWordSo.AtWord} {CurrentTask.LocationName}",
                 _ => "UnknownState"
             };
         };

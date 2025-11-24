@@ -84,7 +84,7 @@ namespace DefaultNamespace.Enemy
             attackCooldown = AttackCooldown;
 
             // You can damage target here
-            _shieldSystem.ReceiveDamage(AttackDamage);
+            _shieldSystem.ShieldWall.ReceiveDamage(AttackDamage);
         }
 
         // -----------------------------------------------
