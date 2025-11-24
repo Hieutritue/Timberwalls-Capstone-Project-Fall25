@@ -70,5 +70,11 @@ namespace DefaultNamespace.ShieldSystem
         {
             CurrentHealth -= damage;
         }
+
+        private void Start()
+        {
+            SetShieldHpLevel(0);
+            SetShieldMaintainabilityLevel(0);
+        }
     }
 }

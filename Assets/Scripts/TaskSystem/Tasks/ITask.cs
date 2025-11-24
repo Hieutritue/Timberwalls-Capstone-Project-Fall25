@@ -19,7 +19,7 @@ namespace DefaultNamespace.TaskSystem
     public enum TaskType
     {
         Mining,
-        Smithing,
+        Refining,
         Farming,
         Building,
         Fixing,
