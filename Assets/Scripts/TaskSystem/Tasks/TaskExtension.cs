@@ -17,6 +17,12 @@ public static class TaskExtension
             {
                 return fixingTask.ActionPoint;
             }
+            
+            else if (task is CleaningTask { CleanableObject: not null } cleaningTask)
+            {
+                return cleaningTask.CleanableObject.CleanPoint;
+            }
+            
             return null;
         }
 

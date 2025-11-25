@@ -31,7 +31,7 @@ namespace DefaultNamespace.TaskSystem
                     effect =>
                     {
                         var roomMultiplier = 1f;
-                        
+
                         if (PersonalActionFurniture.ContainingRoom.CurrentSpecificRoomSo &&
                             PersonalActionFurniture.ContainingRoom.CurrentSpecificRoomSo.StatMultipliers != null)
                         {
@@ -43,13 +43,21 @@ namespace DefaultNamespace.TaskSystem
                         var furnitureMultiplier =
                             PersonalActionFurniture.PersonalActionFurnitureSo.StatMultipliers.GetValueOrDefault(
                                 effect.Key, 1f);
-                        colonist.SetStat(effect.Key, colonist.StatDict[effect.Key] +
-                                                     FormulaCollection.GetRateOfIncrease(
-                                                         effect.Value,
-                                                         furnitureMultiplier, roomMultiplier)); // Clamp stat
+                        
+                        SetStat(colonist, effect, furnitureMultiplier, roomMultiplier);
                     });
                 Timer = 0f;
             }
+        }
+
+        protected virtual void SetStat(Colonist colonist, KeyValuePair<StatType, float> effect,
+            float furnitureMultiplier, float roomMultiplier)
+        {
+            if (colonist.StatDict[effect.Key] >= 100f - effect.Value) return;
+            colonist.SetStat(effect.Key, colonist.StatDict[effect.Key] +
+                                         FormulaCollection.GetRateOfIncrease(
+                                             effect.Value,
+                                             furnitureMultiplier, roomMultiplier)); // Clamp stat            
         }
 
         public override void ColonistStartWork(Colonist colonist)
