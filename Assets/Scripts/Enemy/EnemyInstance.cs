@@ -8,7 +8,7 @@ namespace DefaultNamespace.Enemy
     {
         [SerializeField] private SO.EnemySo _enemySo;
 
-        [field:SerializeField]
+        [field: SerializeField]
         public float CurrentHealth { get; private set; }
         public float MoveSpeed => _enemySo.MoveSpeed;
         public float AttackDamage => _enemySo.AttackDamage;
@@ -34,13 +34,19 @@ namespace DefaultNamespace.Enemy
         {
             _shieldSystem = ShieldSystem.ShieldSystem.Instance;
             CurrentHealth = _enemySo.Health;
-            SetTarget(true);
         }
-        
+
         public void SetTarget(bool spawnedFromLeft)
         {
             _targetCol = spawnedFromLeft ? _shieldSystem.ShieldWall.LeftWallCollider
                                         : _shieldSystem.ShieldWall.RightWallCollider;
+
+            Debug.Log(
+        $"[EnemyInstance] {name} SetTarget → " +
+        $"{(spawnedFromLeft ? "LEFT" : "RIGHT")} " +
+        $"| Target Collider: {_targetCol.name} " +
+        $"| At Pos: {_targetCol.transform.position}"
+    );
         }
 
         void Update()
@@ -92,6 +98,20 @@ namespace DefaultNamespace.Enemy
         void Die()
         {
             // ObjectPoolManager.Instance.Release(this.gameObject);
+        }
+
+        // Called by pooling system when enemy is reused
+        public void ResetForPooling()
+        {
+            CurrentHealth = _enemySo.Health;
+
+            attackCooldown = 0f;
+
+            // Re-evaluate direction (you must call SetTarget after spawning)
+            _shieldSystem = ShieldSystem.ShieldSystem.Instance;
+
+            // Re-enable components if needed
+            enabled = true;
         }
     }
 }
