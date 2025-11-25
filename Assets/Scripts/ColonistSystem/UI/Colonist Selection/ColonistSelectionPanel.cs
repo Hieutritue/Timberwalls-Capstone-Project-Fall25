@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using DefaultNamespace.General;
 using Sirenix.OdinInspector;

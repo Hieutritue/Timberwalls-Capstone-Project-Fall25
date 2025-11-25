@@ -8,15 +8,13 @@ namespace DefaultNamespace.ColonistSystem
 {
     public class ColonistManager : MonoSingleton<ColonistManager>
     {
-        [SerializeField] private int _maxColonistCount;
+        [SerializeField] private int _maxColonistCount = 20;
         [field: SerializeField] public List<Colonist> Colonists { get; set; }
 
         public Action<Colonist> OnColonistAdded;
         public Action<Colonist> OnColonistRemoved;
 
 
-        public int MaxColonistCount => _maxColonistCount;
-        
         private void Start()
         {
             OnColonistAdded += TaskPriorityMatrix.Instance.AddRow;

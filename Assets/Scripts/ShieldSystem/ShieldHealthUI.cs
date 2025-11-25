@@ -11,12 +11,16 @@ namespace DefaultNamespace.ShieldSystem
         
         private void Start()
         {
-            ShieldSystem.Instance.ShieldWall.OnCurrentHealthChanged += UpdateShieldHealthUI;
-            ShieldSystem.Instance.ShieldWall.OnMaxHealthChanged += UpdateShieldHealthUI;
+            ShieldSystem.Instance.OnCurrentHealthChanged += UpdateShieldHealthUI;
+            ShieldSystem.Instance.OnMaxHealthChanged += UpdateShieldHealthUI;
+            UpdateShieldHealthUI();
         }
 
-        private void UpdateShieldHealthUI(float currentHealth, float maxHealth)
+        private void UpdateShieldHealthUI()
         {
+            float currentHealth = ShieldSystem.Instance.CurrentHealth;
+            float maxHealth = ShieldSystem.Instance.MaxHealth;
+
             _shieldHealthText.text = $"{currentHealth} / {maxHealth} HP";
             _shieldHealthSlider.maxValue = maxHealth;
             _shieldHealthSlider.value = currentHealth;

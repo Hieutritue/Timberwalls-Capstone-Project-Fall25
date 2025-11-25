@@ -13,16 +13,7 @@ public static class TaskExtension
 
         if (task.Building == null)
         {
-            if (task is FixingTask fixingTask && fixingTask.ShieldGenerator != null)
-            {
-                return fixingTask.ActionPoint;
-            }
-            
-            else if (task is CleaningTask { CleanableObject: not null } cleaningTask)
-            {
-                return cleaningTask.CleanableObject.CleanPoint;
-            }
-            
+            Debug.LogWarning($"Task of type {task.TaskType} has no assigned building.");
             return null;
         }
 

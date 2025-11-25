@@ -41,6 +41,7 @@ public class Colonist : MonoBehaviour
     public ColonistMouseEventController MouseEventController;
     [ReadOnly] public float TaskCompletionSpeedMultiplier = 1f;
     public Dictionary<StatType, float> AfflictionStatRodModifiers = new();
+    [SerializeField] private List<AfflictionSO> _allAfflictions;
     private Dictionary<AfflictionSO, bool> _activeAfflictions = new();
     public Dictionary<AfflictionSO, bool> ActiveAfflictions => _activeAfflictions;
     public Action OnActiveAfflictionsChanged;
@@ -177,6 +178,7 @@ public class Colonist : MonoBehaviour
             _timerToDecreaseStats = 0f;
         }
     }
+
     public void SetStat(StatType statType, float value)
     {
         if (StatDict.ContainsKey(statType))
@@ -212,11 +214,14 @@ public class Colonist : MonoBehaviour
         {
             CurrentState = state switch
             {
+                FindingFacilityColonistState => "FindingFacilityState",
+                RunningToFacilityColonistState => "RunningToFacilityState",
+                FulfillingNeedColonistState => "FulfillingNeedState",
                 IdleColonistState => _currentStateWordSo.IdleWord,
                 RunningToWorkColonistState =>
-                    $"{_currentStateWordSo.RunningToWord} {CurrentTask.LocationName}",
+                    $"{_currentStateWordSo.RunningToWord} {CurrentTask.Building.PlaceableSo.Name}",
                 WorkingColonistState =>
-                    $"{CurrentTask.TaskType.ToString()} {_currentStateWordSo.AtWord} {CurrentTask.LocationName}",
+                    $"{CurrentTask.TaskType.ToString()} {_currentStateWordSo.AtWord} {CurrentTask.Building.PlaceableSo.Name}",
                 _ => "UnknownState"
             };
         };
@@ -263,7 +268,7 @@ public class Colonist : MonoBehaviour
     private void CheckAffliction(StatType statType, float statValue)
     {
         bool hasAfflictionChanged = false;
-        foreach (var afflictionSo in DataTable.Instance.AfflictionSos)
+        foreach (var afflictionSo in _allAfflictions)
         {
             if (afflictionSo.StatTypeCondition != statType) continue;
             if (statValue >= afflictionSo.MinCondition && statValue < afflictionSo.MaxCondition)

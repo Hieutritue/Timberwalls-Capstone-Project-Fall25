@@ -62,10 +62,8 @@ namespace DefaultNamespace.TaskSystem
                     // Task must be of the type allowed by the colonist's current schedule
                     if (!currentSchedule.Value.GetAssociatedTaskTypes().Contains(task.TaskType))
                         return false;
-                    // If task is a resource gathering task, check if resource has reached max capacity or not enough resource to produce
-                    if (task is ResourceGatheringTask resourceTask 
-                        && (resourceTask.ResourceReachedMaxCapacity()
-                            || resourceTask.NotEnoughResourceRequiredToProduce()))
+                    // If task is a resource gathering task, check if resource has reached max capacity
+                    if (task is ResourceGatheringTask resourceTask && resourceTask.ResourceReachedMaxCapacity())
                         return false;
 
                     // Task must be unassigned or assigned to this colonist

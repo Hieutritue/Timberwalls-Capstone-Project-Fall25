@@ -21,8 +21,8 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Exit()
         {
-            // _behaviour.AiDestinationSetter.enabled = false;
-            // _behaviour.FollowerEntity.enabled = false;
+            _behaviour.AiDestinationSetter.enabled = false;
+            _behaviour.FollowerEntity.enabled = false;
         }
     }
 }

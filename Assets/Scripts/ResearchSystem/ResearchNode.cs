@@ -25,30 +25,28 @@ public class ResearchNode : MonoBehaviour
 
     public System.Action<ResearchSO> OnResearchUnlocked;
 
-    // private void OnEnable()
-    // {
-    //     if (ResourceManager.Instance != null)
-    //         ResourceManager.Instance.OnResourceChanged += HandleResourceChanged;
-    // }
-    //
-    // private void OnDisable()
-    // {
-    //     if (ResourceManager.Instance != null)
-    //         ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
-    // }
-    //
-    // private void OnDestroy()
-    // {
-    //     if (ResourceManager.Instance != null)
-    //         ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
-    // }
+    private void OnEnable()
+    {
+        if (ResourceManager.Instance != null)
+            ResourceManager.Instance.OnResourceChanged += HandleResourceChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (ResourceManager.Instance != null)
+            ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
+    }
+
+    private void OnDestroy()
+    {
+        if (ResourceManager.Instance != null)
+            ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
+    }
 
     void Start()
     {
         Setup(research);
         unlockButton.onClick.AddListener(TryUnlock);
-        if (ResourceManager.Instance != null)
-            ResourceManager.Instance.OnResourceChanged += HandleResourceChanged;
 
         UpdateVisuals();
     }

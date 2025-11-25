@@ -1,12 +1,10 @@
 ﻿using System;
 using BuildingSystem;
-using DefaultNamespace.ColonistSystem;
 
 namespace DefaultNamespace.TaskSystem
 {
     public interface ITask
     {
-        string LocationName { get; }
         Colonist AssignedColonist { get; set; }
         Building Building { get; }
         TaskType TaskType { get; }
@@ -21,7 +19,7 @@ namespace DefaultNamespace.TaskSystem
     public enum TaskType
     {
         Mining,
-        Refining,
+        Smithing,
         Farming,
         Building,
         Fixing,
@@ -38,25 +36,4 @@ namespace DefaultNamespace.TaskSystem
         Playing,
         Washing,
     }
-    
-    public static class TaskTypeExtensions
-    {
-        public static SkillType SkillForTask(this TaskType taskType)
-        {
-            return taskType switch
-            {
-                TaskType.Mining => SkillType.Metallurgy,
-                TaskType.Refining => SkillType.Metallurgy,
-                TaskType.Farming => SkillType.Farming,
-                TaskType.Building => SkillType.Engineering,
-                TaskType.Fixing => SkillType.Engineering,
-                TaskType.Demolishing => SkillType.Engineering,
-                TaskType.Cleaning => SkillType.Housekeeping,
-                TaskType.Cooking => SkillType.Housekeeping,
-                TaskType.Research => SkillType.Scholarship,
-                TaskType.ManufacturingMeds => SkillType.Scholarship,
-                TaskType.ManningTurrets => SkillType.Marksmanship,
-            };
-        }
-    } 
 }

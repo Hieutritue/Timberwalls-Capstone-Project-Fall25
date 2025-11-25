@@ -80,7 +80,6 @@ namespace DefaultNamespace.PlacementStates
                     var placeableInstance = building.GetComponent<PlaceableInstance>();
                     var gridData = _behaviour.GetGridData(placeableInstance.PlaceableSo.Type);
                     gridData.RemovePlaceableInstance(placeableInstance);
-                    ResourceManager.Instance.RefundResourcesForPlaceable(placeableInstance.PlaceableSo);
                     Object.Destroy(building.gameObject);
                     Debug.Log($"Deleted object: {hit.collider.name}");
                 }
