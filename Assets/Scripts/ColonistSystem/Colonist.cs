@@ -41,7 +41,6 @@ public class Colonist : MonoBehaviour
     public ColonistMouseEventController MouseEventController;
     [ReadOnly] public float TaskCompletionSpeedMultiplier = 1f;
     public Dictionary<StatType, float> AfflictionStatRodModifiers = new();
-    [SerializeField] private List<AfflictionSO> _allAfflictions;
     private Dictionary<AfflictionSO, bool> _activeAfflictions = new();
     public Dictionary<AfflictionSO, bool> ActiveAfflictions => _activeAfflictions;
     public Action OnActiveAfflictionsChanged;
@@ -178,7 +177,6 @@ public class Colonist : MonoBehaviour
             _timerToDecreaseStats = 0f;
         }
     }
-
     public void SetStat(StatType statType, float value)
     {
         if (StatDict.ContainsKey(statType))
@@ -265,7 +263,7 @@ public class Colonist : MonoBehaviour
     private void CheckAffliction(StatType statType, float statValue)
     {
         bool hasAfflictionChanged = false;
-        foreach (var afflictionSo in _allAfflictions)
+        foreach (var afflictionSo in DataTable.Instance.AfflictionSos)
         {
             if (afflictionSo.StatTypeCondition != statType) continue;
             if (statValue >= afflictionSo.MinCondition && statValue < afflictionSo.MaxCondition)

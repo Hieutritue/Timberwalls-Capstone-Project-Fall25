@@ -36,9 +36,10 @@ namespace DefaultNamespace.TaskSystem
         {
             if (_building is ResourceGatheringFurniture gatheringFurniture)
             {
+                var skillLevel = colonist.ColonistSo.Skills[gatheringFurniture.GatheringFurnitureSo.TaskType.SkillForTask()];
                 return FormulaCollection.ProgressPerFrameBasedOnSkillLevel(
                     gatheringFurniture.GatheringFurnitureSo.BaseTimeToProduce,
-                    colonist.ColonistSo.Skills[SkillType.Metallurgy],
+                    skillLevel,
                     colonist.TaskCompletionSpeedMultiplier);
             }
 

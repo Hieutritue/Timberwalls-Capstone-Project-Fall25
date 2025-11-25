@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem.AfflictionSystem
 {
-    public abstract class AAfflictionEffect : ScriptableObject
+    public abstract class AAfflictionEffect : SerializedScriptableObject
     {
         public string EffectName;
         public string Description;
