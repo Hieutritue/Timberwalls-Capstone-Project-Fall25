@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -32,10 +33,24 @@ public class ItemTooltipManager : MonoBehaviour
     {
         if (displayItemTooltip != null)
         {
-            itemSprite.sprite = displayItemTooltip.sprite;
-            itemName.text = displayItemTooltip.itemName;
-            itemHowToGetDescription.text = displayItemTooltip.howToGet;
-            itemDescription.text = displayItemTooltip.itemDescription;
+            PlaceableSO placeableSo = displayItemTooltip.placeableSO;
+            if (placeableSo != null)
+            {
+                itemSprite.sprite = placeableSo.Icon;
+                itemName.text = placeableSo.Name;
+                itemHowToGetDescription.text = string.Join("\n",
+                        placeableSo.Costs
+                        .Where(c => c.Resource != null)
+                        .Select(c => $"{c.Amount} - {c.Resource.ResourceName}"));
+                itemDescription.text = $"Can be placed on {placeableSo.Size.x}x{placeableSo.Size.y}";
+            }
+            else
+            {
+                itemSprite.sprite = displayItemTooltip.sprite;
+                itemName.text = displayItemTooltip.itemName;
+                itemHowToGetDescription.text = displayItemTooltip.howToGet;
+                itemDescription.text = displayItemTooltip.itemDescription;
+            }
             gameObject.SetActive(true);
             float textPaddingSize = 8f;
             Vector2 backgroundSize = new Vector2(itemDescription.rectTransform.rect.width + textPaddingSize,

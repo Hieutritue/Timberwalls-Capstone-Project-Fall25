@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemTooltipSO", menuName = "ScriptableObjects/Tooltips/ItemTooltipSO")]
 public class ItemTooltipSO : ScriptableObject
 {
+    public PlaceableSO placeableSO;
     public Sprite sprite;
     public string itemName;
     public string howToGet;

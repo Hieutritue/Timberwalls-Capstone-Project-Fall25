@@ -22,4 +22,9 @@ public class ItemTooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         _itemData = itemTooltipSo;
     }
+
+    public ItemTooltipSO GetItem()
+    {
+        return _itemData;
+    }
 }

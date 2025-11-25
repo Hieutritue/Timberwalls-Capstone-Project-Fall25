@@ -16,9 +16,11 @@ namespace DefaultNamespace.ResourceSystem
         public void Setup(ResourceType resourceType, int amount)
         {
             var resource = ResourceManager.Instance.GetResourceSO(resourceType);
-            ItemTooltipSO _itemTooltip = resource.TooltipSO;
+            ItemTooltipSO itemTooltipSo = resource.TooltipSO;
+            // itemTooltipSo.itemName = resource.ResourceName;
+            // itemTooltipSo.sprite = resource.Icon;
             var itemTooltipTrigger = gameObject.GetComponent<ItemTooltipTrigger>();
-            itemTooltipTrigger.SetItem(_itemTooltip);
+            itemTooltipTrigger.SetItem(itemTooltipSo);
             _resource = resource;
             if (Icon)
             {
