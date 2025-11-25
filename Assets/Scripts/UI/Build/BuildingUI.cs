@@ -1,4 +1,5 @@
-﻿using ResourceSystem;
+﻿using System;
+using ResourceSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,17 @@ namespace DefaultNamespace.UI.Build
             });
             RegisterResourceEvents();
             _nameText.text = placeable.Name;
+            
+            OnResourceChanged(ResourceType.Wood,0);
+        }
+
+        private void OnDestroy()
+        {
+            var manager = ResourceManager.Instance;
+            if (manager != null)
+            {
+                manager.OnResourceChanged -= OnResourceChanged;
+            }
         }
 
         private bool IsEnoughResources()

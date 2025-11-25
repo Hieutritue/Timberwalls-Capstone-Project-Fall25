@@ -18,6 +18,19 @@ namespace DefaultNamespace.TaskSystem
             
             return ResourceManager.Instance.Get(resourceType) >= maxCapacity;
         }
+        
+        public bool NotEnoughResourceRequiredToProduce()
+        {
+            var gatheringFurniture = (ResourceGatheringFurniture)_building;
+            foreach (var input in gatheringFurniture.GatheringFurnitureSo.Consumption)
+            {
+                var currentAmount = ResourceManager.Instance.Get(input.Resource.ResourceType);
+                if (currentAmount < input.Amount)
+                    return true;
+            }
+
+            return false;
+        }
 
         public override float TotalProgress(Colonist colonist)
         {
