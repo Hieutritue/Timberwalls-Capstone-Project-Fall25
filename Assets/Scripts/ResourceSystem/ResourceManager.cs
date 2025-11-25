@@ -13,13 +13,19 @@ public class ResourceManager : MonoSingleton<ResourceManager>
 
     private Dictionary<ResourceType, int> _amounts = new();
 
-    public event Action<ResourceType, int> OnResourceChanged; 
+    public event Action<ResourceType, int> OnResourceChanged;
     public static event Action OnInitialized;
 
     private void Start()
     {
         foreach (var res in StartingResources)
             _amounts[res.ResourceType] = 0;
+        BuildMenuManager.Instance.OnBuildMenuInitialized += () =>
+        {
+            Set(ResourceType.Wood, 100);
+            Set(ResourceType.Stone, 100);
+            Set(ResourceType.CookedFood, 50);
+        };
     }
 
     public void Set(ResourceType resourceType, int amount)
@@ -32,21 +38,22 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     {
         return _amounts.GetValueOrDefault(resourceType, 0);
     }
-    
+
     public ResourceSO GetResourceSO(ResourceType resourceType)
     {
         return StartingResources.Find(r => r.ResourceType == resourceType);
     }
-    
+
     public IReadOnlyDictionary<ResourceType, int> GetAll()
     {
         return _amounts;
     }
-    
+
     public List<ResourceSO> GetAllResourceSOs()
     {
         return StartingResources;
     }
+
     [Button]
     public void AddResouce(ResourceType resourceType, int amount)
     {

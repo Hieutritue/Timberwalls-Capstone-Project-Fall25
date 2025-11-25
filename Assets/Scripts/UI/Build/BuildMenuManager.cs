@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using DefaultNamespace;
 using DefaultNamespace.UI.Build;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildMenuManager : MonoBehaviour
+public class BuildMenuManager : MonoSingleton<BuildMenuManager>
 {
     [SerializeField] private GameObject categoryPrefab;
     [SerializeField] private SubCategoryPanel subCategoryPanelPrefab;
@@ -18,6 +19,7 @@ public class BuildMenuManager : MonoBehaviour
         = new Dictionary<BuildingCategory, List<SubCategoryPanel>>();
 
     private CategoryButton _currentCategoryButtonSelected;
+    public Action OnBuildMenuInitialized;
 
     private void Start()
     {
@@ -26,6 +28,8 @@ public class BuildMenuManager : MonoBehaviour
         _currentCategoryButtonSelected.Button.onClick.Invoke();
         _currentCategoryButtonSelected.Button.Select();
         gameObject.SetActive(false);
+        
+        OnBuildMenuInitialized?.Invoke();
     }
 
     private void GenerateCategories()
