@@ -36,11 +36,8 @@ public class ColonistSpawnManager : MonoSingleton<ColonistSpawnManager>
 
         if (TrySpawnOpportunity())
         {
-            Debug.Log($"Colonist spawn opportunity for day {day} triggered.");
             ShowColonistSelection();
         }
-
-        Debug.Log($"Colonist spawn opportunity check for day {day} failed.");
     }
 
     private bool TrySpawnOpportunity()
