@@ -1,7 +1,10 @@
+using System;
 using DefaultNamespace;
 using DefaultNamespace.ColonistSystem;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoSingleton<UIManager>
 {
@@ -16,7 +19,21 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private readonly float spedUpSpeedValue = 1.5f;
     [SerializeField] private readonly float furtherSpedUpSpeedValue = 2;
     [SerializeField] private TMP_Text _populationText;
+
+    [SerializeField] private UnityEvent _onLeftClickNotOnUI;
     
+    private void Start()
+    {
+        InputManager.Instance.OnMouseLeftClick += LeftClickNotOnUI;
+    }
+    
+    private void LeftClickNotOnUI()
+    {
+        if(EventSystem.current.IsPointerOverGameObject()) return;
+        
+        _onLeftClickNotOnUI?.Invoke();
+    }
+
     public void UpdatePopulationText(int currentPopulation, int maxPopulation)
     {
         if (_populationText != null)

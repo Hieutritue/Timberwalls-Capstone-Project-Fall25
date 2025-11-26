@@ -1,4 +1,5 @@
-﻿using ResourceSystem;
+﻿using MoreMountains.Feedbacks;
+using ResourceSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,13 +13,17 @@ namespace DefaultNamespace.ResourceSystem
         public TMP_Text AmountText;
         private readonly string UNKNOWN_RESOURCE = "Unknown resource";
         private ResourceSO _resource;
+        [SerializeField] private MMF_Player _resourceGainedFeedback;
+        [SerializeField] private MMF_Player _resourceLostFeedback;
 
         public void Setup(ResourceType resourceType, int amount)
         {
             var resource = ResourceManager.Instance.GetResourceSO(resourceType);
-            ItemTooltipSO _itemTooltip = resource.TooltipSO;
+            ItemTooltipSO itemTooltipSo = resource.TooltipSO;
+            // itemTooltipSo.itemName = resource.ResourceName;
+            // itemTooltipSo.sprite = resource.Icon;
             var itemTooltipTrigger = gameObject.GetComponent<ItemTooltipTrigger>();
-            itemTooltipTrigger.SetItem(_itemTooltip);
+            itemTooltipTrigger.SetItem(itemTooltipSo);
             _resource = resource;
             if (Icon)
             {
@@ -43,6 +48,18 @@ namespace DefaultNamespace.ResourceSystem
 
         public void UpdateAmount(int newAmount)
         {
+            // Play feedback based on amount change
+            if (AmountText && int.TryParse(AmountText.text, out var currentAmount))
+            {
+                if (newAmount > currentAmount)
+                {
+                    _resourceGainedFeedback?.PlayFeedbacks();
+                }
+                else if (newAmount < currentAmount)
+                {
+                    _resourceLostFeedback?.PlayFeedbacks();
+                }
+            }
             if (AmountText)
                 AmountText.text = newAmount.ToString();
             gameObject.SetActive(newAmount != 0);

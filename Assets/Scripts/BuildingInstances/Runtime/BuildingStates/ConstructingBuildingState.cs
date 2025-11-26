@@ -13,7 +13,7 @@ namespace BuildingSystem.RoomStates
 
         public override void Enter()
         {
-            // _behaviour.Colliders.ToList().ForEach(c => c.enabled = false);
+            // _behaviour.SetCollidersToTrigger(true);
             BuildingSystemManager.Instance.MaterialSwapper.ApplyHighlight(_behaviour.gameObject,
                 BuildingSystemManager.Instance.UnderConstructionMaterial);
         }

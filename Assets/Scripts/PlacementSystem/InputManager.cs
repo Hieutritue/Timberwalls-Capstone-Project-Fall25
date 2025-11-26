@@ -11,8 +11,7 @@ public class InputManager : MonoSingleton<InputManager>
     private Vector3 _lastMousePosition;
 
     public Action
-        OnMouseLeftClick,
-        OnMouseRightClick;
+        OnMouseLeftClick;
     public Action<PlaceableType> OnClickRemovePlaceable;
     public Action OnClickCancelKey;
     public Action<int> OnClickNum;
@@ -26,8 +25,8 @@ public class InputManager : MonoSingleton<InputManager>
     {
         if(Input.GetMouseButtonDown(0))
             OnMouseLeftClick?.Invoke();
-        if (Input.GetMouseButtonDown(1))
-            OnMouseRightClick?.Invoke();
+        // if (Input.GetMouseButtonDown(1))
+        //     OnMouseRightClick?.Invoke();
         if (Input.GetKeyDown(KeyCode.Alpha1))
             OnClickNum?.Invoke(1);
         if (Input.GetKeyDown(KeyCode.Alpha2))
