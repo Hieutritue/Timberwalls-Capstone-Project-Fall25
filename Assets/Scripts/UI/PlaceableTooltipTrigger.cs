@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemTooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class PlaceableTooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private ItemTooltipSO _itemData;
-    //private PlaceableSO _placeableData;
+    private PlaceableSO _itemData;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -19,9 +18,9 @@ public class ItemTooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerE
         ItemTooltipManager.HideTooltipStatic();
     }
 
-    public void SetItem(ItemTooltipSO itemTooltipSo)
+    public void SetItem(PlaceableSO placeableTooltipSO)
     {
-        _itemData = itemTooltipSo;
+        _itemData = placeableTooltipSO;
     }
     
 }

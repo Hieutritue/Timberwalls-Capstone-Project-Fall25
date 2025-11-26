@@ -13,11 +13,11 @@ namespace DefaultNamespace.UI.Build
         public void Init(PlaceableSO placeable)
         {
             PlaceableData = placeable;
-            var itemTooltipTrigger = gameObject.GetComponent<ItemTooltipTrigger>();
-            if (itemTooltipTrigger != null)
+            var placeableTooltipTrigger = gameObject.GetComponent<PlaceableTooltipTrigger>();
+            if (placeableTooltipTrigger != null)
             {
-                if(placeable.ItemTooltipSO != null)
-                itemTooltipTrigger.SetItem(placeable.ItemTooltipSO);
+                //if(placeable.ItemTooltipSO != null)
+                placeableTooltipTrigger.SetItem(placeable);
             }
             _iconImage.sprite = placeable.Icon;
             _button.onClick.AddListener(() =>
