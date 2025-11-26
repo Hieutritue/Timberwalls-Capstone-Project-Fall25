@@ -18,7 +18,7 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
         [SerializeField] private Image _backgroundImage;
         [SerializeField] private List<Color> _tierColors;
         private ColonistSO _colonistSo;
-        
+
         [Button]
         public void Setup(ColonistSO colonistSo)
         {
@@ -26,19 +26,42 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
             _colonistName.text = colonistSo.NPCName;
             _colonistPortrait.sprite = colonistSo.Portrait;
 
-            _colonistSkills.ForEach((s,i)=>s.text = $"{((SkillType)i).ToString()}: {_colonistSo.Skills[(SkillType)i]}");
+            _colonistSkills.ForEach((s, i) =>
+                s.text = $"{((SkillType)i).ToString()}: {_colonistSo.Skills[(SkillType)i]}");
 
-            _colonistCosts.ForEach((c,i)=>
+            _colonistCosts.ForEach((c, i) =>
             {
-                c.text = $"{_colonistSo.RecruitmentCosts[i].Resource.ResourceName}: {_colonistSo.RecruitmentCosts[i].Amount}";
+                var resource = _colonistSo.RecruitmentCosts[i].Resource;
+                var cost = _colonistSo.RecruitmentCosts[i].Amount;
+                var availableAmount = ResourceManager.Instance.Get(resource.ResourceType);
+                var color = cost < availableAmount ? "white" : "red";
+
+
+                c.text =
+                    $"{resource.ResourceName}: <color=\"{color}\">{cost}</color> ({availableAmount})";
             });
-            
             _backgroundImage.color = _tierColors[colonistSo.Tier];
         }
-        
+
         public void OnRecruitButtonPressed()
         {
+            if (_colonistSo == null)
+            {
+                Debug.LogError("ColonistSO is not set up for this option.");
+                return;
+            }
+
+            foreach (var cost in _colonistSo.RecruitmentCosts)
+            {
+                if (ResourceManager.Instance.Get(cost.Resource.ResourceType) < cost.Amount)
+                {
+                    Debug.Log("Not enough resources to recruit this colonist.");
+                    return;
+                }
+            }
+
             ColonistManager.Instance.SpawnColonist(_colonistSo, Vector3.zero);
+            ColonistSelectionPanel.Instance.HideSpawnChoices();
         }
     }
 }

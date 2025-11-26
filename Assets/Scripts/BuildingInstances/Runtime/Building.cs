@@ -15,6 +15,7 @@ namespace BuildingSystem
     {
         public PlaceableSO PlaceableSo;
         public Transform ProgressPoint;
+        public Animator Animator;
         
         protected StateMachine _stateMachine;
         protected ConstructingBuildingState _constructingBuildingState;
