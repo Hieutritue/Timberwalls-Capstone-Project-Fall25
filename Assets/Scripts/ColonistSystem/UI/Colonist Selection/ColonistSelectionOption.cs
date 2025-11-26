@@ -38,7 +38,7 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
 
 
                 c.text =
-                    $"{resource.ResourceName}: <color=\"{color}\">{cost}</color> ({availableAmount})";
+                    $"{resource.ResourceName}: {cost} (<color=\"{color}\">{availableAmount}</color>)";
             });
             _backgroundImage.color = _tierColors[colonistSo.Tier];
         }
