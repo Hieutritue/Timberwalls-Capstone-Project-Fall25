@@ -5,7 +5,7 @@ namespace ShieldSystem
     [CreateAssetMenu(fileName = "ShieldMaintainabilityLevelSO",
         menuName = "ScriptableObjects/ShieldSystem/ShieldMaintainabilityLevelSO",
         order = 1)]
-    public class ShieldMaintainabilityLevelSo : ScriptableObject
+    public class ShieldMaintainabilityLevelSo : PlaceableSO
     {
         public float BaseRecoverySpeed;
     }
