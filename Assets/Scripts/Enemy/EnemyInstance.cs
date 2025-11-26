@@ -23,8 +23,8 @@ namespace DefaultNamespace.Enemy
         private BoxCollider _targetCol;
         private float attackCooldown = 0f;
         private bool isDead = false;
+        private bool isAttacking = false; // prevents spam restarting animation
 
-        private string lastAnim = "";
 
         // --------------------------------------------------------
         // Pool Wake — always run when activated
@@ -44,6 +44,7 @@ namespace DefaultNamespace.Enemy
 
             CurrentHealth = Stats.Health;
             attackCooldown = 0f;
+            isAttacking = false;
             isDead = false;
 
             _shieldSystem = ShieldSystem.ShieldSystem.Instance;
@@ -103,20 +104,28 @@ namespace DefaultNamespace.Enemy
         // --------------------------------------------------------
         void TryAttack()
         {
+            if (isDead) return;
             attackCooldown -= Time.deltaTime;
-            if (attackCooldown > 0)
+
+            // If still recharging → idle but DO NOT restart Attack
+            if (attackCooldown > 0f)
             {
-                PlayAnim_Idle();
+                if (!isAttacking) PlayAnim_Idle();  // ONLY idle if not inside attack
                 return;
             }
 
-            attackCooldown = AttackCooldown;
-            //PlayAnim_Attack();
-            PlayAnim(EnemySo.animStates?.Attack);
-            Debug.Log($"⚔ [{EnemySo.name}] DEALT {AttackDamage}");
+            // -------------------------------------------------------
+            // Attack is ready → trigger ONCE, then lock until animation event unlocks
+            // -------------------------------------------------------
+            if (!isAttacking)
+            {
 
-            // ❗ Damage now happens inside AnimationEvent_DoDamage()
-            // _shieldSystem.ShieldWall.ReceiveDamage(AttackDamage);  ← REMOVED
+                attackCooldown = AttackCooldown;
+                isAttacking = true;
+
+                Debug.Log($"<color=#FF9A00>[ATTACK]</color> {EnemySo.name} Attack Started");
+                PlayAnim_Attack();    // animation event will apply damage + unlock attack
+            }
         }
 
 
@@ -124,10 +133,13 @@ namespace DefaultNamespace.Enemy
         // Animation Event Hook (called from Animator)
         public void AnimationEvent_DoDamage()
         {
-            Debug.Log("⚡ ANIMATION EVENT FIRED ⚡");
+            Debug.Log($"<color=#FFD300><b>⚡ ANIM EVENT</b></color> {EnemySo.name} HIT → <b>{AttackDamage}</b> damage");
 
             _shieldSystem.ShieldWall.ReceiveDamage(AttackDamage);
+            // <-- unlocks next attack only when animation event fires
+            isAttacking = false;
         }
+
 
 
         // =====================================================================
@@ -150,19 +162,28 @@ namespace DefaultNamespace.Enemy
 
         private void ReturnToPoolSafely()
         {
-            // Since PooledEnemy is attached dynamically by pool,
-            // we ask for it only at runtime.
+            Debug.Log($"<color=#00E5FF><b>[POOL]</b></color> {EnemySo.name} → Attempting ReturnToPool()");
+
             if (TryGetComponent(out PooledEnemy pooled))
-                pooled.ReturnToPool();         // <-- return to pool
+            {
+                Debug.Log($"<color=#00FF8A><b>[POOL SUCCESS]</b></color> {EnemySo.name} returned to object pool");
+                pooled.ReturnToPool();
+            }
             else
-                Destroy(gameObject);           // <-- fail-safe for non-pooled objects
+            {
+                Debug.LogWarning($"<color=#FF4A4A><b>[POOL FAIL]</b></color> {EnemySo.name} had NO pool reference — Destroying instance");
+                Destroy(gameObject);
+            }
         }
+
 
         // 🔥 Animation event calls THIS at the last frame
         public void AnimationEvent_DeathFinished()
         {
             ReturnToPoolSafely();  // ← FINALLY RETURNS TO OBJECT POOL
         }
+
+        public void AnimationEvent_DeathFinished_callDeath() => isDead = true;
         // --------------------------------------------------------
         // STATS OVERRIDE (used by spawner)
         // --------------------------------------------------------
@@ -186,19 +207,14 @@ namespace DefaultNamespace.Enemy
         // --------------------------------------------------------
         void PlayAnim_Idle() => PlayAnim(_enemySo.animStates.Idle);
         void PlayAnim_Walk() => PlayAnim(_enemySo.animStates.Walk);
-        void PlayAnim_Attack()
-        {
-            
-            Debug.Log(">>> ATTACK ANIMATION TRIGGERED!! <<<");
-        }
+        void PlayAnim_Attack() => PlayAnim(_enemySo.animStates.Attack);
         void PlayAnim_Death() => PlayAnim(_enemySo.animStates.Death);
 
         void PlayAnim(string state)
         {
             if (animator == null || string.IsNullOrEmpty(state)) return;
 
-            animator.speed = 1f; // reset speed
-            animator.CrossFadeInFixedTime(state, 0.1f, 0);  // <— ensures transition always happens
+            animator.Play(state);
         }
 
     }

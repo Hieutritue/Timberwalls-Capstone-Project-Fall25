@@ -58,8 +58,8 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        // Night START
-        if (!isNight && nowNight && day != lastNightDay && day != 1)
+        // Night START !isNight && nowNight && day != lastNightDay && day != 1
+        if (!isNight && nowNight && day != lastNightDay)
         {
             BeginNight(day);
         }
@@ -94,13 +94,16 @@ public class EnemySpawner : MonoBehaviour
         var unlocked = allWaves.Where(w => day >= w.day_to_unlock).ToList();
 
         // Shuffle
-        for (int i = 0; i < unlocked.Count; i++)
+        var selected = new List<DifficultyThemeSO>();
+
+        for (int i = 0; i < wavesPerNight && unlocked.Count > 0; i++)
         {
-            int r = Random.Range(i, unlocked.Count);
-            (unlocked[i], unlocked[r]) = (unlocked[r], unlocked[i]);
+            int r = Random.Range(0, unlocked.Count);
+            selected.Add(unlocked[r]);
+            unlocked.RemoveAt(r);
         }
 
-        tonightQueue = new Queue<DifficultyThemeSO>(unlocked.Take(wavesPerNight));
+        tonightQueue = new Queue<DifficultyThemeSO>(selected);
 
         StartNextWave(day);
     }
@@ -165,7 +168,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (obj.TryGetComponent(out EnemyInstance inst))
         {
-            
+
             ApplyScaling(inst, day);
 
             bool fromLeft = sp.CompareTag("SpawnerLeft");
