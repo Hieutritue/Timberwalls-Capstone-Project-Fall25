@@ -12,99 +12,51 @@ public class EnemiesGeneralPool : MonoBehaviour
         public int maxCapacity = 50;
     }
 
-    [Header("Enemy Pool Configuration")]
-    [SerializeField] private List<EnemyPoolConfig> enemyConfigs = new List<EnemyPoolConfig>();
-
-    private Dictionary<GameObject, IObjectPool<GameObject>> enemyPools = new Dictionary<GameObject, IObjectPool<GameObject>>();
+    [SerializeField] private List<EnemyPoolConfig> enemyConfigs;
+    private Dictionary<GameObject, IObjectPool<GameObject>> enemyPools = new();
 
     private void Awake()
-    {
-        InitializePools();
-    }
-
-    private void InitializePools()
     {
         foreach (var config in enemyConfigs)
         {
             if (config.enemyPrefab == null)
-            {
-                Debug.LogWarning("Enemy prefab is null in config, skipping...");
                 continue;
-            }
 
             var pool = new ObjectPool<GameObject>(
-                createFunc: () => CreateEnemy(config.enemyPrefab),
-                actionOnGet: OnGetFromPool,
-                actionOnRelease: OnReleaseToPool,
-                actionOnDestroy: OnDestroyPooledObject,
-                collectionCheck: true,
-                defaultCapacity: config.defaultCapacity,
-                maxSize: config.maxCapacity
+                () => CreateEnemy(config.enemyPrefab),
+                OnGetFromPool,
+                OnReleaseToPool,
+                OnDestroyPooledObject,
+                true,
+                config.defaultCapacity,
+                config.maxCapacity
             );
 
             enemyPools.Add(config.enemyPrefab, pool);
-
-            Debug.Log($"Pool created for {config.enemyPrefab.name} - Default: {config.defaultCapacity}, Max: {config.maxCapacity}");
         }
     }
 
-    // Spawn enemy from pool
-    public GameObject SpawnEnemy(GameObject enemyPrefab, Vector3 position, Quaternion rotation)
+    public GameObject SpawnEnemy(GameObject prefab, Vector3 pos, Quaternion rot)
     {
-        if (!enemyPools.ContainsKey(enemyPrefab))
-        {
-            Debug.LogError($"No pool found for enemy prefab: {enemyPrefab.name}");
-            return null;
-        }
-
-        GameObject enemy = enemyPools[enemyPrefab].Get();
-        enemy.transform.position = position;
-        enemy.transform.rotation = rotation;
-
-        return enemy;
+        GameObject obj = enemyPools[prefab].Get();
+        obj.transform.SetPositionAndRotation(pos, rot);
+        return obj;
     }
 
-    // Return enemy to pool
-    public void ReturnEnemy(GameObject enemyPrefab, GameObject enemy)
-    {
-        if (!enemyPools.ContainsKey(enemyPrefab))
-        {
-            Debug.LogError($"No pool found for enemy prefab: {enemyPrefab.name}");
-            Destroy(enemy);
-            return;
-        }
-
-        enemyPools[enemyPrefab].Release(enemy);
-    }
-
-    // Pool callbacks
     private GameObject CreateEnemy(GameObject prefab)
     {
-        GameObject enemy = Instantiate(prefab);
-
-        // Add PooledEnemy component to track which pool it belongs to
-        PooledEnemy pooledEnemy = enemy.GetComponent<PooledEnemy>();
-        if (pooledEnemy == null)
-        {
-            pooledEnemy = enemy.AddComponent<PooledEnemy>();
-        }
-        pooledEnemy.Initialize(this, prefab);
-
-        return enemy;
+        GameObject obj = Instantiate(prefab);
+        var pooled = obj.GetComponent<PooledEnemy>();
+        if (pooled == null) pooled = obj.AddComponent<PooledEnemy>();
+        pooled.Init(this, prefab);
+        return obj;
     }
 
     private void OnGetFromPool(GameObject enemy)
-{
-    enemy.SetActive(true);
-
-    // Support OLD Enemy system
-    if (enemy.TryGetComponent(out Enemy oldEnemy))
-        oldEnemy.ResetEnemy();
-
-    // Support NEW EnemyInstance system
-    if (enemy.TryGetComponent(out DefaultNamespace.Enemy.EnemyInstance newEnemy))
-        newEnemy.ResetForPooling();
-}
+    {
+        enemy.SetActive(true);
+        // EnemyInstance now auto-resets inside OnEnable()
+    }
 
     private void OnReleaseToPool(GameObject enemy)
     {
@@ -115,31 +67,26 @@ public class EnemiesGeneralPool : MonoBehaviour
     {
         Destroy(enemy);
     }
+
+    public void ReturnEnemy(GameObject prefab, GameObject enemy)
+    {
+        enemyPools[prefab].Release(enemy);
+    }
 }
 
-// Helper component to track pooled enemies
 public class PooledEnemy : MonoBehaviour
 {
     private EnemiesGeneralPool pool;
-    private GameObject prefabReference;
+    private GameObject prefab;
 
-    public void Initialize(EnemiesGeneralPool enemyPool, GameObject prefab)
+    public void Init(EnemiesGeneralPool p, GameObject f)
     {
-        pool = enemyPool;
-        prefabReference = prefab;
+        pool = p;
+        prefab = f;
     }
 
-    // Call this when enemy dies/should be returned to pool
     public void ReturnToPool()
     {
-        if (pool != null && prefabReference != null)
-        {
-            pool.ReturnEnemy(prefabReference, gameObject);
-        }
-        else
-        {
-            Debug.LogWarning("Pool or prefab reference is null, destroying object instead");
-            Destroy(gameObject);
-        }
+        pool.ReturnEnemy(prefab, gameObject);
     }
 }
