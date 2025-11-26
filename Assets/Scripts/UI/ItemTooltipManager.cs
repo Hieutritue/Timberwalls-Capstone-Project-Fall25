@@ -13,6 +13,7 @@ public class ItemTooltipManager : MonoBehaviour
     [SerializeField] private RectTransform backgroundTransform;
     //[SerializeField] private Image itemSprite;
     [SerializeField] private TextMeshProUGUI itemName;
+    [SerializeField] private TextMeshProUGUI itemHowToGet;
     [SerializeField] private TextMeshProUGUI itemHowToGetDescription;
     [SerializeField] private TextMeshProUGUI itemDescription;
 
@@ -74,9 +75,10 @@ public class ItemTooltipManager : MonoBehaviour
 
     private void ShowToolTipItem(PlaceableSO placeableSo)
     {
+        itemHowToGet.text = "Resource Required";
         if (placeableSo != null)
         {
-           // itemSprite.sprite = placeableSo.Icon;
+           
             itemName.text = placeableSo.Name;
             itemHowToGetDescription.text =
                 string.Join("\n",
