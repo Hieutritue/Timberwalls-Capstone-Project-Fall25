@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using Pathfinding;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class WanderingDestinationSetter : MonoBehaviour {
     public float Radius = 20;
     public float Delay;
+    private Animator _animator;
     IAstarAI ai;
 
     void Start () {
@@ -21,6 +24,11 @@ public class WanderingDestinationSetter : MonoBehaviour {
         return point;
     }
 
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
     private float _timer;
     public void Tick () {
         
@@ -31,7 +39,7 @@ public class WanderingDestinationSetter : MonoBehaviour {
             _timer += Time.deltaTime;
             
             // TODO: anim idle
-            
+            _animator.SetFloat("Speed", _timer);
             if (_timer < Delay) return;
             
             // TODO: anim move
