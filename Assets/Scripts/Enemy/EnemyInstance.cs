@@ -1,31 +1,33 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace DefaultNamespace.Enemy
 {
     public class EnemyInstance : MonoBehaviour
     {
+        [Header("Assigned in Inspector")]
         [SerializeField] private SO.EnemySo _enemySo;
-        public SO.EnemySo EnemySo => _enemySo;
+        [SerializeField] private Animator animator; // ← NEW OPTIONAL SUPPORT
 
+        public SO.EnemySo EnemySo => _enemySo;
         public EnemyRuntimeStats Stats { get; private set; }
 
-        [field: SerializeField]
-        public float CurrentHealth { get; private set; }
+        [field: SerializeField] public float CurrentHealth { get; private set; }
 
         public float MoveSpeed => Stats.MoveSpeed;
         public float AttackDamage => Stats.AttackDamage;
         public float AttackRange => Stats.AttackRange;
         public float AttackCooldown => Stats.AttackCooldown;
 
-        public SO.EnemyType EnemyType => _enemySo.EnemyType;
-
         private ShieldSystem.ShieldSystem _shieldSystem;
         private BoxCollider _targetCol;
         private float attackCooldown = 0f;
+        private bool isDead = false;
+
+        private string lastAnim = "";
 
         // --------------------------------------------------------
-        // Every time pooled object wakes up again, stats reset here
+        // Pool Wake — always run when activated
         // --------------------------------------------------------
         private void OnEnable()
         {
@@ -34,18 +36,19 @@ namespace DefaultNamespace.Enemy
             if (Stats == null)
                 Stats = new EnemyRuntimeStats();
 
-            // Reset runtime stats from base SO
-            Stats.Health         = _enemySo.Health;
-            Stats.AttackDamage   = _enemySo.AttackDamage;
-            Stats.MoveSpeed      = _enemySo.MoveSpeed;
-            Stats.AttackRange    = _enemySo.AttackRange;
+            Stats.Health = _enemySo.Health;
+            Stats.AttackDamage = _enemySo.AttackDamage;
+            Stats.MoveSpeed = _enemySo.MoveSpeed;
+            Stats.AttackRange = _enemySo.AttackRange;
             Stats.AttackCooldown = _enemySo.AttackCooldown;
 
             CurrentHealth = Stats.Health;
             attackCooldown = 0f;
+            isDead = false;
 
             _shieldSystem = ShieldSystem.ShieldSystem.Instance;
-            enabled = true;
+
+            PlayAnim_Idle();
         }
 
         private void OnDisable()
@@ -53,78 +56,151 @@ namespace DefaultNamespace.Enemy
             EnemyManager.Instance.RemoveEnemyInstance(this);
         }
 
+        // --------------------------------------------------------
+        // MAIN LOOP
+        // --------------------------------------------------------
         void Update()
         {
-            if (_shieldSystem == null) return;
-            if (_targetCol == null) return;
+            if (isDead) return;
+            if (_shieldSystem == null || _targetCol == null) return;
 
-            Vector3 closestPoint = _targetCol.ClosestPoint(transform.position);
-            float distance = Vector3.Distance(transform.position, closestPoint);
+            Vector3 p = _targetCol.ClosestPoint(transform.position);
+            float dist = Vector3.Distance(transform.position, p);
 
-            if (distance > Stats.AttackRange)
-                MoveTowards(closestPoint);
+            if (dist > AttackRange)
+            {
+                MoveTowards(p);
+                PlayAnim_Walk();
+            }
             else
+            {
                 TryAttack();
+            }
         }
 
-        public void SetTarget(bool spawnedFromLeft)
+        // --------------------------------------------------------
+        public void SetTarget(bool left)
         {
-            _targetCol = spawnedFromLeft ? _shieldSystem.ShieldWall.LeftWallCollider
-                                         : _shieldSystem.ShieldWall.RightWallCollider;
+            _targetCol = left ? _shieldSystem.ShieldWall.LeftWallCollider
+                              : _shieldSystem.ShieldWall.RightWallCollider;
 
-            Debug.Log(
-                $"[EnemyInstance] {name} SetTarget → {(spawnedFromLeft ? "LEFT" : "RIGHT")}"
-            );
+
+            transform.rotation = Quaternion.Euler(0f, left ? 90f : -90f, 0f);   // facing
+
         }
 
+        // --------------------------------------------------------
         void MoveTowards(Vector3 p)
         {
             Vector3 dir = (p - transform.position).normalized;
-            transform.position += dir * (Stats.MoveSpeed * Time.deltaTime);
+            transform.position += dir * (MoveSpeed * Time.deltaTime);
+
+            // OPTIONAL — animation speed scaling
+            if (animator != null)
+                animator.speed = Mathf.Lerp(1f, MoveSpeed, 0.5f);
         }
 
+        // --------------------------------------------------------
         void TryAttack()
         {
             attackCooldown -= Time.deltaTime;
-            if (attackCooldown > 0) return;
+            if (attackCooldown > 0)
+            {
+                PlayAnim_Idle();
+                return;
+            }
 
-            attackCooldown = Stats.AttackCooldown;
-            _shieldSystem.ShieldWall.ReceiveDamage(Stats.AttackDamage);
+            attackCooldown = AttackCooldown;
+            //PlayAnim_Attack();
+            PlayAnim(EnemySo.animStates?.Attack);
+            Debug.Log($"⚔ [{EnemySo.name}] DEALT {AttackDamage}");
 
-            Debug.Log($"[EnemyInstance] {EnemySo.name} DID DAMAGE: {Stats.AttackDamage}");
+            // ❗ Damage now happens inside AnimationEvent_DoDamage()
+            // _shieldSystem.ShieldWall.ReceiveDamage(AttackDamage);  ← REMOVED
         }
 
+
+        // Event Hook if you want animation-timed damage instead
+        // Animation Event Hook (called from Animator)
+        public void AnimationEvent_DoDamage()
+        {
+            Debug.Log("⚡ ANIMATION EVENT FIRED ⚡");
+
+            _shieldSystem.ShieldWall.ReceiveDamage(AttackDamage);
+        }
+
+
+        // =====================================================================
+        // DAMAGE + POOL-RETURN DEATH
+        // =====================================================================
         public void TakeDamage(float dmg)
         {
+            if (isDead) return;
             CurrentHealth -= dmg;
+
             if (CurrentHealth <= 0)
-                Die();
+                TriggerDeath();
         }
 
-        void Die()
+        void TriggerDeath()
         {
-            // pooling callback in PooledEnemy handles returning to pool
+            isDead = true;
+            PlayAnim_Death();
         }
 
-        public void ApplyFinalStats(float health, float dmg, float speed, float range, float cd)
+        private void ReturnToPoolSafely()
         {
-            Stats.Health         = health;
-            Stats.AttackDamage   = dmg;
-            Stats.MoveSpeed      = speed;
-            Stats.AttackRange    = range;
+            // Since PooledEnemy is attached dynamically by pool,
+            // we ask for it only at runtime.
+            if (TryGetComponent(out PooledEnemy pooled))
+                pooled.ReturnToPool();         // <-- return to pool
+            else
+                Destroy(gameObject);           // <-- fail-safe for non-pooled objects
+        }
+
+        // 🔥 Animation event calls THIS at the last frame
+        public void AnimationEvent_DeathFinished()
+        {
+            ReturnToPoolSafely();  // ← FINALLY RETURNS TO OBJECT POOL
+        }
+        // --------------------------------------------------------
+        // STATS OVERRIDE (used by spawner)
+        // --------------------------------------------------------
+        public void ApplyFinalStats(float hp, float dmg, float sp, float rng, float cd)
+        {
+            Stats.Health = hp;
+            Stats.AttackDamage = dmg;
+            Stats.MoveSpeed = sp;
+            Stats.AttackRange = rng;
             Stats.AttackCooldown = cd;
-
-            CurrentHealth = Stats.Health;
+            CurrentHealth = hp;
         }
 
         public void PrintFinalStats(string side)
         {
-            Debug.Log(
-                $"[EnemyInstance] {name} ({EnemySo.name}) " +
-                $"HP={Stats.Health:F1}, DMG={Stats.AttackDamage:F1}, SPD={Stats.MoveSpeed:F2}, " +
-                $"RNG={Stats.AttackRange:F2}, CD={Stats.AttackCooldown:F2} | Side={side}"
-            );
+            Debug.Log($"[EnemyInstance Stats] {EnemySo.name} | HP={Stats.Health} DMG={Stats.AttackDamage} SPD={Stats.MoveSpeed} RNG={Stats.AttackRange} CD={Stats.AttackCooldown} | Side={side}");
         }
+
+        // --------------------------------------------------------
+        // ANIMATION WRAPPER
+        // --------------------------------------------------------
+        void PlayAnim_Idle() => PlayAnim(_enemySo.animStates.Idle);
+        void PlayAnim_Walk() => PlayAnim(_enemySo.animStates.Walk);
+        void PlayAnim_Attack()
+        {
+            
+            Debug.Log(">>> ATTACK ANIMATION TRIGGERED!! <<<");
+        }
+        void PlayAnim_Death() => PlayAnim(_enemySo.animStates.Death);
+
+        void PlayAnim(string state)
+        {
+            if (animator == null || string.IsNullOrEmpty(state)) return;
+
+            animator.speed = 1f; // reset speed
+            animator.CrossFadeInFixedTime(state, 0.1f, 0);  // <— ensures transition always happens
+        }
+
     }
 
     public class EnemyRuntimeStats
