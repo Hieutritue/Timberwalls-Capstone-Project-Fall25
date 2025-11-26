@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 public class ItemTooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private ItemTooltipSO _itemData;
-    //private PlaceableSO _placeableData;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
