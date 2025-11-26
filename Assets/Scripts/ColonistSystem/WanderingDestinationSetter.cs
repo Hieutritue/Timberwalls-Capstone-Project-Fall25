@@ -29,7 +29,13 @@ public class WanderingDestinationSetter : MonoBehaviour {
         // the ai has reached the end of the path or it has no path at all
         if (!ai.pathPending && (ai.reachedEndOfPath || !ai.hasPath)) {
             _timer += Time.deltaTime;
+            
+            // TODO: anim idle
+            
             if (_timer < Delay) return;
+            
+            // TODO: anim move
+            
             ai.destination = PickRandomPoint();
             ai.SearchPath();
             // set timer to be random in [0, Delay/2] to avoid all colonists moving at the same time
