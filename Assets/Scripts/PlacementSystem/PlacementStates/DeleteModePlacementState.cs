@@ -42,7 +42,6 @@ namespace DefaultNamespace.PlacementStates
             var demolishingTask = new DemolishingTask(building, TaskType.Demolishing);
             demolishingTask.OnComplete += () =>
             {
-                ResourceManager.Instance.RefundResourcesForPlaceable(placeableInstance.PlaceableSo);
                 CheckRemoval(placeableInstance);
                 gridData.RemovePlaceableInstanceOccupiedAt(gridPosition);
             };

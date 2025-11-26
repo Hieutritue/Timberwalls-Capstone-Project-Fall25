@@ -10,7 +10,7 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Enter()
         {
-            _behaviour.AiDestinationSetter.enabled = true;
+            // _behaviour.AiDestinationSetter.enabled = true;
             _behaviour.FollowerEntity.enabled = true;
         }
 

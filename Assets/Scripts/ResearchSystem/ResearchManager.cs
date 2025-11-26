@@ -14,9 +14,10 @@ namespace DefaultNamespace.ResearchSystem
 
         private void Start()
         {
+            // TODO: Set ngược lại khi load game
             DataTable.Instance.BuildingsCollectionSo.AllBuildings.ForEach(b =>
             {
-                UnlockedBuildings[b] = b.InitiallyUnlocked;
+                UnlockedBuildings[b] = !b.InitiallyUnlocked;
             });
             
             gameObject.SetActive(false);
