@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DefaultNamespace;
+using DefaultNamespace.ResearchSystem;
 using DefaultNamespace.UI.Build;
 using TMPro;
 using UnityEngine;
@@ -30,6 +31,20 @@ public class BuildMenuManager : MonoSingleton<BuildMenuManager>
         gameObject.SetActive(false);
         
         OnBuildMenuInitialized?.Invoke();
+        
+        ResearchManager.Instance.OnResearchUnlocked += OnResearchUnlocked;
+    }
+    
+    private void OnResearchUnlocked(ResearchSO researchSo)
+    {
+        // Refresh build menu based on new research
+        foreach (var subCategoryPanels in _categoryToSubCategories.Values)
+        {
+            foreach (var panel in subCategoryPanels)
+            {
+                panel.RefreshItems();
+            }
+        }
     }
 
     private void GenerateCategories()

@@ -25,6 +25,8 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             Set(ResourceType.Wood, 100);
             Set(ResourceType.Stone, 100);
             Set(ResourceType.CookedFood, 50);
+            Set(ResourceType.Iron,20);
+            Set(ResourceType.Copper,20);
         };
     }
 
@@ -58,5 +60,33 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     public void AddResouce(ResourceType resourceType, int amount)
     {
         Set(resourceType, Get(resourceType) + amount);
+    }
+
+    public bool HasEnoughResourcesForPlaceable(PlaceableSO objectToPlace)
+    {
+        foreach (var cost in objectToPlace.Costs)
+        {
+            int currentAmount = Get(cost.Resource.ResourceType);
+            if (currentAmount < cost.Amount)
+                return false;
+        }
+
+        return true;
+    }
+
+    public void DeductResourcesForPlaceable(PlaceableSO getCurrentObjectToPlace)
+    {
+        foreach (var cost in getCurrentObjectToPlace.Costs)
+        {
+            Set(cost.Resource.ResourceType, Get(cost.Resource.ResourceType) - cost.Amount);
+        }
+    }
+
+    public void RefundResourcesForPlaceable(PlaceableSO placeableInstancePlaceableSo)
+    {
+        foreach (var cost in placeableInstancePlaceableSo.Costs)
+        {
+            Set(cost.Resource.ResourceType, Get(cost.Resource.ResourceType) + cost.Amount);
+        }
     }
 }

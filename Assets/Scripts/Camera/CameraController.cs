@@ -1,5 +1,6 @@
 ﻿using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoSingleton<CameraController>
 {
@@ -45,6 +46,8 @@ public class CameraController : MonoSingleton<CameraController>
 
     void Update()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+        
         var userMoved = HandlePan(); 
         HandleZoom();
         

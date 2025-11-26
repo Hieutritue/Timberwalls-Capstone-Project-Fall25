@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
@@ -30,7 +31,7 @@ namespace DefaultNamespace.ColonistSystem.UI
             _colonist = colonist;
             _colonistPortrait.sprite = colonist.ColonistSo.Portrait;
             _colonistNameText.text = colonist.ColonistSo.NPCName;
-            
+
             // Skills
             _skillPairs.ForEach((sp, index) =>
             {
@@ -39,15 +40,15 @@ namespace DefaultNamespace.ColonistSystem.UI
                     ? colonist.ColonistSo.Skills[(SkillType)index].ToString()
                     : "0";
             });
-            
+
             // Afflictions
             HandleAfflictionChange();
             colonist.OnActiveAfflictionsChanged += HandleAfflictionChange;
-            
+
             // Current State
             ChangeStateText(colonist.CurrentStateWord);
             colonist.OnCurrentStateChanged += ChangeStateText;
-            
+
             // Stats
             _statPairs.ForEach((statPair, index) =>
             {
@@ -102,9 +103,19 @@ namespace DefaultNamespace.ColonistSystem.UI
             gameObject.SetActive(true);
         }
 
+        public LayerMask interactableLayer;
+
         [Button]
         public void ClosePanel()
         {
+            if (gameObject.activeInHierarchy == false) return;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, interactableLayer))
+            {
+                if (hit.collider.GetComponentInParent<Colonist>() == _colonist)
+                    return;
+            }
+
             CameraController.Instance.StopFollowing();
             Unsubscribe();
             _colonist = null;

@@ -30,9 +30,6 @@ namespace _Scripts.StateMachine
             CurrentState?.Exit();
             CurrentState = nextState;
             nextState?.Enter();
-            
-            Debug.Log(nextState.GetType().Name);
-	
 
             // notify other objects that state has changed
             OnStateChanged?.Invoke(nextState);
