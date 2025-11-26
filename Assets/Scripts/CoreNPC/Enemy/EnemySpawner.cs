@@ -1,300 +1,261 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using DefaultNamespace.ScheduleSystem;
+using DefaultNamespace.Enemy;
 
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Wave Settings")]
-    [Tooltip("All possible waves (DifficultyThemeSO).")]
     [SerializeField] private List<DifficultyThemeSO> allWaves;
+    [SerializeField] private int wavesPerNight = 3;
+    [SerializeField] private float waveDurationHours = 2f;
 
-    [Tooltip("How many in-game hours count as night (from hour 0).")]
-    [SerializeField] private int nightLengthHours = 6;
+    [Header("Day Scaling")]
+    [SerializeField] private int scalingStartDay = 8;
+    [SerializeField] private float expGrowth = 1.1f;
 
-    [Tooltip("Max number of waves that can appear in a single night.")]
-    [SerializeField] private int maxWavesPerNight = 6;
-
-    [Header("Scaling Settings")]
-    [Tooltip("From which in-game day difficulty starts scaling.")]
-    [SerializeField] private int scalingStartDay = 6;
-
-    [Tooltip("Extra enemies per day after scalingStartDay (0.15 = +15% per day).")]
-    [SerializeField] private float enemyScalePerDay = 0.15f;
-
-    [Header("Spawn System")]
-    [SerializeField] private EnemiesGeneralPool enemyPool;
+    [Header("References")]
     [SerializeField] private GameTimeManager timeManager;
+    [SerializeField] private EnemiesGeneralPool enemyPool;
 
-    [Header("Rush Wave Settings")]
-    [Tooltip("When remaining enemies in current wave <= this % of the original limit we enter rush mode.")]
-    [SerializeField] private float rushPercent = 0.15f;
-
-    [Tooltip("Spawn interval (in hours) while in rush mode.")]
-    [SerializeField] private float rushSpawnIntervalHours = 0.1f;
-
-    [SerializeField] private UnityEvent OnRushWaveStarted;
-
-    // --- Runtime state ---
+    // Runtime state
     private Queue<DifficultyThemeSO> tonightQueue;
     private DifficultyThemeSO currentWave;
+    private float spawnTimerHours;
+    private int nextWaveEntryIndex;   // index into enemies_list
+    private int spawnCounterInsideEntry;   // progress inside enemy_spawn_count
 
-    private int upper_spawn_limit;   // remaining enemies in current wave
-    private int initialWaveLimit;    // original limit for current wave
-
-    private float spawnTimer = 0f;   // in hours
-    private float spawnIntervalHours;
-    private int last_spawner_day = -1;
-
-    private bool isNight = false;
-    private bool spawningWave = false;
-    private bool rushMode = false;
+    private bool isNight;
+    private int lastNightDay = -1;
 
     private readonly List<Transform> spawnPoints = new();
-    private int leftCount = 0;
-    private int rightCount = 0;
+    private int leftCount, rightCount;
+
 
     private void Start()
     {
-        // Collect spawn points (both sides)
         spawnPoints.AddRange(GameObject.FindGameObjectsWithTag("SpawnerLeft").Select(t => t.transform));
         spawnPoints.AddRange(GameObject.FindGameObjectsWithTag("SpawnerRight").Select(t => t.transform));
 
         if (timeManager == null)
-        {
             timeManager = GameTimeManager.Instance;
-        }
     }
 
     private void Update()
     {
         if (timeManager == null) return;
 
-        int hour = timeManager.CurrentHour;
         int day = timeManager.CurrentDay;
+        int hour = timeManager.CurrentHour;
 
-        // Night is from hour 0 .. nightLengthHours-1
-        bool nowNight = hour < nightLengthHours;
+        bool nowNight = (hour < 6); // Night = first 6 hours
 
-        // 1) Night just ended
+        // Night END
         if (isNight && !nowNight)
         {
             EndNight(day);
-            return; // don't keep spawning
+            return;
         }
 
-
-        // 2) Night just started (skip day 1 if you want, remove 'day != 1' if not)
-        if (!isNight && nowNight && day != 1)
+        // Night START
+        if (!isNight && nowNight && day != lastNightDay && day != 1)
         {
             BeginNight(day);
         }
 
-        // 3) If it is not night or we are not in a wave, do nothing
-        if (!isNight || !spawningWave) return;
+        if (!isNight || currentWave == null) return;
 
-        // 4) Progress spawn timer in HOURS
-        float hourDelta = Time.deltaTime / timeManager.RealSecondsPerInGameHour;
-        spawnTimer += hourDelta;
+        // Move timer in HOURS
+        spawnTimerHours += Time.deltaTime / timeManager.RealSecondsPerInGameHour;
 
-        float neededInterval = rushMode ? rushSpawnIntervalHours : spawnIntervalHours;
+        int totalEnemiesInWave = currentWave.enemies_list.Sum(e => Mathf.Max(1, e.enemy_spawn_count));
+        if (totalEnemiesInWave == 0) return;
 
-        if (spawnTimer >= neededInterval)
+        float interval = waveDurationHours / totalEnemiesInWave;
+
+        if (spawnTimerHours >= interval)
         {
-            spawnTimer -= neededInterval;
-            SpawnWaveStep();
+            spawnTimerHours -= interval;
+            SpawnNextEnemy(day);
         }
     }
 
-    // -------------------- Night lifecycle --------------------
+    // ----------------- NIGHT SYSTEM -----------------
 
     private void BeginNight(int day)
     {
-        if (last_spawner_day == day) return;
-        Debug.Log("Night begins – selecting waves");
+        Debug.Log("Night begins – picking waves");
 
         isNight = true;
-        
-        spawningWave = false;
-        rushMode = false;
+        lastNightDay = day;
 
-        // Get all unlocked waves for this day
-        List<DifficultyThemeSO> unlocked =
-            allWaves.Where(w => day >= w.day_to_unlock).ToList();
+        // Select unlocked waves
+        var unlocked = allWaves.Where(w => day >= w.day_to_unlock).ToList();
 
-        // Shuffle unlocked waves
+        // Shuffle
         for (int i = 0; i < unlocked.Count; i++)
         {
             int r = Random.Range(i, unlocked.Count);
             (unlocked[i], unlocked[r]) = (unlocked[r], unlocked[i]);
         }
 
-        // Pick up to maxWavesPerNight
-        tonightQueue = new Queue<DifficultyThemeSO>(
-            unlocked.Take(maxWavesPerNight)
-        );
+        tonightQueue = new Queue<DifficultyThemeSO>(unlocked.Take(wavesPerNight));
 
         StartNextWave(day);
     }
 
     private void EndNight(int day)
     {
-        Debug.Log("Night ended – stopping all waves");
-
+        Debug.Log("Night ended – cleanup");
         isNight = false;
-        spawningWave = false;
-        rushMode = false;
-last_spawner_day = day;
         tonightQueue?.Clear();
         currentWave = null;
     }
 
-    // -------------------- Wave lifecycle --------------------
-
     private void StartNextWave(int day)
     {
-        if (!isNight) return;
-
         if (tonightQueue == null || tonightQueue.Count == 0)
         {
-            Debug.Log("Night finished (spawned all waves)");
-            isNight = false;
-            spawningWave = false;
+            Debug.Log("Night finished – all waves done");
             currentWave = null;
             return;
         }
 
         currentWave = tonightQueue.Dequeue();
+        nextWaveEntryIndex = 0;
+        spawnCounterInsideEntry = 0;
+        spawnTimerHours = 0f;
 
-        // Base limit from SO
-        upper_spawn_limit = currentWave.enemy_spawn_upper_limit;
-
-        // Difficulty scaling by day
-        if (day >= scalingStartDay)
-        {
-            int daysOver = day - scalingStartDay;
-            float multiplier = 1f + enemyScalePerDay * daysOver;
-            upper_spawn_limit = Mathf.CeilToInt(upper_spawn_limit * multiplier);
-        }
-
-        initialWaveLimit = upper_spawn_limit;
-        rushMode = false;
-
-        // Convert DifficultyThemeSO.interval (= total wave duration in HOURS)
-        // to "time between spawn batches"
-        // so that if interval == 2 and limit == 100, we spawn 100 enemies evenly over 2 hours.
-        spawnIntervalHours = currentWave.interval / Mathf.Max(1, upper_spawn_limit);
-
-        spawnTimer = 0f;
-        spawningWave = true;
-
-        Debug.Log($"Wave '{currentWave.name}' starting. Limit={upper_spawn_limit}, interval={spawnIntervalHours}");
+        Debug.Log($"Wave {currentWave.name} begins, order count={currentWave.enemies_list.Count}.");
     }
 
-    private void SpawnWaveStep()
-    {
-        if (!isNight) return;
+    // ----------------- ENEMY SPAWNING -----------------
 
-        // Wave finished
-        if (upper_spawn_limit <= 0)
+    private void SpawnNextEnemy(int day)
+    {
+        if (currentWave == null) return;
+
+        // If out of entries → next wave
+        if (nextWaveEntryIndex >= currentWave.enemies_list.Count)
         {
-            spawningWave = false;
-            StartNextWave(timeManager.CurrentDay);
+            StartNextWave(day);
             return;
         }
 
-        // Check for rush mode trigger
-        int remaining = upper_spawn_limit;
-        int threshold = Mathf.CeilToInt(initialWaveLimit * rushPercent);
+        var entry = currentWave.enemies_list[nextWaveEntryIndex];
+        int count = Mathf.Max(1, entry.enemy_spawn_count);
 
-        if (!rushMode && remaining <= threshold)
+        // finished all spawn_count for this entry?
+        if (spawnCounterInsideEntry >= count)
         {
-            rushMode = true;
-            OnRushWaveStarted?.Invoke();
-            Debug.Log("RUSH MODE!");
-        }
-
-        SpawnEnemiesForWave(currentWave);
-    }
-
-    private void SpawnEnemiesForWave(DifficultyThemeSO wave)
-    {
-        if (wave == null || wave.enemies_list == null || wave.enemies_list.Count == 0)
+            nextWaveEntryIndex++;
+            spawnCounterInsideEntry = 0;
+            SpawnNextEnemy(day);
             return;
+        }
 
-        int totalWeight = wave.enemies_list.Sum(e => e.weight);
-        int roll = Random.Range(0, totalWeight);
+        // Spawn ONE enemy per interval
+        spawnCounterInsideEntry++;
 
-        EnemyTableSO chosen = WeightedChoice(wave.enemies_list, roll);
-        if (chosen == null) return;
+        Transform sp = GetBalancedSpawnPoint();
+        Vector3 pos = GetOffset(sp.position);
 
-        for (int i = 0; i < chosen.enemy_spawn_count; i++)
+        GameObject obj = enemyPool.SpawnEnemy(entry.enemy_prefab, pos, Quaternion.identity);
+
+        if (obj.TryGetComponent(out EnemyInstance inst))
         {
-            if (upper_spawn_limit <= 0) break;
+            
+            ApplyScaling(inst, day);
 
-            Transform sp = GetBalancedSpawnPoint();
-            Vector3 pos = GetSpawnOffset(sp.position);
+            bool fromLeft = sp.CompareTag("SpawnerLeft");
+            inst.SetTarget(fromLeft);
 
-            GameObject obj = enemyPool.SpawnEnemy(chosen.enemy_prefab, pos, Quaternion.identity);
-
-            bool fromLeft = sp.position.x < 0;
-            if (obj.TryGetComponent(out DefaultNamespace.Enemy.EnemyInstance inst))
-                inst.SetTarget(fromLeft);
-
-            upper_spawn_limit--;
+            inst.PrintFinalStats(fromLeft ? "LEFT" : "RIGHT");
         }
     }
 
-    // -------------------- Helpers --------------------
-
-    private EnemyTableSO WeightedChoice(List<EnemyTableSO> list, int roll)
-    {
-        int cum = 0;
-        foreach (var e in list)
-        {
-            cum += e.weight;
-            if (roll < cum) return e;
-        }
-        return null;
-    }
+    // ----------------- SPAWN HELPERS -----------------
 
     private Transform GetBalancedSpawnPoint()
     {
-        var left = spawnPoints.Where(s => s.position.x < 0f).ToList();
-        var right = spawnPoints.Where(s => s.position.x >= 0f).ToList();
+        var left = spawnPoints.Where(s => s.CompareTag("SpawnerLeft")).ToList();
+        var right = spawnPoints.Where(s => s.CompareTag("SpawnerRight")).ToList();
 
         float lw = 50f, rw = 50f;
         if (leftCount > rightCount + 2) { lw = 25f; rw = 75f; }
         else if (rightCount > leftCount + 2) { lw = 75f; rw = 25f; }
 
-        float r = Random.Range(0f, lw + rw);
+        float roll = Random.Range(0f, lw + rw);
+        Transform chosen;
 
-        if (r < lw && left.Count > 0)
+        if (roll < lw && left.Count > 0)
         {
+            chosen = left[Random.Range(0, left.Count)];
             leftCount++;
-            return left[Random.Range(0, left.Count)];
         }
         else if (right.Count > 0)
         {
+            chosen = right[Random.Range(0, right.Count)];
             rightCount++;
-            return right[Random.Range(0, right.Count)];
+        }
+        else
+        {
+            chosen = left.Count > 0 ? left[0] : right[0];
         }
 
-        // fallback
-        return left.Count > 0 ? left[0] : right[0];
+        return chosen;
     }
 
-    private Vector3 GetSpawnOffset(Vector3 basePos)
+    private Vector3 GetOffset(Vector3 p)
     {
         float radius = 1f;
-        float angle = Random.Range(0f, Mathf.PI * 2);
-        float r = Mathf.Sqrt(Random.Range(0f, 1f)) * radius;
+        float angle = Random.value * Mathf.PI * 2;
+        float r = Mathf.Sqrt(Random.value) * radius;
 
         return new Vector3(
-            basePos.x + Mathf.Cos(angle) * r,
-            basePos.y + Mathf.Sin(angle) * r,
-            basePos.z
+            p.x + Mathf.Cos(angle) * r,
+            p.y + Mathf.Sin(angle) * r,
+            p.z
         );
+    }
+
+    // ----------------- SCALING -----------------
+
+    private void ApplyScaling(EnemyInstance inst, int day)
+    {
+        var baseStats = inst.Stats;
+        var so = inst.EnemySo;
+        var tier = so.tierMultiplier;
+
+        if (tier == null)
+        {
+            inst.ApplyFinalStats(
+                baseStats.Health,
+                baseStats.AttackDamage,
+                baseStats.MoveSpeed,
+                baseStats.AttackRange,
+                baseStats.AttackCooldown
+            );
+            return;
+        }
+
+        float d = Mathf.Max(0, day - scalingStartDay);
+        float dayMult = Mathf.Pow(expGrowth, d);
+
+        float H = baseStats.Health * tier.HealthMult * dayMult;
+        float D = baseStats.AttackDamage * tier.DamageMult * dayMult;
+
+        float S = baseStats.MoveSpeed * tier.SpeedMult * dayMult;
+        if (so.MaxMoveSpeed > 0f) S = Mathf.Min(S, so.MaxMoveSpeed);
+
+        float R = baseStats.AttackRange * tier.RangeMult * dayMult;
+        if (so.MaxAttackRange > 0f) R = Mathf.Min(R, so.MaxAttackRange);
+
+        float cdMult = tier.CooldownMult * dayMult;
+        if (cdMult <= 0f) cdMult = 0.0001f;
+        float CD = baseStats.AttackCooldown / cdMult;
+
+        inst.ApplyFinalStats(H, D, S, R, CD);
     }
 }

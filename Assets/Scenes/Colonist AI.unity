@@ -443,7 +443,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 413017501}
-  - component: {fileID: 413017500}
+  - component: {fileID: 413017502}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -451,33 +451,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &413017500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413017499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e8b61e7aee1f41468502cf1e5c16b0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allWaves:
-  - {fileID: 11400000, guid: 47c3a5ed5c4fc434cabdc0efcfc172d9, type: 2}
-  - {fileID: 11400000, guid: 47c3a5ed5c4fc434cabdc0efcfc172d9, type: 2}
-  - {fileID: 11400000, guid: 47c3a5ed5c4fc434cabdc0efcfc172d9, type: 2}
-  nightLengthHours: 6
-  maxWavesPerNight: 6
-  scalingStartDay: 6
-  enemyScalePerDay: 0.15
-  enemyPool: {fileID: 1107489710}
-  timeManager: {fileID: 310276553}
-  rushPercent: 0.15
-  rushSpawnIntervalHours: 0.1
-  OnRushWaveStarted:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &413017501
 Transform:
   m_ObjectHideFlags: 0
@@ -497,6 +470,26 @@ Transform:
   - {fileID: 200838385}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &413017502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413017499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e8b61e7aee1f41468502cf1e5c16b0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allWaves:
+  - {fileID: 11400000, guid: 47c3a5ed5c4fc434cabdc0efcfc172d9, type: 2}
+  wavesPerNight: 3
+  waveDurationHours: 2
+  scalingStartDay: 1
+  expGrowth: 1.5
+  timeManager: {fileID: 310276553}
+  enemyPool: {fileID: 1107489710}
 --- !u!114 &427566841 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4527147882455694238, guid: 3e0b79e867a6c504d8ee2d99426edb6c,
@@ -798,22 +791,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyConfigs:
-  - enemyPrefab: {fileID: 3582879064185947815, guid: cc892a7845261c345ac6beba93d4b88d,
+  - enemyPrefab: {fileID: 6704838256055147985, guid: 20e498226e7878e438d695fba27bd956,
       type: 3}
-    defaultCapacity: 50
-    maxCapacity: 200
-  - enemyPrefab: {fileID: 8283513360917277252, guid: 0f9157463d42da74dbda91a07ea46b9e,
+    defaultCapacity: 10
+    maxCapacity: 50
+  - enemyPrefab: {fileID: 3494534149985446266, guid: 45f781a06fabca14a92060cd1324b910,
       type: 3}
-    defaultCapacity: 50
-    maxCapacity: 200
-  - enemyPrefab: {fileID: 2950907492487027076, guid: 00f4860fec8e92040a00f51e70fa9d12,
+    defaultCapacity: 10
+    maxCapacity: 50
+  - enemyPrefab: {fileID: 6676369595305255144, guid: 2f04b0475212d7443ac9de3a94d0e358,
       type: 3}
-    defaultCapacity: 50
-    maxCapacity: 200
-  - enemyPrefab: {fileID: 2426821455006440403, guid: dcaf15a6e6df98e42b3c231975a60a65,
-      type: 3}
-    defaultCapacity: 50
-    maxCapacity: 200
+    defaultCapacity: 10
+    maxCapacity: 50
 --- !u!4 &1107489711
 Transform:
   m_ObjectHideFlags: 0
@@ -846,7 +835,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ShieldWall
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1172366012}
     - target: {fileID: 1362695690214057310, guid: 299aab0b547bbd444b40e140908bd589,
         type: 3}
       propertyPath: _shieldHpSos.Array.size
@@ -938,6 +927,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 299aab0b547bbd444b40e140908bd589, type: 3}
+--- !u!114 &1172366012 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8486163371042313842, guid: 299aab0b547bbd444b40e140908bd589,
+    type: 3}
+  m_PrefabInstance: {fileID: 1172366011}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe1365a257994b4bb3cc47326e5d2dc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1184317104
 GameObject:
   m_ObjectHideFlags: 0
