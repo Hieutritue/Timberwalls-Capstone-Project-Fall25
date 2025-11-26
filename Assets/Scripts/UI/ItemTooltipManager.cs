@@ -9,7 +9,7 @@ public class ItemTooltipManager : MonoBehaviour
 {
     private static ItemTooltipManager instance;
     private ItemTooltipSO displayItemTooltip;
-    private Vector2 offset = new Vector2(-10f, -20f); 
+    private Vector2 offset = new Vector2(35f, 100f); 
     [SerializeField] private RectTransform backgroundTransform;
     [SerializeField] private Image itemSprite;
     [SerializeField] private TextMeshProUGUI itemName;
@@ -35,8 +35,8 @@ public class ItemTooltipManager : MonoBehaviour
             null,
             out Vector2 localPoint);
 
-        // Tooltip sẽ xuất hiện từ pivot top-right
-        Vector2 pos = localPoint + new Vector2(35f, 100f);
+        //Show from top right
+        Vector2 pos = localPoint + offset;
 
         Vector2 size = backgroundTransform.sizeDelta;
         float canvasW = canvasRect.rect.width * 0.5f;
