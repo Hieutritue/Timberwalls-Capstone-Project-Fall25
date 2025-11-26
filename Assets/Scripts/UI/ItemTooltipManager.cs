@@ -11,7 +11,7 @@ public class ItemTooltipManager : MonoBehaviour
     private ItemTooltipSO displayItemTooltip;
     private Vector2 offset = new Vector2(35f, 100f); 
     [SerializeField] private RectTransform backgroundTransform;
-    [SerializeField] private Image itemSprite;
+    //[SerializeField] private Image itemSprite;
     [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private TextMeshProUGUI itemHowToGetDescription;
     [SerializeField] private TextMeshProUGUI itemDescription;
@@ -64,7 +64,7 @@ public class ItemTooltipManager : MonoBehaviour
     {
         if (displayItemTooltip != null)
         {
-            itemSprite.sprite = displayItemTooltip.sprite;
+            //itemSprite.sprite = displayItemTooltip.sprite;
             itemName.text = displayItemTooltip.itemName;
             itemHowToGetDescription.text = displayItemTooltip.howToGet;
             itemDescription.text = displayItemTooltip.itemDescription;
@@ -76,7 +76,7 @@ public class ItemTooltipManager : MonoBehaviour
     {
         if (placeableSo != null)
         {
-            itemSprite.sprite = placeableSo.Icon;
+           // itemSprite.sprite = placeableSo.Icon;
             itemName.text = placeableSo.Name;
             itemHowToGetDescription.text =
                 string.Join("\n",
