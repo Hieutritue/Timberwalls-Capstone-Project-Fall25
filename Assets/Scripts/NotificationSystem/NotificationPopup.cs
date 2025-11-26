@@ -20,7 +20,7 @@ namespace DefaultNamespace.NotificationSystem
                 _colonist = value;
                 _button.onClick.AddListener(() =>
                 {
-                    _colonist.MouseEventController.OnMouseDown();
+                    _colonist.MouseEventController.OpenPanelDetail();
                 });
             }
         }

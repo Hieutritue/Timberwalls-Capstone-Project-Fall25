@@ -18,6 +18,11 @@ namespace DefaultNamespace.ColonistSystem
         public void OnMouseDown()
         {
             if (EventSystem.current.IsPointerOverGameObject() || !IsPlacementIdleState()) return;
+            OpenPanelDetail();
+        }
+
+        public void OpenPanelDetail()
+        {
             ColonistDetailPanel.Instance.ClosePanel();
             ColonistDetailPanel.Instance.OpenPanel(_colonist);
 

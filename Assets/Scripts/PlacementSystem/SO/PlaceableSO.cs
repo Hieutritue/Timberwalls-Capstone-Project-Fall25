@@ -29,8 +29,6 @@ public class PlaceableSO : SerializedScriptableObject
     
     [Header("Research")]
     public bool InitiallyUnlocked;
-    [Header("Tooltip")]
-    public ItemTooltipSO ItemTooltipSO;
 }
 
 public enum PlaceableType
