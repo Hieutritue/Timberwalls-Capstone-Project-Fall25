@@ -78,10 +78,21 @@ public class ItemTooltipManager : MonoBehaviour
         {
             itemSprite.sprite = placeableSo.Icon;
             itemName.text = placeableSo.Name;
-            itemHowToGetDescription.text = string.Join("\n",
-                placeableSo.Costs
-                    .Where(c => c.Resource != null)
-                    .Select(c => $"{c.Amount} - {c.Resource.ResourceName}"));
+            itemHowToGetDescription.text =
+                string.Join("\n",
+                    placeableSo.Costs
+                        .Where(c => c.Resource != null)
+                        .Select(c =>
+                        {
+                            int cost = c.Amount;
+                            var resource = c.Resource;
+                            int available = ResourceManager.Instance.Get(resource.ResourceType);
+                            string color = cost <= available ? "white" : "red";
+
+                            return $"{resource.ResourceName}: <color=\"{color}\">{cost}</color> ({available})";
+                        })
+                );
+
             itemDescription.text = $"Can be placed on {placeableSo.Size.x}x{placeableSo.Size.y}";
             DisplayTooltip();
         }
@@ -117,8 +128,5 @@ public class ItemTooltipManager : MonoBehaviour
     {
         gameObject.SetActive(true);
         float textPaddingSize = 8f;
-        Vector2 backgroundSize = new Vector2(itemDescription.rectTransform.rect.width + textPaddingSize,
-            itemDescription.preferredHeight + textPaddingSize);
-        backgroundTransform.sizeDelta = backgroundSize; //resize the background according to text size
     }
 }
