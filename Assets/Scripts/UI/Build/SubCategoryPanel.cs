@@ -36,7 +36,6 @@ namespace DefaultNamespace.UI.Build
             {
                 Destroy(buildingUI.gameObject);
             }
-            _buildingUIs.Clear();
             var placeables = ResearchManager.Instance.UnlockedBuildings.Where(kvp => kvp.Key.SubCategory == SubCategory && kvp.Value)
                 .Select(kvp => kvp.Key).ToList();
             foreach (var placeable in placeables)
@@ -45,11 +44,6 @@ namespace DefaultNamespace.UI.Build
                 buildingUI.Init(placeable);
                 _buildingUIs.Add(buildingUI);
             }
-        }
-
-        public void RefreshItems()
-        {
-            LoadBuildings();
         }
     }
 }

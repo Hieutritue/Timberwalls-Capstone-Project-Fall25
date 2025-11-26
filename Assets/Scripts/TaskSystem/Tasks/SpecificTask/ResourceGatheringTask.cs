@@ -18,28 +18,14 @@ namespace DefaultNamespace.TaskSystem
             
             return ResourceManager.Instance.Get(resourceType) >= maxCapacity;
         }
-        
-        public bool NotEnoughResourceRequiredToProduce()
-        {
-            var gatheringFurniture = (ResourceGatheringFurniture)_building;
-            foreach (var input in gatheringFurniture.GatheringFurnitureSo.Consumption)
-            {
-                var currentAmount = ResourceManager.Instance.Get(input.Resource.ResourceType);
-                if (currentAmount < input.Amount)
-                    return true;
-            }
-
-            return false;
-        }
 
         public override float TotalProgress(Colonist colonist)
         {
             if (_building is ResourceGatheringFurniture gatheringFurniture)
             {
-                var skillLevel = colonist.ColonistSo.Skills[gatheringFurniture.GatheringFurnitureSo.TaskType.SkillForTask()];
                 return FormulaCollection.ProgressPerFrameBasedOnSkillLevel(
                     gatheringFurniture.GatheringFurnitureSo.BaseTimeToProduce,
-                    skillLevel,
+                    colonist.ColonistSo.Skills[SkillType.Metallurgy],
                     colonist.TaskCompletionSpeedMultiplier);
             }
 

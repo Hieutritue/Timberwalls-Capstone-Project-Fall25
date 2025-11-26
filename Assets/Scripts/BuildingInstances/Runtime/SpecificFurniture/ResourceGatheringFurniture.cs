@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using DefaultNamespace.TaskSystem;
 using ResourceSystem;
 using UnityEditor.VersionControl;
@@ -9,20 +8,11 @@ namespace BuildingSystem
 {
     public class ResourceGatheringFurniture : Furniture, IWorkable, ITaskCreator
     {
+
         public Transform ActionPoint;
         public ResourceGatheringFurnitureSo GatheringFurnitureSo => (ResourceGatheringFurnitureSo)PlaceableSo;
-
         public void Work()
         {
-            // if not enough resources, return
-            if ((from resourceWithAmount in GatheringFurnitureSo.Consumption
-                    let resourceType = resourceWithAmount.Resource.ResourceType
-                    where ResourceManager.Instance.Get(resourceType) < resourceWithAmount.Amount
-                    select resourceWithAmount).Any())
-            {
-                return;
-            }
-
             GatheringFurnitureSo.Consumption.ForEach(resourceWithAmount =>
             {
                 var resourceType = resourceWithAmount.Resource.ResourceType;
@@ -39,7 +29,7 @@ namespace BuildingSystem
 
         public void CreateTask()
         {
-            var task = GatheringFurnitureSo.TaskType switch
+            var task = GatheringFurnitureSo.TaskType switch 
             {
                 TaskType.Mining => new ResourceGatheringTask(this, TaskType.Mining),
                 TaskType.Cooking => new ResourceGatheringTask(this, TaskType.Cooking),
