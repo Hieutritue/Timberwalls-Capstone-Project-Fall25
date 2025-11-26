@@ -94,7 +94,6 @@ namespace DefaultNamespace.PlacementStates
             building.ActiveTasks.Add(buildingTask);
 
             _behaviour.ResetLastGridPosition();
-
             ResourceManager.Instance.DeductResourcesForPlaceable(GetCurrentObjectToPlace());
         }
 

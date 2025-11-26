@@ -7,11 +7,11 @@ namespace DefaultNamespace.TaskSystem
     public abstract class ATask : ITask
     {
         protected Building _building;
-        public string LocationName => Building != null ? Building.PlaceableSo.Name : "No Building";
+        public virtual string LocationName => Building != null ? Building.PlaceableSo.Name : "No Building";
         public Colonist AssignedColonist { get; set; }
         public Building Building => _building;
         public TaskType TaskType { get;}
-        public Transform Transform => _building?.ProgressPoint;
+        public virtual Transform Transform => _building?.ProgressPoint;
 
         public ATask(Building building, TaskType taskType)
         {
