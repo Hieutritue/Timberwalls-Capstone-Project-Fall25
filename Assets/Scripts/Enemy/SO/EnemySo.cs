@@ -24,27 +24,4 @@ namespace DefaultNamespace.Enemy.SO
         public EnemyStatMultiplierSO tierMultiplier;
         public AnimationStateSetSO animStates;
     }
-
-    [CreateAssetMenu(fileName = "EnemyStatMultiplierSO", menuName = "ScriptableObjects/Enemy/EnemyStatMultiplierSO", order = 2)]
-    public class EnemyStatMultiplierSO : ScriptableObject
-    {
-        [Header("Multipliers (Tier/Base)")]
-        public float HealthMult = 1f;
-        public float DamageMult = 1f;
-        public float SpeedMult = 1f;
-        public float RangeMult = 1f;
-
-        [Tooltip("If > 1, enemies attack faster (cooldown is divided by this).")]
-        public float CooldownMult = 1f;
-    }
-
-    [CreateAssetMenu(fileName = "AnimSet", menuName = "ScriptableObjects/Enemy/AnimationStateSet")]
-public class AnimationStateSetSO : ScriptableObject
-{
-    [Header("Animation State Names")]
-    public string Idle = "Idle";
-    public string Walk = "Walk";
-    public string Attack = "Attack";
-    public string Death = "Death";
-}
 }
