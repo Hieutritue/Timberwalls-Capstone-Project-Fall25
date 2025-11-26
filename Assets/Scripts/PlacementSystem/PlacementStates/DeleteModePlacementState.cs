@@ -3,6 +3,7 @@ using BuildingSystem;
 using DefaultNamespace.PlaceableInstances;
 using DefaultNamespace.TaskSystem;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace DefaultNamespace.PlacementStates
 {
@@ -18,8 +19,8 @@ namespace DefaultNamespace.PlacementStates
         public override void Enter()
         {
             InputManager.Instance.OnMouseLeftClick += CreateTaskDemolishPlaceableAtMouse;
-            InputManager.Instance.OnMouseRightClick += _behaviour.TransitionToIdleState;
-            InputManager.Instance.OnMouseRightClick += ResetMaterial;
+            // InputManager.Instance.OnMouseRightClick += _behaviour.TransitionToIdleState;
+            // InputManager.Instance.OnMouseRightClick += ResetMaterial;
 
             _lastPlaceableInstance = null;
             _behaviour.ResetLastGridPosition();
@@ -27,6 +28,7 @@ namespace DefaultNamespace.PlacementStates
 
         private void CreateTaskDemolishPlaceableAtMouse()
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
             // get placeable at mouse position
             var gridPosition = _behaviour.GridPositionOfMouse(_behaviour.MousePosition);
             var gridData = _behaviour.GetGridData(_placeableType);
@@ -96,8 +98,8 @@ namespace DefaultNamespace.PlacementStates
         public override void Exit()
         {
             InputManager.Instance.OnMouseLeftClick -= CreateTaskDemolishPlaceableAtMouse;
-            InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
-            InputManager.Instance.OnMouseRightClick -= ResetMaterial;
+            // InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
+            // InputManager.Instance.OnMouseRightClick -= ResetMaterial;
         }
 
         public void ChangePlaceableType(PlaceableType placeableType)

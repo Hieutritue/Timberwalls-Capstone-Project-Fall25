@@ -4,6 +4,7 @@ using _Scripts.StateMachine;
 using BuildingSystem;
 using DefaultNamespace.TaskSystem;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace DefaultNamespace.PlacementStates
 {
@@ -17,7 +18,7 @@ namespace DefaultNamespace.PlacementStates
 
         public override void Enter()
         {
-            InputManager.Instance.OnMouseRightClick += _behaviour.TransitionToIdleState;
+            // InputManager.Instance.OnMouseRightClick += _behaviour.TransitionToIdleState;
             InputManager.Instance.OnMouseLeftClick += PlaceCurrentObject;
             HidePreview();
             ShowPreview();
@@ -33,7 +34,7 @@ namespace DefaultNamespace.PlacementStates
 
         public override void Exit()
         {
-            InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
+            // InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
             InputManager.Instance.OnMouseLeftClick -= PlaceCurrentObject;
 
             HidePreview();
@@ -66,6 +67,7 @@ namespace DefaultNamespace.PlacementStates
 
         public void PlaceCurrentObject()
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
             if (!_currentPlaceable) return;
             Vector3 mousePosition = _behaviour.MousePosition;
             Vector3Int gridPosition = _behaviour.GridPositionOfMouse(mousePosition);
@@ -92,7 +94,7 @@ namespace DefaultNamespace.PlacementStates
             building.ActiveTasks.Add(buildingTask);
 
             _behaviour.ResetLastGridPosition();
-            
+
             ResourceManager.Instance.DeductResourcesForPlaceable(GetCurrentObjectToPlace());
         }
 

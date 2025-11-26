@@ -7,12 +7,15 @@ using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class ScheduleMenu : MonoSingleton<ScheduleMenu>
 {
     public List<ScheduleInfo> ScheduleInfos;
     public ScheduleOfColonist ScheduleOfColonistPrefab;
     public Transform ScheduleOfColonistsContainer;
+    public ScrollRect ScheduleOfColonistsScrollView;
     [ReadOnly] public ScheduleInfo CurrentScheduleInfo;
     [ReadOnly] public List<ScheduleOfColonist> ScheduleOfColonists;
     [SerializeField] private ScheduleOfColonist _defaultScheduleOfColonist;

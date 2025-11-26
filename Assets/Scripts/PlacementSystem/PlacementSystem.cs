@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using _Scripts.StateMachine;
 using DefaultNamespace;
 using DefaultNamespace.PlaceableInstances;
 using DefaultNamespace.PlacementStates;
@@ -11,6 +12,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
+using IState = _Scripts.StateMachine.IState;
 using StateMachine = _Scripts.StateMachine.StateMachine;
 
 public class PlacementSystem : MonoBehaviour
@@ -48,6 +50,8 @@ public class PlacementSystem : MonoBehaviour
 
         _stateMachine.Initialize(_idlePlacementState);
     }
+    
+    public IState CurrentState => _stateMachine.CurrentState;
 
     private void Start()
     {

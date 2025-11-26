@@ -3,6 +3,7 @@ using _Scripts.StateMachine;
 using BuildingSystem;
 using DefaultNamespace.TaskSystem;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Util;
 
 namespace DefaultNamespace.PlacementStates
@@ -17,7 +18,7 @@ namespace DefaultNamespace.PlacementStates
 
         public override void Enter()
         {
-            InputManager.Instance.OnMouseRightClick += _behaviour.TransitionToIdleState;
+            // InputManager.Instance.OnMouseRightClick += _behaviour.TransitionToIdleState;
             InputManager.Instance.OnMouseLeftClick += CancelTaskPointingAt;
         }
 
@@ -60,6 +61,7 @@ namespace DefaultNamespace.PlacementStates
 
         public void CancelTaskPointingAt()
         {
+            // if (EventSystem.current.IsPointerOverGameObject()) return;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit,
@@ -90,7 +92,7 @@ namespace DefaultNamespace.PlacementStates
         public override void Exit()
         {
             InputManager.Instance.OnMouseLeftClick -= CancelTaskPointingAt;
-            InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
+            // InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
             if (_building)
             {
                 LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Building"));
