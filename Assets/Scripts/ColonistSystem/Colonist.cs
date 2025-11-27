@@ -328,7 +328,6 @@ public static class ColonistAnimationString
     public readonly static string PLAYING_POKER = "PlayingPoker";
     public readonly static string PLAYING = "Playing";
     public readonly static string SELF_CARING = "SelfCaring";
-    public readonly static string EXIT_BUILDING = "ExitBuilding";
     public readonly static string LAYING_SICK = "LayingSick";
     public readonly static string SLEEPING = "Sleeping";
     public readonly static string SQUAT_POOPING = "SquatPooping";
@@ -339,4 +338,5 @@ public static class ColonistAnimationString
     public readonly static string SIT_POOPING = "SitPooping";
     public readonly static string EXIT_PLAYING = "ExitPlaying";
     public readonly static string EXIT_SELF_CARING = "ExitSelfCaring";
+    public readonly static string EXIT_WORKING = "ExitWorking";
 }

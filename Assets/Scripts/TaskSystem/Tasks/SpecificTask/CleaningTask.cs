@@ -23,11 +23,14 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             // throw new NotImplementedException();
+            colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
+            colonist.animator.SetTrigger(ColonistAnimationString.CLEANING);
         }
 
         public override void ColonistStopWork(Colonist colonist)
         {
-            // throw new NotImplementedException();
+            colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
         }
 
         public override void RewardComplete()

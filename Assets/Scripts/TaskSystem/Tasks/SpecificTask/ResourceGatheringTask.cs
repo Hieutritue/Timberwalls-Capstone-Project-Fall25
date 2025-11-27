@@ -7,8 +7,11 @@ namespace DefaultNamespace.TaskSystem
 {
     public class ResourceGatheringTask : AProgressTask
     {
+        private TaskType _taskType;
         public ResourceGatheringTask(Building building, TaskType taskType) : base(building, taskType)
         {
+            _building = building;
+            _taskType = taskType;
         }
         
         public bool ResourceReachedMaxCapacity()
@@ -79,6 +82,11 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStopWork(Colonist colonist)
         {
             // TODO: Animation
+        }
+
+        private string GetStringAnimationBaseOnMachine()
+        {
+            if() 
         }
     }
 }

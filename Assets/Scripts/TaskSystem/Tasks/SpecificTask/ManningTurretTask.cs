@@ -21,12 +21,16 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             TurretFurniture.ColonistAssignedToTurret = colonist;
+            colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
+            colonist.animator.SetTrigger(ColonistAnimationString.TYPING);
             // colonist.transform.position = _actionPoint.position;
         }
 
         public override void ColonistStopWork(Colonist colonist)
         {
             TurretFurniture.ColonistAssignedToTurret = null;
+            colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
         }
     }
 }

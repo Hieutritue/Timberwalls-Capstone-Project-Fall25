@@ -27,11 +27,14 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.SetTrigger(ColonistAnimationString.BUILDING_WORK);
         }
 
         public override void ColonistStopWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
         }
     }
 }
