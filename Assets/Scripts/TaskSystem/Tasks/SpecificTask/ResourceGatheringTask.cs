@@ -86,7 +86,7 @@ namespace DefaultNamespace.TaskSystem
 
         private string GetStringAnimationBaseOnMachine()
         {
-            if() 
+            return null;
         }
     }
 }
