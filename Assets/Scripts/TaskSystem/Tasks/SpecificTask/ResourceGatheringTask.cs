@@ -1,7 +1,9 @@
-﻿using BuildingSystem;
+﻿using System.Collections.Generic;
+using BuildingSystem;
 using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.General;
 using ResourceSystem.Storage;
+using UnityEngine;
 
 namespace DefaultNamespace.TaskSystem
 {
@@ -10,8 +12,6 @@ namespace DefaultNamespace.TaskSystem
         private TaskType _taskType;
         public ResourceGatheringTask(Building building, TaskType taskType) : base(building, taskType)
         {
-            _building = building;
-            _taskType = taskType;
         }
         
         public bool ResourceReachedMaxCapacity()
@@ -77,15 +77,98 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             // TODO: Animation
+            if(_building)
+            colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
+            var tag = _building.tag;
+            var animString = ResourceGatheringTag.GetAnimStringBaseOnMachine(tag);
+            if(!string.IsNullOrEmpty(animString))
+            colonist.animator.SetTrigger(animString);
+            else
+            {
+                Debug.LogError("No Anim String Found For" + tag);
+            }
         }
 
         public override void ColonistStopWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
         }
+        
+    }
 
-        private string GetStringAnimationBaseOnMachine()
+    public static class ResourceGatheringTag
+    {
+        //tags
+        public static readonly string BATTERY_FACTORY = "Battery Factory";
+        public static readonly string CHICKEN_COOP = "Chicken Coop";
+        public static readonly string COPPER_FURNACE = "Copper Furnace";
+        public static readonly string COPPER_MINE = "Copper Mine";
+        public static readonly string CORN_FIELD = "Corn Field";
+        public static readonly string CRYO_PLANT  = "Cryo Plant";
+        public static readonly string ELECTRIC_STOVE = "Electric Stove";
+        public static readonly string ELECTRONICS_LAB =  "Electronics Lab";
+        public static readonly string FISH_TANK = "Fish Tank";
+        public static readonly string GAS_STOVE = "Gas Stove";
+        public static readonly string HIGH_TEMP_FURNACE = "High Temp Furnace";
+        public static readonly string IRON_FURNACE = "Iron Furnace";
+        public static readonly string IRON_MINE = "Iron Mine";
+        public static readonly string MED_X = "Med-X";
+        public static readonly string NIOBIUM_MINE = "Niobium Mine"; 
+        public static readonly string OIL_PUMP = "Oil Pump"; 
+        public static readonly string POLYMER_PRESS = "Polymer Press"; 
+        public static readonly string REFINERY = "Refinery"; 
+        public static readonly string STONE_FARM = "Stone Farm"; 
+        public static readonly string WOOD_FARM = "Wood Farm"; 
+        public static readonly string WOOD_STOVE = "Wood Stove"; 
+        public static readonly string RESEARCH_MACHINE = "Research Machine"; 
+        public static readonly string SUPER_RESEARCH_MACHINE = "Super Research Machine"; 
+        public static readonly string SUPER_DUPER_RESEARCH_MACHINE = "Super Duper Research Machine";
+
+        //animation accordinngly
+        public static readonly Dictionary<string, string> ANIMATION_HASHMAP = new Dictionary<string, string>()
         {
+            //typing anim
+            {BATTERY_FACTORY, ColonistAnimationString.PRESSING_BUTTON},
+            {CRYO_PLANT, ColonistAnimationString.PRESSING_BUTTON},
+            {ELECTRONICS_LAB, ColonistAnimationString.PRESSING_BUTTON},
+            {HIGH_TEMP_FURNACE, ColonistAnimationString.PRESSING_BUTTON},
+            {MED_X, ColonistAnimationString.PRESSING_BUTTON},
+            {POLYMER_PRESS, ColonistAnimationString.PRESSING_BUTTON},
+            {RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON},
+            {SUPER_RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON},
+            {SUPER_DUPER_RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON},
+            {COPPER_FURNACE, ColonistAnimationString.PRESSING_BUTTON},
+            {IRON_FURNACE, ColonistAnimationString.PRESSING_BUTTON},
+            {OIL_PUMP, ColonistAnimationString.PRESSING_BUTTON},
+            {REFINERY, ColonistAnimationString.PRESSING_BUTTON},
+            
+            //breaking anim
+            {STONE_FARM, ColonistAnimationString.BREAKING_RESOURCE},
+            {WOOD_FARM, ColonistAnimationString.BREAKING_RESOURCE},
+            {COPPER_MINE, ColonistAnimationString.BREAKING_RESOURCE},
+            {IRON_MINE, ColonistAnimationString.BREAKING_RESOURCE},
+            
+            //cooking anim
+            {WOOD_STOVE, ColonistAnimationString.COOKING},
+            {GAS_STOVE, ColonistAnimationString.COOKING},
+            {ELECTRIC_STOVE, ColonistAnimationString.COOKING},
+            
+            //other seperate anim
+            {CHICKEN_COOP, ColonistAnimationString.FEEDING_CHICKEN},
+            {CORN_FIELD, ColonistAnimationString.PLANTING},
+            {FISH_TANK, ColonistAnimationString.FISHING},
+            {NIOBIUM_MINE, ColonistAnimationString.CARRYING_BIG_OBJECT},
+        };
+        
+        public static string GetAnimStringBaseOnMachine(string tag)
+        {
+            foreach (var item in ANIMATION_HASHMAP)
+            {
+                if (item.Key == tag) return item.Value;
+            }
+
             return null;
         }
     }
