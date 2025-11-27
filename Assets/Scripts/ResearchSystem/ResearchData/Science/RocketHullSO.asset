@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98aea45eb1f4afa4097deadff5c12b5b, type: 3}
-  m_Name: BoniumRocketSO
+  m_Name: RocketHullSO
   m_EditorClassIdentifier: 
-  researchName: Bonium Rocket
+  researchName: Rocket Hull
   description: 
   category: 1
   prerequisites:
-  - {fileID: 11400000, guid: abcce573e9f210d468c3f2940ed54409, type: 2}
+  - {fileID: 11400000, guid: 61e211894d8d6ea4eab7f1b91152e20e, type: 2}
   Costs:
   - Resource: {fileID: 11400000, guid: eed49970a6753d446990811918bbae93, type: 2}
     Amount: 10
-  unlocksBuildings: []
+  unlocksBuildings:
+  - {fileID: 11400000, guid: 40a0aef4537dfce4f95584fedd9698ef, type: 2}
