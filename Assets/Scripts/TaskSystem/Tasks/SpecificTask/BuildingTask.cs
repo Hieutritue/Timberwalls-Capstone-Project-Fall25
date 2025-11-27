@@ -10,6 +10,7 @@ namespace DefaultNamespace.TaskSystem
     {
         public override void RewardComplete()
         {
+            RemoveTask();
             _building.TransitionToIdle();
         }
 
