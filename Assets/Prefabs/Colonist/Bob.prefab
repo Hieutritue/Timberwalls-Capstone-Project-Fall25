@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2326855912009844428}
   - component: {fileID: 965311447297151388}
   - component: {fileID: 7801624217730625414}
-  - component: {fileID: 1859637265248932885}
   m_Layer: 3
   m_Name: Bob
   m_TagString: Untagged
@@ -57,7 +56,7 @@ MonoBehaviour:
   FollowerEntity: {fileID: 965311447297151388}
   MouseEventController: {fileID: 6783433961031449701}
   TaskCompletionSpeedMultiplier: 1
-  animator: {fileID: 0}
+  animator: {fileID: 4994879733738416806}
   _canDecreaseStatsTest: 1
 --- !u!114 &2326855912009844428
 MonoBehaviour:
@@ -230,28 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Radius: 5
   Delay: 4
---- !u!95 &1859637265248932885
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5814368307683997026}
-  m_Enabled: 0
-  m_Avatar: {fileID: 9000000, guid: a890656eebef5d94ab6c86843cebd735, type: 3}
-  m_Controller: {fileID: 9100000, guid: 02ca63a26aa15b043915fad16a16307f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  _animator: {fileID: 4994879733738416806}
 --- !u!1 &8037844570652997318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1194,6 +1172,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43e376138aa84ff498815d3fd57a1b33, type: 3}
+--- !u!95 &4994879733738416806 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7593679528629701042, guid: 43e376138aa84ff498815d3fd57a1b33,
+    type: 3}
+  m_PrefabInstance: {fileID: 3184972835167118100}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4994879733747434830 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7593679528639587930, guid: 43e376138aa84ff498815d3fd57a1b33,
