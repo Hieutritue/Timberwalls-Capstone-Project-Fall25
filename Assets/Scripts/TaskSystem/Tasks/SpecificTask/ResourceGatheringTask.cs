@@ -77,7 +77,6 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             // TODO: Animation
-            if(_building)
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             var tag = _building.tag;
