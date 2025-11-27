@@ -119,4 +119,9 @@ namespace BuildingSystem
             OnDemolished?.Invoke();
         }
     }
+
+    public static class BuildingAnimationString
+    {
+        public static string IS_ACTIVE = "IsActive";
+    }
 }

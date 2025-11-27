@@ -11,7 +11,6 @@ public class WanderingDestinationSetter : MonoBehaviour {
     private Animator _animator;
     IAstarAI ai;
     private bool isWalking = false;
-    private readonly string IS_WAlKING_TRIGGER = "IsWalking";
     
     private void Awake()
     {
@@ -39,11 +38,11 @@ public class WanderingDestinationSetter : MonoBehaviour {
         if (!ai.pathPending && (ai.reachedEndOfPath || !ai.hasPath)) {
             _timer += Time.deltaTime;
             isWalking = false;
-            _animator.SetBool(IS_WAlKING_TRIGGER,isWalking);
+            _animator.SetBool(ColonistAnimationString.IS_WALKING,isWalking);
             if (_timer < Delay) return;
             
             isWalking = true;
-            _animator.SetBool(IS_WAlKING_TRIGGER,isWalking);
+            _animator.SetBool(ColonistAnimationString.IS_WALKING,isWalking);
             ai.destination = PickRandomPoint();
             ai.SearchPath();
             // set timer to be random in [0, Delay/2] to avoid all colonists moving at the same time

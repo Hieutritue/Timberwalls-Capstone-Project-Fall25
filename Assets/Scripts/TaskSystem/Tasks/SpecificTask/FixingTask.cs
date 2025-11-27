@@ -42,11 +42,14 @@ namespace DefaultNamespace.TaskSystem
             ShieldGenerator.FixerSkillCount += colonist.ColonistSo.Skills[SkillType.Engineering];
             colonist.transform.position = ActionPoint.position;
             colonist.transform.rotation = ActionPoint.rotation;
+            colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.SetTrigger(ColonistAnimationString.BUILDING_WORK);
         }
 
         public void ColonistStopWork(Colonist colonist)
         {
             ShieldGenerator.FixerSkillCount -= colonist.ColonistSo.Skills[SkillType.Engineering];
+            colonist.animator.SetTrigger(ColonistAnimationString.EXIT_BUILDING);
         }
 
         public void Create()

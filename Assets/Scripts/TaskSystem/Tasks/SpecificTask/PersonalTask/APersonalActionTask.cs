@@ -22,7 +22,6 @@ namespace DefaultNamespace.TaskSystem
         protected float Timer = 0f;
 
         public void AddStat(Colonist colonist, TaskType taskType)
-
         {
             Timer += Time.deltaTime;
             if (Timer >= 1)
