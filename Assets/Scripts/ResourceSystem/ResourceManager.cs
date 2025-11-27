@@ -25,8 +25,8 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             Set(ResourceType.Wood, 100);
             Set(ResourceType.Stone, 100);
             Set(ResourceType.CookedFood, 50);
-            Set(ResourceType.Iron,20);
-            Set(ResourceType.Copper,20);
+            Set(ResourceType.Iron, 20);
+            Set(ResourceType.Copper, 20);
         };
     }
 
@@ -88,5 +88,11 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         {
             Set(cost.Resource.ResourceType, Get(cost.Resource.ResourceType) + cost.Amount);
         }
+    }
+
+    [Button]
+    public void AddAllResources(int amount)
+    {
+        StartingResources.ForEach(r => AddResouce(r.ResourceType,amount));
     }
 }
