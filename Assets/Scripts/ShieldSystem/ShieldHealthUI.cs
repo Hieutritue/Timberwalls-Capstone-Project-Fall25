@@ -17,7 +17,7 @@ namespace DefaultNamespace.ShieldSystem
 
         private void UpdateShieldHealthUI(float currentHealth, float maxHealth)
         {
-            _shieldHealthText.text = $"{currentHealth} / {maxHealth} HP";
+            _shieldHealthText.text = $"{(int)currentHealth} / {maxHealth} HP";
             _shieldHealthSlider.maxValue = maxHealth;
             _shieldHealthSlider.value = currentHealth;
         }

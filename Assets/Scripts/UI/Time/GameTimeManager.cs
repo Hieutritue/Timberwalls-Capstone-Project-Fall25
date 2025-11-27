@@ -7,18 +7,30 @@ namespace DefaultNamespace.ScheduleSystem
 {
     public class GameTimeManager : MonoSingleton<GameTimeManager>
     {
-        [Header("Time Settings")]
-        public int HoursPerDay = 24;
+        [Header("Time Settings")] public int HoursPerDay = 24;
         public float RealSecondsPerInGameHour = 1f; // 1sec IRL = 1 in-game hour
 
-        [Header("State (Read Only)")]
-        [ReadOnly] public int CurrentDay = 1;
+        public int NightStartHour;
+        public int NightEndHour;
+
+        public bool IsNight => CurrentHour <= NightEndHour && CurrentHour >= NightStartHour;
+        
+        [Header("State (Read Only)")] [ReadOnly]
+        public int CurrentDay = 1;
+
         [ReadOnly] public int CurrentHour = 0;
         [ReadOnly] public float HourProgress = 0f; // 0-1 inside hour
 
-        public enum TimeSpeed { Pause, Normal, Fast, Ultra }
+        public enum TimeSpeed
+        {
+            Pause,
+            Normal,
+            Fast,
+            Ultra
+        }
+
         public TimeSpeed timeSpeed = TimeSpeed.Normal;
-    
+
         private float speedMultiplier = 1f;
 
         // Events
@@ -44,9 +56,10 @@ namespace DefaultNamespace.ScheduleSystem
             switch (timeSpeed)
             {
                 case TimeSpeed.Normal: return 1f;
-                case TimeSpeed.Fast:   return 1.5f;
-                case TimeSpeed.Ultra:  return 2f;
+                case TimeSpeed.Fast: return 1.5f;
+                case TimeSpeed.Ultra: return 2f;
             }
+
             return 0f;
         }
 

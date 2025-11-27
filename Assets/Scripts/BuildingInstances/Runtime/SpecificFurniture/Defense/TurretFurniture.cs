@@ -14,10 +14,13 @@ namespace BuildingSystem
         [SerializeField] private Transform _partToRotate; // rotating head of the turret
         [SerializeField] private Bullet _bulletPrefab;
         [SerializeField] private Transform _actionPoint;
+
+        [SerializeField] private Animator _animator;
         protected TurretFurnitureSo TurretSo => (TurretFurnitureSo)PlaceableSo;
 
         private float _fireCooldown;
         private Transform _currentTarget;
+        private static readonly int Attack = Animator.StringToHash("Attack");
         private int SkillLevel => ColonistAssignedToTurret?.ColonistSo.Skills[SkillType.Marksmanship] ?? 0;
 
         public void UpdateInWorkingState()
@@ -114,11 +117,11 @@ namespace BuildingSystem
 
         public virtual void Shoot()
         {
+            _animator.SetTrigger(Attack);
             Bullet bullet = ObjectPoolManager.Instance.Get(_bulletPrefab.gameObject).GetComponent<Bullet>();
             bullet.transform.position = _firePoint.position;
             bullet.transform.rotation = _firePoint.rotation;
             bullet.Damage = TurretSo.BaseDamage;
-            bullet.Speed = TurretSo.BulletSpeed;
         }
 
         public void CreateTask()

@@ -1,4 +1,6 @@
-﻿using DefaultNamespace.Enemy;
+﻿using System;
+using System.Collections;
+using DefaultNamespace.Enemy;
 using UnityEngine;
 
 namespace BuildingSystem
@@ -6,22 +8,49 @@ namespace BuildingSystem
     public class Bullet : MonoBehaviour
     {
         public float Damage { get; set; }
-        public float Speed { get; set; }
-        
-        void Update()
+
+        private Coroutine _delayRelease;
+
+        private void OnEnable()
         {
-            transform.position += transform.forward * (Speed * Time.deltaTime);
+            if (_delayRelease != null)
+                StopCoroutine(_delayRelease);
         }
 
-        private void OnTriggerEnter(Collider other)
+        // public float Speed { get; set; }
+        //
+        // void Update()
+        // {
+        //     transform.position += transform.forward * (Speed * Time.deltaTime);
+        // }
+        //
+        // private void OnTriggerEnter(Collider other)
+        // {
+        //     if (!other.CompareTag("Enemy")) return;
+        //     var enemy = other.GetComponent<EnemyInstance>();
+        //     if (enemy != null)
+        //     {
+        //         enemy.TakeDamage(Damage);
+        //         gameObject.SetActive(false);
+        //     }
+        //     ObjectPoolManager.Instance.Release(gameObject);
+        // }
+
+        private void OnParticleCollision(GameObject other)
         {
             if (!other.CompareTag("Enemy")) return;
             var enemy = other.GetComponent<EnemyInstance>();
             if (enemy != null)
             {
                 enemy.TakeDamage(Damage);
-                gameObject.SetActive(false);
+
+                _delayRelease = StartCoroutine(DelayRelease());
             }
+        }
+
+        IEnumerator DelayRelease()
+        {
+            yield return new WaitForSeconds(5);
             ObjectPoolManager.Instance.Release(gameObject);
         }
     }

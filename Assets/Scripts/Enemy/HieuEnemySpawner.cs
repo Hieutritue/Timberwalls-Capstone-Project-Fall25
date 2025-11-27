@@ -1,0 +1,71 @@
+﻿using DefaultNamespace.Enemy;
+using DefaultNamespace.ScheduleSystem;
+using UnityEngine;
+using UnityEngine.Serialization;
+using Util;
+
+public class HieuEnemySpawner : MonoBehaviour
+{
+    [Header("Spawn Settings")] [SerializeField]
+    private Transform[] _spawnPoints;
+
+    [SerializeField] EnemyInstance[] _enemyInstances;
+
+    [Header("Night Settings")] public float baseSpawnInterval = 12f;
+    public float spawnIntervalPerDay = 0.5f;
+    public int maxEnemiesPerNight = 10;
+
+    private float _spawnTimer;
+    private int _spawnedThisNight;
+
+    void Update()
+    {
+        int hour = GameTimeManager.Instance.CurrentHour;
+        int day = GameTimeManager.Instance.CurrentDay;
+
+        bool isNight = GameTimeManager.Instance.IsNight;
+
+        if (!isNight)
+        {
+            _spawnedThisNight = 0;
+            return;
+        }
+
+        // Night active
+        float spawnInterval = Mathf.Max(2f, baseSpawnInterval - day * spawnIntervalPerDay);
+        _spawnTimer += Time.deltaTime;
+
+        if (_spawnTimer >= spawnInterval && _spawnedThisNight < maxEnemiesPerNight + (day * 3))
+        {
+            _spawnTimer = 0;
+            SpawnEnemy(day);
+        }
+    }
+
+    [SerializeField] private float _heightSpawnRandomOffset;
+
+    void SpawnEnemy(int day)
+    {
+        // Calculate weights
+        float[] weights = new float[_enemyInstances.Length];
+        for (int i = 0; i < _enemyInstances.Length; i++)
+            weights[i] = _enemyInstances[i].GetWeight(day);
+
+        // Choose variant
+        EnemyInstance variant = WeightedRandom.Choose(_enemyInstances, weights);
+
+        // Choose spawn point
+        var randomSpawnIndex = Random.Range(0, _spawnPoints.Length);
+        Transform spawnPos = _spawnPoints[randomSpawnIndex];
+
+        // Instantiate
+        var y = Random.Range(spawnPos.position.y - _heightSpawnRandomOffset,
+            spawnPos.position.y + _heightSpawnRandomOffset);
+        spawnPos.position = spawnPos.position.With(y: y);
+        var enemyGameObject = ObjectPoolManager.Instance.Get(variant.gameObject, spawnPos);
+        var enemyInstance = enemyGameObject.GetComponent<EnemyInstance>();
+        enemyInstance.SetTarget(randomSpawnIndex == 0);
+        
+        _spawnedThisNight++;
+    }
+}
