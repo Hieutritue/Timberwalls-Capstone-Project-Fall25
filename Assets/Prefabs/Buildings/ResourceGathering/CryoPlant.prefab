@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6943390620571986283}
   - component: {fileID: 6364621410763851329}
   - component: {fileID: 1229402773312284596}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: SM_Prop_Magnifying_Glass_01_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4916571810810295193}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 2822521671108265268}
   - component: {fileID: 4068536274642455993}
   - component: {fileID: 8864295004530898858}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: CryoPlant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceableSo: {fileID: 11400000, guid: e0cf830db5ee23548a62968af81742bc, type: 2}
   ProgressPoint: {fileID: 962986443255677703}
+  Animator: {fileID: 0}
   Colliders: []
+  ContainingRoom: {fileID: 0}
   ActionPoint: {fileID: 6457988081260874819}
 --- !u!95 &8864295004530898858
 Animator:
@@ -201,7 +203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8378431405535685305}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6457988081260874819}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: ActionPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +268,7 @@ GameObject:
   - component: {fileID: 4646435018011755346}
   - component: {fileID: 5684260842050216313}
   - component: {fileID: 1643927733514451531}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: SM_Prop_Crate_14_Lid_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +354,7 @@ GameObject:
   - component: {fileID: 2248732339636603013}
   - component: {fileID: 2550174429559187970}
   - component: {fileID: 7708825191526481745}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: SM_Prop_Crate_14_Lid_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +438,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 962986443255677703}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: ProgressPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,6 +472,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Prop_Greebles_21
+      objectReference: {fileID: 0}
+    - target: {fileID: 308349398169269108, guid: 15682852ae9c08943b6256f3fc7a9f38,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 1084429112491502030, guid: 15682852ae9c08943b6256f3fc7a9f38,
         type: 3}
@@ -555,9 +562,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4917290854349592661}
     m_Modifications:
+    - target: {fileID: 1018767828717018, guid: 11d3116dc35caba44afd0272e2a3ad7a, type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     - target: {fileID: 1989287977746810, guid: 11d3116dc35caba44afd0272e2a3ad7a, type: 3}
       propertyPath: m_Name
       value: FX_Radioactive_Bubbles_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1989287977746810, guid: 11d3116dc35caba44afd0272e2a3ad7a, type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4806007716385084, guid: 11d3116dc35caba44afd0272e2a3ad7a, type: 3}
       propertyPath: m_LocalScale.x
@@ -653,6 +668,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Prop_Slime_Puddle_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289377753203315554, guid: 3796adb2faa08a54a8e6b9d5158b6d80,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 8665516710792907224, guid: 3796adb2faa08a54a8e6b9d5158b6d80,
         type: 3}
@@ -813,6 +833,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Greebles_22
       objectReference: {fileID: 0}
+    - target: {fileID: 2157941594534426415, guid: 693478e5827ea78419a0b8aef7a169d5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -832,6 +857,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7941997411761818828}
     m_Modifications:
+    - target: {fileID: 1788796180173126944, guid: bba8a73519f0a584aa1c0b3e6ff49a99,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     - target: {fileID: 7110203906997448422, guid: bba8a73519f0a584aa1c0b3e6ff49a99,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -902,6 +932,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Power_Terminal_03_PowerCell_01
       objectReference: {fileID: 0}
+    - target: {fileID: 7631160885156590684, guid: bba8a73519f0a584aa1c0b3e6ff49a99,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -924,6 +959,10 @@ PrefabInstance:
     - target: {fileID: 1551670706014394, guid: 8cd2e82c645ed3241ab1ed4a354f4890, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Cable_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1551670706014394, guid: 8cd2e82c645ed3241ab1ed4a354f4890, type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4312299296540134, guid: 8cd2e82c645ed3241ab1ed4a354f4890, type: 3}
       propertyPath: m_LocalScale.x
@@ -1007,6 +1046,10 @@ PrefabInstance:
     - target: {fileID: 1358281644318072, guid: 125eaac7735673049bafd45f257f55e6, type: 3}
       propertyPath: m_Name
       value: SM_Bld_Scav_Refinery_Tower_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1358281644318072, guid: 125eaac7735673049bafd45f257f55e6, type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4170912985465106, guid: 125eaac7735673049bafd45f257f55e6, type: 3}
       propertyPath: m_LocalScale.x
@@ -1119,6 +1162,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 124189823566411242, guid: 45895b431d277a84c83cb533aa93b78a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     - target: {fileID: 1681399838183384104, guid: 45895b431d277a84c83cb533aa93b78a,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1194,6 +1242,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Wep_Grenade_01
       objectReference: {fileID: 0}
+    - target: {fileID: 2026154266634337938, guid: 45895b431d277a84c83cb533aa93b78a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1213,9 +1266,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7941997411761818828}
     m_Modifications:
+    - target: {fileID: 1090797218214074, guid: 2c9735ad03f2a774bb465d286fc257df, type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193810751211878, guid: 2c9735ad03f2a774bb465d286fc257df, type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235057860530112, guid: 2c9735ad03f2a774bb465d286fc257df, type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1237472157424580, guid: 2c9735ad03f2a774bb465d286fc257df, type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     - target: {fileID: 1787366463712352, guid: 2c9735ad03f2a774bb465d286fc257df, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Monitor_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787366463712352, guid: 2c9735ad03f2a774bb465d286fc257df, type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4667045883747842, guid: 2c9735ad03f2a774bb465d286fc257df, type: 3}
       propertyPath: m_LocalScale.x
@@ -1295,6 +1368,10 @@ PrefabInstance:
     - target: {fileID: 1492259600925058, guid: 1e4265dfadb2d3f47846f84d23cc0a35, type: 3}
       propertyPath: m_Name
       value: SM_Bld_Platform_Large_12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492259600925058, guid: 1e4265dfadb2d3f47846f84d23cc0a35, type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4755419462201578, guid: 1e4265dfadb2d3f47846f84d23cc0a35, type: 3}
       propertyPath: m_LocalScale.x
@@ -1407,10 +1484,25 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 64824512276520609, guid: 3eef983486a10f5458969a71da2d60c1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442343639912860328, guid: 3eef983486a10f5458969a71da2d60c1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
     - target: {fileID: 2790208970685922076, guid: 3eef983486a10f5458969a71da2d60c1,
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980125185189790923, guid: 3eef983486a10f5458969a71da2d60c1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 3959786236797272179, guid: 3eef983486a10f5458969a71da2d60c1,
         type: 3}
@@ -1511,6 +1603,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Prop_Robotic_Needle_Arm_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4447353245227555529, guid: 3eef983486a10f5458969a71da2d60c1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 5221123725019928088, guid: 3eef983486a10f5458969a71da2d60c1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 7178968671831362585, guid: 3eef983486a10f5458969a71da2d60c1,
         type: 3}
@@ -1620,6 +1722,10 @@ PrefabInstance:
     - target: {fileID: 1407700534842682, guid: e1292cfb6851b8e4e9d8cd48c2c96731, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Crate_14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407700534842682, guid: e1292cfb6851b8e4e9d8cd48c2c96731, type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4105236021180274, guid: e1292cfb6851b8e4e9d8cd48c2c96731, type: 3}
       propertyPath: m_LocalScale.x

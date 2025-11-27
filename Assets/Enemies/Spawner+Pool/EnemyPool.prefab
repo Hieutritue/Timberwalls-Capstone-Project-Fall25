@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2237316904411421380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4917529505347971756}
+  - component: {fileID: 1291862739440061394}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4917529505347971756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2237316904411421380}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1291862739440061394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2237316904411421380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f0af9092c3b2b54ea36d10169a59135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyConfigs:
+  - enemyPrefab: {fileID: 6704838256055147985, guid: 20e498226e7878e438d695fba27bd956,
+      type: 3}
+    defaultCapacity: 10
+    maxCapacity: 50
+  - enemyPrefab: {fileID: 3494534149985446266, guid: 45f781a06fabca14a92060cd1324b910,
+      type: 3}
+    defaultCapacity: 10
+    maxCapacity: 50
+  - enemyPrefab: {fileID: 6676369595305255144, guid: 2f04b0475212d7443ac9de3a94d0e358,
+      type: 3}
+    defaultCapacity: 10
+    maxCapacity: 50
