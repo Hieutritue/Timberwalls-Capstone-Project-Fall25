@@ -180,8 +180,8 @@ public class ResearchNode : MonoBehaviour
         unlockedGlow.gameObject.SetActive(false);
         lockOverlay.gameObject.SetActive(false);
 
-        bool unlocked = false;
-        bool canUnlock = false;
+        bool unlocked = IsUnlocked();
+        bool canUnlock = CanUnlock();
 
         if (research != null && ResearchManager.Instance != null)
         {
