@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace DefaultNamespace.ShieldSystem
 {
@@ -6,5 +7,6 @@ namespace DefaultNamespace.ShieldSystem
     public class ShieldHpLevelSO : PlaceableSO
     {
         public float Health;
+        public int Tier;
     }
 }

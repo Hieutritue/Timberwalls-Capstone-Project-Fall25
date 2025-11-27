@@ -173,8 +173,6 @@ public class EnemySpawner : MonoBehaviour
 
             bool fromLeft = sp.CompareTag("SpawnerLeft");
             inst.SetTarget(fromLeft);
-
-            inst.PrintFinalStats(fromLeft ? "LEFT" : "RIGHT");
         }
     }
 
@@ -227,38 +225,38 @@ public class EnemySpawner : MonoBehaviour
 
     private void ApplyScaling(EnemyInstance inst, int day)
     {
-        var baseStats = inst.Stats;
-        var so = inst.EnemySo;
-        var tier = so.tierMultiplier;
-
-        if (tier == null)
-        {
-            inst.ApplyFinalStats(
-                baseStats.Health,
-                baseStats.AttackDamage,
-                baseStats.MoveSpeed,
-                baseStats.AttackRange,
-                baseStats.AttackCooldown
-            );
-            return;
-        }
-
-        float d = Mathf.Max(0, day - scalingStartDay);
-        float dayMult = Mathf.Pow(expGrowth, d);
-
-        float H = baseStats.Health * tier.HealthMult * dayMult;
-        float D = baseStats.AttackDamage * tier.DamageMult * dayMult;
-
-        float S = baseStats.MoveSpeed * tier.SpeedMult * dayMult;
-        if (so.MaxMoveSpeed > 0f) S = Mathf.Min(S, so.MaxMoveSpeed);
-
-        float R = baseStats.AttackRange * tier.RangeMult * dayMult;
-        if (so.MaxAttackRange > 0f) R = Mathf.Min(R, so.MaxAttackRange);
-
-        float cdMult = tier.CooldownMult * dayMult;
-        if (cdMult <= 0f) cdMult = 0.0001f;
-        float CD = baseStats.AttackCooldown / cdMult;
-
-        inst.ApplyFinalStats(H, D, S, R, CD);
+        // var baseStats = inst.Stats;
+        // var so = inst.EnemySo;
+        // var tier = so.tierMultiplier;
+        //
+        // if (tier == null)
+        // {
+        //     inst.ApplyFinalStats(
+        //         baseStats.Health,
+        //         baseStats.AttackDamage,
+        //         baseStats.MoveSpeed,
+        //         baseStats.AttackRange,
+        //         baseStats.AttackCooldown
+        //     );
+        //     return;
+        // }
+        //
+        // float d = Mathf.Max(0, day - scalingStartDay);
+        // float dayMult = Mathf.Pow(expGrowth, d);
+        //
+        // float H = baseStats.Health * tier.HealthMult * dayMult;
+        // float D = baseStats.AttackDamage * tier.DamageMult * dayMult;
+        //
+        // float S = baseStats.MoveSpeed * tier.SpeedMult * dayMult;
+        // if (so.MaxMoveSpeed > 0f) S = Mathf.Min(S, so.MaxMoveSpeed);
+        //
+        // float R = baseStats.AttackRange * tier.RangeMult * dayMult;
+        // if (so.MaxAttackRange > 0f) R = Mathf.Min(R, so.MaxAttackRange);
+        //
+        // float cdMult = tier.CooldownMult * dayMult;
+        // if (cdMult <= 0f) cdMult = 0.0001f;
+        // float CD = baseStats.AttackCooldown / cdMult;
+        //
+        // inst.ApplyFinalStats(H, D, S, R, CD);
     }
 }

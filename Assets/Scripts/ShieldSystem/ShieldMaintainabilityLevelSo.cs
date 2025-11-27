@@ -8,5 +8,6 @@ namespace ShieldSystem
     public class ShieldMaintainabilityLevelSo : PlaceableSO
     {
         public float BaseRecoverySpeed;
+        public int Tier;
     }
 }

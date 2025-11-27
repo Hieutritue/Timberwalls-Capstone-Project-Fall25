@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98aea45eb1f4afa4097deadff5c12b5b, type: 3}
-  m_Name: ComputerSO
+  m_Name: OneShotSO
   m_EditorClassIdentifier: 
-  researchName: Computer
+  researchName: One Shot
   description: 
-  category: 1
-  prerequisites:
-  - {fileID: 11400000, guid: 025a06ff7d86b3249abe6392992df6a4, type: 2}
+  category: 3
+  prerequisites: []
   Costs:
-  - Resource: {fileID: 11400000, guid: 01ecefb392ffd724e8d2206f8f92c704, type: 2}
+  - Resource: {fileID: 11400000, guid: bc6c4a2770ca22943b7f9fa0bb229c16, type: 2}
     Amount: 10
-  unlocksBuildings: []
+  unlocksBuildings:
+  - {fileID: 11400000, guid: f9124853cc4d39142ae13d59699fcae1, type: 2}

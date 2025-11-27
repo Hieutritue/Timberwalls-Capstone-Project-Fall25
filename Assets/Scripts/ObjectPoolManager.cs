@@ -25,7 +25,7 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
         }
     }
 
-    public GameObject Get(GameObject objectToGet, PoolType poolType = PoolType.Others, Action<GameObject> onCreate = null, Action<GameObject> onGet = null)
+    public GameObject Get(GameObject objectToGet, Transform place = null, PoolType poolType = PoolType.Others, Action<GameObject> onCreate = null, Action<GameObject> onGet = null)
     {
         var pool = _objectPools.FirstOrDefault(p => p.PoolName == objectToGet.name);
 
@@ -39,13 +39,14 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
 
         if (!result)
         {
-            result = Instantiate(objectToGet);
+            result = Instantiate(objectToGet, place);
             SetParentObject(result, poolType);
             onCreate?.Invoke(result);
         }
 
         else
         {
+            if (place != null) result.transform.position = place.position;
             result.SetActive(true);
             pool.ObjectsInPool.Remove(result);
             onGet?.Invoke(result);

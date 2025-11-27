@@ -54,7 +54,7 @@ namespace DefaultNamespace.TaskSystem
             if (_building is ResourceGatheringFurniture gatheringFurniture)
             {
                 gatheringFurniture.Work();
-                gatheringFurniture.CreateTask();
+                // gatheringFurniture.CreateTask();
             }
         }
 

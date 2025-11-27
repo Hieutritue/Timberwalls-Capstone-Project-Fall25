@@ -15,16 +15,11 @@ public class ColonistSpawnManager : MonoSingleton<ColonistSpawnManager>
     [SerializeField] private int maxDaysBetweenSpawns = 5;
     [Range(0, 100)] private int successCriteria = 50;
 
-    private void OnEnable()
+    private void Start()
     {
         GameTimeManager.Instance.OnDayChanged += HandleDayChange;
     }
-
-    private void OnDisable()
-    {
-        GameTimeManager.Instance.OnDayChanged -= HandleDayChange;
-    }
-
+    
     private void HandleDayChange(int day)
     {
         // prevent spawns at contactPoints = 0

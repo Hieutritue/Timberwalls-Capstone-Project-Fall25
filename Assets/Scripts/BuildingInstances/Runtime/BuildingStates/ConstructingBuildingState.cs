@@ -32,6 +32,14 @@ namespace BuildingSystem.RoomStates
             
             if(_behaviour is Room room)
                 room.InitRoom();
+            
+            
+            if (_behaviour is ITaskCreator taskCreator &&
+                !_behaviour.ActiveTasks.Any(t => t is not BuildingTask && t is not DemolishingTask))
+            {
+                taskCreator.CreateTask();
+            }
+
         }
     }
 }

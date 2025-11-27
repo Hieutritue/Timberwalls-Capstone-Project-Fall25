@@ -19,6 +19,7 @@ namespace DefaultNamespace.TaskSystem
 
         public override void RewardComplete()
         {
+            RemoveTask();
         }
         
         public override void ColonistStartWork(Colonist colonist)

@@ -27,7 +27,7 @@ namespace DefaultNamespace.TaskSystem
         public virtual void Complete()
         {
             OnComplete?.Invoke();
-            RemoveTask();
+            // RemoveTask();
         }
 
         public virtual void RemoveTask()

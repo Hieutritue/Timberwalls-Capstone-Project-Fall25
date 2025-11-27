@@ -41,12 +41,17 @@ namespace DefaultNamespace.TaskSystem
                 _progressBarUI.transform.position = Transform.position;
             }
 
-            _progress += Time.deltaTime / TotalProgress(colonist);
+            var totalProgress = TotalProgress(colonist);
+            _progress += Time.deltaTime / totalProgress;
             _progressBarUI.SetProgress(_progress);
             
             if (_progress >= 1)
             {
+                Debug.Log($"{_progress}");
                 Complete();
+                // RewardComplete();
+                _progress = 0;
+                _progressBarUI.SetProgress(0);
             }
         }
 

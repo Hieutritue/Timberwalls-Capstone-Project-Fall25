@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using DefaultNamespace.General;
+using DefaultNamespace.ScheduleSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -10,7 +11,7 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
 {
     public class ColonistSelectionPanel : MonoSingleton<ColonistSelectionPanel>
     {
-        [SerializeField] public Button _openSelectionButton;
+        [SerializeField] public Button _skipRecruitmentButton;
         [SerializeField] private GameObject _displayPanel;
         [SerializeField] private GameObject _startupAnimation;
         [SerializeField] private List<ColonistSelectionOption> _colonistOptions;
@@ -19,7 +20,7 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
 
         private void Start()
         {
-            _openSelectionButton.gameObject.SetActive(false);
+            _skipRecruitmentButton.gameObject.SetActive(false);
             _displayPanel.SetActive(false);
             _startupAnimation.gameObject.SetActive(false);
         }
@@ -45,20 +46,23 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
 
         public void ShowSpawnChoices()
         {
-            _openSelectionButton.gameObject.SetActive(true);
             _startupAnimation.SetActive(true);
+            _displayPanel.SetActive(!_displayPanel.activeSelf);
+            _skipRecruitmentButton.gameObject.SetActive(true);
+            GameTimeManager.Instance.SetTimeScale(0);
         }
 
         public void HideSpawnChoices()
         {
-            _openSelectionButton.gameObject.SetActive(false);
+            _skipRecruitmentButton.gameObject.SetActive(false);
             _displayPanel.SetActive(false);
+            _startupAnimation.SetActive(false);
+            GameTimeManager.Instance.RestoreLastTimeScale();
         }
 
-        public void OnOpenSelectionButtonPressed()
+        public void OnSkipButtonPressed()
         {
-            _displayPanel.SetActive(!_displayPanel.activeSelf);
-            _startupAnimation.SetActive(false);
+            HideSpawnChoices();
         }
     }
 }
