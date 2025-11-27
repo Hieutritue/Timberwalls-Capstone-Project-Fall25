@@ -8,14 +8,10 @@ using Random = UnityEngine.Random;
 public class WanderingDestinationSetter : MonoBehaviour {
     public float Radius = 20;
     public float Delay;
-    private Animator _animator;
+    [SerializeField] private Animator _animator;
     IAstarAI ai;
     private bool isWalking = false;
     
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-    }
     void Start () {
         ai = GetComponent<IAstarAI>();
         _timer = Delay;

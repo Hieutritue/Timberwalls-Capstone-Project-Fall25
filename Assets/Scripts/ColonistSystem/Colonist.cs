@@ -47,11 +47,6 @@ public class Colonist : MonoBehaviour
     public bool CanWork { get; set; } = true;
     public Animator animator;
 
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
-
     public string CurrentState
     {
         get => _currentState;
