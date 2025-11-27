@@ -20,6 +20,7 @@ namespace DefaultNamespace.ScheduleSystem
         public TimeSpeed timeSpeed = TimeSpeed.Normal;
     
         private float speedMultiplier = 1f;
+        private float lastTimeScale = 1f;
 
         // Events
         public event Action<int, int> OnHourChanged; // (day, hour)
@@ -83,7 +84,13 @@ namespace DefaultNamespace.ScheduleSystem
 
         public void SetTimeScale(float timeScale)
         {
+            lastTimeScale = Time.timeScale;
             Time.timeScale = timeScale;
+        }
+
+        public void RestoreLastTimeScale()
+        {
+            Time.timeScale = lastTimeScale;
         }
     }
 }
