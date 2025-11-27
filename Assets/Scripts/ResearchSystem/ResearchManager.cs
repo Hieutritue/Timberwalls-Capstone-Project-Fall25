@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using DefaultNamespace.General;
+using DefaultNamespace.ShieldSystem;
 using Pathfinding.Collections;
+using ShieldSystem;
 using UnityEngine;
 
 namespace DefaultNamespace.ResearchSystem
@@ -60,7 +62,20 @@ namespace DefaultNamespace.ResearchSystem
 
             // mark buildings unlocked
             foreach (var b in research.unlocksBuildings)
-                UnlockedBuildings[b] = true;
+            {
+                switch (b)
+                {
+                    case ShieldHpLevelSO shieldHpLevelSo:
+                        ShieldSystem.ShieldSystem.Instance.ShieldWall.SetShieldHpLevel(shieldHpLevelSo.Tier);
+                        continue;
+                    case ShieldMaintainabilityLevelSo shieldMaintainabilityLevelSo:
+                        ShieldSystem.ShieldSystem.Instance.ShieldGenerator.SetShieldMaintainabilityLevel(shieldMaintainabilityLevelSo.Tier);
+                        continue;
+                    default:
+                        UnlockedBuildings[b] = true;
+                        break;
+                }
+            }
 
             OnResearchUnlocked?.Invoke(research);
             return true;
