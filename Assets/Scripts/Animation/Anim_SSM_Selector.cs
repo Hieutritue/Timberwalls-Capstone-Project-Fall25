@@ -7,7 +7,7 @@ public class Anim_SSM_Selector : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        int selection = Random.Range(1, count);
+        int selection = Random.Range(0, count);
         animator.SetInteger(parameterName, selection);
     }
 }

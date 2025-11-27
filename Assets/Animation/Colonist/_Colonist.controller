@@ -135,7 +135,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: BuildingType
-    m_EventTreshold: 2
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -334777816859759139}
   m_Solo: 0
@@ -160,7 +160,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: PokerType
-    m_EventTreshold: 3
+    m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7117634396405015930}
   m_Solo: 0
@@ -185,7 +185,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: BuildingType
-    m_EventTreshold: 1
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3956119848538639037}
   m_Solo: 0
@@ -278,7 +278,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 30, y: 160, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ExitPosition: {x: 790, y: 170, z: 0}
   m_ParentStateMachinePosition: {x: 780, y: 20, z: 0}
   m_DefaultState: {fileID: -2250208426863718316}
 --- !u!1101 &-7039490134552563559
@@ -498,7 +498,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: BuildingType
-    m_EventTreshold: 3
+    m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4142556675177257476}
   m_Solo: 0
@@ -576,7 +576,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: DancingType
-    m_EventTreshold: 1
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3084150112103065849}
   m_Solo: 0
@@ -831,7 +831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44cfead856e61d47a45569c9aebee80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 2
+  count: 3
   parameterName: BuildingType
 --- !u!1101 &-2752578638917152289
 AnimatorStateTransition:
@@ -895,7 +895,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: PokerType
-    m_EventTreshold: 1
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2615620141647982074}
   m_Solo: 0
@@ -1998,7 +1998,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: DancingType
-    m_EventTreshold: 2
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2979848370021956181}
   m_Solo: 0
@@ -2175,7 +2175,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: DancingType
-    m_EventTreshold: 3
+    m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2303279954449166931}
   m_Solo: 0
@@ -2263,8 +2263,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7345348904245724235, guid: 4e9394b0a37bf934ea7806ca6cd3f3c0,
-    type: 3}
+  m_Motion: {fileID: 7400000, guid: 7c536582bdc5ec841ba8d81940a62175, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -2651,7 +2650,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: PokerType
-    m_EventTreshold: 2
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6606994955679209289}
   m_Solo: 0
