@@ -1,9 +1,13 @@
-﻿using DefaultNamespace.ColonistSystem;
+﻿using System;
+using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.Enemy;
 using DefaultNamespace.General;
 using DefaultNamespace.TaskSystem;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace BuildingSystem
 {
@@ -16,6 +20,7 @@ namespace BuildingSystem
         [SerializeField] private Transform _actionPoint;
 
         [SerializeField] private Animator _animator;
+        [SerializeField] private Transform _rangeDisplayParent;
         protected TurretFurnitureSo TurretSo => (TurretFurnitureSo)PlaceableSo;
 
         private float _fireCooldown;
@@ -40,7 +45,7 @@ namespace BuildingSystem
             {
                 // if target moves out of range -> lose it
                 if (!_currentTarget.gameObject.activeInHierarchy ||
-                    Vector3.Distance(transform.position, _currentTarget.position) > TurretSo.AttackRange)
+                    Vector3.Distance(_partToRotate.position, _currentTarget.position) > TurretSo.AttackRange)
                     _currentTarget = null;
 
                 return;
@@ -144,6 +149,17 @@ namespace BuildingSystem
         public void CreateTask()
         {
             AddTask(new ManningTurretTask(this, _actionPoint, TaskType.ManningTurrets));
+        }
+
+        private void OnMouseEnter()
+        {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+            _rangeDisplayParent.DOScale(new Vector3(TurretSo.AttackRange * 2, TurretSo.AttackRange * 2, 1), .3f);
+        }
+
+        private void OnMouseExit()
+        {
+            _rangeDisplayParent.DOScale(Vector3.zero, .3f);
         }
     }
 }
