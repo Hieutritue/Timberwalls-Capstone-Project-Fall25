@@ -15,7 +15,7 @@ namespace BuildingSystem
     {
         public PlaceableSO PlaceableSo;
         public Transform ProgressPoint;
-        public Animator Animator;
+        protected Animator Animator;
         
         protected StateMachine _stateMachine;
         protected ConstructingBuildingState _constructingBuildingState;
@@ -29,6 +29,7 @@ namespace BuildingSystem
         
         public IState CurrentState => _stateMachine.CurrentState;
         
+
         public virtual void Start()
         {
             Colliders = GetComponentsInChildren<Collider>();
@@ -54,17 +55,17 @@ namespace BuildingSystem
             _stateMachine.Initialize(_constructingBuildingState);
         }
 
-        public void TransitionToIdle()
+        public virtual void TransitionToIdle()
         {
             _stateMachine.TransitionTo(_idleBuildingState);
         }
         
-        public void TransitionToWorking()
+        public virtual void TransitionToWorking()
         {
             _stateMachine.TransitionTo(_workingBuildingState);
         }
 
-        public void TransitionToDemolishing()
+        public virtual void TransitionToDemolishing()
         {
             _stateMachine.TransitionTo(_demolishingBuildingState);
         }

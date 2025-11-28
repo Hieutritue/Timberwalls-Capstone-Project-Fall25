@@ -87,12 +87,14 @@ namespace DefaultNamespace.TaskSystem
             {
                 Debug.LogError("No Anim String Found For" + tag);
             }
+            _building.TransitionToWorking();
         }
 
         public override void ColonistStopWork(Colonist colonist)
         {
             // TODO: Animation
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
+            _building.TransitionToIdle();
         }
         
     }

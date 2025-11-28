@@ -24,6 +24,7 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             colonist.animator.SetTrigger(ColonistAnimationString.TYPING);
+            _building.TransitionToWorking();
             // colonist.transform.position = _actionPoint.position;
         }
 
@@ -31,6 +32,7 @@ namespace DefaultNamespace.TaskSystem
         {
             TurretFurniture.ColonistAssignedToTurret = null;
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
+            _building.TransitionToIdle();
         }
     }
 }
