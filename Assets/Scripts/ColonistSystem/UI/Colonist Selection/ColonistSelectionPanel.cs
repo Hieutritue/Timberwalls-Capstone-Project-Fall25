@@ -48,6 +48,11 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
 
         public void ShowSpawnChoices()
         {
+            if (panelCurrentlyActive)
+            {
+                return;
+            }
+
             _startupAnimation.SetActive(true);
             _displayPanel.SetActive(!_displayPanel.activeSelf);
             _skipRecruitmentButton.gameObject.SetActive(true);
