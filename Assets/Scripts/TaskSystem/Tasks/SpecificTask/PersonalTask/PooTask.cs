@@ -22,13 +22,13 @@ namespace DefaultNamespace.TaskSystem
             colonist.AutoDecreaseStatsEnabled = false;
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
             // _building.Animator.SetTrigger(BuildingAnimationString.IS_ACTIVE);
-            if (_building.tag != "SitToilet")
-            {
-                colonist.animator.SetTrigger(ColonistAnimationString.SQUAT_POOPING);
-            }
+            var tag = _building.tag;
+            var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
+            if(!string.IsNullOrEmpty(animString))
+                colonist.animator.SetTrigger(animString);
             else
             {
-                colonist.animator.SetTrigger(ColonistAnimationString.SIT_POOPING);
+                Debug.LogError("No Anim String Found For" + tag);
             }
            
         }

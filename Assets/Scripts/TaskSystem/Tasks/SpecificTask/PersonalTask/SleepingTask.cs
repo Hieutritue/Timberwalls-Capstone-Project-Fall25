@@ -38,8 +38,14 @@ namespace DefaultNamespace.TaskSystem
             colonist.transform.rotation = _actionPoint.rotation;
             colonist.AutoDecreaseStatsEnabled = false;
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
-            // _building.Animator.SetTrigger(BuildingAnimationString.IS_ACTIVE);
-            colonist.animator.SetTrigger(ColonistAnimationString.SLEEPING);
+            var tag = _building.tag;
+            var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
+            if(!string.IsNullOrEmpty(animString))
+                colonist.animator.SetTrigger(animString);
+            else
+            {
+                Debug.LogError("No Anim String Found For" + tag);
+            }
         }
         public SleepingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint,
             taskType)

@@ -80,7 +80,7 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             var tag = _building.tag;
-            var animString = ResourceGatheringTag.GetAnimStringBaseOnMachine(tag);
+            var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
             if(!string.IsNullOrEmpty(animString))
             colonist.animator.SetTrigger(animString);
             else
@@ -97,7 +97,7 @@ namespace DefaultNamespace.TaskSystem
         
     }
 
-    public static class ResourceGatheringTag
+    public static class FurnitureTag
     {
         //tags
         public static readonly string BATTERY_FACTORY = "Battery Factory";
@@ -124,6 +124,16 @@ namespace DefaultNamespace.TaskSystem
         public static readonly string RESEARCH_MACHINE = "Research Machine"; 
         public static readonly string SUPER_RESEARCH_MACHINE = "Super Research Machine"; 
         public static readonly string SUPER_DUPER_RESEARCH_MACHINE = "Super Duper Research Machine";
+        public static readonly string PATIENT_CARE_CHAIR = "Patient Care Chair";
+        public static readonly string POKER_TABLE = "Poker Table";
+        public static readonly string SPEAKER = "Speaker";
+        public static readonly string MED_BED = "Med Bed";
+        public static readonly string BED = "Bed";
+        public static readonly string DINING_TABLE = "Dining Table";
+        public static readonly string SIT_TOILET = "Sit Toilet";
+        public static readonly string SQUAT_TOILET = "Squat Toilet";
+        public static readonly string WATER_TAP = "Water Tap";
+        public static readonly string BATHTUB = "Bathtub";
 
         //animation accordinngly
         public static readonly Dictionary<string, string> ANIMATION_HASHMAP = new Dictionary<string, string>()
@@ -152,16 +162,26 @@ namespace DefaultNamespace.TaskSystem
             //cooking anim
             {WOOD_STOVE, ColonistAnimationString.COOKING},
             {GAS_STOVE, ColonistAnimationString.COOKING},
-            {ELECTRIC_STOVE, ColonistAnimationString.COOKING},
+            {WOOD_STOVE, ColonistAnimationString.COOKING},
             
             //other seperate anim
             {CHICKEN_COOP, ColonistAnimationString.FEEDING_CHICKEN},
             {CORN_FIELD, ColonistAnimationString.PLANTING},
             {FISH_TANK, ColonistAnimationString.FISHING},
             {NIOBIUM_MINE, ColonistAnimationString.CARRYING_BIG_OBJECT},
+            {PATIENT_CARE_CHAIR, ColonistAnimationString.SITTING_SICK},
+            {MED_BED, ColonistAnimationString.LAYING_SICK},
+            {BED, ColonistAnimationString.SLEEPING},
+            {SPEAKER, ColonistAnimationString.DANCING},
+            {POKER_TABLE, ColonistAnimationString.PLAYING_POKER},
+            {DINING_TABLE, ColonistAnimationString.EATING},
+            {SIT_TOILET, ColonistAnimationString.SIT_POOPING},
+            {SQUAT_TOILET, ColonistAnimationString.SQUAT_POOPING},
+            {WATER_TAP, ColonistAnimationString.WASHING_TAP},
+            {BATHTUB, ColonistAnimationString.BATHING},
         };
         
-        public static string GetAnimStringBaseOnMachine(string tag)
+        public static string GetAnimStringBaseOnFurniture(string tag)
         {
             foreach (var item in ANIMATION_HASHMAP)
             {

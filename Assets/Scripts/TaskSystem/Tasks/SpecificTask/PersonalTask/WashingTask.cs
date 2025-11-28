@@ -26,13 +26,13 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
             colonist.AutoDecreaseStatsEnabled = false;
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
             // _building.Animator.SetTrigger(BuildingAnimationString.IS_ACTIVE);
-            if (_building.tag == "WaterTap")
-            {
-                colonist.animator.SetTrigger(ColonistAnimationString.WASHING_TAP);
-            }
+            var tag = _building.tag;
+            var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
+            if(!string.IsNullOrEmpty(animString))
+                colonist.animator.SetTrigger(animString);
             else
             {
-                colonist.animator.SetTrigger(ColonistAnimationString.BATHING);
+                Debug.LogError("No Anim String Found For" + tag);
             }
             
         }

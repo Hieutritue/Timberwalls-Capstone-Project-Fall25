@@ -336,4 +336,5 @@ public static class ColonistAnimationString
     public readonly static string BATHING = "Bathing";
     public readonly static string SITTING_SICK = "SittingSick";
     public readonly static string SIT_POOPING = "SitPooping";
+
 }

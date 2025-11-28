@@ -23,8 +23,14 @@ namespace DefaultNamespace.TaskSystem
             colonist.transform.rotation = _actionPoint.rotation;
             colonist.AutoDecreaseStatsEnabled = false;
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
-            // _building.Animator.SetTrigger(BuildingAnimationString.IS_ACTIVE);
-            colonist.animator.SetTrigger(ColonistAnimationString.EATING);
+            var tag = _building.tag;
+            var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
+            if(!string.IsNullOrEmpty(animString))
+                colonist.animator.SetTrigger(animString);
+            else
+            {
+                Debug.LogError("No Anim String Found For" + tag);
+            }
         }
 
         protected override void SetStat(Colonist colonist, KeyValuePair<StatType, float> effect, float furnitureMultiplier, float roomMultiplier)

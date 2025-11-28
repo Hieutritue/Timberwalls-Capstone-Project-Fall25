@@ -20,13 +20,13 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
             colonist.AutoDecreaseStatsEnabled = false;
             colonist.animator.SetTrigger(ColonistAnimationString.PLAYING);
            // _building.Animator.SetTrigger(BuildingAnimationString.IS_ACTIVE);
-           if (_building.gameObject.tag == "Speaker")
-           {
-               colonist.animator.SetTrigger(ColonistAnimationString.DANCING);
-           }
+           var tag = _building.tag;
+           var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
+           if(!string.IsNullOrEmpty(animString))
+               colonist.animator.SetTrigger(animString);
            else
            {
-               colonist.animator.SetTrigger(ColonistAnimationString.PLAYING_POKER);
+               Debug.LogError("No Anim String Found For" + tag);
            }
         }
 
