@@ -10,18 +10,20 @@ namespace DefaultNamespace.TaskSystem
     public class ResourceGatheringTask : AProgressTask
     {
         private TaskType _taskType;
+
         public ResourceGatheringTask(Building building, TaskType taskType) : base(building, taskType)
         {
         }
-        
+
         public bool ResourceReachedMaxCapacity()
         {
-            var resourceType = ((ResourceGatheringFurniture)_building).GatheringFurnitureSo.OutputResource[0].Resource.ResourceType;
+            var resourceType = ((ResourceGatheringFurniture)_building).GatheringFurnitureSo.OutputResource[0].Resource
+                .ResourceType;
             var maxCapacity = ResourceStorageManager.Instance.GetMaxCapacityForResourceType(resourceType);
-            
+
             return ResourceManager.Instance.Get(resourceType) >= maxCapacity;
         }
-        
+
         public bool NotEnoughResourceRequiredToProduce()
         {
             var gatheringFurniture = (ResourceGatheringFurniture)_building;
@@ -39,7 +41,8 @@ namespace DefaultNamespace.TaskSystem
         {
             if (_building is ResourceGatheringFurniture gatheringFurniture)
             {
-                var skillLevel = colonist.ColonistSo.Skills[gatheringFurniture.GatheringFurnitureSo.TaskType.SkillForTask()];
+                var skillLevel =
+                    colonist.ColonistSo.Skills[gatheringFurniture.GatheringFurnitureSo.TaskType.SkillForTask()];
                 return FormulaCollection.ProgressPerFrameBasedOnSkillLevel(
                     gatheringFurniture.GatheringFurnitureSo.BaseTimeToProduce,
                     skillLevel,
@@ -63,8 +66,8 @@ namespace DefaultNamespace.TaskSystem
             SetColonistPosition(colonist);
             base.UpdateProgress(colonist);
         }
-        
-        
+
+
         private void SetColonistPosition(Colonist colonist)
         {
             if (Building is ResourceGatheringFurniture furniture)
@@ -73,7 +76,7 @@ namespace DefaultNamespace.TaskSystem
                 colonist.transform.LookAt(furniture.ActionPoint.position + furniture.ActionPoint.forward);
             }
         }
-        
+
         public override void ColonistStartWork(Colonist colonist)
         {
             // TODO: Animation
@@ -81,12 +84,13 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
-            if(!string.IsNullOrEmpty(animString))
-            colonist.animator.SetTrigger(animString);
+            if (!string.IsNullOrEmpty(animString))
+                colonist.animator.SetTrigger(animString);
             else
             {
                 Debug.LogError("No Anim String Found For" + tag);
             }
+
             _building.TransitionToWorking();
         }
 
@@ -96,7 +100,6 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
             _building.TransitionToIdle();
         }
-        
     }
 
     public static class FurnitureTag
@@ -107,24 +110,24 @@ namespace DefaultNamespace.TaskSystem
         public static readonly string COPPER_FURNACE = "Copper Furnace";
         public static readonly string COPPER_MINE = "Copper Mine";
         public static readonly string CORN_FIELD = "Corn Field";
-        public static readonly string CRYO_PLANT  = "Cryo Plant";
+        public static readonly string CRYO_PLANT = "Cryo Plant";
         public static readonly string ELECTRIC_STOVE = "Electric Stove";
-        public static readonly string ELECTRONICS_LAB =  "Electronics Lab";
+        public static readonly string ELECTRONICS_LAB = "Electronics Lab";
         public static readonly string FISH_TANK = "Fish Tank";
         public static readonly string GAS_STOVE = "Gas Stove";
         public static readonly string HIGH_TEMP_FURNACE = "High Temp Furnace";
         public static readonly string IRON_FURNACE = "Iron Furnace";
         public static readonly string IRON_MINE = "Iron Mine";
         public static readonly string MED_X = "Med-X";
-        public static readonly string NIOBIUM_MINE = "Niobium Mine"; 
-        public static readonly string OIL_PUMP = "Oil Pump"; 
-        public static readonly string POLYMER_PRESS = "Polymer Press"; 
-        public static readonly string REFINERY = "Refinery"; 
-        public static readonly string STONE_FARM = "Stone Farm"; 
-        public static readonly string WOOD_FARM = "Wood Farm"; 
-        public static readonly string WOOD_STOVE = "Wood Stove"; 
-        public static readonly string RESEARCH_MACHINE = "Research Machine"; 
-        public static readonly string SUPER_RESEARCH_MACHINE = "Super Research Machine"; 
+        public static readonly string NIOBIUM_MINE = "Niobium Mine";
+        public static readonly string OIL_PUMP = "Oil Pump";
+        public static readonly string POLYMER_PRESS = "Polymer Press";
+        public static readonly string REFINERY = "Refinery";
+        public static readonly string STONE_FARM = "Stone Farm";
+        public static readonly string WOOD_FARM = "Wood Farm";
+        public static readonly string WOOD_STOVE = "Wood Stove";
+        public static readonly string RESEARCH_MACHINE = "Research Machine";
+        public static readonly string SUPER_RESEARCH_MACHINE = "Super Research Machine";
         public static readonly string SUPER_DUPER_RESEARCH_MACHINE = "Super Duper Research Machine";
         public static readonly string PATIENT_CARE_CHAIR = "Patient Care Chair";
         public static readonly string POKER_TABLE = "Poker Table";
@@ -141,48 +144,48 @@ namespace DefaultNamespace.TaskSystem
         public static readonly Dictionary<string, string> ANIMATION_HASHMAP = new Dictionary<string, string>()
         {
             //typing anim
-            {BATTERY_FACTORY, ColonistAnimationString.PRESSING_BUTTON},
-            {CRYO_PLANT, ColonistAnimationString.PRESSING_BUTTON},
-            {ELECTRONICS_LAB, ColonistAnimationString.PRESSING_BUTTON},
-            {HIGH_TEMP_FURNACE, ColonistAnimationString.PRESSING_BUTTON},
-            {MED_X, ColonistAnimationString.PRESSING_BUTTON},
-            {POLYMER_PRESS, ColonistAnimationString.PRESSING_BUTTON},
-            {RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON},
-            {SUPER_RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON},
-            {SUPER_DUPER_RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON},
-            {COPPER_FURNACE, ColonistAnimationString.PRESSING_BUTTON},
-            {IRON_FURNACE, ColonistAnimationString.PRESSING_BUTTON},
-            {OIL_PUMP, ColonistAnimationString.PRESSING_BUTTON},
-            {REFINERY, ColonistAnimationString.PRESSING_BUTTON},
-            
+            { BATTERY_FACTORY, ColonistAnimationString.PRESSING_BUTTON },
+            { CRYO_PLANT, ColonistAnimationString.PRESSING_BUTTON },
+            { ELECTRONICS_LAB, ColonistAnimationString.PRESSING_BUTTON },
+            { HIGH_TEMP_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
+            { MED_X, ColonistAnimationString.PRESSING_BUTTON },
+            { POLYMER_PRESS, ColonistAnimationString.PRESSING_BUTTON },
+            { RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON },
+            { SUPER_RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON },
+            { SUPER_DUPER_RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON },
+            { COPPER_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
+            { IRON_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
+            { OIL_PUMP, ColonistAnimationString.PRESSING_BUTTON },
+            { REFINERY, ColonistAnimationString.PRESSING_BUTTON },
+
             //breaking anim
-            {STONE_FARM, ColonistAnimationString.BREAKING_RESOURCE},
-            {WOOD_FARM, ColonistAnimationString.BREAKING_RESOURCE},
-            {COPPER_MINE, ColonistAnimationString.BREAKING_RESOURCE},
-            {IRON_MINE, ColonistAnimationString.BREAKING_RESOURCE},
-            
+            { STONE_FARM, ColonistAnimationString.BREAKING_RESOURCE },
+            { WOOD_FARM, ColonistAnimationString.BREAKING_RESOURCE },
+            { COPPER_MINE, ColonistAnimationString.BREAKING_RESOURCE },
+            { IRON_MINE, ColonistAnimationString.BREAKING_RESOURCE },
+
             //cooking anim
-            {ELECTRIC_STOVE, ColonistAnimationString.COOKING},
-            {GAS_STOVE, ColonistAnimationString.COOKING},
-            {WOOD_STOVE, ColonistAnimationString.COOKING},
-            
+            { ELECTRIC_STOVE, ColonistAnimationString.COOKING },
+            { GAS_STOVE, ColonistAnimationString.COOKING },
+            { WOOD_STOVE, ColonistAnimationString.COOKING },
+
             //other seperate anim
-            {CHICKEN_COOP, ColonistAnimationString.FEEDING_CHICKEN},
-            {CORN_FIELD, ColonistAnimationString.PLANTING},
-            {FISH_TANK, ColonistAnimationString.FISHING},
-            {NIOBIUM_MINE, ColonistAnimationString.CARRYING_BIG_OBJECT},
-            {PATIENT_CARE_CHAIR, ColonistAnimationString.SITTING_SICK},
-            {MED_BED, ColonistAnimationString.LAYING_SICK},
-            {BED, ColonistAnimationString.SLEEPING},
-            {SPEAKER, ColonistAnimationString.DANCING},
-            {POKER_TABLE, ColonistAnimationString.PLAYING_POKER},
-            {DINING_TABLE, ColonistAnimationString.EATING},
-            {SIT_TOILET, ColonistAnimationString.SIT_POOPING},
-            {SQUAT_TOILET, ColonistAnimationString.SQUAT_POOPING},
-            {WATER_TAP, ColonistAnimationString.WASHING_TAP},
-            {BATHTUB, ColonistAnimationString.BATHING},
+            { CHICKEN_COOP, ColonistAnimationString.FEEDING_CHICKEN },
+            { CORN_FIELD, ColonistAnimationString.PLANTING },
+            { FISH_TANK, ColonistAnimationString.FISHING },
+            { NIOBIUM_MINE, ColonistAnimationString.CARRYING_BIG_OBJECT },
+            { PATIENT_CARE_CHAIR, ColonistAnimationString.SITTING_SICK },
+            { MED_BED, ColonistAnimationString.LAYING_SICK },
+            { BED, ColonistAnimationString.SLEEPING },
+            { SPEAKER, ColonistAnimationString.DANCING },
+            { POKER_TABLE, ColonistAnimationString.PLAYING_POKER },
+            { DINING_TABLE, ColonistAnimationString.EATING },
+            { SIT_TOILET, ColonistAnimationString.SIT_POOPING },
+            { SQUAT_TOILET, ColonistAnimationString.SQUAT_POOPING },
+            { WATER_TAP, ColonistAnimationString.WASHING_TAP },
+            { BATHTUB, ColonistAnimationString.BATHING },
         };
-        
+
         public static string GetAnimStringBaseOnFurniture(string tag)
         {
             foreach (var item in ANIMATION_HASHMAP)

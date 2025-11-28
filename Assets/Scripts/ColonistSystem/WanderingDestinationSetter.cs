@@ -12,7 +12,9 @@ public class WanderingDestinationSetter : MonoBehaviour {
     IAstarAI ai;
     private bool isWalking = false;
     
-    void Start () {
+    void Start ()
+    {
+        _animator = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
         ai = GetComponent<IAstarAI>();
         _timer = Delay;
     }

@@ -12,22 +12,24 @@ namespace BuildingSystem
         public Transform ActionPoint;
         public ResourceGatheringFurnitureSo GatheringFurnitureSo => (ResourceGatheringFurnitureSo)PlaceableSo;
 
-        private void Awake()
+        public override void Start()
         {
+            base.Start();
             Animator = GetComponent<Animator>();
         }
 
         public override void TransitionToIdle()
         {
             _stateMachine.TransitionTo(_idleBuildingState);
-            Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
+            if (Animator)
+                Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
         }
 
         public override void TransitionToWorking()
         {
             _stateMachine.TransitionTo(_workingBuildingState);
-            Animator.SetBool(BuildingAnimationString.IS_ACTIVE, true);
-
+            if (Animator)
+                Animator.SetBool(BuildingAnimationString.IS_ACTIVE, true);
         }
 
         public void Work()

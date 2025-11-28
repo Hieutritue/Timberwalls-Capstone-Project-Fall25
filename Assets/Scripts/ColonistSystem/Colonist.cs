@@ -59,6 +59,7 @@ public class Colonist : MonoBehaviour
 
     private void Start()
     {
+        animator = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
         InitData();
         InitStateMachine();
         RegisterAfflictionChanges();

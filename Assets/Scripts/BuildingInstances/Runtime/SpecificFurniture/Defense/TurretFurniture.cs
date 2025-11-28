@@ -25,7 +25,7 @@ namespace BuildingSystem
 
         private float _fireCooldown;
         private Transform _currentTarget;
-        private static readonly int Attack = Animator.StringToHash("IsActive");
+        private static readonly int Attack = Animator.StringToHash("Attack");
         private int SkillLevel => ColonistAssignedToTurret?.ColonistSo.Skills[SkillType.Marksmanship] ?? 0;
 
         public void UpdateInWorkingState()
