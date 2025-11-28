@@ -15,46 +15,59 @@ public class ColonistSpawnManager : MonoSingleton<ColonistSpawnManager>
     [SerializeField] private int maxDaysBetweenSpawns = 5;
     [Range(0, 100)] private int successCriteria = 50;
 
+    private int _nextSpawnDay = -1;
+
     private void Start()
     {
         GameTimeManager.Instance.OnDayChanged += HandleDayChange;
     }
-    
+
     private void HandleDayChange(int day)
     {
-        // prevent spawns at contactPoints = 0
-        if (ResourceManager.Instance.Get(ResourceSystem.ResourceType.ContactPoint) <= 0)
+        if (day >= _nextSpawnDay)
         {
-            Debug.Log("No contact points available, skipping colonist spawn check.");
-            return;
-        }
+            if (ResourceManager.Instance.Get(ResourceSystem.ResourceType.ContactPoint) > 0)
+            {
+                if (_nextSpawnDay > 0)
+                {
+                    Debug.Log($"Triggering colonist selection event on day {day}");
+                    ShowColonistSelection();
+                }
 
-        if (TrySpawnOpportunity())
+                ScheduleNextSpawn(day);
+            }
+            else
+            {
+                Debug.Log("Recruitment event scheduling skipped.");
+            }
+        }
+        else
         {
-            Debug.Log($"Colonist spawn opportunity for day {day} triggered.");
-            ShowColonistSelection();
+            Debug.Log($"Spawn not due yet. Day {day}, next spawn at day {_nextSpawnDay}");
         }
-
-        Debug.Log($"Colonist spawn opportunity check for day {day} failed.");
     }
 
-    private bool TrySpawnOpportunity()
+    private void ScheduleNextSpawn(int currentDay)
     {
         int score = Mathf.Clamp(successCriteria, 0, 100);
+
+        // map score 0–100 to factor 0.5–2
         float successFactor = 0.5f + (score / 100f) * 1.5f;
-        float baseDays = Random.Range(minDaysBetweenSpawns, maxDaysBetweenSpawns);
-        float interval = baseDays / successFactor;
 
-        float dailyProbability = 1f / interval;
+        float scaledMin = minDaysBetweenSpawns / successFactor;
+        float scaledMax = maxDaysBetweenSpawns / successFactor;
 
-        return Random.value < dailyProbability;
+        int daysToNext = Mathf.RoundToInt(Random.Range(scaledMin, scaledMax));
+
+        daysToNext = Mathf.Max(daysToNext, 1);
+
+        _nextSpawnDay = currentDay + daysToNext;
+
+        Debug.Log($"Next colonist spawn scheduled for day: {_nextSpawnDay} (in {daysToNext} days)");
     }
 
     private int GetWeightedRandomTier(int contactPoints)
     {
-        if (contactPoints <= 0)
-            return -1;
-
         contactPoints = Mathf.Clamp(contactPoints, 1, 200);
 
         float w0 = Mathf.Exp(-contactPoints / 40f);
@@ -79,7 +92,6 @@ public class ColonistSpawnManager : MonoSingleton<ColonistSpawnManager>
     {
         int contactPoints = ResourceManager.Instance.Get(ResourceSystem.ResourceType.ContactPoint);
 
-        // pool excludes colonists already in the world
         var pool = ColonistManager.Instance.BuildAvailablePool();
 
         int tierA = GetWeightedRandomTier(contactPoints);
@@ -96,30 +108,31 @@ public class ColonistSpawnManager : MonoSingleton<ColonistSpawnManager>
 
     private ColonistSO GetRandomColonistOfTier(int desiredTier, List<ColonistSO> pool)
     {
-        if (desiredTier < 0 || pool.Count == 0)
+        if (pool == null || pool.Count == 0)
             return null;
 
-        // try to find colonist of desired tier or lower
-        for (int tier = desiredTier; tier >= 0; tier--)
+        int contactPoints = ResourceManager.Instance.Get(ResourceSystem.ResourceType.ContactPoint);
+
+        while (true)
         {
-            var candidates = pool.Where(c => c.Tier == tier).ToList();
+            var candidates = pool.Where(c => c.Tier == desiredTier).ToList();
+
             if (candidates.Count > 0)
             {
                 ColonistSO chosen = candidates[Random.Range(0, candidates.Count)];
                 pool.Remove(chosen);
                 return chosen;
             }
-        }
 
-        // Emergency fallback
-        ColonistSO fallback = pool[Random.Range(0, pool.Count)];
-        pool.Remove(fallback);
-        return fallback;
+            desiredTier = GetWeightedRandomTier(contactPoints);
+        }
     }
+
 
     [Button]
     public void TriggerSpawnEvent()
     {
-        HandleDayChange(0);
+        ShowColonistSelection();
     }
 }
+
