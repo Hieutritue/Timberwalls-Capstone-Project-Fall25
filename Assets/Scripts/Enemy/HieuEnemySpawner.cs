@@ -9,6 +9,8 @@ public class HieuEnemySpawner : MonoBehaviour
     [Header("Spawn Settings")] [SerializeField]
     private Transform[] _spawnPoints;
 
+    [SerializeField]
+    private Transform _realSpawnPoint;
     [SerializeField] EnemyInstance[] _enemyInstances;
 
     [Header("Night Settings")] public float baseSpawnInterval = 12f;
@@ -56,13 +58,13 @@ public class HieuEnemySpawner : MonoBehaviour
 
         // Choose spawn point
         var randomSpawnIndex = Random.Range(0, _spawnPoints.Length);
-        Transform spawnPos = _spawnPoints[randomSpawnIndex];
+        _realSpawnPoint.position = _spawnPoints[randomSpawnIndex].position;
 
         // Instantiate
-        var y = Random.Range(spawnPos.position.y - _heightSpawnRandomOffset,
-            spawnPos.position.y + _heightSpawnRandomOffset);
-        spawnPos.position = spawnPos.position.With(y: y);
-        var enemyGameObject = ObjectPoolManager.Instance.Get(variant.gameObject, spawnPos);
+        var y = Random.Range(.8f,
+            DefaultNamespace.ShieldSystem.ShieldSystem.Instance.ShieldWall.WallHeight);
+        _realSpawnPoint.position = _realSpawnPoint.position.With(y: y);
+        var enemyGameObject = ObjectPoolManager.Instance.Get(variant.gameObject, _realSpawnPoint);
         var enemyInstance = enemyGameObject.GetComponent<EnemyInstance>();
         enemyInstance.SetTarget(randomSpawnIndex == 0);
         

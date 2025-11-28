@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using DefaultNamespace;
 using DefaultNamespace.ShieldSystem;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine.Serialization;
 using Util; // types like GridData live in DefaultNamespace
@@ -33,6 +34,9 @@ namespace ShieldSystem
         [Tooltip("Size of one grid cell in Unity units")] [SerializeField]
         private float _cellSize = 1f;
 
+
+        public float WallHeight => _leftWall.lossyScale.y;
+
         private void Start()
         {
             RebuildShieldWalls();
@@ -56,20 +60,25 @@ namespace ShieldSystem
         /// Left and right walls will be placed at the room edges (in world units), but never closer
         /// than _minDistanceFromCenter to _shieldCenter. Vertical scale and Y position reflect room height.
         /// </summary>
+        ///
+        [SerializeField] private float _tweenDuration;
+
+        [SerializeField] private Ease _ease;
+
         [Button]
         public void RebuildShieldWalls()
         {
             if (RoomGrid == null || RoomGrid.PlacedInstances == null || RoomGrid.PlacedInstances.Count == 0)
             {
                 // No room data - place walls at min distance from center
-                _leftWallParent.transform.position =
-                    _leftWallParent.transform.position.With(x: _shieldCenter.position.x - _minDistanceFromCenter -
-                                                               _horizontalOffset);
-                _rightWallParent.transform.position =
-                    _rightWallParent.transform.position.With(x: _shieldCenter.position.x + _minDistanceFromCenter +
-                                                                _horizontalOffset);
-                _leftWall.localScale = _leftWall.localScale.With(y: _verticalOffset);
-                _rightWall.localScale = _rightWall.localScale.With(y: _verticalOffset);
+                _leftWallParent.transform
+                    .DOMoveX(_shieldCenter.position.x - _minDistanceFromCenter - _horizontalOffset, _tweenDuration)
+                    .SetEase(_ease);
+                _rightWallParent.transform
+                    .DOMoveX(_shieldCenter.position.x + _minDistanceFromCenter + _horizontalOffset, _tweenDuration)
+                    .SetEase(_ease);
+                _leftWall.DOScaleY(_verticalOffset,_tweenDuration).SetEase(_ease);
+                _rightWall.DOScaleY(_verticalOffset, _tweenDuration).SetEase(_ease);
                 return;
             }
 
@@ -77,14 +86,24 @@ namespace ShieldSystem
             var keys = RoomGrid.PlacedInstances.Keys.ToList();
             if (keys.Count == 0)
             {
-                _leftWallParent.transform.position =
-                    _leftWallParent.transform.position.With(x: _shieldCenter.position.x - _minDistanceFromCenter -
-                                                               _horizontalOffset);
-                _rightWallParent.transform.position =
-                    _rightWallParent.transform.position.With(x: _shieldCenter.position.x + _minDistanceFromCenter +
-                                                                _horizontalOffset);
-                _leftWall.localScale = _leftWall.localScale.With(y: _verticalOffset);
-                _rightWall.localScale = _rightWall.localScale.With(y: _verticalOffset);
+                // _leftWallParent.transform.position =
+                //     _leftWallParent.transform.position.With(x: _shieldCenter.position.x - _minDistanceFromCenter -
+                //                                                _horizontalOffset);
+                // _rightWallParent.transform.position =
+                //     _rightWallParent.transform.position.With(x: _shieldCenter.position.x + _minDistanceFromCenter +
+                //                                                 _horizontalOffset);
+                // _leftWall.localScale = _leftWall.localScale.With(y: _verticalOffset);
+                // _rightWall.localScale = _rightWall.localScale.With(y: _verticalOffset);
+
+                _leftWallParent.transform
+                    .DOMoveX(_shieldCenter.position.x - _minDistanceFromCenter - _horizontalOffset, _tweenDuration)
+                    .SetEase(_ease);
+                _rightWallParent.transform
+                    .DOMoveX(_shieldCenter.position.x + _minDistanceFromCenter + _horizontalOffset, _tweenDuration)
+                    .SetEase(_ease);
+                _leftWall.DOScaleY(_verticalOffset, _tweenDuration).SetEase(_ease);
+                _leftWall.DOScaleY(_verticalOffset, _tweenDuration).SetEase(_ease);
+
                 return;
             }
 
@@ -109,18 +128,18 @@ namespace ShieldSystem
             // Update left wall transform
             Vector3 leftPos = _leftWallParent.position;
             leftPos.x = leftPosX;
-            _leftWallParent.position = leftPos;
+            _leftWallParent.DOMove(leftPos, _tweenDuration).SetEase(_ease);
             Vector3 leftScale = _leftWall.localScale;
             leftScale.y = Mathf.Max(0.01f, height); // avoid zero scale
-            _leftWall.localScale = leftScale;
+            _leftWall.DOScale(leftScale, _tweenDuration).SetEase(_ease);
 
             // Update right wall transform
             Vector3 rightPos = _rightWallParent.position;
             rightPos.x = rightPosX;
-            _rightWallParent.position = rightPos;
+            _rightWallParent.DOMove(rightPos, _tweenDuration).SetEase(_ease);
             Vector3 rightScale = _rightWall.localScale;
             rightScale.y = Mathf.Max(0.01f, height);
-            _rightWall.localScale = rightScale;
+            _rightWall.DOScale(rightScale, _tweenDuration).SetEase(_ease);
         }
 
         public void SetMaterial(Material mat)

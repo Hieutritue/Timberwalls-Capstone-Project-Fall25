@@ -18,6 +18,8 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
         
         [SerializeField] private List<ColonistSO> _colonistSos;
 
+        private bool panelCurrentlyActive = false;
+
         private void Start()
         {
             _skipRecruitmentButton.gameObject.SetActive(false);
@@ -46,10 +48,21 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
 
         public void ShowSpawnChoices()
         {
+            if (panelCurrentlyActive)
+            {
+                return;
+            }
+
             _startupAnimation.SetActive(true);
             _displayPanel.SetActive(!_displayPanel.activeSelf);
             _skipRecruitmentButton.gameObject.SetActive(true);
-            GameTimeManager.Instance.SetTimeScale(0);
+
+            if (!panelCurrentlyActive) 
+            {
+                GameTimeManager.Instance.SetTimeScale(0);  
+            }
+
+            panelCurrentlyActive = true;
         }
 
         public void HideSpawnChoices()
@@ -58,6 +71,8 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
             _displayPanel.SetActive(false);
             _startupAnimation.SetActive(false);
             GameTimeManager.Instance.RestoreLastTimeScale();
+
+            panelCurrentlyActive = false;
         }
 
         public void OnSkipButtonPressed()

@@ -169,6 +169,7 @@ MonoBehaviour:
   _spawnPoints:
   - {fileID: 779024478}
   - {fileID: 1341705546}
+  _realSpawnPoint: {fileID: 0}
   _enemyInstances:
   - {fileID: 4380812674243722931, guid: 20e498226e7878e438d695fba27bd956, type: 3}
   - {fileID: -851004124558493018, guid: 45f781a06fabca14a92060cd1324b910, type: 3}
@@ -9187,8 +9188,18 @@ PrefabInstance:
       objectReference: {fileID: 1339976404}
     - target: {fileID: 2547811306322766075, guid: a0345bc2a36abc44a8d64d41a786b21b,
         type: 3}
+      propertyPath: HoursPerDay
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547811306322766075, guid: a0345bc2a36abc44a8d64d41a786b21b,
+        type: 3}
       propertyPath: NightEndHour
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547811306322766075, guid: a0345bc2a36abc44a8d64d41a786b21b,
+        type: 3}
+      propertyPath: RealSecondsPerInGameHour
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6162446835146101390, guid: a0345bc2a36abc44a8d64d41a786b21b,
         type: 3}

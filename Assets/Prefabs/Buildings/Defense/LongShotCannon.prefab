@@ -57,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5744127861090177368}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: -4.38, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -65,7 +65,7 @@ Transform:
   - {fileID: 4491382410542384181}
   - {fileID: 6734184525343285463}
   m_Father: {fileID: 9152522782409936309}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
 --- !u!1 &6155157028198589267
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6258565897052211220}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6924273, y: 0.006550331, z: 0.7214257, w: 0.006824655}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: -0.011, y: -0.001, z: -0.043}
   m_LocalScale: {x: 0.50000006, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
@@ -129,7 +129,7 @@ Transform:
   - {fileID: 9152522782409936309}
   - {fileID: 2149076054766754665}
   m_Father: {fileID: 7689081574439401716}
-  m_LocalEulerAnglesHint: {x: 0, y: -272.35, z: -181.084}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &7118560732897857875
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,14 +191,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7437313240525276664}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -1.587, y: 2.015, z: 2.351}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 84656803409948757}
   m_Father: {fileID: 6688428880791183730}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &8021681559822512782
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,17 +1132,17 @@ PrefabInstance:
     - target: {fileID: 3841137028239288776, guid: 0c2665debe7eb8841aa5a4f90efb5d23,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.679173
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3841137028239288776, guid: 0c2665debe7eb8841aa5a4f90efb5d23,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.013759613
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3841137028239288776, guid: 0c2665debe7eb8841aa5a4f90efb5d23,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.71018
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3841137028239288776, guid: 0c2665debe7eb8841aa5a4f90efb5d23,
         type: 3}
@@ -1181,6 +1181,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5603376816420512756, guid: 0c2665debe7eb8841aa5a4f90efb5d23,
         type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 8891250328257583095}
+    - target: {fileID: 5603376816420512756, guid: 0c2665debe7eb8841aa5a4f90efb5d23,
+        type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
@@ -1199,13 +1204,23 @@ PrefabInstance:
         type: 3}
       propertyPath: _bulletPrefab
       value: 
-      objectReference: {fileID: 2025192612917721016, guid: 1653b041fe2d0284e9572e1d998aa964,
+      objectReference: {fileID: 8164675027986048111, guid: 56647b208a9b19f48b528340b68e53fe,
         type: 3}
     - target: {fileID: 5603376816420512756, guid: 0c2665debe7eb8841aa5a4f90efb5d23,
         type: 3}
       propertyPath: _partToRotate
       value: 
       objectReference: {fileID: 7689081574439401716}
+    - target: {fileID: 5603376816420512756, guid: 0c2665debe7eb8841aa5a4f90efb5d23,
+        type: 3}
+      propertyPath: _firePoints.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603376816420512756, guid: 0c2665debe7eb8841aa5a4f90efb5d23,
+        type: 3}
+      propertyPath: '_firePoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7179599126163886469}
     - target: {fileID: 7958074800010544933, guid: 0c2665debe7eb8841aa5a4f90efb5d23,
         type: 3}
       propertyPath: m_Name

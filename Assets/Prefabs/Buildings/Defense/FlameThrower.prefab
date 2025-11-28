@@ -54,8 +54,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.625407, y: 1, z: 15}
-  m_Center: {x: -0.21994705, y: -0.0000016546543, z: 6.926378}
+  m_Size: {x: 2.3093634, y: 1, z: 14.999998}
+  m_Center: {x: -0.06192355, y: -0.0000016513771, z: 6.926378}
 --- !u!114 &2674599656884356261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,14 +189,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2208536494291135781}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -1.459, y: 2.37, z: 1.918}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2116318429462450843}
   m_Father: {fileID: 7879417352831721265}
-  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &4677765240978142486
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4677765240978142486}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -229,7 +229,7 @@ Transform:
   - {fileID: 7179599126163886469}
   - {fileID: 1870865326429624608}
   m_Father: {fileID: 7254552873669693346}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5744127861090177368
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,10 +924,12 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Colliders: []
   ContainingRoom: {fileID: 0}
-  _firePoint: {fileID: 7179599126163886469}
+  _firePoints:
+  - {fileID: 7179599126163886469}
   _partToRotate: {fileID: 7254552873669693346}
   _bulletPrefab: {fileID: 0}
   _actionPoint: {fileID: 4414434145075220385}
+  _animator: {fileID: 0}
   _impactCollider: {fileID: 2674599656884356261}
   _flameFX: {fileID: 7855431737870925263}
 --- !u!1001 &2868983514939702608
@@ -2427,7 +2429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1653619026499950, guid: ef4d31ab810a39b499877583c1f6a865, type: 3}
       propertyPath: m_Name
-      value: FX_FlameThrower_02
+      value: RielShootPoint
       objectReference: {fileID: 0}
     - target: {fileID: 1653619026499950, guid: ef4d31ab810a39b499877583c1f6a865, type: 3}
       propertyPath: m_Layer
