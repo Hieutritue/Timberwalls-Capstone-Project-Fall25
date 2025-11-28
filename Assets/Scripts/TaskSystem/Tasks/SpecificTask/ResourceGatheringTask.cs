@@ -160,7 +160,7 @@ namespace DefaultNamespace.TaskSystem
             {IRON_MINE, ColonistAnimationString.BREAKING_RESOURCE},
             
             //cooking anim
-            {WOOD_STOVE, ColonistAnimationString.COOKING},
+            {ELECTRIC_STOVE, ColonistAnimationString.COOKING},
             {GAS_STOVE, ColonistAnimationString.COOKING},
             {WOOD_STOVE, ColonistAnimationString.COOKING},
             
