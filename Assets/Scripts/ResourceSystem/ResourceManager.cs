@@ -61,7 +61,15 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     {
         Set(resourceType, Get(resourceType) + amount);
     }
-
+    
+    [Button("Add All Resources (999)")]
+    public void AddAllResources999()
+    {
+        foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
+        {
+            Set(type, 999);
+        }
+    }
     public bool HasEnoughResourcesForPlaceable(PlaceableSO objectToPlace)
     {
         foreach (var cost in objectToPlace.Costs)
