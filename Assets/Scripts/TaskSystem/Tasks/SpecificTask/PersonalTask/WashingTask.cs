@@ -32,7 +32,7 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
                 colonist.animator.SetTrigger(animString);
             else
             {
-                Debug.LogError("No Anim String Found For" + tag);
+                Debug.LogWarning("No Anim String Found For" + tag);
             }
             
         }

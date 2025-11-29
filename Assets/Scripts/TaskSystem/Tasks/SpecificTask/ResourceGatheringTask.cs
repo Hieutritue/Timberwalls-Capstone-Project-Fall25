@@ -88,7 +88,7 @@ namespace DefaultNamespace.TaskSystem
                 colonist.animator.SetTrigger(animString);
             else
             {
-                Debug.LogError("No Anim String Found For" + tag);
+                Debug.LogWarning("No Anim String Found For" + tag);
             }
 
             _building.TransitionToWorking();
@@ -139,6 +139,7 @@ namespace DefaultNamespace.TaskSystem
         public static readonly string SQUAT_TOILET = "Squat Toilet";
         public static readonly string WATER_TAP = "Water Tap";
         public static readonly string BATHTUB = "Bathtub";
+        public static readonly string WASHING_MACHINE = "Washing Machine";
 
         //animation accordinngly
         public static readonly Dictionary<string, string> ANIMATION_HASHMAP = new Dictionary<string, string>()
@@ -184,6 +185,7 @@ namespace DefaultNamespace.TaskSystem
             { SQUAT_TOILET, ColonistAnimationString.SQUAT_POOPING },
             { WATER_TAP, ColonistAnimationString.WASHING_TAP },
             { BATHTUB, ColonistAnimationString.BATHING },
+            { WASHING_MACHINE, ColonistAnimationString.BATHING },
         };
 
         public static string GetAnimStringBaseOnFurniture(string tag)

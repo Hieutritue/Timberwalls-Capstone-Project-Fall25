@@ -26,6 +26,7 @@ namespace DefaultNamespace.TaskSystem
         {
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.BUILDING_WORK);
+            colonist.animator.SetInteger(ColonistAnimationString.BUILDING_TYPE, 2);
         }
 
         public override void ColonistStopWork(Colonist colonist)

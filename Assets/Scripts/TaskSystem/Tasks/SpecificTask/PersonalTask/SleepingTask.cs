@@ -44,7 +44,7 @@ namespace DefaultNamespace.TaskSystem
                 colonist.animator.SetTrigger(animString);
             else
             {
-                Debug.LogError("No Anim String Found For" + tag);
+                Debug.LogWarning("No Anim String Found For" + tag);
             }
         }
         public SleepingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint,
