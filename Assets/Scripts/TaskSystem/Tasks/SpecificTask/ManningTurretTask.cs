@@ -21,6 +21,8 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             TurretFurniture.ColonistAssignedToTurret = colonist;
+            colonist.transform.position = _actionPoint.position;
+            colonist.transform.LookAt(_actionPoint.position + _actionPoint.forward);
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             colonist.animator.SetTrigger(ColonistAnimationString.TYPING);

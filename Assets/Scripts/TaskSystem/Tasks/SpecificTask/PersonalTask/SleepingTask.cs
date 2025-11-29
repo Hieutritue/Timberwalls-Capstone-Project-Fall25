@@ -34,9 +34,7 @@ namespace DefaultNamespace.TaskSystem
         
         public override void ColonistStartWork(Colonist colonist)
         {
-            colonist.transform.position = _actionPoint.position;
-            colonist.transform.rotation = _actionPoint.rotation;
-            colonist.AutoDecreaseStatsEnabled = false;
+            base.ColonistStartWork(colonist);
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);

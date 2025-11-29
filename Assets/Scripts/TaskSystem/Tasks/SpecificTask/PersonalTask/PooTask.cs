@@ -17,9 +17,7 @@ namespace DefaultNamespace.TaskSystem
         
         public override void ColonistStartWork(Colonist colonist)
         {
-            colonist.transform.position = _actionPoint.position;
-            colonist.transform.rotation = _actionPoint.rotation;
-            colonist.AutoDecreaseStatsEnabled = false;
+            base.ColonistStartWork(colonist);
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
             // _building.Animator.SetTrigger(BuildingAnimationString.IS_ACTIVE);
             var tag = _building.tag;
@@ -30,19 +28,19 @@ namespace DefaultNamespace.TaskSystem
             {
                 Debug.LogWarning("No Anim String Found For" + tag);
             }
+            _building.TransitionToWorking();
            
         }
 
         public PooTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint, taskType)
         {
-            _actionPoint = actionPoint;
-            _building = building;
         }
         
         public override void ColonistStopWork(Colonist colonist)
         {
             colonist.AutoDecreaseStatsEnabled = true;
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
+            _building.TransitionToIdle();
         }
     }
 }

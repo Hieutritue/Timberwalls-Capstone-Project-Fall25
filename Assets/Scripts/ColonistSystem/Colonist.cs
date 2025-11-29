@@ -318,6 +318,7 @@ public static class ColonistAnimationString
     
     public readonly static string FURNITURE_WORK = "FurnitureWork";
     public readonly static string BUILDING_WORK = "BuildingWork";
+    public readonly static string BREAKING_WORK = "BreakingWork";
     
     public readonly static string FEEDING_CHICKEN = "FeedingChicken";
     public readonly static string CARRYING_BIG_OBJECT = "CarryingBigObject";
@@ -338,6 +339,6 @@ public static class ColonistAnimationString
     public readonly static string BATHING = "Bathing";
     public readonly static string SITTING_SICK = "SittingSick";
     public readonly static string SIT_POOPING = "SitPooping";
-    public readonly static string BUILDING_TYPE = "BuildingType";
+    public readonly static string SPINNING = "Spinning";
 
 }

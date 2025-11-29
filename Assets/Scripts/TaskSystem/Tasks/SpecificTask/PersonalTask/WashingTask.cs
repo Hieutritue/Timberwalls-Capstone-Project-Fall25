@@ -21,11 +21,8 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
         
         public override void ColonistStartWork(Colonist colonist)
         {
-            colonist.transform.position = _actionPoint.position;
-            colonist.transform.rotation = _actionPoint.rotation;
-            colonist.AutoDecreaseStatsEnabled = false;
+            base.ColonistStartWork(colonist);
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
-            // _building.Animator.SetTrigger(BuildingAnimationString.IS_ACTIVE);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
             if(!string.IsNullOrEmpty(animString))
@@ -34,12 +31,14 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
             {
                 Debug.LogWarning("No Anim String Found For" + tag);
             }
+            _building.TransitionToWorking();
             
         }
         public override void ColonistStopWork(Colonist colonist)
         {
             colonist.AutoDecreaseStatsEnabled = true;
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
+            _building.TransitionToIdle();
         }
         
     }

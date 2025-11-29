@@ -12,6 +12,26 @@ namespace BuildingSystem
         public List<Transform> ActionPoints;
         public PersonalActionFurnitureSo PersonalActionFurnitureSo => (PersonalActionFurnitureSo)PlaceableSo;
 
+        public override void Start()
+        {
+            base.Start();
+            Animator = GetComponent<Animator>();
+        }
+
+        public override void TransitionToIdle()
+        {
+            _stateMachine.TransitionTo(_idleBuildingState);
+            if (Animator)
+                Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
+        }
+
+        public override void TransitionToWorking()
+        {
+            _stateMachine.TransitionTo(_workingBuildingState);
+            if (Animator)
+                Animator.SetBool(BuildingAnimationString.IS_ACTIVE, true);
+        }
+
         public void CreateTask()
         {
             ActionPoints.ForEach(ap =>

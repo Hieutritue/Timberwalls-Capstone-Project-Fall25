@@ -28,7 +28,8 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             Set(ResourceType.Iron, 20);
             Set(ResourceType.Copper, 20);
         };
-        AddAllResources999();
+        //testing purposes delete after test
+        BuildMenuManager.Instance.OnBuildMenuInitialized += AddAllResources999;
     }
 
     public void Set(ResourceType resourceType, int amount)
@@ -63,12 +64,12 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         Set(resourceType, Get(resourceType) + amount);
     }
     
-    [Button("Add All Resources (999)")]
+    [Button("Add All Resources (100)")]
     public void AddAllResources999()
     {
         foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
         {
-            Set(type, 999);
+            Set(type, 100);
         }
     }
     

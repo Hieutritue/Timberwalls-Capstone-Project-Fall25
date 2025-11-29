@@ -10,6 +10,7 @@ namespace DefaultNamespace.TaskSystem
     public class ResourceGatheringTask : AProgressTask
     {
         private TaskType _taskType;
+        
 
         public ResourceGatheringTask(Building building, TaskType taskType) : base(building, taskType)
         {
@@ -185,7 +186,7 @@ namespace DefaultNamespace.TaskSystem
             { SQUAT_TOILET, ColonistAnimationString.SQUAT_POOPING },
             { WATER_TAP, ColonistAnimationString.WASHING_TAP },
             { BATHTUB, ColonistAnimationString.BATHING },
-            { WASHING_MACHINE, ColonistAnimationString.BATHING },
+            { WASHING_MACHINE, ColonistAnimationString.SPINNING },
         };
 
         public static string GetAnimStringBaseOnFurniture(string tag)
