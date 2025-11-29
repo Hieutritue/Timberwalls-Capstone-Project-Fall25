@@ -28,6 +28,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             Set(ResourceType.Iron, 20);
             Set(ResourceType.Copper, 20);
         };
+        AddAllResources999();
     }
 
     public void Set(ResourceType resourceType, int amount)
@@ -70,6 +71,14 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             Set(type, 999);
         }
     }
+    
+    [Button("Reduce resources")]
+    public void ReduceResources999(ResourceType resourceType, int amount)
+    {
+        Set(resourceType, Get(resourceType) - amount);
+    }
+    
+    
     public bool HasEnoughResourcesForPlaceable(PlaceableSO objectToPlace)
     {
         foreach (var cost in objectToPlace.Costs)

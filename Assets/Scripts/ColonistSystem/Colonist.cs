@@ -190,6 +190,7 @@ public class Colonist : MonoBehaviour
 
     public void RunToTask()
     {
+        animator.SetBool(ColonistAnimationString.IS_WALKING,true);
         AiDestinationSetter.enabled = true;
         AiDestinationSetter.target = CurrentTask.GetBuildingProgressPoint();
     }
