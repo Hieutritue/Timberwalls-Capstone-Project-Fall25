@@ -74,8 +74,11 @@ namespace DefaultNamespace
             return returnVal;
         }
         
+        public List<Vector3Int> GroundPos { get; set; }
         public bool CanPlaceAt(Vector3Int gridPosition, PlaceableSO placeableSo, GridData roomGridData = null)
         {
+            if (GroundPos.Contains(gridPosition)) return false;
+            
             // Then check conditions
             foreach (var condition in placeableSo.PlacementConditions)
             {

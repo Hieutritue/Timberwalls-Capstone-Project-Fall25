@@ -30,6 +30,9 @@ public class PlacementSystem : MonoBehaviour
     private PreviewPlacementState _previewPlacementState;
     private IdlePlacementState _idlePlacementState;
     private CancelTaskState _cancelTaskState;
+
+    [SerializeField] private Vector3Int _originGround;
+    [SerializeField] private Vector2Int _sizeGround;
     
     public List<RoomPlaceableInstance> PlacedRooms => _roomGridData.PlacedInstances.Values
         .Distinct()
@@ -58,7 +61,15 @@ public class PlacementSystem : MonoBehaviour
         BuildingSystemManager.Instance.CellIndicator.SetActive(false);
         _previewRenderer = BuildingSystemManager.Instance.CellIndicator.GetComponentInChildren<Renderer>();
 
+        RegisterDataGround();
+
         InitStateMachine();
+    }
+
+    private void RegisterDataGround()
+    {
+        _roomGridData.GroundPos = _roomGridData.CalculatePositions(_originGround,_sizeGround);
+        _itemsGridData.GroundPos = _itemsGridData.CalculatePositions(_originGround,_sizeGround);
     }
 
     public Vector3 MousePosition => InputManager.Instance.GetSelectedMapPosition();

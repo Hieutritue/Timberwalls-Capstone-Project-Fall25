@@ -91,14 +91,18 @@ namespace DefaultNamespace.TaskSystem
                 Debug.LogError("No Anim String Found For" + tag);
             }
 
-            _building.TransitionToWorking();
+            
+            if (Building.Animator)
+                Building.Animator.SetBool(BuildingAnimationString.IS_ACTIVE, true);
         }
 
         public override void ColonistStopWork(Colonist colonist)
         {
             // TODO: Animation
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
-            _building.TransitionToIdle();
+
+            if (Building.Animator)
+                Building.Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
         }
     }
 

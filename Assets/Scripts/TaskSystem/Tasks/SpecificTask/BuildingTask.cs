@@ -2,6 +2,7 @@
 using BuildingSystem;
 using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.General;
+using UnityEngine;
 
 namespace DefaultNamespace.TaskSystem
 {
@@ -28,6 +29,10 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             // TODO: Animation
+            var lookDir = Building.ProgressPoint.position - colonist.transform.position;
+            lookDir.y = 0;
+            colonist.transform.rotation = Quaternion.LookRotation(lookDir);
+
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.BUILDING_WORK);
         }

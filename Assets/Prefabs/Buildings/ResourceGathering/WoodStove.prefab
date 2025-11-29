@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2229233556124258788}
   - component: {fileID: 3499922772356889263}
   - component: {fileID: 3679058045922963896}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: Heated_Surface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,6 +126,14 @@ PrefabInstance:
     - target: {fileID: 1351543279898106, guid: 7ff6627311b82104f9bfebb5d2b6a0d2, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Stove_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351543279898106, guid: 7ff6627311b82104f9bfebb5d2b6a0d2, type: 3}
+      propertyPath: m_Layer
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1726754830711584, guid: 7ff6627311b82104f9bfebb5d2b6a0d2, type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4707994745895974, guid: 7ff6627311b82104f9bfebb5d2b6a0d2, type: 3}
       propertyPath: m_LocalScale.x
@@ -367,7 +375,7 @@ PrefabInstance:
     - target: {fileID: 8695565792444195849, guid: a5655b12b01b27341a92491f5cc9b238,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.307
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8695565792444195849, guid: a5655b12b01b27341a92491f5cc9b238,
         type: 3}
@@ -399,6 +407,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 9008778977379088772}
+    - targetCorrespondingSourceObject: {fileID: 1019353697012294349, guid: a5655b12b01b27341a92491f5cc9b238,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6226411335056284740}
   m_SourcePrefab: {fileID: 100100000, guid: a5655b12b01b27341a92491f5cc9b238, type: 3}
 --- !u!1 &326416342680954964 stripped
 GameObject:
@@ -428,6 +440,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &6595130363825724119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1019353697012294349, guid: a5655b12b01b27341a92491f5cc9b238,
+    type: 3}
+  m_PrefabInstance: {fileID: 6171027526326925338}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6226411335056284740
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6595130363825724119}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3680196, y: 0.9847213, z: 1}
+  m_Center: {x: 0.000000017969443, y: 0.49818334, z: 0}
 --- !u!4 &7772836814555246162 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4502840073032259144, guid: a5655b12b01b27341a92491f5cc9b238,
@@ -451,6 +490,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FX_Fire_Embers_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1028970867693538119, guid: 2cd18b74c54e22b4797ceca6568014ee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1028970867693538119, guid: 2cd18b74c54e22b4797ceca6568014ee,
         type: 3}
@@ -549,6 +593,10 @@ PrefabInstance:
     - target: {fileID: 1707441736110878, guid: 192584c2ae3aee840bbbccfb7b034c71, type: 3}
       propertyPath: m_Name
       value: FX_Smoke_Black_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707441736110878, guid: 192584c2ae3aee840bbbccfb7b034c71, type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1707441736110878, guid: 192584c2ae3aee840bbbccfb7b034c71, type: 3}
       propertyPath: m_IsActive

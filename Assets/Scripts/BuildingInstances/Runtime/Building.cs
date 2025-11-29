@@ -15,7 +15,7 @@ namespace BuildingSystem
     {
         public PlaceableSO PlaceableSo;
         public Transform ProgressPoint;
-        protected Animator Animator;
+        public Animator Animator;
         
         protected StateMachine _stateMachine;
         protected ConstructingBuildingState _constructingBuildingState;
@@ -55,17 +55,17 @@ namespace BuildingSystem
             _stateMachine.Initialize(_constructingBuildingState);
         }
 
-        public virtual void TransitionToIdle()
+        public void TransitionToIdle()
         {
             _stateMachine.TransitionTo(_idleBuildingState);
         }
         
-        public virtual void TransitionToWorking()
+        public void TransitionToWorking()
         {
             _stateMachine.TransitionTo(_workingBuildingState);
         }
 
-        public virtual void TransitionToDemolishing()
+        public void TransitionToDemolishing()
         {
             _stateMachine.TransitionTo(_demolishingBuildingState);
         }
