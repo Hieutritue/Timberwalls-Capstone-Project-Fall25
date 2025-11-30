@@ -131,6 +131,10 @@ namespace DefaultNamespace.TaskSystem
                 task.AssignedColonist = colonist;
                 colonist.CurrentTask = task;
             }
+            else
+            {
+                colonist.CurrentTask = task;
+            }
         }
 
         public void AssignColonistToTask(ITask task)
