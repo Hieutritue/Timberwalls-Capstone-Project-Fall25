@@ -6,9 +6,6 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
 {
     public class PlayingTask : APersonalActionTask
     {
-        private Transform _actionPoint;
-        private Building _building;
-
         public override void UpdateProgress(Colonist colonist)
         {
             AddStat(colonist, TaskType.Playing);

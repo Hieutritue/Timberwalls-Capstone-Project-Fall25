@@ -20,9 +20,12 @@ namespace BuildingSystem
 
         public override void TransitionToIdle()
         {
-            _stateMachine.TransitionTo(_idleBuildingState);
+            base.TransitionToIdle();
             if (Animator)
                 Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
+            else
+                Debug.LogWarning("No animator found for" + this.name);
+            
         }
 
         public override void TransitionToWorking()

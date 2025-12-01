@@ -40,10 +40,13 @@ MonoBehaviour:
     Amount: 15
   BaseBuildTime: 30
   InitiallyUnlocked: 0
-  ItemTooltipSO: {fileID: 11400000, guid: dec66a351855248418c7c2f9ce8458ef, type: 2}
   TaskType: 1
   BaseTimeToProduce: 60
-  Consumption: []
+  Consumption:
+  - Resource: {fileID: 11400000, guid: 899d5d837e176894089670f62b935e46, type: 2}
+    Amount: 1
+  - Resource: {fileID: 11400000, guid: ac4220259a4983544901b993183689ae, type: 2}
+    Amount: 2
   OutputResource:
-  - Resource: {fileID: 0}
+  - Resource: {fileID: 11400000, guid: dba6279dcbfdcba458343e29be422c10, type: 2}
     Amount: 4

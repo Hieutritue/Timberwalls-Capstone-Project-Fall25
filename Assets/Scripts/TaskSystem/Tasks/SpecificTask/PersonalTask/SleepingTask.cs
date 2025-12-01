@@ -10,8 +10,6 @@ namespace DefaultNamespace.TaskSystem
 {
     public class SleepingTask : APersonalActionTask
     {
-        private Transform _actionPoint;
-        private Building _building;
         protected override void SetStat(Colonist colonist, KeyValuePair<StatType, float> effect, float furnitureMultiplier, float roomMultiplier)
         {
             // if health, only increase if furniture is medical
@@ -34,7 +32,9 @@ namespace DefaultNamespace.TaskSystem
         
         public override void ColonistStartWork(Colonist colonist)
         {
+            Vector3 sleepingPosition = new Vector3(180, 0, 180);
             base.ColonistStartWork(colonist);
+            colonist.transform.eulerAngles = sleepingPosition;
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
@@ -48,8 +48,6 @@ namespace DefaultNamespace.TaskSystem
         public SleepingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint,
             taskType)
         {
-            _actionPoint = actionPoint;
-            _building = building;
         }
 
         public override void UpdateProgress(Colonist colonist)

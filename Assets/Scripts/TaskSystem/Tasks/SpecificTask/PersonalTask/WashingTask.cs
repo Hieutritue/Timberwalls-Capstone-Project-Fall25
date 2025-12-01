@@ -6,8 +6,6 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
 {
     public class WashingTask : APersonalActionTask
     {
-        private Transform _actionPoint;
-        private Building _building;
         public override void UpdateProgress(Colonist colonist)
         {
             AddStat(colonist, TaskType.Washing);
@@ -15,8 +13,6 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
 
         public WashingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint, taskType)
         {
-            _actionPoint = actionPoint;
-            _building = building;
         }
         
         public override void ColonistStartWork(Colonist colonist)

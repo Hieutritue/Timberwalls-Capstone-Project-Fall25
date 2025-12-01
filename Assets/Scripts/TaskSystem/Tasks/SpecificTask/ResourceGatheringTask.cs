@@ -156,9 +156,9 @@ namespace DefaultNamespace.TaskSystem
             { HIGH_TEMP_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
             { MED_X, ColonistAnimationString.PRESSING_BUTTON },
             { POLYMER_PRESS, ColonistAnimationString.PRESSING_BUTTON },
-            { RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON },
-            { SUPER_RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON },
-            { SUPER_DUPER_RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON },
+            { RESEARCH_MACHINE, ColonistAnimationString.TYPING},
+            { SUPER_RESEARCH_MACHINE, ColonistAnimationString.TYPING },
+            { SUPER_DUPER_RESEARCH_MACHINE, ColonistAnimationString.TYPING },
             { COPPER_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
             { IRON_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
             { OIL_PUMP, ColonistAnimationString.PRESSING_BUTTON },
@@ -167,6 +167,7 @@ namespace DefaultNamespace.TaskSystem
             //breaking anim
             { STONE_FARM, ColonistAnimationString.BREAKING_RESOURCE },
             { WOOD_FARM, ColonistAnimationString.BREAKING_RESOURCE },
+            { NIOBIUM_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { COPPER_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { IRON_MINE, ColonistAnimationString.BREAKING_RESOURCE },
 
@@ -179,7 +180,6 @@ namespace DefaultNamespace.TaskSystem
             { CHICKEN_COOP, ColonistAnimationString.FEEDING_CHICKEN },
             { CORN_FIELD, ColonistAnimationString.PLANTING },
             { FISH_TANK, ColonistAnimationString.FISHING },
-            { NIOBIUM_MINE, ColonistAnimationString.CARRYING_BIG_OBJECT },
             { PATIENT_CARE_CHAIR, ColonistAnimationString.SITTING_SICK },
             { MED_BED, ColonistAnimationString.LAYING_SICK },
             { BED, ColonistAnimationString.SLEEPING },

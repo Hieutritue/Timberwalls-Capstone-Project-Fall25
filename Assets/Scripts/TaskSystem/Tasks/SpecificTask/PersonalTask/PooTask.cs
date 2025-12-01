@@ -9,7 +9,6 @@ namespace DefaultNamespace.TaskSystem
     public class PooTask : APersonalActionTask
     {
         private Transform _actionPoint;
-        private Building _building;
         public override void UpdateProgress(Colonist colonist)
         {
             AddStat(colonist, TaskType.Pooping);
