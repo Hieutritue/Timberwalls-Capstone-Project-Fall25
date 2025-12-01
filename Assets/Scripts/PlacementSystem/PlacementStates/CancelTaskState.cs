@@ -70,6 +70,8 @@ namespace DefaultNamespace.PlacementStates
                     QueryTriggerInteraction.Collide))
             {
                 Building building = hit.collider.GetComponentInParent<Building>();
+                
+                if (!building) return;
 
                 if (building.IsDemolishing())
                 {

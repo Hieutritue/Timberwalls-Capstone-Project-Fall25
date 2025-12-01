@@ -1,4 +1,5 @@
-﻿using _Scripts.StateMachine;
+﻿using System.Linq;
+using _Scripts.StateMachine;
 using BuildingSystem;
 using DefaultNamespace.PlaceableInstances;
 using DefaultNamespace.TaskSystem;
@@ -37,8 +38,13 @@ namespace DefaultNamespace.PlacementStates
             if (!placeableInstance) return;
 
             var building = placeableInstance.GetComponent<Building>();
+            
+            if (building && (building.IsUnderConstruction() 
+                             || building.IsDemolishing())) 
+                return;
 
             building.TransitionToDemolishing();
+            if (building.ActiveTasks.Any(t=>t is DemolishingTask)) return;
             var demolishingTask = new DemolishingTask(building, TaskType.Demolishing);
             demolishingTask.OnComplete += () =>
             {
@@ -98,6 +104,7 @@ namespace DefaultNamespace.PlacementStates
         public override void Exit()
         {
             InputManager.Instance.OnMouseLeftClick -= CreateTaskDemolishPlaceableAtMouse;
+            if (_lastPlaceableInstance) ResetMaterial();
             // InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
             // InputManager.Instance.OnMouseRightClick -= ResetMaterial;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.General;
 using DefaultNamespace.TaskSystem;
@@ -16,6 +17,9 @@ namespace ShieldSystem
         [SerializeField] private ShieldMaintainabilityLevelSo[] _shieldMaintainabilitySos;
         [SerializeField] private List<Material> _shieldMaterials;
 
+        [SerializeField] private Vector3Int _origin;
+        [SerializeField] private Vector2Int _size;
+
         private ShieldMaintainabilityLevelSo _currentMaintainabilitySo;
         public int FixerSkillCount { get; set; }
 
@@ -24,6 +28,8 @@ namespace ShieldSystem
 
         private void Start()
         {
+            BuildingSystemManager.Instance.PlacementSystem.GetGridData(PlaceableType.Room).RegisterData(_origin,_size);
+            BuildingSystemManager.Instance.PlacementSystem.GetGridData(PlaceableType.Furniture).RegisterData(_origin,_size);
             // Shuffle progress points to distribute tasks evenly
             ProgressPoints.Shuffle();
             DefaultNamespace.ShieldSystem.ShieldSystem.Instance.ShieldWall.OnCurrentHealthChanged += CheckTasks;

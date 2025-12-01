@@ -22,6 +22,9 @@ namespace DefaultNamespace.TaskSystem
 
         public override void ColonistStartWork(Colonist colonist)
         {
+            var lookDir = Transform.position - colonist.transform.position;
+            lookDir.y = 0;
+            colonist.transform.rotation = Quaternion.LookRotation(lookDir);
             // throw new NotImplementedException();
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);

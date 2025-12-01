@@ -32,6 +32,17 @@ namespace DefaultNamespace
             return placeableInstance;
         }
 
+        public void RegisterData(Vector3Int gridPosition, Vector2Int size)
+        {
+            var positionToOccupy = CalculatePositions(gridPosition, size);
+            foreach (var position in positionToOccupy.Where(position => !PlacedInstances.TryAdd(position, null)))
+            {
+                throw new Exception($"Occupied position at {position}");
+            }
+            
+            OnGridDataChanged?.Invoke();
+        }
+
         private PlaceableInstance RegisterInstance(List<Vector3Int> positionToOccupy, PlaceableSO placeableSo, GameObject gameObject)
         {
             switch (placeableSo.Type)
@@ -63,8 +74,11 @@ namespace DefaultNamespace
             return returnVal;
         }
         
+        public List<Vector3Int> GroundPos { get; set; }
         public bool CanPlaceAt(Vector3Int gridPosition, PlaceableSO placeableSo, GridData roomGridData = null)
         {
+            if (GroundPos.Contains(gridPosition)) return false;
+            
             // Then check conditions
             foreach (var condition in placeableSo.PlacementConditions)
             {
