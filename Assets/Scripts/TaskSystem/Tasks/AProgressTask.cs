@@ -8,8 +8,8 @@ namespace DefaultNamespace.TaskSystem
 {
     public abstract class AProgressTask : ATask
     {
-        protected float _progress;
-        protected ProgressBarUI _progressBarUI;
+        private float _progress;
+        private ProgressBarUI _progressBarUI;
 
         public AProgressTask(Building building, TaskType taskType) : base(building, taskType)
         {

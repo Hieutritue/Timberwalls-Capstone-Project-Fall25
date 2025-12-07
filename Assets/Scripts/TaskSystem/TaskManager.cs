@@ -11,13 +11,13 @@ namespace DefaultNamespace.TaskSystem
 {
     public class TaskManager : MonoSingleton<TaskManager>
     {
-        public List<ITask> Tasks = new();
+        private List<ITask> _tasks = new();
 
         public void AddTask(ITask task)
         {
-            if (!Tasks.Contains(task))
+            if (!_tasks.Contains(task))
             {
-                Tasks.Add(task);
+                _tasks.Add(task);
                 // CheckTaskAssignments();
             }
         }
@@ -41,7 +41,7 @@ namespace DefaultNamespace.TaskSystem
             ColonistManager.Instance.Colonists.ForEach(AssignTaskForColonist);
         }
 
-        public ITask GetBestTaskForColonist(Colonist colonist)
+        private ITask GetBestTaskForColonist(Colonist colonist)
         {
             if (!colonist)
                 return null;
@@ -53,7 +53,7 @@ namespace DefaultNamespace.TaskSystem
 
             if (currentSchedule == null) return null;
 
-            var availableTasks = Tasks
+            var availableTasks = _tasks
                 .Where(task =>
                 {
                     // If colonist can't work, they can only do personal tasks
@@ -89,34 +89,8 @@ namespace DefaultNamespace.TaskSystem
             return taskList[0];
         }
 
-        public Colonist GetBestColonistForTask(ITask task)
-        {
-            var availableColonists = ColonistManager.Instance.Colonists
-                .Where(colonist =>
-                {
-                    // Colonist must be unassigned or assigned to this task
-                    bool canTakeTask = colonist.CurrentTask == null || colonist.CurrentTask == task;
 
-                    return /*PathfindingUtility.CanGetCloseEnough(colonist.transform.position, task.Transform.position,
-                        GameManager.Instance.GeneralNumberSO.ConstructionRange) && */canTakeTask;
-                })
-                .ToList();
-
-            if (availableColonists.Count == 0)
-                return null;
-
-            var priorityMatrix = TaskPriorityMatrix.Instance;
-
-            var colonistList = availableColonists
-                .OrderByDescending(colonist => priorityMatrix.GetRow(colonist).GetPriorityForTaskType(task.TaskType))
-                .ThenBy(colonist =>
-                    Vector3.Distance(colonist.transform.position, task.GetBuildingProgressPoint().position))
-                .ToList();
-
-            return colonistList[0];
-        }
-
-        public void AssignTaskForColonist(Colonist colonist)
+        private void AssignTaskForColonist(Colonist colonist)
         {
             var task = GetBestTaskForColonist(colonist);
 
@@ -136,29 +110,18 @@ namespace DefaultNamespace.TaskSystem
                 colonist.CurrentTask = task;
             }
         }
-
-        public void AssignColonistToTask(ITask task)
-        {
-            var colonist = GetBestColonistForTask(task);
-            if (colonist != null)
-            {
-                if (colonist.CurrentTask != null) colonist.CurrentTask.AssignedColonist = null;
-                task.AssignedColonist = colonist;
-                colonist.CurrentTask = task;
-            }
-        }
-
+        
         [Button]
         public void LogTasks()
         {
-            Debug.Log($"Total Tasks: {Tasks.Count}");
+            Debug.Log($"Total Tasks: {_tasks.Count}");
         }
 
         public void RemoveTask(ITask task)
         {
-            if (Tasks.Contains(task))
+            if (_tasks.Contains(task))
             {
-                Tasks.Remove(task);
+                _tasks.Remove(task);
                 if (task.AssignedColonist) task.AssignedColonist.CurrentTask = null;
                 task.AssignedColonist = null;
             }
