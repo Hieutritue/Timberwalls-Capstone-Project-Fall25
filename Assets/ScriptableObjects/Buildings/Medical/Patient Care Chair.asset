@@ -22,12 +22,47 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: StatMultipliers
-      Entry: 6
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[DefaultNamespace.ColonistSystem.StatType,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[DefaultNamespace.ColonistSystem.StatType,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 4
+      Data: 0.8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
   Size: {x: 2, y: 1}
   Prefab: {fileID: 7593570974900114985, guid: 664e24b362f87644d9a8c70c53b27c87, type: 3}
-  Type: 0
-  PlacementConditions: 
+  Type: 1
+  PlacementConditions: 0200000001000000
   IsStair: 0
   Name: Patient Care Chair
   Icon: {fileID: 21300000, guid: 7e357260f9a79dd4d80ca53daf5e8801, type: 3}
@@ -43,4 +78,6 @@ MonoBehaviour:
     Amount: 10
   BaseBuildTime: 20
   InitiallyUnlocked: 0
-  Consumption: []
+  Consumption:
+  - Resource: {fileID: 11400000, guid: 8b903f7814cc35d48b5cc4208cdad8ba, type: 2}
+    Amount: 1
