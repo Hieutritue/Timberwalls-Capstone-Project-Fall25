@@ -1274,6 +1274,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7590414347528622500}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &6539267560071006455 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3717357078029556051, guid: 0dd16dc10b0ab41448512b2394a93cee,
+    type: 3}
+  m_PrefabInstance: {fileID: 7590414347528622500}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6758943475657819125 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3790349621197247057, guid: 0dd16dc10b0ab41448512b2394a93cee,
@@ -1300,10 +1306,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceableSo: {fileID: 11400000, guid: 1cf97d6665dad044487465c2960eaa9c, type: 2}
   ProgressPoint: {fileID: 6758943475657819125}
+  Animator: {fileID: 0}
   Colliders: []
   ContainingRoom: {fileID: 0}
   TaskType: 11
-  ActionPoints: []
+  ActionPoints:
+  - {fileID: 6539267560071006455}
 --- !u!1001 &8333474001016311590
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -89,7 +89,7 @@ namespace DefaultNamespace.TaskSystem
                 colonist.animator.SetTrigger(animString);
             else
             {
-                Debug.LogWarning("No Anim String Found For" + tag);
+                Debug.LogWarning("No Anim String Found For " + tag);
             }
 
             
@@ -125,7 +125,7 @@ namespace DefaultNamespace.TaskSystem
         public static readonly string IRON_MINE = "Iron Mine";
         public static readonly string MED_X = "Med-X";
         public static readonly string NIOBIUM_MINE = "Niobium Mine";
-        public static readonly string OIL_PUMP = "Oil Pump";
+        public static readonly string OIL_PUMP = "Oil";
         public static readonly string POLYMER_PRESS = "Polymer Press";
         public static readonly string REFINERY = "Refinery";
         public static readonly string STONE_FARM = "Stone Farm";
@@ -154,8 +154,8 @@ namespace DefaultNamespace.TaskSystem
             { CRYO_PLANT, ColonistAnimationString.PRESSING_BUTTON },
             { ELECTRONICS_LAB, ColonistAnimationString.PRESSING_BUTTON },
             { HIGH_TEMP_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
-            { MED_X, ColonistAnimationString.PRESSING_BUTTON },
             { POLYMER_PRESS, ColonistAnimationString.PRESSING_BUTTON },
+            { MED_X, ColonistAnimationString.TYPING },
             { RESEARCH_MACHINE, ColonistAnimationString.TYPING},
             { SUPER_RESEARCH_MACHINE, ColonistAnimationString.TYPING },
             { SUPER_DUPER_RESEARCH_MACHINE, ColonistAnimationString.TYPING },
