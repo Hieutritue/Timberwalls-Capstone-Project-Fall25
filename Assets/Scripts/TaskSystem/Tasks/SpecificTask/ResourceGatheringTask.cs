@@ -81,6 +81,9 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.FURNITURE_WORK);
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             var tag = _building.tag;
@@ -100,6 +103,8 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStopWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
 
             if (Building.Animator)

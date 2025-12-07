@@ -18,6 +18,8 @@ public abstract class Animals : MonoBehaviour
 
     protected Rigidbody[] animalRigidbodies;
 
+    public bool Initialized { get; private set; } = false;
+
     protected virtual void Start()
     {
         int animalLayer = LayerMask.NameToLayer("Animal");
@@ -40,19 +42,27 @@ public abstract class Animals : MonoBehaviour
             // Ensure each animal has a Rigidbody
             Rigidbody rb = animal.GetComponent<Rigidbody>();
             if (rb == null) rb = animal.AddComponent<Rigidbody>();
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; // Optional: allow Y rotation
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             animalRigidbodies[i] = rb;
+
             // Add redirect component for collisions
-            var redirect = animal.AddComponent<ObjectRedirect>();
+            var redirect = animal.GetComponent<ObjectRedirect>();
+            if (redirect == null) redirect = animal.AddComponent<ObjectRedirect>();
+
             redirect.index = i;
             redirect.controller = this;
 
+            // SAFE — arrays already exist
             SetNewTarget(i);
         }
+
+        Initialized = true;  // mark as ready!
     }
 
     protected virtual void FixedUpdate()
     {
+        if (!Initialized) return; // Safety
+
         for (int i = 0; i < animals.Count; i++)
         {
             GameObject animal = animals[i];
@@ -110,18 +120,17 @@ public abstract class Animals : MonoBehaviour
         }
     }
 
-    public virtual void SetNewTarget(int index)
+    public void SetNewTarget(int index)
     {
+        if (!Initialized) return; // Prevent early calls
+
         float randomX = Random.Range(-range, range);
         float randomZ = Random.Range(-range, range);
         Vector3 start = startPositions[index];
 
         targetPositions[index] = new Vector3(start.x + randomX, start.y, start.z + randomZ);
     }
-
-    /// <summary>
-    /// Stops an animal entirely by zeroing its Rigidbody velocity.
-    /// </summary>
+    
     public void StopAnimal(int index)
     {
         Rigidbody rb = animalRigidbodies[index];

@@ -32,14 +32,19 @@ namespace DefaultNamespace.TaskSystem
         
         public override void ColonistStartWork(Colonist colonist)
         {
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.SELF_CARING);
             Vector3 sleepingPosition = new Vector3(180, 0, 180);
             base.ColonistStartWork(colonist);
             colonist.transform.eulerAngles = sleepingPosition;
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
-            if(!string.IsNullOrEmpty(animString))
+            if (!string.IsNullOrEmpty(animString))
+            {
+                colonist.animator.ResetTrigger(animString);
                 colonist.animator.SetTrigger(animString);
+            }
             else
             {
                 Debug.LogWarning("No Anim String Found For" + tag);

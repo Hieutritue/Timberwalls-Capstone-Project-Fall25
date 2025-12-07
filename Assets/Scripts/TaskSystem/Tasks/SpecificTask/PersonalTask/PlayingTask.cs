@@ -14,11 +14,16 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
         public override void ColonistStartWork(Colonist colonist)
         {
             base.ColonistStartWork(colonist);
+            colonist.animator.ResetTrigger(ColonistAnimationString.PLAYING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_PLAYING);
             colonist.animator.SetTrigger(ColonistAnimationString.PLAYING);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
             if (!string.IsNullOrEmpty(animString))
+            {
+                colonist.animator.ResetTrigger(animString);
                 colonist.animator.SetTrigger(animString);
+            }
             else
             {
                 Debug.LogWarning("No Anim String Found For" + tag);
@@ -34,6 +39,7 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
         public override void ColonistStopWork(Colonist colonist)
         {
             colonist.AutoDecreaseStatsEnabled = true;
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_PLAYING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_PLAYING);
             _building.TransitionToIdle();
             

@@ -24,7 +24,7 @@ namespace DefaultNamespace.TaskSystem
         {
             colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
             colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
-            colonist.animator.ResetTrigger(ColonistAnimationString.BUILDING_WORK);
+            colonist.animator.ResetTrigger(ColonistAnimationString.FURNITURE_WORK);
             var lookDir = Transform.position - colonist.transform.position;
             lookDir.y = 0;
             colonist.transform.rotation = Quaternion.LookRotation(lookDir);
