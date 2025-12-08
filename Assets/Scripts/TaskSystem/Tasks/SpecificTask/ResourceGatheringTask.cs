@@ -171,7 +171,7 @@ namespace DefaultNamespace.TaskSystem
 
             //breaking anim
             { STONE_FARM, ColonistAnimationString.BREAKING_RESOURCE },
-            { WOOD_FARM, ColonistAnimationString.BREAKING_RESOURCE },
+            { WOOD_FARM, ColonistAnimationString.CHOPPING},
             { NIOBIUM_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { COPPER_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { IRON_MINE, ColonistAnimationString.BREAKING_RESOURCE },
@@ -208,4 +208,41 @@ namespace DefaultNamespace.TaskSystem
             return null;
         }
     }
+}
+public static class ColonistAnimationString
+{
+    public readonly static string IS_WALKING = "IsWalking";
+    public readonly static string WORKING = "Working";
+    public readonly static string EXIT_WORKING = "ExitWorking";
+    public readonly static string PLAYING = "Playing";
+    public readonly static string EXIT_PLAYING = "ExitPlaying";
+    public readonly static string SELF_CARING = "SelfCaring";
+    public readonly static string EXIT_SELF_CARING = "ExitSelfCaring";
+    
+    public readonly static string FURNITURE_WORK = "FurnitureWork";
+    public readonly static string BUILDING_WORK = "BuildingWork";
+    public readonly static string BREAKING_WORK = "BreakingWork";
+    
+    public readonly static string FEEDING_CHICKEN = "FeedingChicken";
+    public readonly static string CARRYING_BIG_OBJECT = "CarryingBigObject";
+    public readonly static string TYPING = "Typing";
+    public readonly static string BREAKING_RESOURCE = "BreakingResource";
+    public readonly static string CLEANING = "Cleaning";
+    public readonly static string PRESSING_BUTTON = "PressingButton";
+    public readonly static string COOKING = "Cooking";
+    public readonly static string PLANTING = "Planting";
+    public readonly static string FISHING = "Fishing";
+    public readonly static string DANCING = "Dancing";
+    public readonly static string PLAYING_POKER = "PlayingPoker";
+    public readonly static string LAYING_SICK = "LayingSick";
+    public readonly static string SLEEPING = "Sleeping";
+    public readonly static string SQUAT_POOPING = "SquatPooping";
+    public readonly static string WASHING_TAP = "WashingTap";
+    public readonly static string EATING = "Eating";
+    public readonly static string BATHING = "Bathing";
+    public readonly static string SITTING_SICK = "SittingSick";
+    public readonly static string SIT_POOPING = "SitPooping";
+    public readonly static string SPINNING = "Spinning";
+    public readonly static string CHOPPING = "Chopping";
+
 }
