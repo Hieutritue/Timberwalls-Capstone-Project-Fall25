@@ -29,7 +29,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             Set(ResourceType.Copper, 20);
         };
         //testing purposes delete after test
-        BuildMenuManager.Instance.OnBuildMenuInitialized += AddAllResources999;
+        //BuildMenuManager.Instance.OnBuildMenuInitialized += AddAllResources999;
     }
 
     public void Set(ResourceType resourceType, int amount)
