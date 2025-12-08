@@ -43,9 +43,15 @@ public class GlobalSoundNameHolder : MonoBehaviour
     public const string ost_01 = "ost_01";
     public const string ost_02 = "ost_02";
     public const string ost_03 = "ost_03";
+    public const string ost_04 = "ost_04";
+    public const string ost_05 = "ost_05";
+
+    //enemy sounds
+    public const string attack_sound = "laser_shot";
 
     public static readonly List<string> day_ambiences = new List<string>() { ambiance_01, ambiance_02 };
     public static readonly List<string> night_ambiences = new List<string>() { night_ambience_1, night_ambience_2, night_ambience_3 };
+    public static readonly List<string> night_osts = new List<string>() { ost_01, ost_02, ost_03, ost_04, ost_05 };
 
     public static string shuffle_day_ambiences(List<string> stored_ambs = null, List<string> valid_ambs = null)
     {
@@ -85,6 +91,38 @@ public class GlobalSoundNameHolder : MonoBehaviour
         }
 
         foreach (string s in night_ambiences)
+        {
+            bool has = false;
+            foreach (string a in stored_ambs)
+            {
+                if (s == a) has = true;
+            }
+
+            if (!has) valid_ambs.Add(s);
+        }
+
+        if (valid_ambs.Count == 0) return null;
+
+        return valid_ambs[UnityEngine.Random.Range(0, valid_ambs.Count)];
+    }
+
+    /// <summary>
+    /// Generic shuffle function that works with any list of strings
+    /// </summary>
+    public static string Shuffle(List<string> sourceList, List<string> stored_ambs = null, List<string> valid_ambs = null)
+    {
+        if (sourceList == null || sourceList.Count == 0) return null;
+
+        if (stored_ambs == null || stored_ambs.Count == sourceList.Count)
+            return sourceList[UnityEngine.Random.Range(0, sourceList.Count)];
+
+        // Initialize valid_ambs if null
+        if (valid_ambs == null)
+        {
+            valid_ambs = new List<string>();
+        }
+
+        foreach (string s in sourceList)
         {
             bool has = false;
             foreach (string a in stored_ambs)

@@ -83,20 +83,27 @@ public class SoundSource : MonoBehaviour
     /// <summary>
     /// Play a clip from this source's group by name.
     /// Uses AudioClip.name as key (case-insensitive).
-    /// If clipKey is null, uses GlobalSoundNameHolder shuffle to select a clip from day_ambiences.
+    /// If clipKey is null, shuffles from the provided shuffleList.
     /// fadeIn : if null, uses fadeInOnPlay setting; if true/false, overrides it
     /// fadeOut : if null, uses fadeOutOnStop setting; if true/false, overrides it (for crossfade)
     /// crossfade : fade out the previous clip while fading in the new one
     /// forceRestart : if true, restarts the clip even if it's already playing
+    /// shuffleList : the list to shuffle from when clipKey is null
     /// </summary>
-    public void Play(string clipKey = null, bool? fadeIn = null, bool? fadeOut = null, bool crossfade = true, bool forceRestart = false)
+    public void Play(string clipKey = null, bool? fadeIn = null, bool? fadeOut = null, bool crossfade = true, bool forceRestart = false, List<string> shuffleList = null)
     {
         if (chosenTrack == Tracks.Sfx || chosenTrack == Tracks.UI) forceRestart = true;
 
-        // If no clipKey provided, use GlobalSoundNameHolder shuffle from day_ambiences
+        // If no clipKey provided, shuffle from the provided list
         if (clipKey == null)
         {
-            clipKey = GlobalSoundNameHolder.shuffle_day_ambiences(stored_ambs: _playedClips);
+            if (shuffleList == null)
+            {
+                Debug.LogWarning($"[SoundSource] No clipKey or shuffleList provided on {name}.");
+                return;
+            }
+
+            clipKey = GlobalSoundNameHolder.Shuffle(shuffleList, _playedClips);
 
             if (clipKey == null)
             {
@@ -134,7 +141,6 @@ public class SoundSource : MonoBehaviour
         // Start the play sequence
         _playCoroutine = StartCoroutine(PlayCoroutine(clip, clipKey, shouldFadeIn, shouldFadeOut, crossfade));
     }
-
     private IEnumerator PlayCoroutine(AudioClip clip, string clipKey, bool fadeIn, bool fadeOut, bool crossfade)
     {
         // Handle crossfade or immediate stop

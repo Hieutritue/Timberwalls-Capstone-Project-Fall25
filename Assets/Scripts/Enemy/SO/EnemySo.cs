@@ -13,5 +13,8 @@ namespace DefaultNamespace.Enemy.SO
 
         [Header("Increase Stat")] public float AttackDamagePerDay;
         public float HealthPerDay;
+
+        [Header("Sound file name")]
+        public string attack_sound = "laser_shot";
     }
 }
