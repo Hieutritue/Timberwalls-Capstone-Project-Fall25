@@ -14,28 +14,33 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
         public WashingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint, taskType)
         {
         }
-        
+
         public override void ColonistStartWork(Colonist colonist)
         {
             base.ColonistStartWork(colonist);
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
-            if(!string.IsNullOrEmpty(animString))
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(animString);
+            if (!string.IsNullOrEmpty(animString))
+            {
                 colonist.animator.SetTrigger(animString);
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
+            }
             else
             {
                 Debug.LogWarning("No Anim String Found For" + tag);
             }
             _building.TransitionToWorking();
-            
+
         }
         public override void ColonistStopWork(Colonist colonist)
         {
             colonist.AutoDecreaseStatsEnabled = true;
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
+            colonist.vfx_source.FadeOutAndStop();
             _building.TransitionToIdle();
         }
-        
+
     }
 }

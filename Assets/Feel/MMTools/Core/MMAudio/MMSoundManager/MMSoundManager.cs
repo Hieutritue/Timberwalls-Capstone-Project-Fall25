@@ -49,7 +49,7 @@ namespace MoreMountains.Tools
 		}
 		
 		/// the possible ways to manage a track
-		public enum MMSoundManagerTracks { Sfx, Music, UI, Master, Other}
+		public enum MMSoundManagerTracks { Sfx, Music, UI, Master, Other, UI_02}
         
 		[Header("Settings")]
 		/// the current sound settings 

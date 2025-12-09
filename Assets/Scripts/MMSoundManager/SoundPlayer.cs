@@ -12,6 +12,8 @@ public class SoundPlayer : MonoBehaviour
     private bool wasNight = false;
     private bool isPlaying = false;
 
+    private int day = 1;
+
     private void Start()
     {
         // Subscribe to time change events
@@ -36,6 +38,7 @@ public class SoundPlayer : MonoBehaviour
     private void OnHourChanged(int day, int hour)
     {
         bool isNight = GameTimeManager.Instance.IsNight;
+        day = GameTimeManager.Instance.CurrentDay;
 
         // Only change music when transitioning between day/night
         if (isNight != wasNight)
@@ -59,7 +62,7 @@ public class SoundPlayer : MonoBehaviour
                 shuffleList: GlobalSoundNameHolder.night_ambiences
             );
 
-            if (!isPlaying)
+            if (!isPlaying && day != 1)
             {
                 isPlaying = true;
                 music_source.Play(

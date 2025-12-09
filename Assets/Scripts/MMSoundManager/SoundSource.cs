@@ -18,7 +18,7 @@ public class SoundSource : MonoBehaviour
 
     [Header("Routing")]
     [SerializeField] private Tracks chosenTrack = Tracks.Master;
-    public enum Tracks { Sfx, Music, UI, Master }
+    public enum Tracks { Sfx, Music, UI, Master, UI_02 }
 
     private AudioSource _currentAudioSource;
     private MMSoundManagerPlayOptions _baseOptions;
@@ -28,6 +28,8 @@ public class SoundSource : MonoBehaviour
     private int _currentSoundID = 0;
     private int _previousSoundID = 0;
     private string _currentClipKey;
+    // Track previously played clips for shuffle functionality
+    private List<string> _playedClips = new List<string>();
 
     // To prevent multiple plays at once
     private Coroutine _playCoroutine;
@@ -70,15 +72,15 @@ public class SoundSource : MonoBehaviour
             case Tracks.UI:
                 _baseOptions.MmSoundManagerTrack = MMSoundManager.MMSoundManagerTracks.UI;
                 break;
+            case Tracks.UI_02:
+            _baseOptions.MmSoundManagerTrack = MMSoundManager.MMSoundManagerTracks.UI_02;
+            break;
         }
     }
 
     // ---------------------------------------------------------
     // PUBLIC API
     // ---------------------------------------------------------
-
-    // Track previously played clips for shuffle functionality
-    private List<string> _playedClips = new List<string>();
 
     /// <summary>
     /// Play a clip from this source's group by name.
@@ -164,12 +166,6 @@ public class SoundSource : MonoBehaviour
                         previousAudioSource
                     );
 
-                    MMSoundManagerSoundControlEvent.Trigger(
-                        MMSoundManagerSoundControlEventTypes.Free,
-                        _previousSoundID,
-                        previousAudioSource
-                    );
-
                     // Release the ID back to the pool
                     SoundIDRegistry.Instance.ReleaseID(_previousSoundID);
                 }
@@ -181,12 +177,6 @@ public class SoundSource : MonoBehaviour
                 {
                     MMSoundManagerSoundControlEvent.Trigger(
                         MMSoundManagerSoundControlEventTypes.Stop,
-                        _currentSoundID,
-                        _currentAudioSource
-                    );
-
-                    MMSoundManagerSoundControlEvent.Trigger(
-                        MMSoundManagerSoundControlEventTypes.Free,
                         _currentSoundID,
                         _currentAudioSource
                     );
@@ -314,12 +304,6 @@ public class SoundSource : MonoBehaviour
         {
             MMSoundManagerSoundControlEvent.Trigger(
                 MMSoundManagerSoundControlEventTypes.Stop,
-                soundIDToFade,
-                audioSourceToFree
-            );
-
-            MMSoundManagerSoundControlEvent.Trigger(
-                MMSoundManagerSoundControlEventTypes.Free,
                 soundIDToFade,
                 audioSourceToFree
             );
@@ -505,12 +489,6 @@ public class SoundSource : MonoBehaviour
         {
             MMSoundManagerSoundControlEvent.Trigger(
                 MMSoundManagerSoundControlEventTypes.Stop,
-                _currentSoundID,
-                _currentAudioSource
-            );
-
-            MMSoundManagerSoundControlEvent.Trigger(
-                MMSoundManagerSoundControlEventTypes.Free,
                 _currentSoundID,
                 _currentAudioSource
             );

@@ -28,6 +28,31 @@ public class GlobalSoundNameHolder : MonoBehaviour
         }
     }
 
+    //colonist tasks
+    public const string building = "building";
+    public const string casino = "casino";
+    public const string chicken_coop = "chicken_coop";
+    public const string cleaning = "cleaning";
+    public const string cooking = "cooking";
+    public const string demolition = "demolition";
+    public const string eating = "eating";
+    public const string fixing = "fixing";
+    public const string medicine = "medicine";
+    public const string mining = "mining";
+    public const string planting = "planting";
+    public const string poop = "poop";
+    public const string pressing_buttons = "pressing_buttons";
+    public const string sleeping = "sleeping";
+    public const string typing = "typing";
+    public const string washing_tap = "washing_tap";
+    public const string wood_chopping_1 = "wood_chopping_1";
+    public const string wood_chopping_2 = "wood_chopping_2";
+    public const string wood_chopping_3 = "wood_chopping_3";
+    public const string wood_chopping_4 = "wood_chopping_4";
+    public const string wood_chopping_5 = "wood_chopping_5";
+   // public const string UI_clicking_sound = "click_heavy";
+   // public const string UI_clicking_sound = "click_heavy";
+
     //UI clicking
     public const string UI_clicking_sound = "click_heavy";
     public const string UI_clicking_sound_2 = "click_light";
@@ -48,6 +73,9 @@ public class GlobalSoundNameHolder : MonoBehaviour
 
     //enemy sounds
     public const string attack_sound = "laser_shot";
+
+    //misc use in class
+    public const string FIXING_WORk = "FIXING_WORK";
 
     public static readonly List<string> day_ambiences = new List<string>() { ambiance_01, ambiance_02 };
     public static readonly List<string> night_ambiences = new List<string>() { night_ambience_1, night_ambience_2, night_ambience_3 };
@@ -136,5 +164,68 @@ public class GlobalSoundNameHolder : MonoBehaviour
         if (valid_ambs.Count == 0) return null;
 
         return valid_ambs[UnityEngine.Random.Range(0, valid_ambs.Count)];
+    }
+
+    // -------------------------
+    //  Animation → Loop Sound Mapping
+    // -------------------------
+    private static readonly Dictionary<string, string> ANIM_TO_LOOP_SOUND = new()
+    {
+        // Machines
+        { ColonistAnimationString.PRESSING_BUTTON, pressing_buttons },
+        { ColonistAnimationString.TYPING, typing },
+
+        // Resource Gathering
+        { ColonistAnimationString.BREAKING_RESOURCE, demolition },
+
+        // Cooking
+        { ColonistAnimationString.COOKING, cooking },
+
+        // Farming / Animals
+        { ColonistAnimationString.FEEDING_CHICKEN, chicken_coop },
+        { ColonistAnimationString.PLANTING, planting },
+        { ColonistAnimationString.FISHING, planting }, //missing(?)
+
+        // Medical
+        { ColonistAnimationString.SITTING_SICK, planting }, //missing(?)
+        { ColonistAnimationString.LAYING_SICK, planting }, //missing(?)
+
+        // Living
+        { ColonistAnimationString.SLEEPING, sleeping },
+        { ColonistAnimationString.EATING, eating },
+        { ColonistAnimationString.SIT_POOPING, poop },
+        { ColonistAnimationString.SQUAT_POOPING, poop },
+
+        // Entertainment
+        { ColonistAnimationString.DANCING, casino }, //missing(?)
+        { ColonistAnimationString.PLAYING_POKER, casino },
+
+        // Water
+        { ColonistAnimationString.WASHING_TAP, washing_tap },
+        { ColonistAnimationString.BATHING, washing_tap }, //missing(?)
+        { ColonistAnimationString.SPINNING, washing_tap },//missing(?)
+
+        //misc
+        { ColonistAnimationString.BUILDING_WORK, building },
+        { ColonistAnimationString.CLEANING, cleaning },
+        { ColonistAnimationString.BREAKING_WORK, demolition },
+        { FIXING_WORk, fixing },
+        //{ ColonistAnimationString.BUILDING_WORK, building },
+        //{ ColonistAnimationString.BUILDING_WORK, building },
+    };
+
+    /// <summary>
+    /// Returns the loop sound name for a given animation trigger.
+    /// If no sound exists, returns null.
+    /// </summary>
+    public static string GetLoopSoundForAnimation(string animTrigger)
+    {
+        if (string.IsNullOrEmpty(animTrigger))
+            return null;
+
+        if (ANIM_TO_LOOP_SOUND.TryGetValue(animTrigger, out string sound))
+            return sound;
+
+        return null;
     }
 }

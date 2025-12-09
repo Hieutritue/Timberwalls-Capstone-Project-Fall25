@@ -31,11 +31,17 @@ namespace DefaultNamespace.TaskSystem
             
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.BREAKING_WORK);
+
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(ColonistAnimationString.BREAKING_WORK);
+
+            if (!string.IsNullOrEmpty(loopSound))
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
         }
 
         public override void ColonistStopWork(Colonist colonist)
         {
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.vfx_source.FadeOutAndStop();
         }
     }
 }

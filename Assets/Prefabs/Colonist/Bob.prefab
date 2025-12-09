@@ -34,6 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7036192927094064299}
+  - {fileID: 8796326781969114028}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4527147882455694238
@@ -57,6 +58,7 @@ MonoBehaviour:
   MouseEventController: {fileID: 6783433961031449701}
   TaskCompletionSpeedMultiplier: 1
   animator: {fileID: 4994879733738416806}
+  vfx_source: {fileID: 7101389951340933273}
   _canDecreaseStatsTest: 1
 --- !u!114 &2326855912009844428
 MonoBehaviour:
@@ -299,6 +301,92 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4e708909304501a650e06191dcb6f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &2454902214606580025
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2926617773393894582}
+    m_Modifications:
+    - target: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8627330099223650444, guid: 8adb0dd738b87224a85519de26e6ba91,
+        type: 3}
+      propertyPath: m_Name
+      value: Colonist's SoundSources
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8adb0dd738b87224a85519de26e6ba91, type: 3}
+--- !u!114 &7101389951340933273 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4655776467161291168, guid: 8adb0dd738b87224a85519de26e6ba91,
+    type: 3}
+  m_PrefabInstance: {fileID: 2454902214606580025}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1a8a2617089c546aa2c3e9c71e1e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &8796326781969114028 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6341987556522445461, guid: 8adb0dd738b87224a85519de26e6ba91,
+    type: 3}
+  m_PrefabInstance: {fileID: 2454902214606580025}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3184972835167118100
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -44,12 +44,18 @@ namespace DefaultNamespace.TaskSystem
             colonist.transform.rotation = ActionPoint.rotation;
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.BUILDING_WORK);
+
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(GlobalSoundNameHolder.FIXING_WORk);
+
+            if (!string.IsNullOrEmpty(loopSound))
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
         }
 
         public void ColonistStopWork(Colonist colonist)
         {
             ShieldGenerator.FixerSkillCount -= colonist.ColonistSo.Skills[SkillType.Engineering];
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.vfx_source.FadeOutAndStop();
         }
 
         public void Create()
