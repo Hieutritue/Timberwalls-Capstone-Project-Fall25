@@ -73,8 +73,8 @@ public class SoundSource : MonoBehaviour
                 _baseOptions.MmSoundManagerTrack = MMSoundManager.MMSoundManagerTracks.UI;
                 break;
             case Tracks.UI_02:
-            _baseOptions.MmSoundManagerTrack = MMSoundManager.MMSoundManagerTracks.UI_02;
-            break;
+                _baseOptions.MmSoundManagerTrack = MMSoundManager.MMSoundManagerTracks.UI_02;
+                break;
         }
     }
 
@@ -94,7 +94,14 @@ public class SoundSource : MonoBehaviour
     /// </summary>
     public void Play(string clipKey = null, bool? fadeIn = null, bool? fadeOut = null, bool crossfade = true, bool forceRestart = false, List<string> shuffleList = null)
     {
-        if (chosenTrack == Tracks.Sfx || chosenTrack == Tracks.UI) forceRestart = true;
+        if (chosenTrack == Tracks.Sfx || chosenTrack == Tracks.UI || chosenTrack == Tracks.UI_02)
+        {
+            if (_currentClipKey == clipKey && _currentSoundID != 0)
+            {
+                // Same clip on same SoundSource - force restart
+                forceRestart = true;
+            }
+        }
 
         // If no clipKey provided, shuffle from the provided list
         if (clipKey == null)

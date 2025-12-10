@@ -14,7 +14,7 @@ namespace MoreMountains.Tools
 	[CreateAssetMenu(menuName = "MoreMountains/Audio/MMSoundManagerSettings")]
 	public class MMSoundManagerSettingsSO : ScriptableObject
 	{
-		[Header("Audio Mixer")] 
+		[Header("Audio Mixer")]
 		/// the audio mixer to use when playing sounds 
 		[Tooltip("the audio mixer to use when playing sounds")]
 		public AudioMixer TargetAudioMixer;
@@ -36,7 +36,7 @@ namespace MoreMountains.Tools
 		/// the multiplier to apply when converting normalized volume values to audio mixer values
 		[Tooltip("the multiplier to apply when converting normalized volume values to audio mixer values")]
 		public float MixerValuesMultiplier = 20;
-        
+
 		[Header("Settings Unfold")]
 		/// the full settings for this MMSoundManager
 		[Tooltip("the full settings for this MMSoundManager")]
@@ -44,9 +44,9 @@ namespace MoreMountains.Tools
 
 		protected const string _saveFolderName = "MMSoundManager/";
 		protected const string _saveFileName = "mmsound.settings";
-    
+
 		#region SaveAndLoad
-        
+
 		/// <summary>
 		/// Saves the sound settings to file
 		/// </summary>
@@ -63,9 +63,9 @@ namespace MoreMountains.Tools
 			if (Settings.OverrideMixerSettings)
 			{
 				MMSoundManagerSettings settings =
-					(MMSoundManagerSettings) MMSaveLoadManager.Load(typeof(MMSoundManagerSettings), _saveFileName,
+					(MMSoundManagerSettings)MMSaveLoadManager.Load(typeof(MMSoundManagerSettings), _saveFileName,
 						_saveFolderName);
-				
+
 				if (settings != null)
 				{
 					this.Settings = settings;
@@ -83,9 +83,9 @@ namespace MoreMountains.Tools
 		{
 			MMSaveLoadManager.DeleteSave(_saveFileName, _saveFolderName);
 		}
-        
+
 		#endregion
-        
+
 		#region Volume
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace MoreMountains.Tools
 			{
 				volume = MMSoundManagerSettings._minimalVolume;
 			}
-            
+
 			switch (track)
 			{
 				case MMSoundManager.MMSoundManagerTracks.Master:
@@ -197,7 +197,7 @@ namespace MoreMountains.Tools
 				}
 			}
 		}
-        
+
 		/// <summary>
 		/// Converts a normalized volume to the mixer group db scale
 		/// </summary>
@@ -217,7 +217,7 @@ namespace MoreMountains.Tools
 		{
 			return (float)Math.Pow(10, (mixerVolume / MixerValuesMultiplier));
 		}
-        
+
 		#endregion Volume
 	}
 }
