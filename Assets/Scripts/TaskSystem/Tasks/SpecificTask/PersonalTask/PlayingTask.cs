@@ -14,6 +14,8 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
         public override void ColonistStartWork(Colonist colonist)
         {
             base.ColonistStartWork(colonist);
+            colonist.animator.ResetTrigger(ColonistAnimationString.PLAYING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_PLAYING);
             colonist.animator.SetTrigger(ColonistAnimationString.PLAYING);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
@@ -21,9 +23,12 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
             string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(animString);
             if (!string.IsNullOrEmpty(animString))
             {
+                colonist.animator.ResetTrigger(animString);
                 colonist.animator.SetTrigger(animString);
                 colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
+
             }
+
             else
             {
                 Debug.LogWarning("No Anim String Found For" + tag);
@@ -39,6 +44,7 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
         public override void ColonistStopWork(Colonist colonist)
         {
             colonist.AutoDecreaseStatsEnabled = true;
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_PLAYING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_PLAYING);
             colonist.vfx_source.FadeOutAndStop();
             _building.TransitionToIdle();

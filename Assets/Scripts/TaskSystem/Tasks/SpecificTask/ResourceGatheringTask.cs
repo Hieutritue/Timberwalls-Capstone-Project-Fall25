@@ -81,6 +81,9 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.FURNITURE_WORK);
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             var tag = _building.tag;
@@ -93,7 +96,7 @@ namespace DefaultNamespace.TaskSystem
             }
             else
             {
-                Debug.LogWarning("No Anim String Found For" + tag);
+                Debug.LogWarning("No Anim String Found For " + tag);
             }
 
 
@@ -104,6 +107,8 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStopWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
             colonist.vfx_source.FadeOutAndStop();
 
@@ -130,7 +135,7 @@ namespace DefaultNamespace.TaskSystem
         public static readonly string IRON_MINE = "Iron Mine";
         public static readonly string MED_X = "Med-X";
         public static readonly string NIOBIUM_MINE = "Niobium Mine";
-        public static readonly string OIL_PUMP = "Oil Pump";
+        public static readonly string OIL_PUMP = "Oil";
         public static readonly string POLYMER_PRESS = "Polymer Press";
         public static readonly string REFINERY = "Refinery";
         public static readonly string STONE_FARM = "Stone Farm";
@@ -159,8 +164,8 @@ namespace DefaultNamespace.TaskSystem
             { CRYO_PLANT, ColonistAnimationString.PRESSING_BUTTON },
             { ELECTRONICS_LAB, ColonistAnimationString.PRESSING_BUTTON },
             { HIGH_TEMP_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
-            { MED_X, ColonistAnimationString.PRESSING_BUTTON },
             { POLYMER_PRESS, ColonistAnimationString.PRESSING_BUTTON },
+            { MED_X, ColonistAnimationString.TYPING },
             { RESEARCH_MACHINE, ColonistAnimationString.TYPING},
             { SUPER_RESEARCH_MACHINE, ColonistAnimationString.TYPING },
             { SUPER_DUPER_RESEARCH_MACHINE, ColonistAnimationString.TYPING },
@@ -171,7 +176,7 @@ namespace DefaultNamespace.TaskSystem
 
             //breaking anim
             { STONE_FARM, ColonistAnimationString.BREAKING_RESOURCE },
-            { WOOD_FARM, ColonistAnimationString.BREAKING_RESOURCE },
+            { WOOD_FARM, ColonistAnimationString.CHOPPING},
             { NIOBIUM_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { COPPER_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { IRON_MINE, ColonistAnimationString.BREAKING_RESOURCE },
@@ -208,4 +213,41 @@ namespace DefaultNamespace.TaskSystem
             return null;
         }
     }
+}
+public static class ColonistAnimationString
+{
+    public readonly static string IS_WALKING = "IsWalking";
+    public readonly static string WORKING = "Working";
+    public readonly static string EXIT_WORKING = "ExitWorking";
+    public readonly static string PLAYING = "Playing";
+    public readonly static string EXIT_PLAYING = "ExitPlaying";
+    public readonly static string SELF_CARING = "SelfCaring";
+    public readonly static string EXIT_SELF_CARING = "ExitSelfCaring";
+    
+    public readonly static string FURNITURE_WORK = "FurnitureWork";
+    public readonly static string BUILDING_WORK = "BuildingWork";
+    public readonly static string BREAKING_WORK = "BreakingWork";
+    
+    public readonly static string FEEDING_CHICKEN = "FeedingChicken";
+    public readonly static string CARRYING_BIG_OBJECT = "CarryingBigObject";
+    public readonly static string TYPING = "Typing";
+    public readonly static string BREAKING_RESOURCE = "BreakingResource";
+    public readonly static string CLEANING = "Cleaning";
+    public readonly static string PRESSING_BUTTON = "PressingButton";
+    public readonly static string COOKING = "Cooking";
+    public readonly static string PLANTING = "Planting";
+    public readonly static string FISHING = "Fishing";
+    public readonly static string DANCING = "Dancing";
+    public readonly static string PLAYING_POKER = "PlayingPoker";
+    public readonly static string LAYING_SICK = "LayingSick";
+    public readonly static string SLEEPING = "Sleeping";
+    public readonly static string SQUAT_POOPING = "SquatPooping";
+    public readonly static string WASHING_TAP = "WashingTap";
+    public readonly static string EATING = "Eating";
+    public readonly static string BATHING = "Bathing";
+    public readonly static string SITTING_SICK = "SittingSick";
+    public readonly static string SIT_POOPING = "SitPooping";
+    public readonly static string SPINNING = "Spinning";
+    public readonly static string CHOPPING = "Chopping";
+
 }

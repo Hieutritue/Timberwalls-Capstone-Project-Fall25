@@ -23,8 +23,8 @@ namespace BuildingSystem
             base.TransitionToIdle();
             if (Animator)
                 Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
-            else
-                Debug.LogWarning("No animator found for" + this.name);
+            // else
+            //     Debug.LogWarning("No animator found for" + this.name);
             
         }
 

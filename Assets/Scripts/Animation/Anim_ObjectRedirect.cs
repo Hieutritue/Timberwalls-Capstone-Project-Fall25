@@ -8,9 +8,9 @@ public class ObjectRedirect : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!controller.Initialized) return;
         // Avoid spam redirect when sliding along the wall
         if (Time.time - lastRedirect < 0.4f) return;
-
         controller.SetNewTarget(index);
         lastRedirect = Time.time;
     }

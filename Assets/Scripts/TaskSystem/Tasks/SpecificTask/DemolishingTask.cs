@@ -25,6 +25,9 @@ namespace DefaultNamespace.TaskSystem
 
         public override void ColonistStartWork(Colonist colonist)
         {
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.BREAKING_WORK);
             var lookDir = Building.ProgressPoint.position - colonist.transform.position;
             lookDir.y = 0;
             colonist.transform.rotation = Quaternion.LookRotation(lookDir);
@@ -40,6 +43,8 @@ namespace DefaultNamespace.TaskSystem
 
         public override void ColonistStopWork(Colonist colonist)
         {
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
             colonist.vfx_source.FadeOutAndStop();
         }

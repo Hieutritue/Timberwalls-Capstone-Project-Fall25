@@ -70,7 +70,7 @@ namespace DefaultNamespace.UI.Build
         private void SetColorActiveIcon(bool isActive)
         {
             Color color = isActive ? Color.white : Color.black;
-//            _iconImage.color = color;
+            _iconImage.color = color;
         }
     }
 }
