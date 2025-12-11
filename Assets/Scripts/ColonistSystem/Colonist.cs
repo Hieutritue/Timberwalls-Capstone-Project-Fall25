@@ -46,6 +46,7 @@ public class Colonist : MonoBehaviour
     public Action OnActiveAfflictionsChanged;
     public bool CanWork { get; set; } = true;
     public Animator animator;
+    public SoundSource vfx_source;
 
     public string CurrentState
     {

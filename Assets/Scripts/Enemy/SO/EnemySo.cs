@@ -16,5 +16,9 @@ namespace DefaultNamespace.Enemy.SO
         
         [Header("Other")]
         public Sprite Image;
+
+        [Header("Sound file name")]
+        public string attack_sound = "laser_shot";
+
     }
 }

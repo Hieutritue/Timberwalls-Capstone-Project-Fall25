@@ -14,7 +14,7 @@ namespace DefaultNamespace.TaskSystem
         {
             AddStat(colonist, TaskType.Eating);
         }
-        
+
         public override void ColonistStartWork(Colonist colonist)
         {
             base.ColonistStartWork(colonist);
@@ -23,10 +23,14 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(animString);
+
             if (!string.IsNullOrEmpty(animString))
             {
                 colonist.animator.ResetTrigger(animString);
                 colonist.animator.SetTrigger(animString);
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
+
             }
             else
             {
@@ -47,7 +51,7 @@ namespace DefaultNamespace.TaskSystem
         public EatingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint, taskType)
         {
         }
-        
+
         public override void ColonistStopWork(Colonist colonist)
         {
             colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
@@ -55,7 +59,8 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
             colonist.AutoDecreaseStatsEnabled = true;
             _building.TransitionToIdle();
-            
+            colonist.vfx_source.FadeOutAndStop();
+
         }
     }
 }
