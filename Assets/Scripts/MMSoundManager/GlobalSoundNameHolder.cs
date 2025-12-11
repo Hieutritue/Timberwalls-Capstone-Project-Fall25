@@ -50,6 +50,9 @@ public class GlobalSoundNameHolder : MonoBehaviour
     public const string wood_chopping_3 = "wood_chopping_3";
     public const string wood_chopping_4 = "wood_chopping_4";
     public const string wood_chopping_5 = "wood_chopping_5";
+    public const string dancing = "dancing";
+    public const string fishing = "fishing";
+    public const string sick_person = "sick_person";
    // public const string UI_clicking_sound = "click_heavy";
    // public const string UI_clicking_sound = "click_heavy";
 
@@ -187,8 +190,8 @@ public class GlobalSoundNameHolder : MonoBehaviour
         { ColonistAnimationString.FISHING, planting }, //missing(?)
 
         // Medical
-        { ColonistAnimationString.SITTING_SICK, planting }, //missing(?)
-        { ColonistAnimationString.LAYING_SICK, planting }, //missing(?)
+        { ColonistAnimationString.SITTING_SICK, sick_person }, //missing(?)
+        { ColonistAnimationString.LAYING_SICK, sick_person }, //missing(?)
 
         // Living
         { ColonistAnimationString.SLEEPING, sleeping },
@@ -197,7 +200,7 @@ public class GlobalSoundNameHolder : MonoBehaviour
         { ColonistAnimationString.SQUAT_POOPING, poop },
 
         // Entertainment
-        { ColonistAnimationString.DANCING, casino }, //missing(?)
+        { ColonistAnimationString.DANCING, dancing }, //missing(?)
         { ColonistAnimationString.PLAYING_POKER, casino },
 
         // Water
