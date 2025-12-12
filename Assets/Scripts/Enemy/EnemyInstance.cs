@@ -147,7 +147,7 @@ namespace DefaultNamespace.Enemy
             }
 
             _animator.SetTrigger(Attack);
-            sfx_source.PlayClipNoFadesForceRestart(attack_sound);
+            //sfx_source.PlayClipNoFadesForceRestart(attack_sound);
             _attackCooldown = AttackCooldown;
             _shieldSystem.ShieldWall.ReceiveDamage(AttackDamage);
         }
