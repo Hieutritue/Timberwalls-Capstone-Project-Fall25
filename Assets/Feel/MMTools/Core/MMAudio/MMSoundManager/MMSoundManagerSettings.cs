@@ -34,6 +34,9 @@ namespace MoreMountains.Tools
 		/// the name of the exposed UIVolume parameter in the AudioMixer
 		[Tooltip("the name of the exposed UIVolume parameter in the AudioMixer")]
 		public string UIVolumeParameter = "UIVolume";
+		/// the name of the exposed UI_02Volume parameter in the AudioMixer
+		[Tooltip("the name of the exposed UI_02Volume parameter in the AudioMixer")]
+		public string UI_02VolumeParameter = "UI_02Volume";
         
 		[Header("Master")]
 		/// the master volume
@@ -94,6 +97,21 @@ namespace MoreMountains.Tools
 		[Tooltip("the volume of the UI track before it was muted")]
 		[MMReadOnly] 
 		public float MutedUIVolume;
+
+		[Header("UI_02 (No Interrupts)")]
+		/// the UI_02 sounds volume
+		[Range(_minimalVolume,_maxVolume)]
+		[Tooltip("the UI_02 sounds volume")]
+		[MMReadOnly]
+		public float UI_02Volume = _defaultVolume;
+		/// whether the UI_02 track is active at the moment or not
+		[Tooltip("whether the UI_02 track is active at the moment or not")]
+		[MMReadOnly] 
+		public bool UI_02On = true;
+		/// the volume of the UI_02 track before it was muted
+		[Tooltip("the volume of the UI_02 track before it was muted")]
+		[MMReadOnly] 
+		public float MutedUI_02Volume;
         
 		[Header("Save & Load")]
 		/// whether or not the MMSoundManager should automatically load settings when starting

@@ -11,6 +11,8 @@ namespace DefaultNamespace.TaskSystem
     public abstract class APersonalActionTask : ATask
     {
         private Transform _actionPoint;
+        //public EventHandler<>
+ 
         public PersonalActionFurniture PersonalActionFurniture => (PersonalActionFurniture)Building;
 
         public APersonalActionTask(Building building, Transform actionPoint, TaskType taskType) : base(building,

@@ -4,6 +4,7 @@ using DefaultNamespace.General;
 using DefaultNamespace.ShieldSystem;
 using Pathfinding.Collections;
 using ShieldSystem;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace DefaultNamespace.ResearchSystem
@@ -22,6 +23,7 @@ namespace DefaultNamespace.ResearchSystem
             });
             
             gameObject.SetActive(false);
+            //DEBUG_UnlockAllResearch(); //testing purpose, delete when release
         }
 
         public event Action<ResearchSO> OnResearchUnlocked;
@@ -84,6 +86,41 @@ namespace DefaultNamespace.ResearchSystem
         public void UpdateNodeVisuals()
         {
             researchNodes.ForEach(node => node.UpdateVisuals());
+        }
+
+        private bool DEBUG_UnlockResearch(ResearchSO research)
+        {
+            UnlockedResearch[research] = true;
+
+            // mark buildings unlocked
+            foreach (var b in research.unlocksBuildings)
+            {
+                switch (b)
+                {
+                    case ShieldHpLevelSO shieldHpLevelSo:
+                        ShieldSystem.ShieldSystem.Instance.ShieldWall.SetShieldHpLevel(shieldHpLevelSo.Tier);
+                        continue;
+                    case ShieldMaintainabilityLevelSo shieldMaintainabilityLevelSo:
+                        ShieldSystem.ShieldSystem.Instance.ShieldGenerator.SetShieldMaintainabilityLevel(shieldMaintainabilityLevelSo.Tier);
+                        continue;
+                    default:
+                        UnlockedBuildings[b] = true;
+                        break;
+                }
+            }
+
+            OnResearchUnlocked?.Invoke(research);
+            return true;
+        }
+
+        [Button]        
+        private void DEBUG_UnlockAllResearch()
+        {
+            foreach (var node in researchNodes)
+            {
+                DEBUG_UnlockResearch(node.research);
+                node.UpdateVisuals();
+            }
         }
     }
 }

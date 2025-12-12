@@ -11,6 +11,7 @@ namespace DefaultNamespace.TaskSystem
     {
         private TaskType _taskType;
 
+
         public ResourceGatheringTask(Building building, TaskType taskType) : base(building, taskType)
         {
         }
@@ -80,18 +81,25 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.FURNITURE_WORK);
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(animString);
             if (!string.IsNullOrEmpty(animString))
+            {
                 colonist.animator.SetTrigger(animString);
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
+            }
             else
             {
-                Debug.LogError("No Anim String Found For" + tag);
+                Debug.LogWarning("No Anim String Found For " + tag);
             }
 
-            
+
             if (Building.Animator)
                 Building.Animator.SetBool(BuildingAnimationString.IS_ACTIVE, true);
         }
@@ -99,7 +107,11 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStopWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.vfx_source.StopImmediate();
+
 
             if (Building.Animator)
                 Building.Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
@@ -124,7 +136,7 @@ namespace DefaultNamespace.TaskSystem
         public static readonly string IRON_MINE = "Iron Mine";
         public static readonly string MED_X = "Med-X";
         public static readonly string NIOBIUM_MINE = "Niobium Mine";
-        public static readonly string OIL_PUMP = "Oil Pump";
+        public static readonly string OIL_PUMP = "Oil";
         public static readonly string POLYMER_PRESS = "Polymer Press";
         public static readonly string REFINERY = "Refinery";
         public static readonly string STONE_FARM = "Stone Farm";
@@ -143,6 +155,7 @@ namespace DefaultNamespace.TaskSystem
         public static readonly string SQUAT_TOILET = "Squat Toilet";
         public static readonly string WATER_TAP = "Water Tap";
         public static readonly string BATHTUB = "Bathtub";
+        public static readonly string WASHING_MACHINE = "Washing Machine";
 
         //animation accordinngly
         public static readonly Dictionary<string, string> ANIMATION_HASHMAP = new Dictionary<string, string>()
@@ -152,11 +165,11 @@ namespace DefaultNamespace.TaskSystem
             { CRYO_PLANT, ColonistAnimationString.PRESSING_BUTTON },
             { ELECTRONICS_LAB, ColonistAnimationString.PRESSING_BUTTON },
             { HIGH_TEMP_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
-            { MED_X, ColonistAnimationString.PRESSING_BUTTON },
             { POLYMER_PRESS, ColonistAnimationString.PRESSING_BUTTON },
-            { RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON },
-            { SUPER_RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON },
-            { SUPER_DUPER_RESEARCH_MACHINE, ColonistAnimationString.PRESSING_BUTTON },
+            { MED_X, ColonistAnimationString.TYPING },
+            { RESEARCH_MACHINE, ColonistAnimationString.TYPING},
+            { SUPER_RESEARCH_MACHINE, ColonistAnimationString.TYPING },
+            { SUPER_DUPER_RESEARCH_MACHINE, ColonistAnimationString.TYPING },
             { COPPER_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
             { IRON_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
             { OIL_PUMP, ColonistAnimationString.PRESSING_BUTTON },
@@ -164,9 +177,10 @@ namespace DefaultNamespace.TaskSystem
 
             //breaking anim
             { STONE_FARM, ColonistAnimationString.BREAKING_RESOURCE },
-            { WOOD_FARM, ColonistAnimationString.BREAKING_RESOURCE },
+            { NIOBIUM_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { COPPER_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { IRON_MINE, ColonistAnimationString.BREAKING_RESOURCE },
+            { WOOD_FARM, ColonistAnimationString.CHOPPING},
 
             //cooking anim
             { ELECTRIC_STOVE, ColonistAnimationString.COOKING },
@@ -177,7 +191,6 @@ namespace DefaultNamespace.TaskSystem
             { CHICKEN_COOP, ColonistAnimationString.FEEDING_CHICKEN },
             { CORN_FIELD, ColonistAnimationString.PLANTING },
             { FISH_TANK, ColonistAnimationString.FISHING },
-            { NIOBIUM_MINE, ColonistAnimationString.CARRYING_BIG_OBJECT },
             { PATIENT_CARE_CHAIR, ColonistAnimationString.SITTING_SICK },
             { MED_BED, ColonistAnimationString.LAYING_SICK },
             { BED, ColonistAnimationString.SLEEPING },
@@ -188,6 +201,7 @@ namespace DefaultNamespace.TaskSystem
             { SQUAT_TOILET, ColonistAnimationString.SQUAT_POOPING },
             { WATER_TAP, ColonistAnimationString.WASHING_TAP },
             { BATHTUB, ColonistAnimationString.BATHING },
+            { WASHING_MACHINE, ColonistAnimationString.SPINNING },
         };
 
         public static string GetAnimStringBaseOnFurniture(string tag)
@@ -200,4 +214,41 @@ namespace DefaultNamespace.TaskSystem
             return null;
         }
     }
+}
+public static class ColonistAnimationString
+{
+    public readonly static string IS_WALKING = "IsWalking";
+    public readonly static string WORKING = "Working";
+    public readonly static string EXIT_WORKING = "ExitWorking";
+    public readonly static string PLAYING = "Playing";
+    public readonly static string EXIT_PLAYING = "ExitPlaying";
+    public readonly static string SELF_CARING = "SelfCaring";
+    public readonly static string EXIT_SELF_CARING = "ExitSelfCaring";
+    
+    public readonly static string FURNITURE_WORK = "FurnitureWork";
+    public readonly static string BUILDING_WORK = "BuildingWork";
+    public readonly static string BREAKING_WORK = "BreakingWork";
+    
+    public readonly static string FEEDING_CHICKEN = "FeedingChicken";
+    public readonly static string CARRYING_BIG_OBJECT = "CarryingBigObject";
+    public readonly static string TYPING = "Typing";
+    public readonly static string BREAKING_RESOURCE = "BreakingResource";
+    public readonly static string CLEANING = "Cleaning";
+    public readonly static string PRESSING_BUTTON = "PressingButton";
+    public readonly static string COOKING = "Cooking";
+    public readonly static string PLANTING = "Planting";
+    public readonly static string FISHING = "Fishing";
+    public readonly static string DANCING = "Dancing";
+    public readonly static string PLAYING_POKER = "PlayingPoker";
+    public readonly static string LAYING_SICK = "LayingSick";
+    public readonly static string SLEEPING = "Sleeping";
+    public readonly static string SQUAT_POOPING = "SquatPooping";
+    public readonly static string WASHING_TAP = "WashingTap";
+    public readonly static string EATING = "Eating";
+    public readonly static string BATHING = "Bathing";
+    public readonly static string SITTING_SICK = "SittingSick";
+    public readonly static string SIT_POOPING = "SitPooping";
+    public readonly static string SPINNING = "Spinning";
+    public readonly static string CHOPPING = "Chopping";
+
 }

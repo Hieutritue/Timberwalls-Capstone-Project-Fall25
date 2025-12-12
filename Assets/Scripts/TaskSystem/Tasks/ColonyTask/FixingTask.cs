@@ -39,17 +39,28 @@ namespace DefaultNamespace.TaskSystem
 
         public void ColonistStartWork(Colonist colonist)
         {
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.BUILDING_WORK);
             ShieldGenerator.FixerSkillCount += colonist.ColonistSo.Skills[SkillType.Engineering];
             colonist.transform.position = ActionPoint.position;
             colonist.transform.rotation = ActionPoint.rotation;
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.BUILDING_WORK);
+
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(GlobalSoundNameHolder.FIXING_WORk);
+
+            if (!string.IsNullOrEmpty(loopSound))
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
         }
 
         public void ColonistStopWork(Colonist colonist)
         {
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             ShieldGenerator.FixerSkillCount -= colonist.ColonistSo.Skills[SkillType.Engineering];
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.vfx_source.FadeOutAndStop();
         }
 
         public void Create()

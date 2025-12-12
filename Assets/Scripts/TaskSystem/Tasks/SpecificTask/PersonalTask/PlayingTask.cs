@@ -6,41 +6,49 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
 {
     public class PlayingTask : APersonalActionTask
     {
-        private Transform _actionPoint;
-        private Building _building;
         public override void UpdateProgress(Colonist colonist)
         {
             AddStat(colonist, TaskType.Playing);
         }
-        
+
         public override void ColonistStartWork(Colonist colonist)
         {
-            colonist.transform.position = _actionPoint.position;
-            colonist.transform.rotation = _actionPoint.rotation;
-            colonist.AutoDecreaseStatsEnabled = false;
+            base.ColonistStartWork(colonist);
+            colonist.animator.ResetTrigger(ColonistAnimationString.PLAYING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_PLAYING);
             colonist.animator.SetTrigger(ColonistAnimationString.PLAYING);
-           // _building.Animator.SetTrigger(BuildingAnimationString.IS_ACTIVE);
-           var tag = _building.tag;
-           var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
-           if(!string.IsNullOrEmpty(animString))
-               colonist.animator.SetTrigger(animString);
-           else
-           {
-               Debug.LogError("No Anim String Found For" + tag);
-           }
+            var tag = _building.tag;
+            var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
+
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(animString);
+            if (!string.IsNullOrEmpty(animString))
+            {
+                colonist.animator.ResetTrigger(animString);
+                colonist.animator.SetTrigger(animString);
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
+
+            }
+
+            else
+            {
+                Debug.LogWarning("No Anim String Found For" + tag);
+            }
+            _building.TransitionToWorking();
         }
 
         public PlayingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint,
             taskType)
         {
-            _actionPoint = actionPoint;
-            _building = building;
         }
-        
+
         public override void ColonistStopWork(Colonist colonist)
         {
             colonist.AutoDecreaseStatsEnabled = true;
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_PLAYING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_PLAYING);
+            colonist.vfx_source.FadeOutAndStop();
+            _building.TransitionToIdle();
+
         }
     }
 }

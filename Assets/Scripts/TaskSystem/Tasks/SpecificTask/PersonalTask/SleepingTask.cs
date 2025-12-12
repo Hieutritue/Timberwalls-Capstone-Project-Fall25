@@ -10,8 +10,6 @@ namespace DefaultNamespace.TaskSystem
 {
     public class SleepingTask : APersonalActionTask
     {
-        private Transform _actionPoint;
-        private Building _building;
         protected override void SetStat(Colonist colonist, KeyValuePair<StatType, float> effect, float furnitureMultiplier, float roomMultiplier)
         {
             // if health, only increase if furniture is medical
@@ -31,38 +29,45 @@ namespace DefaultNamespace.TaskSystem
                 base.SetStat(colonist, effect, furnitureMultiplier, roomMultiplier);
             }
         }
-        
+
         public override void ColonistStartWork(Colonist colonist)
         {
-            colonist.transform.position = _actionPoint.position;
-            colonist.transform.rotation = _actionPoint.rotation;
-            colonist.AutoDecreaseStatsEnabled = false;
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.SELF_CARING);
+            Vector3 sleepingPosition = new Vector3(180, 0, 180);
+            base.ColonistStartWork(colonist);
+            colonist.transform.eulerAngles = sleepingPosition;
             colonist.animator.SetTrigger(ColonistAnimationString.SELF_CARING);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
-            if(!string.IsNullOrEmpty(animString))
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(animString);
+
+            if (!string.IsNullOrEmpty(animString))
+            {
+                colonist.animator.ResetTrigger(animString);
                 colonist.animator.SetTrigger(animString);
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
+            }
             else
             {
-                Debug.LogError("No Anim String Found For" + tag);
+                Debug.LogWarning("No Anim String Found For" + tag);
             }
         }
         public SleepingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint,
             taskType)
         {
-            _actionPoint = actionPoint;
-            _building = building;
         }
 
         public override void UpdateProgress(Colonist colonist)
         {
-            AddStat(colonist,TaskType.Sleeping);
+            AddStat(colonist, TaskType.Sleeping);
         }
-        
+
         public override void ColonistStopWork(Colonist colonist)
         {
             colonist.AutoDecreaseStatsEnabled = true;
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
+            colonist.vfx_source.FadeOutAndStop();
         }
     }
 }

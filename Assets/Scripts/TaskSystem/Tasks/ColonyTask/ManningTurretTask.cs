@@ -20,7 +20,12 @@ namespace DefaultNamespace.TaskSystem
 
         public override void ColonistStartWork(Colonist colonist)
         {
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.FURNITURE_WORK);
             TurretFurniture.ColonistAssignedToTurret = colonist;
+            colonist.transform.position = _actionPoint.position;
+            colonist.transform.LookAt(_actionPoint.position + _actionPoint.forward);
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             colonist.animator.SetTrigger(ColonistAnimationString.TYPING);
@@ -33,6 +38,8 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStopWork(Colonist colonist)
         {
             TurretFurniture.ColonistAssignedToTurret = null;
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
             
             if (Building.Animator)

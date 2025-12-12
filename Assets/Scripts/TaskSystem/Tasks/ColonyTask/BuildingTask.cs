@@ -29,18 +29,28 @@ namespace DefaultNamespace.TaskSystem
         public override void ColonistStartWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.BUILDING_WORK);
             var lookDir = Building.ProgressPoint.position - colonist.transform.position;
             lookDir.y = 0;
             colonist.transform.rotation = Quaternion.LookRotation(lookDir);
-
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.BUILDING_WORK);
+
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(ColonistAnimationString.BUILDING_WORK);
+
+            if (!string.IsNullOrEmpty(loopSound))
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
         }
 
         public override void ColonistStopWork(Colonist colonist)
         {
             // TODO: Animation
+            colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.vfx_source.FadeOutAndStop();
         }
     }
 }
