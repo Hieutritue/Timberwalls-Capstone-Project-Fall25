@@ -14,7 +14,7 @@ namespace MoreMountains.Tools
 	[CreateAssetMenu(menuName = "MoreMountains/Audio/MMSoundManagerSettings")]
 	public class MMSoundManagerSettingsSO : ScriptableObject
 	{
-		[Header("Audio Mixer")] 
+		[Header("Audio Mixer")]
 		/// the audio mixer to use when playing sounds 
 		[Tooltip("the audio mixer to use when playing sounds")]
 		public AudioMixer TargetAudioMixer;
@@ -30,10 +30,13 @@ namespace MoreMountains.Tools
 		/// the group on which to play all UI sounds
 		[Tooltip("the group on which to play all UI sounds")]
 		public AudioMixerGroup UIAudioMixerGroup;
+		/// the group on which to play all UI sounds NO INTERRUPTS
+		[Tooltip("the group on which to play all UI sounds NO INTERRUPTS")]
+		public AudioMixerGroup UI_02AudioMixerGroup;
 		/// the multiplier to apply when converting normalized volume values to audio mixer values
 		[Tooltip("the multiplier to apply when converting normalized volume values to audio mixer values")]
 		public float MixerValuesMultiplier = 20;
-        
+
 		[Header("Settings Unfold")]
 		/// the full settings for this MMSoundManager
 		[Tooltip("the full settings for this MMSoundManager")]
@@ -41,9 +44,9 @@ namespace MoreMountains.Tools
 
 		protected const string _saveFolderName = "MMSoundManager/";
 		protected const string _saveFileName = "mmsound.settings";
-    
+
 		#region SaveAndLoad
-        
+
 		/// <summary>
 		/// Saves the sound settings to file
 		/// </summary>
@@ -60,9 +63,9 @@ namespace MoreMountains.Tools
 			if (Settings.OverrideMixerSettings)
 			{
 				MMSoundManagerSettings settings =
-					(MMSoundManagerSettings) MMSaveLoadManager.Load(typeof(MMSoundManagerSettings), _saveFileName,
+					(MMSoundManagerSettings)MMSaveLoadManager.Load(typeof(MMSoundManagerSettings), _saveFileName,
 						_saveFolderName);
-				
+
 				if (settings != null)
 				{
 					this.Settings = settings;
@@ -80,9 +83,9 @@ namespace MoreMountains.Tools
 		{
 			MMSaveLoadManager.DeleteSave(_saveFileName, _saveFolderName);
 		}
-        
+
 		#endregion
-        
+
 		#region Volume
 
 		/// <summary>
@@ -96,7 +99,7 @@ namespace MoreMountains.Tools
 			{
 				volume = MMSoundManagerSettings._minimalVolume;
 			}
-            
+
 			switch (track)
 			{
 				case MMSoundManager.MMSoundManagerTracks.Master:
@@ -114,6 +117,10 @@ namespace MoreMountains.Tools
 				case MMSoundManager.MMSoundManagerTracks.UI:
 					TargetAudioMixer.SetFloat(Settings.UIVolumeParameter, NormalizedToMixerVolume(volume));
 					Settings.UIVolume = volume;
+					break;
+				case MMSoundManager.MMSoundManagerTracks.UI_02:
+					TargetAudioMixer.SetFloat(Settings.UI_02VolumeParameter, NormalizedToMixerVolume(volume));
+					Settings.UI_02Volume = volume;
 					break;
 			}
 
@@ -145,6 +152,9 @@ namespace MoreMountains.Tools
 				case MMSoundManager.MMSoundManagerTracks.UI:
 					TargetAudioMixer.GetFloat(Settings.UIVolumeParameter, out volume);
 					break;
+				case MMSoundManager.MMSoundManagerTracks.UI_02:
+					TargetAudioMixer.GetFloat(Settings.UI_02VolumeParameter, out volume);
+					break;
 			}
 
 			return MixerVolumeToNormalized(volume);
@@ -159,6 +169,7 @@ namespace MoreMountains.Tools
 			Settings.MusicVolume = GetTrackVolume(MMSoundManager.MMSoundManagerTracks.Music);
 			Settings.SfxVolume = GetTrackVolume(MMSoundManager.MMSoundManagerTracks.Sfx);
 			Settings.UIVolume = GetTrackVolume(MMSoundManager.MMSoundManagerTracks.UI);
+			Settings.UI_02Volume = GetTrackVolume(MMSoundManager.MMSoundManagerTracks.UI_02);
 		}
 
 		/// <summary>
@@ -172,11 +183,13 @@ namespace MoreMountains.Tools
 				TargetAudioMixer.SetFloat(Settings.MusicVolumeParameter, NormalizedToMixerVolume(Settings.MusicVolume));
 				TargetAudioMixer.SetFloat(Settings.SfxVolumeParameter, NormalizedToMixerVolume(Settings.SfxVolume));
 				TargetAudioMixer.SetFloat(Settings.UIVolumeParameter, NormalizedToMixerVolume(Settings.UIVolume));
+				TargetAudioMixer.SetFloat(Settings.UI_02VolumeParameter, NormalizedToMixerVolume(Settings.UI_02Volume));
 
 				if (!Settings.MasterOn) { TargetAudioMixer.SetFloat(Settings.MasterVolumeParameter, -80f); }
 				if (!Settings.MusicOn) { TargetAudioMixer.SetFloat(Settings.MusicVolumeParameter, -80f); }
 				if (!Settings.SfxOn) { TargetAudioMixer.SetFloat(Settings.SfxVolumeParameter, -80f); }
 				if (!Settings.UIOn) { TargetAudioMixer.SetFloat(Settings.UIVolumeParameter, -80f); }
+				if (!Settings.UI_02On) { TargetAudioMixer.SetFloat(Settings.UI_02VolumeParameter, -80f); }
 
 				if (Settings.AutoSave)
 				{
@@ -184,7 +197,7 @@ namespace MoreMountains.Tools
 				}
 			}
 		}
-        
+
 		/// <summary>
 		/// Converts a normalized volume to the mixer group db scale
 		/// </summary>
@@ -204,7 +217,7 @@ namespace MoreMountains.Tools
 		{
 			return (float)Math.Pow(10, (mixerVolume / MixerValuesMultiplier));
 		}
-        
+
 		#endregion Volume
 	}
 }

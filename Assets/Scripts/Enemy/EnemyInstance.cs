@@ -9,7 +9,8 @@ namespace DefaultNamespace.Enemy
 {
     public class EnemyInstance : MonoBehaviour
     {
-        [Header("Assigned in Inspector")] [SerializeField]
+        [Header("Assigned in Inspector")]
+        [SerializeField]
         private SO.EnemySo _enemySo;
 
         [SerializeField] private Animator _animator; // ← NEW OPTIONAL SUPPORT
@@ -31,6 +32,10 @@ namespace DefaultNamespace.Enemy
         private bool _isAttacking = false; // prevents spam restarting animation
         private float _attackCooldown;
         private static readonly int Attack = Animator.StringToHash("Attack");
+
+        //sound
+        [SerializeField] private SoundSource sfx_source;
+        private string attack_sound;
 
 
         [Header("Spawn Weight Curve (Day -> Weight)")]
@@ -54,6 +59,7 @@ namespace DefaultNamespace.Enemy
             AttackDamage = GetDamage(GameTimeManager.Instance.CurrentDay);
             AttackRange = _enemySo.AttackRange;
             AttackCooldown = _enemySo.AttackCooldown;
+            attack_sound = _enemySo.attack_sound;
 
             _isAttacking = false;
             _isDead = false;
@@ -67,12 +73,12 @@ namespace DefaultNamespace.Enemy
         {
             EnemyManager.Instance.RemoveEnemyInstance(this);
         }
-        
+
         public float GetHP(int day)
         {
             return _enemySo.Health + _enemySo.HealthPerDay * day;
         }
-        
+
         public float GetDamage(int day)
         {
             return _enemySo.AttackDamage + _enemySo.AttackDamagePerDay * day;
@@ -141,6 +147,7 @@ namespace DefaultNamespace.Enemy
             }
 
             _animator.SetTrigger(Attack);
+            sfx_source.PlayClipNoFadesForceRestart(attack_sound);
             _attackCooldown = AttackCooldown;
             _shieldSystem.ShieldWall.ReceiveDamage(AttackDamage);
         }

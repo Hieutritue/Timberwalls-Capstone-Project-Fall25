@@ -10,7 +10,7 @@ namespace DefaultNamespace.TaskSystem
     public class ResourceGatheringTask : AProgressTask
     {
         private TaskType _taskType;
-        
+
 
         public ResourceGatheringTask(Building building, TaskType taskType) : base(building, taskType)
         {
@@ -88,14 +88,18 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(animString);
             if (!string.IsNullOrEmpty(animString))
+            {
                 colonist.animator.SetTrigger(animString);
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
+            }
             else
             {
                 Debug.LogWarning("No Anim String Found For " + tag);
             }
 
-            
+
             if (Building.Animator)
                 Building.Animator.SetBool(BuildingAnimationString.IS_ACTIVE, true);
         }
@@ -106,6 +110,7 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
             colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.vfx_source.FadeOutAndStop();
 
             if (Building.Animator)
                 Building.Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);

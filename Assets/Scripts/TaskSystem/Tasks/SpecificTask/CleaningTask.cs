@@ -32,6 +32,11 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.SetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.FURNITURE_WORK);
             colonist.animator.SetTrigger(ColonistAnimationString.CLEANING);
+
+            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(ColonistAnimationString.CLEANING);
+
+            if (!string.IsNullOrEmpty(loopSound))
+                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
         }
 
         public override void ColonistStopWork(Colonist colonist)
@@ -39,6 +44,7 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
             colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
+            colonist.vfx_source.FadeOutAndStop();
         }
 
         public override void RewardComplete()
