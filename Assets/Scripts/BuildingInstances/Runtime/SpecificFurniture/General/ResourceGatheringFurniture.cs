@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using DefaultNamespace.TaskSystem;
-using ResourceSystem;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace BuildingSystem
