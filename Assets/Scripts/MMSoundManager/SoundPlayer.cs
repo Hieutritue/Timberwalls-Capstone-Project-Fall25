@@ -1,6 +1,7 @@
 using UnityEngine;
 using DefaultNamespace.ScheduleSystem;
 using System.Collections.Generic;
+using Unity.Entities.UniversalDelegates;
 
 public class SoundPlayer : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class SoundPlayer : MonoBehaviour
     private bool wasNight = false;
     private bool isPlaying = false;
 
-    private int day = 1;
 
     private void Start()
     {
@@ -43,12 +43,12 @@ public class SoundPlayer : MonoBehaviour
         // Only change music when transitioning between day/night
         if (isNight != wasNight)
         {
-            UpdateAmbience(isNight);
+            UpdateAmbience(isNight, day);
             wasNight = isNight;
         }
     }
 
-    private void UpdateAmbience(bool isNight)
+    private void UpdateAmbience(bool isNight, int day = 1)
     {
         if (isNight)
         {
@@ -58,11 +58,11 @@ public class SoundPlayer : MonoBehaviour
                 fadeIn: true,
                 fadeOut: true,
                 crossfade: true,
-                forceRestart: false,
+                forceRestart: true,
                 shuffleList: GlobalSoundNameHolder.night_ambiences
             );
 
-            if (!isPlaying && day != 1)
+            if (!isPlaying && day != 1) //
             {
                 isPlaying = true;
                 music_source.Play(
@@ -70,7 +70,7 @@ public class SoundPlayer : MonoBehaviour
                 fadeIn: true,
                 fadeOut: true,
                 crossfade: true,
-                forceRestart: false,
+                forceRestart: true,
                 shuffleList: GlobalSoundNameHolder.night_osts
             );
             }
@@ -83,12 +83,15 @@ public class SoundPlayer : MonoBehaviour
                 fadeIn: true,
                 fadeOut: true,
                 crossfade: true,
-                forceRestart: false,
+                forceRestart: true,
                 shuffleList: GlobalSoundNameHolder.day_ambiences
             );
 
-            music_source.FadeOutAndStop();
-            isPlaying = false;
+            if (isPlaying)
+            {
+                music_source.FadeOutAndStop();
+                isPlaying = false;
+            }
         }
     }
 

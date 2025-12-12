@@ -110,7 +110,8 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
             colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
-            colonist.vfx_source.FadeOutAndStop();
+            colonist.vfx_source.StopImmediate();
+
 
             if (Building.Animator)
                 Building.Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
@@ -176,10 +177,10 @@ namespace DefaultNamespace.TaskSystem
 
             //breaking anim
             { STONE_FARM, ColonistAnimationString.BREAKING_RESOURCE },
-            { WOOD_FARM, ColonistAnimationString.CHOPPING},
             { NIOBIUM_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { COPPER_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { IRON_MINE, ColonistAnimationString.BREAKING_RESOURCE },
+            { WOOD_FARM, ColonistAnimationString.CHOPPING},
 
             //cooking anim
             { ELECTRIC_STOVE, ColonistAnimationString.COOKING },
