@@ -179,7 +179,8 @@ public class GlobalSoundNameHolder : MonoBehaviour
         { ColonistAnimationString.TYPING, typing },
 
         // Resource Gathering
-        { ColonistAnimationString.BREAKING_RESOURCE, demolition },
+        { ColonistAnimationString.BREAKING_RESOURCE, mining},
+        { ColonistAnimationString.CHOPPING, wood_chopping_3},
 
         // Cooking
         { ColonistAnimationString.COOKING, cooking },
@@ -187,7 +188,7 @@ public class GlobalSoundNameHolder : MonoBehaviour
         // Farming / Animals
         { ColonistAnimationString.FEEDING_CHICKEN, chicken_coop },
         { ColonistAnimationString.PLANTING, planting },
-        { ColonistAnimationString.FISHING, planting }, //missing(?)
+        { ColonistAnimationString.FISHING, fishing }, 
 
         // Medical
         { ColonistAnimationString.SITTING_SICK, sick_person }, //missing(?)

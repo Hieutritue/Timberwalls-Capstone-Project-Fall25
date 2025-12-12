@@ -94,7 +94,7 @@ public class SoundSource : MonoBehaviour
     /// </summary>
     public void Play(string clipKey = null, bool? fadeIn = null, bool? fadeOut = null, bool crossfade = true, bool forceRestart = false, List<string> shuffleList = null)
     {
-        if (chosenTrack == Tracks.Sfx || chosenTrack == Tracks.UI || chosenTrack == Tracks.UI_02)
+        if (chosenTrack == Tracks.Sfx || chosenTrack == Tracks.UI_02)
         {
             if (_currentClipKey == clipKey && _currentSoundID != 0)
             {
@@ -116,8 +116,14 @@ public class SoundSource : MonoBehaviour
 
             if (clipKey == null)
             {
-                Debug.LogWarning($"[SoundSource] No clips available to shuffle on {name}.");
-                return;
+                _playedClips.Clear();
+                clipKey = GlobalSoundNameHolder.Shuffle(shuffleList, _playedClips);
+
+                if (clipKey == null)
+                {
+                    Debug.LogWarning("Nothin to play man");
+                    return;
+                }
             }
 
             // Add to played clips list
@@ -295,22 +301,29 @@ public class SoundSource : MonoBehaviour
         int soundIDToFade = _currentSoundID;
         AudioSource audioSourceToFree = _currentAudioSource;
 
+        // Clear current references immediately so new sounds can play
+        _currentSoundID = 0;
+        _currentAudioSource = null;
+        _currentClipKey = null;
+
         // Manual fade out
         if (audioSourceToFree != null)
         {
             yield return StartCoroutine(FadeOutCoroutine(audioSourceToFree, fadeOutDuration));
         }
 
-        // Clear current references immediately
-        _currentSoundID = 0;
-        _currentAudioSource = null;
-        _currentClipKey = null;
-
-        // Stop and free the AudioSource
+        // Stop and free the AudioSource after fade completes
         if (audioSourceToFree != null)
         {
             MMSoundManagerSoundControlEvent.Trigger(
                 MMSoundManagerSoundControlEventTypes.Stop,
+                soundIDToFade,
+                audioSourceToFree
+            );
+
+            // Free the AudioSource component
+            MMSoundManagerSoundControlEvent.Trigger(
+                MMSoundManagerSoundControlEventTypes.Free,
                 soundIDToFade,
                 audioSourceToFree
             );
@@ -496,6 +509,13 @@ public class SoundSource : MonoBehaviour
         {
             MMSoundManagerSoundControlEvent.Trigger(
                 MMSoundManagerSoundControlEventTypes.Stop,
+                _currentSoundID,
+                _currentAudioSource
+            );
+
+            // Free the AudioSource component
+            MMSoundManagerSoundControlEvent.Trigger(
+                MMSoundManagerSoundControlEventTypes.Free,
                 _currentSoundID,
                 _currentAudioSource
             );
