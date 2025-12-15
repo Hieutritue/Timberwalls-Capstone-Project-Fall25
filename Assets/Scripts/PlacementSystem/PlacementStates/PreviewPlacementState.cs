@@ -95,6 +95,7 @@ namespace DefaultNamespace.PlacementStates
 
             _behaviour.ResetLastGridPosition();
             ResourceManager.Instance.DeductResourcesForPlaceable(GetCurrentObjectToPlace());
+            AstarPath.active.Scan();
         }
 
         private void AssignItemToRoom(PlaceableInstance itemInstance, Vector3 spawnPosition)
