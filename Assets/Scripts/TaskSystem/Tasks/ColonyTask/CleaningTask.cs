@@ -54,6 +54,7 @@ namespace DefaultNamespace.TaskSystem
             {
                 UnityEngine.Object.Destroy(mb.gameObject);
             }
+            RemoveTask();
         }
 
         public override float TotalProgress(Colonist colonist)
