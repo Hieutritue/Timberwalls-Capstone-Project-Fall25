@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using _Scripts.StateMachine;
 using BuildingSystem;
+using DefaultNamespace.PlaceableInstances;
 using DefaultNamespace.TaskSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -86,6 +87,12 @@ namespace DefaultNamespace.PlacementStates
                     var gridData = _behaviour.GetGridData(placeableInstance.PlaceableSo.Type);
                     gridData.RemovePlaceableInstance(placeableInstance);
                     ResourceManager.Instance.RefundResourcesForPlaceable(placeableInstance.PlaceableSo);
+
+                    if (placeableInstance is FurniturePlaceableInstance furniturePlaceableInstance)
+                    {
+                        furniturePlaceableInstance.ContainingRoomPlaceable.RemoveItemFromRoom(furniturePlaceableInstance);
+                    }
+                    
                     Object.Destroy(building.gameObject);
                     Debug.Log($"Deleted object: {hit.collider.name}");
                 }
