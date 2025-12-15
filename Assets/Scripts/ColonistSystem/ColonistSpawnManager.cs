@@ -70,13 +70,18 @@ public class ColonistSpawnManager : MonoSingleton<ColonistSpawnManager>
     {
         contactPoints = Mathf.Clamp(contactPoints, 1, 200);
 
-        float w0 = Mathf.Exp(-contactPoints / 40f);
-        float w1 = Mathf.Exp(-(contactPoints - 50) / 40f);
-        float w2 = Mathf.Exp(-(contactPoints - 100) / 40f);
-        float w3 = Mathf.Exp(-(contactPoints - 150) / 40f);
+        const float sigma = 18f; // narrower less overlap, rarer highs
+
+        float w0 = Mathf.Exp(-Mathf.Pow(contactPoints - 0f, 2) / (2f * sigma * sigma)) * 1.00f;
+        float w1 = Mathf.Exp(-Mathf.Pow(contactPoints - 80f, 2) / (2f * sigma * sigma)) * 0.65f;
+        float w2 = Mathf.Exp(-Mathf.Pow(contactPoints - 140f, 2) / (2f * sigma * sigma)) * 0.35f;
+        float w3 = Mathf.Exp(-Mathf.Pow(contactPoints - 195f, 2) / (2f * sigma * sigma)) * 0.12f;
 
         float sum = w0 + w1 + w2 + w3;
-        w0 /= sum; w1 /= sum; w2 /= sum; w3 /= sum;
+        w0 /= sum;
+        w1 /= sum;
+        w2 /= sum;
+        w3 /= sum;
 
         float r = Random.value;
 
