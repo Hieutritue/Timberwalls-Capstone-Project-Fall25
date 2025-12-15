@@ -31,7 +31,7 @@ namespace DefaultNamespace.UI.Build
         
         public void LoadBuildings()
         {
-            // remove all children first
+            //remove all children first
             foreach (var buildingUI in _buildingUIs)
             {
                 Destroy(buildingUI.gameObject);
