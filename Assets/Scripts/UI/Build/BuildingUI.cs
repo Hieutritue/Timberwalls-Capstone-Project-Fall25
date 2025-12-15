@@ -33,7 +33,7 @@ namespace DefaultNamespace.UI.Build
             OnResourceChanged(ResourceType.Wood,0);
         }
 
-        private void OnDestroy()
+        public void OnRemove()
         {
             var manager = ResourceManager.Instance;
             if (manager != null)
