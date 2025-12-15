@@ -23,7 +23,7 @@ namespace DefaultNamespace.ResearchSystem
             });
             
             gameObject.SetActive(false);
-            //DEBUG_UnlockAllResearch(); //testing purpose, delete when release
+            DEBUG_UnlockAllResearch(); //testing purpose, delete when release
         }
 
         public event Action<ResearchSO> OnResearchUnlocked;
