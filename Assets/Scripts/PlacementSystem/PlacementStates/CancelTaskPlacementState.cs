@@ -24,6 +24,7 @@ namespace DefaultNamespace.PlacementStates
 
         public override void Tick()
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit,
@@ -61,7 +62,7 @@ namespace DefaultNamespace.PlacementStates
 
         public void CancelTaskPointingAt()
         {
-            // if (EventSystem.current.IsPointerOverGameObject()) return;
+            if (EventSystem.current.IsPointerOverGameObject()) return;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit,
