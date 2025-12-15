@@ -77,7 +77,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7879417352831721265}
-  - component: {fileID: 1357742324487641360}
   m_Layer: 25
   m_Name: IceCannon
   m_TagString: Untagged
@@ -102,69 +101,6 @@ Transform:
   - {fileID: 7794513917264362887}
   m_Father: {fileID: 3898789090913413862}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &1357742324487641360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 37559848962346288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 913cfc642922cf748b380549d70705cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetType: 0
-  priority: 0
-  groundHeightThreshold: 0.5
-  tiltCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 10
-      value: 20
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 20
-      value: 30
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  rotationAxis: 2
-  barrelRotationOffsetEuler: {x: 0, y: 180, z: 0}
-  stats: {fileID: 11400000, guid: 198e44fa9c71a7f4a875cd105e205705, type: 2}
-  launchMode: 0
-  barrel: {fileID: 1871033344129981186}
-  firePoints:
-  - {fileID: 0}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 8192
-  bulletPrefab: {fileID: 7593114055893328621, guid: d3aa53b13e082984dbd08fa57ca65d3c,
-    type: 3}
-  aimAcceleration: 4
-  aimDeceleration: 4
-  maxRotationSpeed: 360
 --- !u!1 &2208536494291135781
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,7 +158,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4677765240978142486}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -230,7 +166,7 @@ Transform:
   - {fileID: 7179599126163886469}
   - {fileID: 1870865326429624608}
   m_Father: {fileID: 7254552873669693346}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5744127861090177368
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,12 +453,6 @@ Transform:
 --- !u!4 &1870865326429624608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4351196339893274, guid: bc50d48682b2fd44d8d973f26b97e0b3,
-    type: 3}
-  m_PrefabInstance: {fileID: 1871759641025785146}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1871033344129981186 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4201853269472824, guid: bc50d48682b2fd44d8d973f26b97e0b3,
     type: 3}
   m_PrefabInstance: {fileID: 1871759641025785146}
   m_PrefabAsset: {fileID: 0}
