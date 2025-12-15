@@ -60,6 +60,12 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
                 }
             }
 
+            foreach (var cost in _colonistSo.RecruitmentCosts)
+            {
+                ResourceManager.Instance.Set(cost.Resource.ResourceType,
+                    ResourceManager.Instance.Get(cost.Resource.ResourceType) - cost.Amount);
+            }
+
             ColonistManager.Instance.SpawnColonist(_colonistSo, Vector3.zero);
             ColonistSelectionPanel.Instance.HideSpawnChoices();
         }
