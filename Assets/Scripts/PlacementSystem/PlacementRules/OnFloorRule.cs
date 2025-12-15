@@ -21,7 +21,7 @@ namespace DefaultNamespace.PlacementRules
             // room instance
             var placeableInstance = gridData.GetPlaceableInstanceAt(belowPos);
             
-            if (!placeableInstance || placeableInstance.PlaceableSo.Size.y < _objectSize.y)
+            if (!placeableInstance || placeableInstance.PlaceableSo.Size.y < _objectSize.y || placeableInstance.PlaceableSo.IsStair)
             {
                 return false;
             }
