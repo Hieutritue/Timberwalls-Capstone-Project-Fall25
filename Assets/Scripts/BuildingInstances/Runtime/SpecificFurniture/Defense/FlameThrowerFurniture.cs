@@ -1,4 +1,5 @@
-﻿using DefaultNamespace.Enemy;
+﻿using System.Linq;
+using DefaultNamespace.Enemy;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,10 +15,10 @@ namespace BuildingSystem
         {
             if (!_flameFX.isPlaying)
                 _flameFX.Play();
-            _impactCollider.EnemyInstances.ForEach(e => e.TakeDamage(TurretSo.BaseDamage));
+            _impactCollider.EnemyInstances.ToList().ForEach(e => e.TakeDamage(TurretSo.BaseDamage));
         }
 
-        protected override void StopShooting()
+        public override void StopShooting()
         {
             base.StopShooting();
             _flameFX.Stop();

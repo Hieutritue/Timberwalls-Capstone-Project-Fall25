@@ -130,7 +130,7 @@ namespace BuildingSystem
             Shoot();
         }
 
-        protected virtual void StopShooting()
+        public virtual void StopShooting()
         {
         }
 
