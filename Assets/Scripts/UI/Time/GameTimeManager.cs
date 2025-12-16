@@ -98,12 +98,17 @@ namespace DefaultNamespace.ScheduleSystem
         public void SetTimeScale(float timeScale)
         {
             lastTimeScale = Time.timeScale;
-            Time.timeScale = timeScale;
+            UIManager.Instance.InvokeTimeButtonOnClick((int)timeScale);
         }
 
         public void RestoreLastTimeScale()
         {
-            Time.timeScale = lastTimeScale;
+            UIManager.Instance.InvokeTimeButtonOnClick((int)lastTimeScale);
+        }
+
+        private void Start()
+        {
+            SetTimeScale(0);
         }
     }
 }

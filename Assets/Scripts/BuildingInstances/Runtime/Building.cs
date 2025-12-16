@@ -4,6 +4,7 @@ using System.Linq;
 using _Scripts.StateMachine;
 using BuildingSystem.RoomStates;
 using DefaultNamespace.TaskSystem;
+using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -35,6 +36,14 @@ namespace BuildingSystem
             Colliders = GetComponentsInChildren<Collider>();
             // SetCollidersToTrigger(true);
             InitStateMachine();
+
+            OnConstructed += () =>
+            {
+                var buildingConstructed = FeedbackManager.Instance.BuildingConstructedFeedback;
+                var particleInstantiation = buildingConstructed?.GetFeedbackOfType<MMF_ParticlesInstantiation>();
+                if (particleInstantiation != null) particleInstantiation.InstantiateParticlesPosition = ProgressPoint;
+                buildingConstructed?.PlayFeedbacks();
+            };
         }
         
         public void SetCollidersToTrigger(bool isTrigger)

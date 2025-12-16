@@ -20,7 +20,7 @@ namespace DefaultNamespace.ColonistSystem.UI
         [SerializeField] private TMP_Text _afflictionsText;
         [SerializeField] private TMP_Text _currentStateText;
         [SerializeField] private List<StatInfoPair> _statPairs;
-
+        
         public Colonist Colonist => _colonist;
 
         private void RenderColonist(Colonist colonist)
@@ -132,6 +132,12 @@ namespace DefaultNamespace.ColonistSystem.UI
         {
             gameObject.SetActive(false);
             // InputManager.Instance.OnMouseLeftClick += ClosePanel;
+        }
+
+        public void ExileColonist()
+        {
+            Colonist.Die();
+            ClosePanel();
         }
     }
 
