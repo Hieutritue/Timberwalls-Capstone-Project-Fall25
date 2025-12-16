@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DefaultNamespace.TaskSystem;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 namespace BuildingSystem
@@ -27,18 +28,27 @@ namespace BuildingSystem
                 return;
             }
 
+            var resourceGatheredString = "";
             GatheringFurnitureSo.Consumption.ForEach(resourceWithAmount =>
             {
                 var resourceType = resourceWithAmount.Resource.ResourceType;
+                resourceGatheredString += $"<color=red>- {resourceWithAmount.Amount} {resourceWithAmount.Resource.ResourceName}</color>\n";
                 ResourceManager.Instance.Set(resourceType,
                     ResourceManager.Instance.Get(resourceType) - resourceWithAmount.Amount);
             });
             GatheringFurnitureSo.OutputResource.ForEach(resourceWithAmount =>
             {
                 var resourceType = resourceWithAmount.Resource.ResourceType;
+                resourceGatheredString += $"<color=white>+ {resourceWithAmount.Amount} {resourceWithAmount.Resource.ResourceName}</color>\n";
                 ResourceManager.Instance.Set(resourceType,
                     ResourceManager.Instance.Get(resourceType) + resourceWithAmount.Amount);
             });
+
+            var resourceGatheredFeedback = FeedbackManager.Instance.ResourceGatheredFeedback;
+            var floatingText = resourceGatheredFeedback.GetFeedbackOfType<MMF_FloatingText>();
+            floatingText.TargetTransform = ProgressPoint;
+            floatingText.Value = resourceGatheredString;
+            resourceGatheredFeedback.PlayFeedbacks();
         }
 
         public void CreateTask()
