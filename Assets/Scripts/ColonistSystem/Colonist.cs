@@ -315,6 +315,8 @@ public class Colonist : MonoBehaviour
         if (particleInstantiation != null) particleInstantiation.InstantiateParticlesPosition = transform;
         colonistExiledFeedback?.PlayFeedbacks();
         
+        NotificationSystem.Instance.RemoveNotification(this, NotificationType.Affliction);
+        
         Destroy(gameObject);
     }
 }
