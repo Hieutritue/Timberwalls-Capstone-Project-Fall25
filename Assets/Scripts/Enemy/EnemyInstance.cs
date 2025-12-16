@@ -67,6 +67,7 @@ namespace DefaultNamespace.Enemy
 
             _shieldSystem = ShieldSystem.ShieldSystem.Instance;
             SetTarget(true);
+            OnDeath += Poo;
         }
 
         private void OnDisable()
@@ -168,15 +169,24 @@ namespace DefaultNamespace.Enemy
         {
             if (other.gameObject.CompareTag("Bound"))
             {
+                OnDeath -= Poo;
                 Die();
             }
         }
 
-        private void Die()
+        private void Poo(EnemyInstance enemyInstance)
         {
             var poop = Instantiate(_pooPrefab, transform);
             poop.transform.position = transform.position;
             poop.transform.SetParent(null);
+        }
+
+        public Action<EnemyInstance> OnDeath;
+
+        private void Die()
+        {
+            OnDeath?.Invoke(this);
+            
             Destroy(gameObject);
         }
     }

@@ -107,7 +107,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4672585499484582246}
-  - component: {fileID: 6150779465769219226}
   m_Layer: 25
   m_Name: StoneThrower
   m_TagString: Untagged
@@ -132,69 +131,6 @@ Transform:
   - {fileID: 4348428691876815332}
   m_Father: {fileID: 3898789090913413862}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &6150779465769219226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9183314507316508893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 913cfc642922cf748b380549d70705cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetType: 0
-  priority: 0
-  groundHeightThreshold: 0.5
-  tiltCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 10
-      value: 20
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 20
-      value: 30
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  rotationAxis: 2
-  barrelRotationOffsetEuler: {x: -90, y: 180, z: 0}
-  stats: {fileID: 11400000, guid: 9fed3411aa36011488bde01407cb401c, type: 2}
-  launchMode: 1
-  barrel: {fileID: 8187890251198319317}
-  firePoints:
-  - {fileID: 1328256164987049518}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 8192
-  bulletPrefab: {fileID: 9080798899960363267, guid: 5c55c6d29f3e444448f96ebe670e84eb,
-    type: 3}
-  aimAcceleration: 4
-  aimDeceleration: 4
-  maxRotationSpeed: 360
 --- !u!1001 &437700414455835710
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1090,6 +1026,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2205412310771814247, guid: 0eb1b600645bc0745b4ee313a7405591,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2205412310771814247, guid: 0eb1b600645bc0745b4ee313a7405591,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2205412310771814247, guid: 0eb1b600645bc0745b4ee313a7405591,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2205412310771814247, guid: 0eb1b600645bc0745b4ee313a7405591,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1101,7 +1052,7 @@ PrefabInstance:
     - target: {fileID: 2205412310771814247, guid: 0eb1b600645bc0745b4ee313a7405591,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.353
+      value: -0.051
       objectReference: {fileID: 0}
     - target: {fileID: 2205412310771814247, guid: 0eb1b600645bc0745b4ee313a7405591,
         type: 3}
@@ -1137,6 +1088,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2205412310771814247, guid: 0eb1b600645bc0745b4ee313a7405591,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6550918374888466830, guid: 0eb1b600645bc0745b4ee313a7405591,
         type: 3}

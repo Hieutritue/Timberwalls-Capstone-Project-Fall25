@@ -13,8 +13,14 @@ namespace BuildingSystem
             if (!other.CompareTag("Enemy")) return;
             if (other.TryGetComponent(out EnemyInstance enemyInstance))
             {
+                enemyInstance.OnDeath += OnEnemyDeath;
                 EnemyInstances.Add(enemyInstance);
             }
+        }
+
+        private void OnEnemyDeath(EnemyInstance enemyInstance)
+        {
+            EnemyInstances.Remove(enemyInstance);
         }
 
         private void OnTriggerExit(Collider other)
@@ -22,6 +28,7 @@ namespace BuildingSystem
             if (!other.CompareTag("Enemy")) return;
             if (other.TryGetComponent(out EnemyInstance enemyInstance))
             {
+                enemyInstance.OnDeath -= OnEnemyDeath;
                 EnemyInstances.Remove(enemyInstance);
             }
         }
