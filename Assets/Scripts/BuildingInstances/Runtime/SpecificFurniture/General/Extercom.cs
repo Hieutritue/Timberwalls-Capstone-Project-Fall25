@@ -6,16 +6,14 @@ namespace BuildingSystem
     {
         private ExtercomSO ExtercomSo => (ExtercomSO)PlaceableSo;
 
-        public override void Constructed()
+        public void AddContactPoint()
         {
-            base.Constructed();
             ResourceManager.Instance.Set(ResourceType.ContactPoint,
                 ResourceManager.Instance.Get(ResourceType.ContactPoint) + ExtercomSo.ContactPoint);
         }
         
-        public override void Demolished()
+        public void RemoveContactPoint()
         {
-            base.Demolished();
             ResourceManager.Instance.Set(ResourceType.ContactPoint,
                 ResourceManager.Instance.Get(ResourceType.ContactPoint) - ExtercomSo.ContactPoint);
         }

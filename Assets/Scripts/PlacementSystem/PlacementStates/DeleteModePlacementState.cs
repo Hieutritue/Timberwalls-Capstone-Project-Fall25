@@ -61,6 +61,8 @@ namespace DefaultNamespace.PlacementStates
                 if (particleInstantiation != null) particleInstantiation.InstantiateParticlesPosition = building.ProgressPoint;
                 buildingConstructed?.PlayFeedbacks();
 
+                if(building is Extercom extercom) extercom.RemoveContactPoint();
+                
                 CheckRemoval(placeableInstance);
                 gridData.RemovePlaceableInstanceOccupiedAt(gridPosition);
             };

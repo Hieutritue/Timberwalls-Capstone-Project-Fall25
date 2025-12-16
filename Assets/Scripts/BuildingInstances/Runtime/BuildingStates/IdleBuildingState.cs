@@ -10,6 +10,7 @@ namespace BuildingSystem.RoomStates
 
         public override void Enter()
         {
+            if(_behaviour is Extercom extercom) extercom.AddContactPoint();
         }
 
         public override void Tick()
