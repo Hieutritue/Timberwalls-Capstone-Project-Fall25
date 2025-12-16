@@ -15,7 +15,7 @@ namespace DefaultNamespace.Enemy
 
         [SerializeField] private Animator _animator; // ← NEW OPTIONAL SUPPORT
         [SerializeField] private MMF_Player _hurtFeedback;
-
+        [SerializeField] private GameObject _pooPrefab;
         public SO.EnemySo EnemySo => _enemySo;
 
         [field: SerializeField] public float CurrentHealth { get; private set; }
@@ -174,7 +174,10 @@ namespace DefaultNamespace.Enemy
 
         private void Die()
         {
-            ObjectPoolManager.Instance.Release(gameObject);
+            var poop = Instantiate(_pooPrefab, transform);
+            poop.transform.position = transform.position;
+            poop.transform.SetParent(null);
+            Destroy(gameObject);
         }
     }
 }

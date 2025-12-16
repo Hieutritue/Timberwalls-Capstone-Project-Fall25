@@ -117,7 +117,7 @@ namespace BuildingSystem
             Physics.Raycast(_firePoints[0].position, _firePoints[0].forward, out RaycastHit hitInfo,
                 TurretSo.AttackRange,
                 LayerMask.GetMask("Enemies"), QueryTriggerInteraction.Collide);
-            if (hitInfo.collider != null && hitInfo.collider.transform == _currentTarget)
+            if (hitInfo.collider != null)
             {
                 isAimingAtTarget = true;
             }

@@ -64,8 +64,8 @@ public class HieuEnemySpawner : MonoBehaviour
         var y = Random.Range(.8f,
             DefaultNamespace.ShieldSystem.ShieldSystem.Instance.ShieldWall.WallHeight);
         _realSpawnPoint.position = _realSpawnPoint.position.With(y: y);
-        var enemyGameObject = ObjectPoolManager.Instance.Get(variant.gameObject, _realSpawnPoint);
-        var enemyInstance = enemyGameObject.GetComponent<EnemyInstance>();
+        var enemyInstance = Instantiate(variant, _realSpawnPoint);
+        enemyInstance.transform.SetParent(null);
         enemyInstance.SetTarget(randomSpawnIndex == 0);
         
         _spawnedThisNight++;
