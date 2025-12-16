@@ -11,7 +11,7 @@ namespace BuildingSystem
         public override void Start()
         {
             base.Start();
-            // SetCollidersToTrigger(true);
+            SetCollidersToTrigger(true);
         }
 
         public void InitFurniture(Room room)

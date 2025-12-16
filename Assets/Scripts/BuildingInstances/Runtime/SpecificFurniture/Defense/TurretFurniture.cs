@@ -35,6 +35,11 @@ namespace BuildingSystem
             TryShoot();
         }
 
+        public override void Start()
+        {
+            base.Start();
+            GetComponent<BoxCollider>().isTrigger = false;
+        }
 
         // ------------------------------------------
         //  FIND TARGET

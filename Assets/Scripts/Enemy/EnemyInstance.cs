@@ -66,7 +66,7 @@ namespace DefaultNamespace.Enemy
             _attackCooldown = AttackCooldown;
 
             _shieldSystem = ShieldSystem.ShieldSystem.Instance;
-            SetTarget(true);
+            // SetTarget(true);
             OnDeath += Poo;
         }
 
