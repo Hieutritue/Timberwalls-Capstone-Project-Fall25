@@ -17,13 +17,30 @@ public class HieuEnemySpawner : MonoBehaviour
     public float spawnIntervalPerDay = 0.5f;
     public int maxEnemiesPerNight = 10;
 
+    [Header("Spawn protection")] 
+    public int spawnProtectionDuration = 3;
+
+    private bool _spawnProtectionActive = true;
     private float _spawnTimer;
     private int _spawnedThisNight;
 
     void Update()
     {
-        int hour = GameTimeManager.Instance.CurrentHour;
         int day = GameTimeManager.Instance.CurrentDay;
+
+        // Spawn protection
+        if (_spawnProtectionActive)
+        {
+            if (day > spawnProtectionDuration)
+            {
+                _spawnProtectionActive = false;
+                Debug.Log("Caution: Spawn protection expired");
+            }
+            else
+            {
+                return;
+            }
+        }
 
         bool isNight = GameTimeManager.Instance.IsNight;
 
