@@ -38,17 +38,23 @@ namespace DefaultNamespace.PlacementStates
             if (!placeableInstance) return;
 
             var building = placeableInstance.GetComponent<Building>();
-            
-            if (building && (building.IsUnderConstruction() 
-                             || building.IsDemolishing())) 
+
+            if (building && (building.IsUnderConstruction()
+                             || building.IsDemolishing()))
                 return;
 
             building.TransitionToDemolishing();
-            if (building.ActiveTasks.Any(t=>t is DemolishingTask)) return;
+            if (building.ActiveTasks.Any(t => t is DemolishingTask)) return;
             var demolishingTask = new DemolishingTask(building, TaskType.Demolishing);
             demolishingTask.OnComplete += () =>
             {
                 ResourceManager.Instance.RefundResourcesForPlaceable(placeableInstance.PlaceableSo);
+                if (placeableInstance is RoomPlaceableInstance roomPlaceableInstance)
+                {
+                    roomPlaceableInstance.ContainedItems.ForEach(i =>
+                        ResourceManager.Instance.RefundResourcesForPlaceable(i.PlaceableSo));
+                }
+
                 CheckRemoval(placeableInstance);
                 gridData.RemovePlaceableInstanceOccupiedAt(gridPosition);
             };
@@ -80,9 +86,9 @@ namespace DefaultNamespace.PlacementStates
 
             var building = placeableInstance?.GetComponent<Building>();
 
-            if (building && (placeableInstance == _lastPlaceableInstance 
-                             || building.IsUnderConstruction() 
-                             || building.IsDemolishing())) 
+            if (building && (placeableInstance == _lastPlaceableInstance
+                             || building.IsUnderConstruction()
+                             || building.IsDemolishing()))
                 return;
 
             var materialSwapper = BuildingSystemManager.Instance.MaterialSwapper;
@@ -90,15 +96,14 @@ namespace DefaultNamespace.PlacementStates
             {
                 ResetMaterial();
             }
-            
+
             if (placeableInstance)
             {
                 materialSwapper.ApplyHighlight(placeableInstance.gameObject,
                     BuildingSystemManager.Instance.RemovePlaceableMaterial);
             }
-            
+
             _lastPlaceableInstance = placeableInstance;
-            
         }
 
         public override void Exit()

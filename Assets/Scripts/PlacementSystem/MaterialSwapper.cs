@@ -27,20 +27,6 @@ public class MaterialSwapper : MonoBehaviour
             rend.materials = mats;
         }
     }
-
-    [Button]
-    // Restore originals
-    public void Restore()
-    {
-        foreach (var kvp in _originalMaterials)
-        {
-            if (kvp.Key != null) // in case object was destroyed
-                kvp.Key.materials = kvp.Value;
-        }
-
-        _originalMaterials.Clear();
-    }
-
     public void RemoveHighlight(GameObject gameObject)
     {
         Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();

@@ -15,7 +15,15 @@ namespace DefaultNamespace.PlacementRules
         public bool IsValid(GridData gridData)
         {
             var topPos = new Vector3Int(_gridPosition.x, _gridPosition.y + _objectSize.y - 1, _gridPosition.z);
-            var ceilingOfInstanceContainingBelowPos = gridData.GetPlaceableInstanceAt(topPos)?.GetCeilingCells();
+
+            var roomInstance = gridData.GetPlaceableInstanceAt(topPos);
+
+            if (!roomInstance || roomInstance.PlaceableSo.IsStair)
+            {
+                return false;
+            }
+            
+            var ceilingOfInstanceContainingBelowPos = roomInstance.GetCeilingCells();
             
             return ceilingOfInstanceContainingBelowPos != null && ceilingOfInstanceContainingBelowPos.Contains(topPos);
         }

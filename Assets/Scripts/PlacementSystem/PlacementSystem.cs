@@ -29,7 +29,7 @@ public class PlacementSystem : MonoBehaviour
     private DeleteModePlacementState _deleteModePlacementState;
     private PreviewPlacementState _previewPlacementState;
     private IdlePlacementState _idlePlacementState;
-    private CancelTaskState _cancelTaskState;
+    private CancelTaskPlacementState _cancelTaskPlacementState;
 
     [SerializeField] private Vector3Int _originGround;
     [SerializeField] private Vector2Int _sizeGround;
@@ -49,7 +49,7 @@ public class PlacementSystem : MonoBehaviour
         _deleteModePlacementState = new DeleteModePlacementState(this);
         _previewPlacementState = new PreviewPlacementState(this);
         _idlePlacementState = new IdlePlacementState(this);
-        _cancelTaskState = new CancelTaskState(this);
+        _cancelTaskPlacementState = new CancelTaskPlacementState(this);
 
         _stateMachine.Initialize(_idlePlacementState);
     }
@@ -131,6 +131,6 @@ public class PlacementSystem : MonoBehaviour
 
     public void EnterCancelMode()
     {
-        _stateMachine.TransitionTo(_cancelTaskState);
+        _stateMachine.TransitionTo(_cancelTaskPlacementState);
     }
 }

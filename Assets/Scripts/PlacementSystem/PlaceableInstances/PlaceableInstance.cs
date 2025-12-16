@@ -45,18 +45,4 @@ public class PlaceableInstance : MonoBehaviour
             c.x == minX || c.x == maxX
         ).ToList();
     }
-
-    // Get all interior cells (not edges)
-    public List<Vector3Int> GetInteriorCells()
-    {
-        int minX = OccupiedCells.Min(c => c.x);
-        int maxX = OccupiedCells.Max(c => c.x);
-        int minY = OccupiedCells.Min(c => c.y);
-        int maxY = OccupiedCells.Max(c => c.y);
-
-        return OccupiedCells.Where(c =>
-            c.x > minX && c.x < maxX &&
-            c.y > minY && c.y < maxY
-        ).ToList();
-    }
 }

@@ -65,11 +65,11 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     }
     
     [Button("Add All Resources (100)")]
-    public void AddAllResources999()
+    public void AddAllResources100()
     {
         foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
         {
-            Set(type,  Get(type) + 100);
+            Set(type, Get(type) + 100);
         }
     }
     

@@ -34,6 +34,7 @@ namespace DefaultNamespace.UI.Build
             //remove all children first
             foreach (var buildingUI in _buildingUIs)
             {
+                buildingUI.OnRemove();
                 Destroy(buildingUI.gameObject);
             }
             _buildingUIs.Clear();

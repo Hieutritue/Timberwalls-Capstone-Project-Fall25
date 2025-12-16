@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace DefaultNamespace.PlacementRules
 {
@@ -16,10 +17,11 @@ namespace DefaultNamespace.PlacementRules
         public bool IsValid(GridData gridData)
         {
             var belowPos = new Vector3Int(_gridPosition.x, _gridPosition.y, _gridPosition.z);
+            var rightBelowPos = new Vector3Int(_gridPosition.x + _objectSize.x - 1, _gridPosition.y, _gridPosition.z);
             // room instance
             var placeableInstance = gridData.GetPlaceableInstanceAt(belowPos);
             
-            if (!placeableInstance || placeableInstance.PlaceableSo.Size.y < _objectSize.y)
+            if (!placeableInstance || placeableInstance.PlaceableSo.Size.y < _objectSize.y || placeableInstance.PlaceableSo.IsStair)
             {
                 return false;
             }
@@ -27,7 +29,8 @@ namespace DefaultNamespace.PlacementRules
             var floorOfInstanceContainingBelowPos = placeableInstance?.GetFloorCells();
 
             return floorOfInstanceContainingBelowPos != null 
-                   && floorOfInstanceContainingBelowPos.Contains(belowPos) 
+                   && floorOfInstanceContainingBelowPos.Contains(belowPos)
+                   && floorOfInstanceContainingBelowPos.Contains(rightBelowPos)
                    && !placeableInstance.Building.IsUnderConstruction();
         }
     }

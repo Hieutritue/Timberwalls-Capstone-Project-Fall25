@@ -1,7 +1,5 @@
-﻿using System.Linq;
+﻿
 using _Scripts.StateMachine;
-using DefaultNamespace.TaskSystem;
-
 namespace BuildingSystem.RoomStates
 {
     public class IdleBuildingState : AState<Building>

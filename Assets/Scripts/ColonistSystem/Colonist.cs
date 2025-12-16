@@ -146,7 +146,7 @@ public class Colonist : MonoBehaviour
         _stateMachine.TransitionTo(_workingState);
     }
 
-    public void AutoDecreaseStats()
+    private void AutoDecreaseStats()
     {
         if (!_autoDecreaseStatsEnabled || !_canDecreaseStatsTest) return;
         _timerToDecreaseStats += Time.deltaTime;
