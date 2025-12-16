@@ -108,7 +108,7 @@ namespace DefaultNamespace.ScheduleSystem
 
         private void Start()
         {
-            SetTimeScale(0);
+            SetTimeScale(1);
         }
     }
 }
