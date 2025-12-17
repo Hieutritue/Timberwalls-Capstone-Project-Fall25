@@ -12,6 +12,21 @@ namespace DefaultNamespace.NotificationSystem
         private Dictionary<(Colonist, NotificationType), NotificationPopup> _notificationPopups =
             new Dictionary<(Colonist, NotificationType), NotificationPopup>();
 
+        private NotificationPopup _enemyNotificationPopup;
+
+        public void AddNotificationEnemy(string noti)
+        {
+            var popup = Instantiate(_notificationPopupPrefab, _popupParent);
+            popup.SetText(noti);
+            _enemyNotificationPopup = popup;
+        }
+
+        public void RemoveNotificationEnemy()
+        {
+            if (_enemyNotificationPopup != null)
+                Destroy(_enemyNotificationPopup.gameObject);
+        }
+
         public void AddNotification(Colonist colonist, NotificationType notificationType, string message)
         {
             NotificationPopup popup = Instantiate(_notificationPopupPrefab, _popupParent);
@@ -19,7 +34,7 @@ namespace DefaultNamespace.NotificationSystem
             popup.Colonist = colonist;
             _notificationPopups[(colonist, notificationType)] = popup;
         }
-        
+
         public void RemoveNotification(Colonist colonist, NotificationType notificationType)
         {
             if (_notificationPopups.TryGetValue((colonist, notificationType), out NotificationPopup popup))
