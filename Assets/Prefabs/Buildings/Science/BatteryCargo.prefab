@@ -111,7 +111,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceableSo: {fileID: 11400000, guid: 87ef8fdd7b9195b4bbeb919378f478ea, type: 2}
   ProgressPoint: {fileID: 7744382820565547327}
+  Animator: {fileID: 0}
   Colliders: []
+  ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 9151039043570823167}
 --- !u!1001 &7244279520006137553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -203,8 +206,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7307223086504374789, guid: d559a887f3124be4f88ef87432dbf73e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9151039043570823167}
   m_SourcePrefab: {fileID: 100100000, guid: d559a887f3124be4f88ef87432dbf73e, type: 3}
+--- !u!1 &135285534149448916 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7307223086504374789, guid: d559a887f3124be4f88ef87432dbf73e,
+    type: 3}
+  m_PrefabInstance: {fileID: 7244279520006137553}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9151039043570823167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135285534149448916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &768833322725559918 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7936371695287281855, guid: d559a887f3124be4f88ef87432dbf73e,

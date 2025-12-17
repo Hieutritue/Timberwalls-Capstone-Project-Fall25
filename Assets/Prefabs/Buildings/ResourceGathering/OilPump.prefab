@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1607654301319690860}
+  - component: {fileID: 5030643079851056952}
+  - component: {fileID: 7471387975215075337}
   m_Layer: 25
   m_Name: Visual
   m_TagString: Untagged
@@ -34,6 +36,39 @@ Transform:
   - {fileID: 4452938554407806389}
   m_Father: {fileID: 718439800454944992}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &5030643079851056952
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315178254737655303}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.0355604, y: 2.7900543, z: 5.7045817}
+  m_Center: {x: -1.3376211, y: 1.1184164, z: -2.7703888}
+--- !u!114 &7471387975215075337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315178254737655303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3062303384850083248
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +153,7 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Colliders: []
   ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 7471387975215075337}
   ActionPoint: {fileID: 2833411827273593455}
 --- !u!95 &8629818628096940069
 Animator:

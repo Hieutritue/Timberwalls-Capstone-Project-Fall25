@@ -468,6 +468,36 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Squat Toilet
       objectReference: {fileID: 0}
+    - target: {fileID: 4069746367520164142, guid: 629981b2de3b17242946a6c236b4fa8d,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.45114952
+      objectReference: {fileID: 0}
+    - target: {fileID: 4069746367520164142, guid: 629981b2de3b17242946a6c236b4fa8d,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.79064566
+      objectReference: {fileID: 0}
+    - target: {fileID: 4069746367520164142, guid: 629981b2de3b17242946a6c236b4fa8d,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.7085725
+      objectReference: {fileID: 0}
+    - target: {fileID: 4069746367520164142, guid: 629981b2de3b17242946a6c236b4fa8d,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.023869593
+      objectReference: {fileID: 0}
+    - target: {fileID: 4069746367520164142, guid: 629981b2de3b17242946a6c236b4fa8d,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.31613705
+      objectReference: {fileID: 0}
+    - target: {fileID: 4069746367520164142, guid: 629981b2de3b17242946a6c236b4fa8d,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.0046547307
+      objectReference: {fileID: 0}
     - target: {fileID: 5006763897758093096, guid: 629981b2de3b17242946a6c236b4fa8d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -619,10 +649,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -9096180583865213240}
-    - targetCorrespondingSourceObject: {fileID: 2415769396817314798, guid: 629981b2de3b17242946a6c236b4fa8d,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2515116843786445767}
   m_SourcePrefab: {fileID: 100100000, guid: 629981b2de3b17242946a6c236b4fa8d, type: 3}
 --- !u!4 &2841738282468432795 stripped
 Transform:
@@ -665,36 +691,22 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Colliders: []
   ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 8916211174271885864}
   TaskType: 15
   ActionPoints:
   - {fileID: 5873404535658516154}
---- !u!1 &7779122414288161489 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2415769396817314798, guid: 629981b2de3b17242946a6c236b4fa8d,
+--- !u!114 &8916211174271885864 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3589027212524432151, guid: 629981b2de3b17242946a6c236b4fa8d,
     type: 3}
   m_PrefabInstance: {fileID: 5364481950161733951}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &2515116843786445767
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7779122414288161489}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.5924947, y: 0.697653, z: 1}
-  m_Center: {x: -0.0010582502, y: 0.313963, z: -2.665746e-12}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7030644859853912058
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -792,6 +792,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 250424994450275660}
+    - targetCorrespondingSourceObject: {fileID: 711793323199208760, guid: 0dd16dc10b0ab41448512b2394a93cee,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4069746367520164142}
+    - targetCorrespondingSourceObject: {fileID: 711793323199208760, guid: 0dd16dc10b0ab41448512b2394a93cee,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3589027212524432151}
   m_SourcePrefab: {fileID: 100100000, guid: 0dd16dc10b0ab41448512b2394a93cee, type: 3}
 --- !u!4 &2013374733692340101 stripped
 Transform:
@@ -805,6 +813,45 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2911090307410353878}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2415769396817314798 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 711793323199208760, guid: 0dd16dc10b0ab41448512b2394a93cee,
+    type: 3}
+  m_PrefabInstance: {fileID: 2911090307410353878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &4069746367520164142
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415769396817314798}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8258422, y: 0.5523412, z: 1.7148445}
+  m_Center: {x: 0.011362165, y: 0.3060503, z: 0.009505272}
+--- !u!114 &3589027212524432151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415769396817314798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2905134044974766427 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 15579201811482509, guid: 0dd16dc10b0ab41448512b2394a93cee,
@@ -850,6 +897,7 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Colliders: []
   ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 3589027212524432151}
   TaskType: 15
   ActionPoints:
   - {fileID: 2013374733692340101}

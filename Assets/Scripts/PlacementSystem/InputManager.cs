@@ -2,6 +2,7 @@ using System;
 using DefaultNamespace;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InputManager : MonoSingleton<InputManager>
 {
@@ -15,7 +16,7 @@ public class InputManager : MonoSingleton<InputManager>
     public Action<PlaceableType> OnClickRemovePlaceable;
     public Action OnClickCancelKey;
     public Action<int> OnClickNum;
-    
+    [SerializeField] private Button _pauseButton;
     private void Start()
     {
         _mainCamera = Camera.main;
@@ -43,6 +44,8 @@ public class InputManager : MonoSingleton<InputManager>
             OnClickRemovePlaceable?.Invoke(PlaceableType.Furniture);
         if (Input.GetKeyDown(KeyCode.C))
             OnClickCancelKey?.Invoke();
+        
+        if (Input.GetKeyDown(KeyCode.Escape)) _pauseButton.onClick.Invoke();
     }
 
     public Vector3 GetSelectedMapPosition()

@@ -48,7 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceableSo: {fileID: 11400000, guid: 40a0aef4537dfce4f95584fedd9698ef, type: 2}
   ProgressPoint: {fileID: 2119020964320457131}
+  Animator: {fileID: 0}
   Colliders: []
+  ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 3526063729871719656}
 --- !u!1 &2384408693579812517
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,6 +408,7 @@ GameObject:
   - component: {fileID: 3205816245751353949}
   - component: {fileID: 3351716559337297235}
   - component: {fileID: 2154115434235437064}
+  - component: {fileID: 3526063729871719656}
   m_Layer: 25
   m_Name: SM_Veh_DropShip_01
   m_TagString: Untagged
@@ -505,3 +509,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: a0f0f24442774e8449837a2023ea0b69, type: 3}
+--- !u!114 &3526063729871719656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7757869733560858367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
