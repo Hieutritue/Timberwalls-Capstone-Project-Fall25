@@ -60,7 +60,7 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             ShieldGenerator.FixerSkillCount -= colonist.ColonistSo.Skills[SkillType.Engineering];
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
-            colonist.vfx_source.FadeOutAndStop();
+            colonist.vfx_source.StopImmediate();
         }
 
         public void Create()

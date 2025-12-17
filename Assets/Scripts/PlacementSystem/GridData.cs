@@ -78,7 +78,9 @@ namespace DefaultNamespace
         public bool CanPlaceAt(Vector3Int gridPosition, PlaceableSO placeableSo, GridData roomGridData = null)
         {
             if (GroundPos.Contains(gridPosition)) return false;
-            
+            // -35, 54, 39
+            if (gridPosition.x + placeableSo.Size.x - 1 > 54) return false;
+            if (gridPosition.y + placeableSo.Size.y - 1 > 39) return false;
             // Then check conditions
             foreach (var condition in placeableSo.PlacementConditions)
             {

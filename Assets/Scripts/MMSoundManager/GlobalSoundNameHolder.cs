@@ -113,7 +113,7 @@ public class GlobalSoundNameHolder : MonoBehaviour
 
     public static string shuffle_night_ambiences(List<string> stored_ambs = null, List<string> valid_ambs = null)
     {
-        if (stored_ambs == null || stored_ambs.Count == night_ambiences.Count) return night_ambiences[UnityEngine.Random.Range(0, night_ambiences.Count)];
+        if (stored_ambs == null || stored_ambs.Count >= night_ambiences.Count) return night_ambiences[UnityEngine.Random.Range(0, night_ambiences.Count)];
 
         // Initialize valid_ambs if null
         if (valid_ambs == null)

@@ -21,7 +21,7 @@ namespace BuildingSystem
         public override void StopShooting()
         {
             base.StopShooting();
-            _flameFX?.Stop();
+            if(_flameFX != null) _flameFX?.Stop();
         }
     }
 }

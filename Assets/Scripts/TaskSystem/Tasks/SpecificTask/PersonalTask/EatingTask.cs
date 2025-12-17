@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using BuildingSystem;
 using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.General;
@@ -59,7 +59,8 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
             colonist.AutoDecreaseStatsEnabled = true;
             _building.TransitionToIdle();
-            colonist.vfx_source.FadeOutAndStop();
+            colonist.vfx_source.StopImmediate();
+
 
         }
     }
