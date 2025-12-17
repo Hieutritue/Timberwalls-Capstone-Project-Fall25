@@ -88,6 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4151784075720056740}
   - component: {fileID: 3806545971170792673}
+  - component: {fileID: 5718874950286288415}
   m_Layer: 25
   m_Name: Visual
   m_TagString: Untagged
@@ -137,8 +138,20 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.479911, y: 1.3429046, z: 1}
-  m_Center: {x: -0.08649385, y: 0.543453, z: 0}
+  m_Size: {x: 2.4149976, y: 1.2725738, z: 0.97159284}
+  m_Center: {x: -0.07057619, y: 0.62618035, z: -0.222864}
+--- !u!114 &5718874950286288415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118112641489322707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4747966650765656107
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,8 +235,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceableSo: {fileID: 11400000, guid: 57d3bcc64a687ab439818960b715d9f0, type: 2}
   ProgressPoint: {fileID: 1583767613325616915}
+  Animator: {fileID: 0}
   Colliders: []
   ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 5718874950286288415}
   TaskType: 14
   ActionPoints:
   - {fileID: 5429779151835002649}

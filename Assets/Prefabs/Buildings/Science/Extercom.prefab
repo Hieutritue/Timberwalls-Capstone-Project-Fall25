@@ -48,7 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceableSo: {fileID: 11400000, guid: 666bf287237bd534c863ddf226da68c2, type: 2}
   ProgressPoint: {fileID: 1683094183828358989}
+  Animator: {fileID: 0}
   Colliders: []
+  ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 919960743846781686}
 --- !u!1 &5423185036183343067
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,6 +92,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8907449260627521645}
+  - component: {fileID: 4820175263685502331}
+  - component: {fileID: 919960743846781686}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -113,6 +118,39 @@ Transform:
   - {fileID: 4393368511978809704}
   m_Father: {fileID: 7431124837793529120}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &4820175263685502331
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8816218889128224069}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.6908305, y: 8.917322, z: 2.5502539}
+  m_Center: {x: -1.2229912, y: 4.182742, z: -1.1863655}
+--- !u!114 &919960743846781686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8816218889128224069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1147402686007463821
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -456,6 +456,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 139237427406099294}
+    - targetCorrespondingSourceObject: {fileID: 3492826225243069833, guid: 3f4f2054c553d14409642dd152dc7101,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7445737436898781179}
+    - targetCorrespondingSourceObject: {fileID: 3492826225243069833, guid: 3f4f2054c553d14409642dd152dc7101,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1657346920827755477}
   m_SourcePrefab: {fileID: 100100000, guid: 3f4f2054c553d14409642dd152dc7101, type: 3}
 --- !u!4 &127083833053260877 stripped
 Transform:
@@ -463,6 +471,45 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4169877612440861495}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &695633975572178622 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3492826225243069833, guid: 3f4f2054c553d14409642dd152dc7101,
+    type: 3}
+  m_PrefabInstance: {fileID: 4169877612440861495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &7445737436898781179
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695633975572178622}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9595363, y: 1.3888799, z: 1.0431827}
+  m_Center: {x: -0.012003183, y: -0.61775154, z: 0.021591485}
+--- !u!114 &1657346920827755477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695633975572178622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1845533824742808035 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2324638766337581780, guid: 3f4f2054c553d14409642dd152dc7101,
@@ -489,8 +536,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceableSo: {fileID: 11400000, guid: 0da21853c3974944ab216f8fa09e87d8, type: 2}
   ProgressPoint: {fileID: 1845533824742808035}
+  Animator: {fileID: 0}
   Colliders: []
   ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 1657346920827755477}
 --- !u!1001 &4244813225673263127
 PrefabInstance:
   m_ObjectHideFlags: 0

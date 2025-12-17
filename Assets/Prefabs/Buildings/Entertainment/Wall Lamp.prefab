@@ -199,7 +199,54 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8532335069707586140}
+    - targetCorrespondingSourceObject: {fileID: 3492826225243069833, guid: 3f4f2054c553d14409642dd152dc7101,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3196072534011928185}
+    - targetCorrespondingSourceObject: {fileID: 3492826225243069833, guid: 3f4f2054c553d14409642dd152dc7101,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5081373767306965206}
   m_SourcePrefab: {fileID: 100100000, guid: 3f4f2054c553d14409642dd152dc7101, type: 3}
+--- !u!1 &529172755457755601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3492826225243069833, guid: 3f4f2054c553d14409642dd152dc7101,
+    type: 3}
+  m_PrefabInstance: {fileID: 3976393849661019224}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &3196072534011928185
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529172755457755601}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.30690002, y: 0.8274745, z: 0.39950302}
+  m_Center: {x: 0.0013023019, y: 0.02285415, z: 0.18731147}
+--- !u!114 &5081373767306965206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529172755457755601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1095468352604095266 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4043422721566152570, guid: 3f4f2054c553d14409642dd152dc7101,
@@ -232,5 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceableSo: {fileID: 11400000, guid: a50ba85ea4c9d9b4a9ff743e8c0cf17b, type: 2}
   ProgressPoint: {fileID: 1687789412616812172}
+  Animator: {fileID: 0}
   Colliders: []
   ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 5081373767306965206}

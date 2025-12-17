@@ -1,7 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using Assets.Scripts.UI.WorldSpaceUISystem.ConstructTooltip;
 using DefaultNamespace.TaskSystem;
 using MoreMountains.Feedbacks;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace BuildingSystem
@@ -64,6 +65,17 @@ namespace BuildingSystem
                 _ => throw new ArgumentOutOfRangeException()
             };
             AddTask(task);
+        }
+
+        public override FurnitureTooltipData GetTooltipData()
+        {
+            return new ResourceGatheringTooltipData
+            {
+                Name = PlaceableSo.Name,
+                Description = PlaceableSo.Description,
+                Consumption = GatheringFurnitureSo.Consumption,
+                OutputResource = GatheringFurnitureSo.OutputResource
+            };
         }
     }
 }

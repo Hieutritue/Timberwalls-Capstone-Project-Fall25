@@ -522,6 +522,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8966198245525961298}
+    - targetCorrespondingSourceObject: {fileID: 711793323199208760, guid: 0dd16dc10b0ab41448512b2394a93cee,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5936214822520152474}
   m_SourcePrefab: {fileID: 100100000, guid: 0dd16dc10b0ab41448512b2394a93cee, type: 3}
 --- !u!4 &2739148042979723865 stripped
 Transform:
@@ -561,8 +565,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceableSo: {fileID: 11400000, guid: c12269731814d1846bd209f046a84491, type: 2}
   ProgressPoint: {fileID: 6332832324013544570}
+  Animator: {fileID: 0}
   Colliders: []
   ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 5936214822520152474}
   TaskType: 15
   ActionPoints:
   - {fileID: 5831615090032615288}
@@ -613,8 +619,20 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0136472, y: 0.60437214, z: 1}
-  m_Center: {x: -0.2747218, y: 0.23926061, z: 0}
+  m_Size: {x: 0.6770493, y: 0.56343037, z: 0.5745308}
+  m_Center: {x: -0.341574, y: 0.27537814, z: 0.21273461}
+--- !u!114 &5936214822520152474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7681020926724889363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7214936357952746680
 PrefabInstance:
   m_ObjectHideFlags: 0
