@@ -17,6 +17,14 @@ public class Typewriter : MonoBehaviour
 
         typingCoroutine = StartCoroutine(TypeText(fullText));
     }
+    
+    public void SetText(string fullText)
+    {
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        typingCoroutine = StartCoroutine(SetTextInstant(fullText));
+    }
 
     IEnumerator TypeText(string fullText)
     {
@@ -26,6 +34,12 @@ public class Typewriter : MonoBehaviour
             textUI.text += c;
             yield return new WaitForSeconds(typingSpeed);
         }
+    }
+    
+    IEnumerator SetTextInstant(string fullText)
+    {
+        textUI.text = fullText;
+        yield return null;
     }
 
     public void Clear()
