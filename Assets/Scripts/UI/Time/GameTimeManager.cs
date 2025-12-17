@@ -14,7 +14,9 @@ namespace DefaultNamespace.ScheduleSystem
         public int NightEndHour;
 
         public bool IsNight => CurrentHour <= NightEndHour && CurrentHour >= NightStartHour;
-        
+        public int HourTillNight => NightStartHour - CurrentHour;
+        public int HourLeftInNight => NightEndHour - CurrentHour;
+
         [Header("State (Read Only)")] [ReadOnly]
         public int CurrentDay = 1;
 
