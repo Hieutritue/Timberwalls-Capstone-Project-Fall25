@@ -487,6 +487,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &338353717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 338353718}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &338353718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338353717}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &346666811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1942,6 +1973,8 @@ GameObject:
   - component: {fileID: 1340022817}
   - component: {fileID: 1340022820}
   - component: {fileID: 1340022821}
+  - component: {fileID: 1340022823}
+  - component: {fileID: 1340022822}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2017,7 +2050,7 @@ Transform:
   m_GameObject: {fileID: 1340022816}
   serializedVersion: 2
   m_LocalRotation: {x: 0.12613098, y: 0.12002235, z: -0.015375221, w: 0.98460615}
-  m_LocalPosition: {x: -1.25, y: 4.93, z: -21.1}
+  m_LocalPosition: {x: 199.50256, y: -1263.3293, z: 38.689377}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2089,6 +2122,50 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1340022822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340022816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: dab2c0457bb314b4dbe0313ab90a8b74, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1340022823}
+          m_TargetAssemblyTypeName: ScreenShaker, Assembly-CSharp
+          m_MethodName: ShakeFromSignal
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1340022823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340022816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07183f3c15cf42f44a533aac50817d04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signalDuration: 1
+  signalStrength: 1
 --- !u!1001 &1367061312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2502,6 +2579,8 @@ PlayableDirector:
     value: {fileID: 1291148946}
   - key: {fileID: 6746599020425960018, guid: 2c75064d6b961fd4c838871176723682, type: 2}
     value: {fileID: 1128219756}
+  - key: {fileID: 6494489162823719677, guid: 2c75064d6b961fd4c838871176723682, type: 2}
+    value: {fileID: 1340022822}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1494860999
@@ -3150,6 +3229,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bonium Rocket
       objectReference: {fileID: 0}
+    - target: {fileID: 2981106028841012959, guid: 8e06ee2af39ceed439a4901282d56f1c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.064887516
+      objectReference: {fileID: 0}
     - target: {fileID: 3211992531794520827, guid: 8e06ee2af39ceed439a4901282d56f1c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3199,6 +3283,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6218905910570395153, guid: 8e06ee2af39ceed439a4901282d56f1c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.064887516
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3293,3 +3382,4 @@ SceneRoots:
   - {fileID: 1291148948}
   - {fileID: 1446726053}
   - {fileID: 1703680525}
+  - {fileID: 338353718}
