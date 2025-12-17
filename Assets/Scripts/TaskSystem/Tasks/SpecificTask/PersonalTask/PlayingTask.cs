@@ -1,4 +1,4 @@
-﻿using BuildingSystem;
+using BuildingSystem;
 using DefaultNamespace.TaskSystem;
 using UnityEngine;
 
@@ -43,10 +43,10 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
 
         public override void ColonistStopWork(Colonist colonist)
         {
+            colonist.vfx_source.StopImmediate();
             colonist.AutoDecreaseStatsEnabled = true;
             colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_PLAYING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_PLAYING);
-            colonist.vfx_source.FadeOutAndStop();
             _building.TransitionToIdle();
 
         }
