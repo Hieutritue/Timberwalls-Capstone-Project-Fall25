@@ -53,6 +53,7 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Colliders: []
   ContainingRoom: {fileID: 0}
+  MouseEventController: {fileID: 4504226680946985175}
   ActionPoint: {fileID: 2248197754757711357}
 --- !u!95 &3838050220966479443
 Animator:
@@ -116,6 +117,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8222118106724867982}
+  - component: {fileID: 35906303876978651}
+  - component: {fileID: 4504226680946985175}
   m_Layer: 25
   m_Name: Visual
   m_TagString: Untagged
@@ -139,6 +142,39 @@ Transform:
   - {fileID: 5116362638807578776}
   m_Father: {fileID: 8809696357080261556}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &35906303876978651
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5282203875577834104}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.0316696, y: 2.5120502, z: 4.3166738}
+  m_Center: {x: -1.5005788, y: 1.0555183, z: -2.13026}
+--- !u!114 &4504226680946985175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5282203875577834104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1415c3a4b7e084c4c8531a979aefa3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8842449921343670773
 GameObject:
   m_ObjectHideFlags: 0
