@@ -496,6 +496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 338353718}
+  - component: {fileID: 338353719}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -511,13 +512,36 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338353717}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.12613072, y: -0.12002236, z: 0.015375188, w: -0.9846062}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1340022819}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 374.6, y: 13.9, z: 0}
+--- !u!95 &338353719
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338353717}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &346666811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2049,13 +2073,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1340022816}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12613098, y: 0.12002235, z: -0.015375221, w: 0.98460615}
-  m_LocalPosition: {x: 199.50256, y: -1263.3293, z: 38.689377}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 359.9, y: -0.00002007839, z: 0.000005404234}
+  m_Father: {fileID: 338353718}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1340022820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2552,7 +2576,7 @@ PlayableDirector:
   - key: {fileID: 0}
     value: {fileID: 1714416710}
   - key: {fileID: -653413655228940047, guid: 2c75064d6b961fd4c838871176723682, type: 2}
-    value: {fileID: 1340022821}
+    value: {fileID: 338353719}
   - key: {fileID: -6758468383540225660, guid: 2c75064d6b961fd4c838871176723682, type: 2}
     value: {fileID: 758425411}
   - key: {fileID: -2959094443660156199, guid: 2c75064d6b961fd4c838871176723682, type: 2}
@@ -3366,7 +3390,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1340022819}
   - {fileID: 2007849972}
   - {fileID: 1494860999}
   - {fileID: 3662736434580974996}
