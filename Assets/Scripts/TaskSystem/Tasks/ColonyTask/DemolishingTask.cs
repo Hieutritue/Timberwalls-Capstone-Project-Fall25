@@ -46,7 +46,7 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_WORKING);
             colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
-            colonist.vfx_source.FadeOutAndStop();
+            colonist.vfx_source.StopImmediate();
         }
     }
 }

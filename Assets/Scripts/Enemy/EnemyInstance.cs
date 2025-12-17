@@ -15,7 +15,7 @@ namespace DefaultNamespace.Enemy
 
         [SerializeField] private Animator _animator; // ← NEW OPTIONAL SUPPORT
         [SerializeField] private MMF_Player _hurtFeedback;
-
+        [SerializeField] private GameObject _pooPrefab;
         public SO.EnemySo EnemySo => _enemySo;
 
         [field: SerializeField] public float CurrentHealth { get; private set; }
@@ -66,7 +66,8 @@ namespace DefaultNamespace.Enemy
             _attackCooldown = AttackCooldown;
 
             _shieldSystem = ShieldSystem.ShieldSystem.Instance;
-            SetTarget(true);
+            // SetTarget(true);
+            OnDeath += Poo;
         }
 
         private void OnDisable()
@@ -168,13 +169,25 @@ namespace DefaultNamespace.Enemy
         {
             if (other.gameObject.CompareTag("Bound"))
             {
+                OnDeath -= Poo;
                 Die();
             }
         }
 
+        private void Poo(EnemyInstance enemyInstance)
+        {
+            var poop = Instantiate(_pooPrefab, transform);
+            poop.transform.position = transform.position;
+            poop.transform.SetParent(null);
+        }
+
+        public Action<EnemyInstance> OnDeath;
+
         private void Die()
         {
-            ObjectPoolManager.Instance.Release(gameObject);
+            OnDeath?.Invoke(this);
+            
+            Destroy(gameObject);
         }
     }
 }

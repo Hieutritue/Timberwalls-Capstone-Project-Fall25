@@ -9,7 +9,7 @@ namespace DefaultNamespace.ScheduleSystem
         {
             sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_2, fadeIn:false, fadeOut:false, crossfade:false); //sound
             // set time scale
-            GameTimeManager.Instance.SetTimeScale(timeScale);
+            Time.timeScale = timeScale;
         }   
     }
 }

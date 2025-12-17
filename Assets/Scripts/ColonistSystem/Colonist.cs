@@ -9,6 +9,7 @@ using DefaultNamespace.ColonistSystem.UI;
 using DefaultNamespace.General;
 using DefaultNamespace.NotificationSystem;
 using DefaultNamespace.TaskSystem;
+using MoreMountains.Feedbacks;
 using Pathfinding;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
@@ -304,5 +305,18 @@ public class Colonist : MonoBehaviour
     {
         OnStatChanged += CheckAffliction;
     }
-    
+
+    public void Die()
+    {
+        ColonistManager.Instance.RemoveColonist(this);
+        
+        var colonistExiledFeedback = FeedbackManager.Instance.ColonistExiledFeedback;
+        var particleInstantiation = colonistExiledFeedback?.GetFeedbackOfType<MMF_ParticlesInstantiation>();
+        if (particleInstantiation != null) particleInstantiation.InstantiateParticlesPosition = transform;
+        colonistExiledFeedback?.PlayFeedbacks();
+        
+        NotificationSystem.Instance.RemoveNotification(this, NotificationType.Affliction);
+        
+        Destroy(gameObject);
+    }
 }

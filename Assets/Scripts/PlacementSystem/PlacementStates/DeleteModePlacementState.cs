@@ -3,6 +3,7 @@ using _Scripts.StateMachine;
 using BuildingSystem;
 using DefaultNamespace.PlaceableInstances;
 using DefaultNamespace.TaskSystem;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -54,7 +55,14 @@ namespace DefaultNamespace.PlacementStates
                     roomPlaceableInstance.ContainedItems.ForEach(i =>
                         ResourceManager.Instance.RefundResourcesForPlaceable(i.PlaceableSo));
                 }
+                
+                var buildingConstructed = FeedbackManager.Instance.BuildingConstructedFeedback;
+                var particleInstantiation = buildingConstructed?.GetFeedbackOfType<MMF_ParticlesInstantiation>();
+                if (particleInstantiation != null) particleInstantiation.InstantiateParticlesPosition = building.ProgressPoint;
+                buildingConstructed?.PlayFeedbacks();
 
+                if(building is Extercom extercom) extercom.RemoveContactPoint();
+                
                 CheckRemoval(placeableInstance);
                 gridData.RemovePlaceableInstanceOccupiedAt(gridPosition);
             };

@@ -28,6 +28,11 @@ namespace DefaultNamespace.ColonistSystem
                 UIManager.Instance.UpdatePopulationText(Colonists.Count, _maxColonistCount);
             };
 
+            OnColonistRemoved += colonist =>
+            {
+                UIManager.Instance.UpdatePopulationText(Colonists.Count, _maxColonistCount);
+            };
+
             TaskPriorityMatrix.Instance.Setup();
             ScheduleMenu.Instance.Setup();
             UIManager.Instance.UpdatePopulationText(Colonists.Count, _maxColonistCount);

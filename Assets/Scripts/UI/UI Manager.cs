@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIManager : MonoSingleton<UIManager>
 {
@@ -24,10 +25,21 @@ public class UIManager : MonoSingleton<UIManager>
 
     //Sound implementation
     [SerializeField] private SoundSource sfxSource;
+    [SerializeField] private Button _idleButton;
+    [SerializeField] private Button[] _timeButtons;
     
     private void Start()
     {
         InputManager.Instance.OnMouseLeftClick += LeftClickNotOnUI;
+    }
+
+    public void InvokeTimeButtonOnClick(int time)
+    {
+        _timeButtons[time].onClick.Invoke();
+    }
+    public void InvokeIdleButtonOnClick()
+    {
+        _idleButton.onClick.Invoke();
     }
     
     private void LeftClickNotOnUI()
