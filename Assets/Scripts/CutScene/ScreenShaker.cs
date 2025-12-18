@@ -55,4 +55,15 @@ public class ScreenShaker : MonoBehaviour
             maxStrength
         );
     }
+    
+    public void ShakeFromSignal2()
+    {
+        baseLocalPos = transform.localPosition;
+
+        shakeTimer = Mathf.Max(shakeTimer, 12);
+        currentStrength = Mathf.Min(
+            currentStrength + signalStrength,
+            maxStrength
+        );
+    }
 }
