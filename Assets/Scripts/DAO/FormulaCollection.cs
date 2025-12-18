@@ -5,9 +5,11 @@ namespace DefaultNamespace.General
 {
     public static class FormulaCollection
     {
+        private static float _globalSkillMultiplier = 0.1f;
+
         public static float ProgressPerFrameBasedOnSkillLevel(float baseTime, int skillLevel, float taskCompletionMultiplier)
         {
-            return baseTime * (1 - skillLevel * 0.05f) * (1 / taskCompletionMultiplier);
+            return baseTime * (1 - skillLevel * _globalSkillMultiplier) * (1 / taskCompletionMultiplier);
         }
         
         public static float GetRateOfDecrease(float baseRate, float laborMultiplier, float roomMultiplier, float afflictionMultiplier)
@@ -22,12 +24,12 @@ namespace DefaultNamespace.General
         
         public static float GetFireRate(float baseFireRate, int skillLevel)
         {
-            return baseFireRate * (1 + skillLevel * 0.05f);
+            return baseFireRate * (1 + skillLevel * _globalSkillMultiplier);
         }
         
         public static float GetTurretRotationSpeed(float baseSpeed, int skillLevel)
         {
-            return baseSpeed * (1 + skillLevel * 0.05f);
+            return baseSpeed * (1 + skillLevel * _globalSkillMultiplier);
         }
         
         public static float GetShieldRecoveryRate(float baseRecoveryRate, int totalEngineeringSkill)
