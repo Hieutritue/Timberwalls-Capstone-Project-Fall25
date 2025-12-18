@@ -84,6 +84,7 @@ public class ConstructTooltipManager : MonoSingleton<ConstructTooltipManager>
             data.Name,
             data.Description,
             "",
+            "",
             ""
         );
     }
@@ -91,6 +92,8 @@ public class ConstructTooltipManager : MonoSingleton<ConstructTooltipManager>
     private void ShowResourceGathering(ResourceGatheringTooltipData data)
     {
         bool isActive = true;
+
+        string taskType = data.TaskType.ToString();
 
         string consumptionText = "None";
         if (data.Consumption != null && data.Consumption.Count > 0)
@@ -135,6 +138,7 @@ public class ConstructTooltipManager : MonoSingleton<ConstructTooltipManager>
 
         constructTooltip.SetText(
             data.Name,
+            $"Task type: {taskType}",
             $"Consumes: {consumptionText}",
             $"Produces: {productionText}",
             statusText

@@ -73,6 +73,7 @@ namespace BuildingSystem
             {
                 Name = PlaceableSo.Name,
                 Description = PlaceableSo.Description,
+                TaskType = GatheringFurnitureSo.TaskType,
                 Consumption = GatheringFurnitureSo.Consumption,
                 OutputResource = GatheringFurnitureSo.OutputResource
             };
