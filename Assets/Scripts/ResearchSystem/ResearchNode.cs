@@ -130,6 +130,7 @@ public class ResearchNode : MonoBehaviour
     {
         if (ResearchManager.Instance.Unlock(research))
         {
+            FeedbackManager.Instance.ResearchFeedback.PlayFeedbacks();
             if (ResourceManager.Instance != null)
                 ResourceManager.Instance.OnResourceChanged -= HandleResourceChanged;
             ResearchManager.Instance.UpdateNodeVisuals();

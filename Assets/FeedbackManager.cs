@@ -11,8 +11,6 @@ public class FeedbackManager : MonoSingleton<FeedbackManager>
     public MMF_Player ButtonClickSmallFeedback;
     public MMF_Player BuildingPlacedFeedback;
     public MMF_Player CancelFeedback;
-    public void PlayParticleFeebackAt(Transform transform)
-    {
-        
-    }
+    public MMF_Player ResearchFeedback;
+    public MMF_Player ColonistDieFeedback;
 }
