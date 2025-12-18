@@ -4,46 +4,56 @@ using System.Collections;
 public class ScreenShakerSecond : MonoBehaviour
 {
     [Header("Signal Shake Settings")]
-    [Tooltip("Shake duration when triggered by Timeline Signal")]
-    public float signalDuration = 0.3f;
+    [Tooltip("Duration added per signal")]
+    public float signalDuration = 0.25f;
 
-    [Tooltip("Shake strength when triggered by Timeline Signal")]
-    public float signalStrength = 0.65f;
+    [Tooltip("Strength added per signal")]
+    public float signalStrength = 0.1f;
 
-    private Vector3 originalLocalPos;
-    private Coroutine shakeCoroutine;
-    
-    public void ShakeFromSignal()
+    [Tooltip("Maximum allowed shake strength")]
+    public float maxStrength = 0.35f;
+
+    private Vector3 baseLocalPos;
+    private float shakeTimer;
+    private float currentStrength;
+
+    void Awake()
     {
-        Shake(signalDuration, signalStrength);
-    }
-    void Shake(float duration, float strength)
-    {
-        if (shakeCoroutine != null)
-            StopCoroutine(shakeCoroutine);
-
-        originalLocalPos = transform.localPosition;
-        shakeCoroutine = StartCoroutine(ShakeRoutine(duration, strength));
+        baseLocalPos = transform.localPosition;
     }
 
-    IEnumerator ShakeRoutine(float duration, float strength)
+    void LateUpdate()
     {
-        float elapsed = 0f;
-
-        while (elapsed < duration)
+        if (shakeTimer > 0f)
         {
-            Vector3 randomOffset = new Vector3(
+            Vector3 offset = new Vector3(
                 Random.Range(-1f, 1f),
                 Random.Range(-1f, 1f),
                 0f
-            ) * strength;
+            ) * currentStrength;
 
-            transform.localPosition = originalLocalPos + randomOffset;
+            transform.localPosition = baseLocalPos + offset;
 
-            elapsed += Time.deltaTime;
-            yield return null;
+            shakeTimer -= Time.deltaTime;
         }
+        else
+        {
+            transform.localPosition = baseLocalPos;
+            currentStrength = 0f;
+        }
+    }
 
-        transform.localPosition = originalLocalPos;
+    /// <summary>
+    /// Parameterless method for Timeline Signal Receiver
+    /// </summary>
+    public void ShakeFromSignal()
+    {
+        baseLocalPos = transform.localPosition;
+
+        shakeTimer = Mathf.Max(shakeTimer, signalDuration);
+        currentStrength = Mathf.Min(
+            currentStrength + signalStrength,
+            maxStrength
+        );
     }
 }
