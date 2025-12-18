@@ -34,6 +34,7 @@ namespace DefaultNamespace.TaskSystem
         
         public void IncreasePriority()
         {
+            FeedbackManager.Instance.ButtonClickSmallFeedback.PlayFeedbacks();
             PriorityLevel++;
         }
     }

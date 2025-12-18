@@ -25,6 +25,7 @@ namespace DefaultNamespace.UI.Build
             _iconImage.sprite = placeable.Icon;
             _button.onClick.AddListener(() =>
             {
+                FeedbackManager.Instance.ButtonClickFeedback.PlayFeedbacks();
                 BuildingSystemManager.Instance.PlacementSystem.EnterPlacementMode(placeable);
             });
             RegisterResourceEvents();

@@ -15,6 +15,7 @@ public class ScheduleInfo : MonoBehaviour
 
     void OnButtonClick()
     {
+        FeedbackManager.Instance.ButtonClickSmallFeedback.PlayFeedbacks();
         ScheduleMenu.SelectSchedule(this);
     }
 }
