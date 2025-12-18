@@ -16,4 +16,9 @@ public class GameManager : MonoSingleton<GameManager>
         
         SceneManager.LoadScene(sceneName);
     }
+
+    public void Win()
+    {
+        throw new System.NotImplementedException();
+    }
 }

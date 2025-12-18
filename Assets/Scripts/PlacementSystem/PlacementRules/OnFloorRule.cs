@@ -20,15 +20,16 @@ namespace DefaultNamespace.PlacementRules
             var rightBelowPos = new Vector3Int(_gridPosition.x + _objectSize.x - 1, _gridPosition.y, _gridPosition.z);
             // room instance
             var placeableInstance = gridData.GetPlaceableInstanceAt(belowPos);
-            
-            if (!placeableInstance || placeableInstance.PlaceableSo.Size.y < _objectSize.y || placeableInstance.PlaceableSo.IsStair)
+
+            if (!placeableInstance || placeableInstance.PlaceableSo.Size.y < _objectSize.y ||
+                placeableInstance.PlaceableSo.IsStair || placeableInstance.PlaceableSo.Size.x == 20)
             {
                 return false;
             }
-            
+
             var floorOfInstanceContainingBelowPos = placeableInstance?.GetFloorCells();
 
-            return floorOfInstanceContainingBelowPos != null 
+            return floorOfInstanceContainingBelowPos != null
                    && floorOfInstanceContainingBelowPos.Contains(belowPos)
                    && floorOfInstanceContainingBelowPos.Contains(rightBelowPos)
                    && !placeableInstance.Building.IsUnderConstruction();

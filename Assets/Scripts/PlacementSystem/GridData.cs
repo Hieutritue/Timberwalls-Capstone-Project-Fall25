@@ -118,6 +118,16 @@ namespace DefaultNamespace
                         if (rule6.IsValid(roomGridData))
                             return false;
                         break;
+                    case PlacementConditionType.Rocket:
+                        var rule7 = new RocketRule(gridPosition);
+                        if (!rule7.IsValid(roomGridData))
+                            return false;
+                        break;
+                    case PlacementConditionType.BatteryEngine:
+                        var rule8 = new BatteryEngineRule(gridPosition);
+                        if (!rule8.IsValid(roomGridData))
+                            return false;
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

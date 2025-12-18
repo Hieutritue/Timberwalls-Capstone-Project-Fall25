@@ -15,5 +15,7 @@ public enum PlacementConditionType
     OnEdge,
     NotOnEdge,
     OnCeiling,
-    StairRule
+    StairRule,
+    Rocket,
+    BatteryEngine
 }
