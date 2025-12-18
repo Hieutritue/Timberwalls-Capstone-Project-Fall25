@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using _Scripts.StateMachine;
@@ -13,7 +14,7 @@ namespace BuildingSystem
 {
     public class Room : Building
     {
-        private RoomPlaceableInstance _roomPlaceableInstance;
+        protected RoomPlaceableInstance _roomPlaceableInstance;
         [ReadOnly] public SpecificRoomSo CurrentSpecificRoomSo;
         [SerializeField] private List<SpecificRoomModel> _specificRoomModels;
 
@@ -32,7 +33,19 @@ namespace BuildingSystem
 
         private void EvaluateRoomSpecifics()
         {
+            StartCoroutine(DelayCheckRoomFurniture());
             _specificRoomModels.ForEach(CheckRoomRequirements);
+        }
+
+        IEnumerator DelayCheckRoomFurniture()
+        {
+            yield return new WaitForSeconds(1);
+            CheckRoomFurniture();
+        }
+
+        public virtual void CheckRoomFurniture()
+        {
+            
         }
 
         private void CheckRoomRequirements(SpecificRoomModel r)
