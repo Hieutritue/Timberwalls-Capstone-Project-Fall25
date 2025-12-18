@@ -39,6 +39,8 @@ namespace DefaultNamespace.PlacementStates
 
                 if (_building)
                 {
+                    if (_building.PlaceableSo.Type == PlaceableType.Room)
+                        LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Room"));
                     LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Building"));
                 }
 
@@ -49,12 +51,16 @@ namespace DefaultNamespace.PlacementStates
 
                 _building = building;
                 if (!building.IsUnderConstruction() && !building.IsDemolishing()) return;
+                if (_building.PlaceableSo.Type == PlaceableType.Room)
+                    LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("HoveringRoom"));
                 LayerUtils.SetLayerRecursively(building.gameObject, LayerMask.NameToLayer("HoveringBuilding"));
             }
             else
             {
                 if (_building)
                 {
+                    if (_building.PlaceableSo.Type == PlaceableType.Room)
+                        LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Room"));
                     LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Building"));
                     _building = null;
                 }
@@ -72,7 +78,7 @@ namespace DefaultNamespace.PlacementStates
                     QueryTriggerInteraction.Collide))
             {
                 Building building = hit.collider.GetComponentInParent<Building>();
-                
+
                 if (!building) return;
 
                 if (building.IsDemolishing())
@@ -91,11 +97,12 @@ namespace DefaultNamespace.PlacementStates
 
                     if (placeableInstance is FurniturePlaceableInstance furniturePlaceableInstance)
                     {
-                        furniturePlaceableInstance.ContainingRoomPlaceable.RemoveItemFromRoom(furniturePlaceableInstance);
+                        furniturePlaceableInstance.ContainingRoomPlaceable.RemoveItemFromRoom(
+                            furniturePlaceableInstance);
                     }
-                    
+
                     FeedbackManager.Instance.CancelFeedback.PlayFeedbacks();
-                    
+
                     Object.Destroy(building.gameObject);
                     Debug.Log($"Deleted object: {hit.collider.name}");
                 }
@@ -108,6 +115,8 @@ namespace DefaultNamespace.PlacementStates
             // InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
             if (_building)
             {
+                if (_building.PlaceableSo.Type == PlaceableType.Room)
+                    LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Room"));
                 LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Building"));
                 _building = null;
             }
