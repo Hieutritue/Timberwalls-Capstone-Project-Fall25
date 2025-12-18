@@ -19,6 +19,7 @@ public class CategoryButton : MonoBehaviour
 
     private void OnClick()
     {
+        FeedbackManager.Instance.ButtonClickFeedback.PlayFeedbacks();
         menuManager.OnClickCategory(this);
     }
 

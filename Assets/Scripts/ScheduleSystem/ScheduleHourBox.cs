@@ -20,6 +20,7 @@ namespace DefaultNamespace.ScheduleSystem
 
         private void OnButtonClick()
         {
+            FeedbackManager.Instance.ButtonClickSmallFeedback.PlayFeedbacks();
             ScheduleMenu.Instance.SetScheduleBox(this);
         }
 

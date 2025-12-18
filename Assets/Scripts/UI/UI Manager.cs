@@ -23,8 +23,6 @@ public class UIManager : MonoSingleton<UIManager>
 
     [SerializeField] private UnityEvent _onLeftClickNotOnUI;
 
-    //Sound implementation
-    [SerializeField] private SoundSource sfxSource;
     [SerializeField] private Button _idleButton;
     [SerializeField] private Button[] _timeButtons;
     
@@ -60,13 +58,11 @@ public class UIManager : MonoSingleton<UIManager>
     public void OnBuildingPressed()
     {
         CheckAndOpenUIContainer(buildingMenu);
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
 
     public void OnViewNPCDetail(Colonist colonist)
     {
         OpenColonistDetail(colonist);
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
 
     public void OnExitSchedule()
@@ -78,59 +74,49 @@ public class UIManager : MonoSingleton<UIManager>
         else
         {
             scheduleMenu.SetActive(false);
-            sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
         }
     }
 
     public void OnSchedulePressed()
     {
         CheckAndOpenUIContainer(scheduleMenu);
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
     public void OnResearchPressed()
     {
         CheckAndOpenUIContainer(researchPage);
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
     public void OnNormalSpeedPressed()
     {
         Time.timeScale = normalSpeedValue;
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
     public void OnSpeedUpPressed()
     {
         Time.timeScale = spedUpSpeedValue;
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
     
     public void OnFurtherSpeedUpPressed()
     {
         Time.timeScale = furtherSpedUpSpeedValue;
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
     
     public void OnCancelPressed()
     {
         BuildingSystemManager.Instance.PlacementSystem.EnterCancelMode();
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
     
     public void OnDemolishRoomPressed()
     {
         BuildingSystemManager.Instance.PlacementSystem.EnterDeleteMode(PlaceableType.Room);
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
     
     public void OnDemolishFurniturePressed()
     {
         BuildingSystemManager.Instance.PlacementSystem.EnterDeleteMode(PlaceableType.Furniture);
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
     
     public void OnPriorityPressed()
     {
         CheckAndOpenUIContainer(priorityMatrix);
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
     
     public void OnPriorityExitPressed()
@@ -142,14 +128,12 @@ public class UIManager : MonoSingleton<UIManager>
         else
         {
             priorityMatrix.SetActive(false);
-            sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
         }
     }
     
     public void OnIdleModePressed()
     {
         BuildingSystemManager.Instance.PlacementSystem.TransitionToIdleState();
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
     private void CheckAndOpenUIContainer(GameObject UIContainer)
     {
@@ -160,12 +144,10 @@ public class UIManager : MonoSingleton<UIManager>
         else if (UIContainer != null &&  !UIContainer.activeInHierarchy)
         {
             UIContainer.SetActive(true);
-            sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
         }
         else
         {   
             UIContainer.SetActive(false);
-            sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
         }
     }
 
@@ -183,7 +165,6 @@ public class UIManager : MonoSingleton<UIManager>
         }
         colonistDetailPanel.SetActive(true);
         loadColonistInfo(colonist);
-        sfxSource.Play(GlobalSoundNameHolder.UI_clicking_sound_3, fadeIn:false, fadeOut:false, crossfade:false);
     }
 
     private void loadColonistInfo(Colonist colonist)

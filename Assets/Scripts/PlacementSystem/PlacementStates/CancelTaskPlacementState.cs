@@ -79,6 +79,7 @@ namespace DefaultNamespace.PlacementStates
                 {
                     building.ActiveTasks.FirstOrDefault(t => t is DemolishingTask)?.RemoveTask();
                     building.TransitionToIdle();
+                    FeedbackManager.Instance.CancelFeedback.PlayFeedbacks();
                 }
 
                 else if (building.IsUnderConstruction())
@@ -92,6 +93,8 @@ namespace DefaultNamespace.PlacementStates
                     {
                         furniturePlaceableInstance.ContainingRoomPlaceable.RemoveItemFromRoom(furniturePlaceableInstance);
                     }
+                    
+                    FeedbackManager.Instance.CancelFeedback.PlayFeedbacks();
                     
                     Object.Destroy(building.gameObject);
                     Debug.Log($"Deleted object: {hit.collider.name}");

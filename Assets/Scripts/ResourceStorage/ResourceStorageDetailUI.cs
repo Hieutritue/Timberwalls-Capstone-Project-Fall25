@@ -33,6 +33,7 @@ namespace ResourceSystem.Storage
 
         public void IncreaseMaxAmount()
         {
+            FeedbackManager.Instance.ButtonClickSmallFeedback.PlayFeedbacks();
             int delta = 1;
             delta = IsCtrlHeld() ? 10 : delta;
             delta = IsShiftHeld() ? 100 : delta;
@@ -41,6 +42,7 @@ namespace ResourceSystem.Storage
 
         public void DecreaseMaxAmount()
         {
+            FeedbackManager.Instance.ButtonClickSmallFeedback.PlayFeedbacks();
             int delta = 1;
             delta = IsCtrlHeld() ? 10 : delta;
             delta = IsShiftHeld() ? 100 : delta;
