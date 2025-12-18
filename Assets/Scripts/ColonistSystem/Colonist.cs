@@ -59,6 +59,11 @@ public class Colonist : MonoBehaviour
         }
     }
 
+    private void CheckHealth(StatType statType, float value)
+    {
+        if (statType == StatType.Health && value == 0) Die();
+    }
+
     private void Start()
     {
         animator = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
@@ -66,6 +71,7 @@ public class Colonist : MonoBehaviour
         InitStateMachine();
         RegisterAfflictionChanges();
         MouseEventController.Setup(this);
+        OnStatChanged += CheckHealth;
     }
 
     private float _timerToCheckState = 0f;
