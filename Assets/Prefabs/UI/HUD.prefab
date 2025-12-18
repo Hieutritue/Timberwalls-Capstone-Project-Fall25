@@ -4984,17 +4984,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4920058852229256103}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 588176155162516625}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: InvokeTimeButtonOnClick
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &4807468301959960064
 GameObject:
@@ -15848,6 +15860,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2316472241649494977, guid: 19c888d9352c7a549866f2815713b714,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00005209446
+      objectReference: {fileID: 0}
     - target: {fileID: 2509780511773833918, guid: 19c888d9352c7a549866f2815713b714,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -25029,6 +25046,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Resource
       objectReference: {fileID: 0}
+    - target: {fileID: 2629610075386327566, guid: af408eb5c8c66b441bcbe8c0148033f6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000015258789
+      objectReference: {fileID: 0}
     - target: {fileID: 2855053261366674728, guid: af408eb5c8c66b441bcbe8c0148033f6,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -25343,6 +25365,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8018101513460230954, guid: af408eb5c8c66b441bcbe8c0148033f6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00008392334
       objectReference: {fileID: 0}
     - target: {fileID: 8563242967295042717, guid: af408eb5c8c66b441bcbe8c0148033f6,
         type: 3}
@@ -30011,8 +30038,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  allowRightMousePan: 1
-  allowMiddleMousePan: 0
 --- !u!114 &5833071292206765695 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 601285546977444008, guid: 92baf980165d9fb41b4451077093ec7d,
