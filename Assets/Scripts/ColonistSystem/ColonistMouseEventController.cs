@@ -23,6 +23,7 @@ namespace DefaultNamespace.ColonistSystem
 
         public void OpenPanelDetail()
         {
+            FeedbackManager.Instance.ButtonClickSmallFeedback.PlayFeedbacks();
             ColonistDetailPanel.Instance.ClosePanel();
             ColonistDetailPanel.Instance.OpenPanel(_colonist);
 
