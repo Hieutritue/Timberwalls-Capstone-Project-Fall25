@@ -66,8 +66,8 @@ public class ResearchTooltipManager : MonoSingleton<ResearchTooltipManager>
         }
 
         string header = $"{research.researchName}";
-        string body1 = $"- Description: {research.description}";
-        string body2 = $"- Unlocks: {unlocks}";
+        string body1 = $"{research.description}";
+        string body2 = $"Unlocks: {unlocks}";
 
         researchTooltip.ShowTooltip(header, body1, body2);
     }
@@ -81,8 +81,8 @@ public class ResearchTooltipManager : MonoSingleton<ResearchTooltipManager>
         }
 
         string header = $"{construct.Name}";
-        string body1 = $"- Description: {construct.Description}";
-        string body2 = $"- Construction costs: {constructionCosts}";
+        string body1 = $"{construct.Description}";
+        string body2 = $"Construction costs: {constructionCosts}";
 
         researchTooltip.ShowTooltip(header, body1, "");
     }
