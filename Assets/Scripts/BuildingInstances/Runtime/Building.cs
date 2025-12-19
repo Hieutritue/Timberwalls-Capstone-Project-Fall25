@@ -128,6 +128,11 @@ namespace BuildingSystem
         {
             OnDemolished?.Invoke();
         }
+
+        public bool IsFurnitureActive()
+        {
+            return 
+        }
     }
 
     public static class BuildingAnimationString
