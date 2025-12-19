@@ -46,7 +46,7 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
             colonist.animator.ResetTrigger(ColonistAnimationString.SELF_CARING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
             colonist.vfx_source.StopImmediate();
-            if (_building.IsFurnitureActive())
+            if (!_building.IsFurnitureActive())
             _building.TransitionToIdle();
         }
 

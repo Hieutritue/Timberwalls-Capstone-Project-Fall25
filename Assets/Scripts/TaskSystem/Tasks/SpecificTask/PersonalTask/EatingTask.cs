@@ -59,7 +59,7 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
             colonist.AutoDecreaseStatsEnabled = true;
             colonist.vfx_source.StopImmediate();
-            if (_building.IsFurnitureActive())
+            if (!_building.IsFurnitureActive())
             _building.TransitionToIdle();
         }
     }

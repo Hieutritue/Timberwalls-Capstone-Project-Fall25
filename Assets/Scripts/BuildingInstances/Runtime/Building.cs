@@ -131,7 +131,7 @@ namespace BuildingSystem
 
         public bool IsFurnitureActive()
         {
-            return 
+            return ActiveTasks.Any(t => t is APersonalActionTask && t.AssignedColonist != null);
         }
     }
 
