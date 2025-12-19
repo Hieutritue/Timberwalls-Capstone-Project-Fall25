@@ -23,6 +23,8 @@ namespace DefaultNamespace.ColonistSystem
 
         public void OpenPanelDetail()
         {
+            if(_colonist == ColonistDetailPanel.Instance.Colonist) return;
+            
             FeedbackManager.Instance.ButtonClickSmallFeedback.PlayFeedbacks();
             ColonistDetailPanel.Instance.ClosePanel();
             ColonistDetailPanel.Instance.OpenPanel(_colonist);

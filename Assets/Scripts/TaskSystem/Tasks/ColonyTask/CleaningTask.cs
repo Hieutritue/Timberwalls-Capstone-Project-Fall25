@@ -3,6 +3,7 @@ using BuildingSystem;
 using BuildingSystem.CleanObjects;
 using DefaultNamespace.ColonistSystem;
 using DefaultNamespace.General;
+using MoreMountains.Feedbacks;
 using ResourceSystem;
 using UnityEngine;
 
@@ -50,6 +51,11 @@ namespace DefaultNamespace.TaskSystem
         public override void RewardComplete()
         {
             ResourceManager.Instance.Set(ResourceType.Biomass, ResourceManager.Instance.Get(ResourceType.Biomass) + 10);
+            var resourceGatheredFeedback = FeedbackManager.Instance.ResourceGatheredFeedback;
+            var floatingText = resourceGatheredFeedback.GetFeedbackOfType<MMF_FloatingText>();
+            floatingText.TargetTransform = CleanableObject.CleanPoint;
+            floatingText.Value = $"+ 10 Biomas";
+            resourceGatheredFeedback.PlayFeedbacks();
             if (CleanableObject is MonoBehaviour mb)
             {
                 UnityEngine.Object.Destroy(mb.gameObject);
