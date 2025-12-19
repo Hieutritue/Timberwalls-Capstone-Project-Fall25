@@ -111,7 +111,8 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
             colonist.vfx_source.StopImmediate();
-            Building.Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
+            if (Building.Animator)
+                Building.Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
         }
     }
 
@@ -164,7 +165,7 @@ namespace DefaultNamespace.TaskSystem
             { HIGH_TEMP_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
             { POLYMER_PRESS, ColonistAnimationString.PRESSING_BUTTON },
             { MED_X, ColonistAnimationString.TYPING },
-            { RESEARCH_MACHINE, ColonistAnimationString.TYPING},
+            { RESEARCH_MACHINE, ColonistAnimationString.TYPING },
             { SUPER_RESEARCH_MACHINE, ColonistAnimationString.TYPING },
             { SUPER_DUPER_RESEARCH_MACHINE, ColonistAnimationString.TYPING },
             { COPPER_FURNACE, ColonistAnimationString.PRESSING_BUTTON },
@@ -177,7 +178,7 @@ namespace DefaultNamespace.TaskSystem
             { NIOBIUM_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { COPPER_MINE, ColonistAnimationString.BREAKING_RESOURCE },
             { IRON_MINE, ColonistAnimationString.BREAKING_RESOURCE },
-            { WOOD_FARM, ColonistAnimationString.CHOPPING},
+            { WOOD_FARM, ColonistAnimationString.CHOPPING },
 
             //cooking anim
             { ELECTRIC_STOVE, ColonistAnimationString.COOKING },
@@ -212,6 +213,7 @@ namespace DefaultNamespace.TaskSystem
         }
     }
 }
+
 public static class ColonistAnimationString
 {
     public readonly static string IS_WALKING = "IsWalking";
@@ -221,11 +223,11 @@ public static class ColonistAnimationString
     public readonly static string EXIT_PLAYING = "ExitPlaying";
     public readonly static string SELF_CARING = "SelfCaring";
     public readonly static string EXIT_SELF_CARING = "ExitSelfCaring";
-    
+
     public readonly static string FURNITURE_WORK = "FurnitureWork";
     public readonly static string BUILDING_WORK = "BuildingWork";
     public readonly static string BREAKING_WORK = "BreakingWork";
-    
+
     public readonly static string FEEDING_CHICKEN = "FeedingChicken";
     public readonly static string CARRYING_BIG_OBJECT = "CarryingBigObject";
     public readonly static string TYPING = "Typing";
@@ -247,5 +249,4 @@ public static class ColonistAnimationString
     public readonly static string SIT_POOPING = "SitPooping";
     public readonly static string SPINNING = "Spinning";
     public readonly static string CHOPPING = "Chopping";
-
 }

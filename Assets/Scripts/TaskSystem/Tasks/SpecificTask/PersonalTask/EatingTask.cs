@@ -30,16 +30,17 @@ namespace DefaultNamespace.TaskSystem
                 colonist.animator.ResetTrigger(animString);
                 colonist.animator.SetTrigger(animString);
                 colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
-
             }
             else
             {
                 Debug.LogWarning("No Anim String Found For" + tag);
             }
+
             _building.TransitionToWorking();
         }
 
-        protected override void SetStat(Colonist colonist, KeyValuePair<StatType, float> effect, float furnitureMultiplier, float roomMultiplier)
+        protected override void SetStat(Colonist colonist, KeyValuePair<StatType, float> effect,
+            float furnitureMultiplier, float roomMultiplier)
         {
             var isEnoughCookedFood = effect.Value <= ResourceManager.Instance.Get(ResourceType.CookedFood);
             if (!isEnoughCookedFood) return;
@@ -48,7 +49,8 @@ namespace DefaultNamespace.TaskSystem
             base.SetStat(colonist, effect, furnitureMultiplier, roomMultiplier);
         }
 
-        public EatingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint, taskType)
+        public EatingTask(Building building, Transform actionPoint, TaskType taskType) : base(building, actionPoint,
+            taskType)
         {
         }
 
@@ -60,7 +62,7 @@ namespace DefaultNamespace.TaskSystem
             colonist.AutoDecreaseStatsEnabled = true;
             colonist.vfx_source.StopImmediate();
             if (!_building.IsFurnitureActive())
-            _building.TransitionToIdle();
+                _building.TransitionToIdle();
         }
     }
 }
