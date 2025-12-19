@@ -26,8 +26,8 @@ namespace DefaultNamespace.ColonistSystem.States
 
         public override void Exit()
         {
-            _currentTask?.ColonistStopWork(_behaviour);
             if (_currentTask != null) _currentTask.AssignedColonist = null;
+            _currentTask?.ColonistStopWork(_behaviour);
             // _behaviour.AiDestinationSetter.enabled = true;
             // _behaviour.FollowerEntity.enabled = true;
         }

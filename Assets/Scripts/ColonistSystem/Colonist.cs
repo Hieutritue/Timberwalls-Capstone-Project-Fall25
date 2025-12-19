@@ -186,6 +186,7 @@ public class Colonist : MonoBehaviour
             _timerToDecreaseStats = 0f;
         }
     }
+
     public void SetStat(StatType statType, float value)
     {
         if (StatDict.ContainsKey(statType))
@@ -198,7 +199,7 @@ public class Colonist : MonoBehaviour
 
     public void RunToTask()
     {
-        animator.SetBool(ColonistAnimationString.IS_WALKING,true);
+        animator.SetBool(ColonistAnimationString.IS_WALKING, true);
         AiDestinationSetter.enabled = true;
         AiDestinationSetter.target = CurrentTask.GetBuildingProgressPoint();
     }
@@ -315,14 +316,20 @@ public class Colonist : MonoBehaviour
     public void Die()
     {
         ColonistManager.Instance.RemoveColonist(this);
-        
+
         var colonistExiledFeedback = FeedbackManager.Instance.ColonistExiledFeedback;
         var particleInstantiation = colonistExiledFeedback?.GetFeedbackOfType<MMF_ParticlesInstantiation>();
         if (particleInstantiation != null) particleInstantiation.InstantiateParticlesPosition = transform;
         colonistExiledFeedback?.PlayFeedbacks();
-        
+
         NotificationSystem.Instance.RemoveNotification(this, NotificationType.Affliction);
-        
+
+        if (CurrentTask != null)
+        {
+            CurrentTask.AssignedColonist = null;
+            CurrentTask.ColonistStopWork(this);
+        }
+
         Destroy(gameObject);
     }
 }
