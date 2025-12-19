@@ -43,7 +43,8 @@ namespace TaskSystem.Tasks.SpecificTask.PersonalTask
             colonist.AutoDecreaseStatsEnabled = true;
             colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_PLAYING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_PLAYING);
-            _building.TransitionToIdle();
+            if (!_building.IsFurnitureActive())
+              _building.TransitionToIdle();
 
         }
     }

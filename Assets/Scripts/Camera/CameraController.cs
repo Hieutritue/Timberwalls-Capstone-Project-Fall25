@@ -1,18 +1,17 @@
 ﻿using DefaultNamespace;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class CameraController : MonoSingleton<CameraController>
 {
-    [Header("Movement Settings")]
-    public float panSpeed = 20f;
+    [Header("Movement Settings")] public float panSpeed = 20f;
     public float zoomSpeed = 10f;
     public float edgeScrollWidth = 50f;
     public bool enableEdgeScrolling = true;
     public KeyCode panKey = KeyCode.Mouse2; // Middle mouse for drag-pan
 
-    [Header("Zoom Limits (Y-position)")]
-    public float minZoom = 5f;
+    [Header("Zoom Limits (Y-position)")] public float minZoom = 5f;
     public float maxZoom = 50f;
 
     [Header("Bounds (Optional - for map limits)")]
@@ -23,40 +22,43 @@ public class CameraController : MonoSingleton<CameraController>
     public float minY = 0f;
     public float maxY = 100f;
 
-    [Header("Smoothing")]
-    public float smoothTime = 0.1f;
+    [Header("Smoothing")] public float smoothTime = 0.1f;
 
     private Vector3 targetPosition;
     private float targetZoom;
     private Vector3 velocity = Vector3.zero;
     private float currentZoomVelocity = 0f;
-    
-    [Header("Follow Target")]
-    [SerializeField] private Vector3 _followOffset = new Vector3(0, 10, 0);
-    
+
+    [Header("Follow Target")] [SerializeField]
+    private Vector3 _followOffset = new Vector3(0, 10, 0);
+
     private Transform _followTarget;
     private bool _isFollowing = false;
     private Vector3 _startingPosition;
+
     void Start()
     {
         _startingPosition = transform.position;
         targetPosition = transform.position;
-        targetZoom = maxZoom; // Zoom based on Y-position
+        DOTween.To(() => targetZoom,
+            x => targetZoom = x,
+            maxZoom - 5,
+            2);
     }
 
     void Update()
     {
         if (EventSystem.current.IsPointerOverGameObject()) return;
-        
-        var userMoved = HandlePan(); 
+
+        var userMoved = HandlePan();
         HandleZoom();
-        
+
         if (userMoved && _isFollowing)
             StopFollowing();
 
         if (_isFollowing && _followTarget != null)
             targetPosition = _followTarget.position + _followOffset;
-        
+
         ApplySmoothing();
         ApplyBounds();
     }
@@ -104,10 +106,12 @@ public class CameraController : MonoSingleton<CameraController>
     void ApplySmoothing()
     {
         // Smooth position (XY plane for panning) using unscaledDeltaTime
-        Vector3 newPos = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime, Mathf.Infinity, Time.unscaledDeltaTime);
+        Vector3 newPos = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime,
+            Mathf.Infinity, Time.unscaledDeltaTime);
 
         // Smooth zoom (z-position) using unscaledDeltaTime
-        float newZ = Mathf.SmoothDamp(transform.position.z, targetZoom, ref currentZoomVelocity, smoothTime, Mathf.Infinity, Time.unscaledDeltaTime);
+        float newZ = Mathf.SmoothDamp(transform.position.z, targetZoom, ref currentZoomVelocity, smoothTime,
+            Mathf.Infinity, Time.unscaledDeltaTime);
         newPos.z = newZ;
 
         transform.position = newPos;
@@ -133,7 +137,7 @@ public class CameraController : MonoSingleton<CameraController>
         _followTarget = colonistTransform;
         _isFollowing = true;
     }
-    
+
     public void StopFollowing()
     {
         _isFollowing = false;

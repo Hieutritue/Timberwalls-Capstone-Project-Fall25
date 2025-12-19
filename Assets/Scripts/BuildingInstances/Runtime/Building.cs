@@ -128,6 +128,11 @@ namespace BuildingSystem
         {
             OnDemolished?.Invoke();
         }
+
+        public bool IsFurnitureActive()
+        {
+            return ActiveTasks.Any(t => t is APersonalActionTask && t.AssignedColonist != null);
+        }
     }
 
     public static class BuildingAnimationString

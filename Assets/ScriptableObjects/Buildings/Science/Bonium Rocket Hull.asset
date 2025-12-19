@@ -32,7 +32,11 @@ MonoBehaviour:
   SubCategory: 8
   Description: Hull for the Rocket. Requires Battery cargo and Coolant engine to
     function.
-  Costs: []
-  BaseBuildTime: 60
+  Costs:
+  - Resource: {fileID: 11400000, guid: dba6279dcbfdcba458343e29be422c10, type: 2}
+    Amount: 10
+  - Resource: {fileID: 11400000, guid: 1d678bea30f24ce469b4a95e2fdbf598, type: 2}
+    Amount: 10
+  BaseBuildTime: 120
   InitiallyUnlocked: 0
   RocketPartType: 0

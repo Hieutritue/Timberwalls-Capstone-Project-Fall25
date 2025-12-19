@@ -575,7 +575,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press SPACE to skip cutscene
+  m_text: ---Press SPACE to skip cutscene---
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 819507a38fa816a489de88dad2de2ce9, type: 2}
   m_sharedMaterial: {fileID: -6419728470944652023, guid: 819507a38fa816a489de88dad2de2ce9,
@@ -603,8 +603,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1498,6 +1498,7 @@ PrefabInstance:
     - {fileID: 6960444418427895258, guid: 8e06ee2af39ceed439a4901282d56f1c, type: 3}
     - {fileID: 7638441068630999971, guid: 8e06ee2af39ceed439a4901282d56f1c, type: 3}
     - {fileID: 8533299187378939727, guid: 8e06ee2af39ceed439a4901282d56f1c, type: 3}
+    - {fileID: 2763792863305696383, guid: 8e06ee2af39ceed439a4901282d56f1c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3211992531794520827, guid: 8e06ee2af39ceed439a4901282d56f1c,
@@ -3156,7 +3157,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: BatteryCargo
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9151039043570823167, guid: 897abd9f81f667b44b675bf765038284, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3679,7 +3681,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: BatteryCargo (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9151039043570823167, guid: 897abd9f81f667b44b675bf765038284, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4812,6 +4815,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlackPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688369889759686093, guid: 79ff0d7aba5926845a32f3c293db7dd6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
