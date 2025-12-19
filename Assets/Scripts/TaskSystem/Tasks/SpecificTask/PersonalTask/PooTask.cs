@@ -23,13 +23,11 @@ namespace DefaultNamespace.TaskSystem
             // _building.Animator.SetTrigger(BuildingAnimationString.IS_ACTIVE);
             var tag = _building.tag;
             var animString = FurnitureTag.GetAnimStringBaseOnFurniture(tag);
-            string loopSound = GlobalSoundNameHolder.GetLoopSoundForAnimation(animString);
 
             if (!string.IsNullOrEmpty(animString))
             {
                 colonist.animator.ResetTrigger(animString);
                 colonist.animator.SetTrigger(animString);
-                colonist.vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
 
             }
 
