@@ -32,4 +32,9 @@ public class GameManager : MonoSingleton<GameManager>
         if(_fadeFeedback) _fadeFeedback.PlayFeedbacks();
         LoadScene("Lose Scene");
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }
