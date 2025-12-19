@@ -11,6 +11,9 @@ namespace BuildingSystem
         public TaskType TaskType;
         public List<Transform> ActionPoints;
         public PersonalActionFurnitureSo PersonalActionFurnitureSo => (PersonalActionFurnitureSo)PlaceableSo;
+        [SerializeField] private SoundSource vfx_source;
+        [SerializeField] private string loopSound;
+        private bool is_loop = false;
 
         public override void Start()
         {
@@ -20,17 +23,27 @@ namespace BuildingSystem
 
         public override void TransitionToIdle()
         {
+            if (vfx_source != null && is_loop)
+            {
+                is_loop = false;
+                vfx_source.StopImmediate();
+            }
             base.TransitionToIdle();
             if (Animator)
                 Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
             // else
             //     Debug.LogWarning("No animator found for" + this.name);
-            
+
         }
 
         public override void TransitionToWorking()
         {
             _stateMachine.TransitionTo(_workingBuildingState);
+            if (vfx_source != null && !is_loop)
+            {
+                is_loop = true;
+                vfx_source.Play(loopSound, fadeIn: false, fadeOut: false, crossfade: true);
+            }
             if (Animator)
                 Animator.SetBool(BuildingAnimationString.IS_ACTIVE, true);
         }
