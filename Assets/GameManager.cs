@@ -9,6 +9,7 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private MMF_Player _fadeFeedback;
     public void LoadScene(string sceneName)
     {
+        Time.timeScale = 1;
         StartCoroutine(LoadSceneCoroutine(sceneName, 1));
     }
 
@@ -23,5 +24,11 @@ public class GameManager : MonoSingleton<GameManager>
     {
         _fadeFeedback.PlayFeedbacks();
         LoadScene("End Game Cutscene");
+    }
+
+    public void Loose()
+    {
+        _fadeFeedback.PlayFeedbacks();
+        LoadScene("Lose Scene");
     }
 }
