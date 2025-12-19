@@ -2965,8 +2965,8 @@ MonoBehaviour:
   baseSpawnInterval: 30
   spawnIntervalPerDay: 0.5
   maxEnemiesPerNight: 10
-  SpawnDayInterval: 1
-  spawnProtectionDuration: 0
+  SpawnDayInterval: 3
+  spawnProtectionDuration: 10
   _heightSpawnRandomOffset: 20
 --- !u!4 &246042128
 Transform:
@@ -29959,6 +29959,16 @@ PrefabInstance:
       propertyPath: _pauseButton
       value: 
       objectReference: {fileID: 22766261}
+    - target: {fileID: 5267553342928386438, guid: a0345bc2a36abc44a8d64d41a786b21b,
+        type: 3}
+      propertyPath: maxDaysBetweenSpawns
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5267553342928386438, guid: a0345bc2a36abc44a8d64d41a786b21b,
+        type: 3}
+      propertyPath: minDaysBetweenSpawns
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6004069524938604190, guid: a0345bc2a36abc44a8d64d41a786b21b,
         type: 3}
       propertyPath: m_LocalPosition.x
