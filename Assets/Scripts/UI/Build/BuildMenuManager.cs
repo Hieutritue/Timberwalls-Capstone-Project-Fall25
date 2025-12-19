@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using DefaultNamespace.ResearchSystem;
 using DefaultNamespace.UI.Build;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,6 +46,13 @@ public class BuildMenuManager : MonoSingleton<BuildMenuManager>
                 panel.RefreshItems();
             }
         }
+    }
+
+    [Button]
+    public void ForceRebuildLayout()
+    {
+        // Force layout rebuild
+        LayoutRebuilder.ForceRebuildLayoutImmediate(subCategoryParent.transform as RectTransform);
     }
 
     private void GenerateCategories()

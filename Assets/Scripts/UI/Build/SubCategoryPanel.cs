@@ -28,8 +28,8 @@ namespace DefaultNamespace.UI.Build
             // }
             gameObject.SetActive(false);
         }
-        
-        public void LoadBuildings()
+
+        private void LoadBuildings()
         {
             //remove all children first
             foreach (var buildingUI in _buildingUIs)
