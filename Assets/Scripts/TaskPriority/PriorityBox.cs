@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ namespace DefaultNamespace.TaskSystem
         public Image ImageIcon;
         public Sprite[] PrioritySprites;
         public TaskType TaskType;
+        public TMP_Text ColonistSkillLevelText;
         private int _priorityLevel;
         public int PriorityLevel
         {
@@ -20,6 +22,11 @@ namespace DefaultNamespace.TaskSystem
                 _priorityLevel = value;
                 UpdateIcon(value);
             }
+        }
+
+        public void SetSkillLevelText(int skill)
+        {
+            ColonistSkillLevelText.text = $"{skill}";
         }
 
         private void UpdateIcon(int priorityLevel)
