@@ -24,4 +24,10 @@ public class GameManager : MonoSingleton<GameManager>
         _fadeFeedback.PlayFeedbacks();
         LoadScene("End Game Cutscene");
     }
+
+    public void Loose()
+    {
+        _fadeFeedback.PlayFeedbacks();
+        LoadScene("Lose Scene");
+    }
 }

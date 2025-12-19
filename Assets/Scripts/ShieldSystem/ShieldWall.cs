@@ -77,7 +77,7 @@ namespace ShieldSystem
                 _rightWallParent.transform
                     .DOMoveX(_shieldCenter.position.x + _minDistanceFromCenter + _horizontalOffset, _tweenDuration)
                     .SetEase(_ease);
-                _leftWall.DOScaleY(_verticalOffset,_tweenDuration).SetEase(_ease);
+                _leftWall.DOScaleY(_verticalOffset, _tweenDuration).SetEase(_ease);
                 _rightWall.DOScaleY(_verticalOffset, _tweenDuration).SetEase(_ease);
                 return;
             }
@@ -204,6 +204,7 @@ namespace ShieldSystem
         public void ReceiveDamage(float damage)
         {
             CurrentHealth -= damage;
+            if (CurrentHealth <= 0) GameManager.Instance.Loose();
         }
     }
 }
