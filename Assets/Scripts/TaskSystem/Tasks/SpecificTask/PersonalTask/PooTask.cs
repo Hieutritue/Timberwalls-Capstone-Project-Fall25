@@ -49,6 +49,8 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.ResetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
             colonist.animator.ResetTrigger(ColonistAnimationString.SELF_CARING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_SELF_CARING);
+            colonist.vfx_source.StopImmediate();
+            if (_building.IsFurnitureActive())
             _building.TransitionToIdle();
         }
     }

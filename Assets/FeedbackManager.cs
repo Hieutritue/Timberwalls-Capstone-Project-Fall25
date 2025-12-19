@@ -12,5 +12,6 @@ public class FeedbackManager : MonoSingleton<FeedbackManager>
     public MMF_Player BuildingPlacedFeedback;
     public MMF_Player CancelFeedback;
     public MMF_Player ResearchFeedback;
-    public MMF_Player ColonistDieFeedback;
+    public MMF_Player ColonistSpawnSelectionOpenFeedback;
+    public MMF_Player ColonistSpawnSelectionHoverFeedback;
 }
