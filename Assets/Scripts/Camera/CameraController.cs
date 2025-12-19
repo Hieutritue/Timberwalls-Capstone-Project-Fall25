@@ -86,7 +86,7 @@ public class CameraController : MonoSingleton<CameraController>
         }
 
         // Adjust pan speed based on zoom level (closer = slower pan)
-        float zoomFactor = Mathf.Lerp(0.5f, 1.5f, (targetZoom - minZoom) / (maxZoom - minZoom));
+        float zoomFactor = Mathf.Lerp(0.5f, 3f, (maxZoom - targetZoom) / (maxZoom - minZoom));
         // Apply pan movement using unscaled delta time so camera still moves when timeScale == 0
         targetPosition += panInput * panSpeed * zoomFactor * Time.unscaledDeltaTime;
         return userMoved;
