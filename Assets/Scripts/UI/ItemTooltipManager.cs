@@ -95,7 +95,7 @@ public class ItemTooltipManager : MonoBehaviour
                         })
                 );
 
-            itemDescription.text = $"Can be placed on {placeableSo.Size.x}x{placeableSo.Size.y}";
+            itemDescription.text = placeableSo.Description;
             DisplayTooltip();
         }
     }
