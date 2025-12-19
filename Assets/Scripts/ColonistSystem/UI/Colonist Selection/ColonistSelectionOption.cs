@@ -76,7 +76,7 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
                     ResourceManager.Instance.Get(cost.Resource.ResourceType) - cost.Amount);
             }
 
-            ColonistManager.Instance.SpawnColonist(_colonistSo, Vector3.zero);
+            ColonistManager.Instance.SpawnColonist(_colonistSo);
             ColonistSelectionPanel.Instance.HideSpawnChoices();
         }
 

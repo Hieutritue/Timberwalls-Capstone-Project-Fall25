@@ -41,7 +41,7 @@ public class CameraController : MonoSingleton<CameraController>
     {
         _startingPosition = transform.position;
         targetPosition = transform.position;
-        targetZoom = transform.position.y; // Zoom based on Y-position
+        targetZoom = maxZoom; // Zoom based on Y-position
     }
 
     void Update()

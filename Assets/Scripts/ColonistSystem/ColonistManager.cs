@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace.ColonistSystem.UI;
 using UnityEngine;
 
 namespace DefaultNamespace.ColonistSystem
@@ -74,7 +75,7 @@ namespace DefaultNamespace.ColonistSystem
             return all.Where(so => !existing.Contains(so)).ToList();
         }
 
-        public Colonist SpawnColonist(ColonistSO colonistSo, Vector3 spawnPosition)
+        public Colonist SpawnColonist(ColonistSO colonistSo)
         {
             if (Colonists.Count >= _maxColonistCount)
             {
@@ -82,9 +83,12 @@ namespace DefaultNamespace.ColonistSystem
                 return null;
             }
 
-            var colonist = Instantiate(colonistSo.ColonistModelPrefab, spawnPosition, Quaternion.identity);
+            var colonist = Instantiate(colonistSo.ColonistModelPrefab, transform);
             colonist.ColonistSo = colonistSo;
             AddColonist(colonist);
+            
+            CameraController.Instance.Follow(colonist.transform);
+            
             return colonist;
         }
     }
