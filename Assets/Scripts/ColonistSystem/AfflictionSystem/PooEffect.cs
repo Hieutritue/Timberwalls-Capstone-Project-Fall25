@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using BuildingSystem.CleanObjects;
 using UnityEngine;
+using Util;
 
 namespace DefaultNamespace.ColonistSystem.AfflictionSystem
 {
@@ -25,7 +26,8 @@ namespace DefaultNamespace.ColonistSystem.AfflictionSystem
             // Spawn poop in the world at colonist's position
             if (AssociatedPoop != null)
             {
-                Instantiate(AssociatedPoop, colonist.transform.position, Quaternion.identity);
+                Instantiate(AssociatedPoop, colonist.transform.position.With(y: colonist.transform.position.y + 1),
+                    Quaternion.identity);
             }
         }
     }

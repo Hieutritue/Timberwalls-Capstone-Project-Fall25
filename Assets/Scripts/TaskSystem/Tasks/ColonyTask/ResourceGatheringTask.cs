@@ -111,9 +111,7 @@ namespace DefaultNamespace.TaskSystem
             colonist.animator.ResetTrigger(ColonistAnimationString.WORKING);
             colonist.animator.SetTrigger(ColonistAnimationString.EXIT_WORKING);
             colonist.vfx_source.StopImmediate();
-
-
-            if (Building.Animator)
+            if (!_building.IsFurnitureActive()) 
                 Building.Animator.SetBool(BuildingAnimationString.IS_ACTIVE, false);
         }
     }
