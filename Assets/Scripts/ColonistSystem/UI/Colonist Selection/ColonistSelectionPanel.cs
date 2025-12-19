@@ -52,6 +52,7 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
             }
 
             gameObject.SetActive(true);
+            FeedbackManager.Instance.ColonistSpawnSelectionOpenFeedback.PlayFeedbacks();
 
             if (!panelCurrentlyActive)
             {
