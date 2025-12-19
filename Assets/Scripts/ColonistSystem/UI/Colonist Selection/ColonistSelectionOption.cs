@@ -83,6 +83,7 @@ namespace DefaultNamespace.ColonistSystem.UI.Colonist_Selection
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (!_canBuy) return;
+            FeedbackManager.Instance.ColonistSpawnSelectionHoverFeedback.PlayFeedbacks();
             transform.DOScale(Vector3.one * 1.1f, 0.2f)
                 .SetUpdate(true); // ignores Time.timeScale
         }

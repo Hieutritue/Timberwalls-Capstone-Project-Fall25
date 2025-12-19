@@ -56,7 +56,7 @@ namespace DefaultNamespace.ColonistSystem
                 Colonists.Remove(colonist);
                 OnColonistRemoved?.Invoke(colonist);
 
-                if (Colonists.Count <= 0) GameManager.Instance.Loose();
+                if (Colonists.Count <= 0 && GameManager.Instance) GameManager.Instance.Loose();
             }
         }
 
