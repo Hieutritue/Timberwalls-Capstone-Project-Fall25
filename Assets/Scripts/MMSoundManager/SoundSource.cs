@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.Tools;
+using MoreMountains.Feedbacks;
 
 public class SoundSource : MonoBehaviour
 {
@@ -564,5 +565,19 @@ public class SoundSource : MonoBehaviour
     public bool IsPlaying()
     {
         return _currentSoundID != 0 && _currentAudioSource != null && _currentAudioSource.isPlaying;
+    }
+
+    public static void stop_all_sounds()
+    {
+        //MMSoundManagerTrackEvent.Trigger(MMSoundManagerTrackEventTypes.StopTrack, MMSoundManager.MMSoundManagerTracks.Sfx);
+        //MMSoundManagerTrackEvent.Trigger(MMSoundManagerTrackEventTypes.StopTrack, MMSoundManager.MMSoundManagerTracks.UI_02);
+        MMSoundManager.Current.PauseTrack(MMSoundManager.MMSoundManagerTracks.UI_02);
+    }
+
+    public static void play_all_sounds()
+    {
+        
+        MMSoundManager.Current.PlayTrack(MMSoundManager.MMSoundManagerTracks.Sfx);
+        MMSoundManager.Current.PlayTrack(MMSoundManager.MMSoundManagerTracks.UI_02);
     }
 }
