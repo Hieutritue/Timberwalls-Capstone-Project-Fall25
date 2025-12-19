@@ -17,6 +17,11 @@ namespace DefaultNamespace.TaskSystem
             Colonist = colonist;
             ColonistIcon.sprite = colonist.ColonistSo.Portrait;
             ColonistName.text = colonist.ColonistSo.NPCName;
+            
+            PriorityBoxes.ForEach(p =>
+            {
+                p.SetSkillLevelText(colonist.ColonistSo.Skills[p.TaskType.SkillForTask()]);
+            });
         }
         
         public int GetPriorityForTaskType(TaskType taskType)

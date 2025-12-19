@@ -39,9 +39,10 @@ namespace DefaultNamespace.PlacementStates
 
                 if (_building)
                 {
-                    if (_building.PlaceableSo.Type == PlaceableType.Room)
-                        LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Room"));
-                    LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Building"));
+                    LayerUtils.SetLayerRecursively(_building.gameObject,
+                        _building.PlaceableSo.Type == PlaceableType.Room
+                            ? LayerMask.NameToLayer("Room")
+                            : LayerMask.NameToLayer("Building"));
                 }
 
                 if (!building)
@@ -51,17 +52,19 @@ namespace DefaultNamespace.PlacementStates
 
                 _building = building;
                 if (!building.IsUnderConstruction() && !building.IsDemolishing()) return;
-                if (_building.PlaceableSo.Type == PlaceableType.Room)
-                    LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("HoveringRoom"));
-                LayerUtils.SetLayerRecursively(building.gameObject, LayerMask.NameToLayer("HoveringBuilding"));
+                LayerUtils.SetLayerRecursively(_building.gameObject,
+                    _building.PlaceableSo.Type == PlaceableType.Room
+                        ? LayerMask.NameToLayer("HoveringRoom")
+                        : LayerMask.NameToLayer("HoveringBuilding"));
             }
             else
             {
                 if (_building)
                 {
-                    if (_building.PlaceableSo.Type == PlaceableType.Room)
-                        LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Room"));
-                    LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Building"));
+                    LayerUtils.SetLayerRecursively(_building.gameObject,
+                        _building.PlaceableSo.Type == PlaceableType.Room
+                            ? LayerMask.NameToLayer("Room")
+                            : LayerMask.NameToLayer("Building"));
                     _building = null;
                 }
             }
@@ -115,9 +118,10 @@ namespace DefaultNamespace.PlacementStates
             // InputManager.Instance.OnMouseRightClick -= _behaviour.TransitionToIdleState;
             if (_building)
             {
-                if (_building.PlaceableSo.Type == PlaceableType.Room)
-                    LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Room"));
-                LayerUtils.SetLayerRecursively(_building.gameObject, LayerMask.NameToLayer("Building"));
+                LayerUtils.SetLayerRecursively(_building.gameObject,
+                    _building.PlaceableSo.Type == PlaceableType.Room
+                        ? LayerMask.NameToLayer("Room")
+                        : LayerMask.NameToLayer("Building"));
                 _building = null;
             }
         }
