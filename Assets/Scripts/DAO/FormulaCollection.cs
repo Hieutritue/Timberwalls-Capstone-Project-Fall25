@@ -5,7 +5,7 @@ namespace DefaultNamespace.General
 {
     public static class FormulaCollection
     {
-        private static float _globalSkillMultiplier = 0.1f;
+        [SerializeField]private static float _globalSkillMultiplier = 0.1f;
 
         public static float ProgressPerFrameBasedOnSkillLevel(float baseTime, int skillLevel, float taskCompletionMultiplier)
         {
