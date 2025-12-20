@@ -45,7 +45,6 @@ namespace BuildingSystem
 
         public virtual void CheckRoomFurniture()
         {
-            
         }
 
         private void CheckRoomRequirements(SpecificRoomModel r)
@@ -57,12 +56,14 @@ namespace BuildingSystem
             // Check required sub-categories
             requiredSubCategories.ForEach(rs =>
             {
-                meetsRequirements &= containedItems.Exists(i => i.PlaceableSo.SubCategory == rs);
+                meetsRequirements &= containedItems.Exists(i =>
+                    !i.Building.IsUnderConstruction() && i.PlaceableSo.SubCategory == rs);
             });
             // Check forbidden sub-categories
             forbiddenSubCategories.ForEach(fs =>
             {
-                meetsRequirements &= !containedItems.Exists(i => i.PlaceableSo.SubCategory == fs);
+                meetsRequirements &= !containedItems.Exists(i =>
+                    !i.Building.IsUnderConstruction() && i.PlaceableSo.SubCategory == fs);
             });
             if (meetsRequirements)
             {

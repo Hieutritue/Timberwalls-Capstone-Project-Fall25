@@ -9,9 +9,13 @@ namespace ResourceSystem.Storage
         [SerializeField] private Image _iconImage;
         [SerializeField] private TMP_Text _resourceNameText;
         [SerializeField] private TMP_Text _maxAmountText;
+        [SerializeField] private Image _background;
+        [SerializeField] private Color _normalColor;
+        [SerializeField] private Color _reachedCapColor;
         private ResourceSO _resourceSO;
 
         private int _maxAmount;
+
         public int MaxAmount
         {
             get => _maxAmount;
@@ -19,6 +23,8 @@ namespace ResourceSystem.Storage
             {
                 _maxAmount = Mathf.Clamp(value, 0, 999);
                 _maxAmountText.text = _maxAmount.ToString();
+                CheckChangeColorResourceCap(_resourceSO.ResourceType,
+                    ResourceManager.Instance.Get(_resourceSO.ResourceType));
             }
         }
 
@@ -29,6 +35,13 @@ namespace ResourceSystem.Storage
             _resourceNameText.text = resourceSO.ResourceName;
             // Use the property to ensure clamping and text update
             MaxAmount = maxAmount;
+            ResourceManager.Instance.OnResourceChanged += CheckChangeColorResourceCap;
+        }
+
+        private void CheckChangeColorResourceCap(ResourceType resourceType, int value)
+        {
+            if (resourceType != _resourceSO.ResourceType) return;
+            _background.color = value >= MaxAmount ? _reachedCapColor : _normalColor;
         }
 
         public void IncreaseMaxAmount()

@@ -51,7 +51,7 @@ public class ColonistSpawnManager : MonoSingleton<ColonistSpawnManager>
     {
         int score = Mathf.Clamp(successCriteria, 0, 100);
 
-        // map score 0–100 to factor 0.5–2
+        // map score 0ï¿½100 to factor 0.5ï¿½2
         float successFactor = 0.5f + (score / 100f) * 1.5f;
 
         float scaledMin = minDaysBetweenSpawns / successFactor;
@@ -68,14 +68,14 @@ public class ColonistSpawnManager : MonoSingleton<ColonistSpawnManager>
 
     private int GetWeightedRandomTier(int contactPoints)
     {
-        contactPoints = Mathf.Clamp(contactPoints, 1, 200);
+        contactPoints = Mathf.Clamp(contactPoints, 1, 100);
 
-        const float sigma = 18f; // narrower less overlap, rarer highs
+        const float sigma = 18f; // more overlap, smoother progression
 
-        float w0 = Mathf.Exp(-Mathf.Pow(contactPoints - 0f, 2) / (2f * sigma * sigma)) * 1.00f;
-        float w1 = Mathf.Exp(-Mathf.Pow(contactPoints - 80f, 2) / (2f * sigma * sigma)) * 0.65f;
-        float w2 = Mathf.Exp(-Mathf.Pow(contactPoints - 140f, 2) / (2f * sigma * sigma)) * 0.35f;
-        float w3 = Mathf.Exp(-Mathf.Pow(contactPoints - 195f, 2) / (2f * sigma * sigma)) * 0.12f;
+        float w0 = Mathf.Exp(-Mathf.Pow(contactPoints - 15f, 2) / (2f * sigma * sigma)) * 0.90f;
+        float w1 = Mathf.Exp(-Mathf.Pow(contactPoints - 45f, 2) / (2f * sigma * sigma)) * 0.75f;
+        float w2 = Mathf.Exp(-Mathf.Pow(contactPoints - 70f, 2) / (2f * sigma * sigma)) * 0.55f;
+        float w3 = Mathf.Exp(-Mathf.Pow(contactPoints - 90f, 2) / (2f * sigma * sigma)) * 0.30f;
 
         float sum = w0 + w1 + w2 + w3;
         w0 /= sum;
