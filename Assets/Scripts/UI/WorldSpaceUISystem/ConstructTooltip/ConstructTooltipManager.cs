@@ -133,8 +133,8 @@ public class ConstructTooltipManager : MonoSingleton<ConstructTooltipManager>
         }
 
         string statusText = isActive
-            ? "<color=green>Active</color>"
-            : "<color=red>Inactive</color>";
+            ? "<color=green>Available for work</color>"
+            : "<color=red>Unavailable for work</color>";
 
         constructTooltip.SetText(
             data.Name,
