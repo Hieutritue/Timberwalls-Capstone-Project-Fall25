@@ -22,9 +22,9 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             _amounts[res.ResourceType] = 0;
         BuildMenuManager.Instance.OnBuildMenuInitialized += () =>
         {
-            Set(ResourceType.Wood, 35);
-            Set(ResourceType.Stone, 35);
-            Set(ResourceType.CookedFood, 300);
+            Set(ResourceType.Wood, 60);
+            Set(ResourceType.Stone, 60);
+            Set(ResourceType.CookedFood, 150);
             Set(ResourceType.Iron, 20);
             Set(ResourceType.Copper, 20);
         };

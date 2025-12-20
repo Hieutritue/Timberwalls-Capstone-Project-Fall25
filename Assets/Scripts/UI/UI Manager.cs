@@ -31,6 +31,11 @@ public class UIManager : MonoSingleton<UIManager>
         InputManager.Instance.OnMouseLeftClick += LeftClickNotOnUI;
     }
 
+    public void OpenURL(string url)
+    {
+        Application.OpenURL(url);
+    }
+
     public void InvokeTimeButtonOnClick(int time)
     {
         _timeButtons[time].onClick.Invoke();
