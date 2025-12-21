@@ -34,13 +34,19 @@ namespace BuildingSystem
         private void EvaluateRoomSpecifics()
         {
             StartCoroutine(DelayCheckRoomFurniture());
-            _specificRoomModels.ForEach(CheckRoomRequirements);
+            _specificRoomModels.ForEach(r => StartCoroutine(DelayCheckRoomRequirement(r)));
         }
 
         IEnumerator DelayCheckRoomFurniture()
         {
             yield return new WaitForSeconds(1);
             CheckRoomFurniture();
+        }
+
+        IEnumerator DelayCheckRoomRequirement(SpecificRoomModel r)
+        {
+            yield return new WaitForSeconds(0.2f);
+            CheckRoomRequirements(r);
         }
 
         public virtual void CheckRoomFurniture()

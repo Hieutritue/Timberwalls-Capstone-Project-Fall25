@@ -15,6 +15,7 @@ using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Util;
 using StateMachine = _Scripts.StateMachine.StateMachine;
 
 public class Colonist : MonoBehaviour
@@ -48,6 +49,13 @@ public class Colonist : MonoBehaviour
     public bool CanWork { get; set; } = true;
     public Animator animator;
     public SoundSource vfx_source;
+    [SerializeField] private GameObject _poopPrefab;
+
+    public void Poo()
+    {
+        Instantiate(_poopPrefab, transform.position.With(y: transform.position.y + 1),
+            Quaternion.identity);
+    }
 
     public string CurrentState
     {

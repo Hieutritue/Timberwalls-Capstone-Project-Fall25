@@ -9,8 +9,16 @@ namespace DefaultNamespace.TaskSystem
     public class PooTask : APersonalActionTask
     {
         private Transform _actionPoint;
+        private float _continenceCount;
         public override void UpdateProgress(Colonist colonist)
         {
+            if (_continenceCount >= 30)
+            {
+                colonist.Poo();
+                _continenceCount = 0;
+            }
+
+            _continenceCount += Time.deltaTime;
             AddStat(colonist, TaskType.Pooping);
         }
 

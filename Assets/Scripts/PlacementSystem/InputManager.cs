@@ -7,16 +7,19 @@ using UnityEngine.UI;
 public class InputManager : MonoSingleton<InputManager>
 {
     [SerializeField] private LayerMask _placementLayerMask;
-    
-    private Camera _mainCamera; 
+
+    private Camera _mainCamera;
     private Vector3 _lastMousePosition;
 
     public Action
         OnMouseLeftClick;
+
     public Action<PlaceableType> OnClickRemovePlaceable;
     public Action OnClickCancelKey;
     public Action<int> OnClickNum;
     [SerializeField] private Button _pauseButton;
+    [SerializeField] private Button _continueButton;
+
     private void Start()
     {
         _mainCamera = Camera.main;
@@ -24,7 +27,7 @@ public class InputManager : MonoSingleton<InputManager>
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
             OnMouseLeftClick?.Invoke();
         // if (Input.GetMouseButtonDown(1))
         //     OnMouseRightClick?.Invoke();
@@ -44,8 +47,16 @@ public class InputManager : MonoSingleton<InputManager>
             OnClickRemovePlaceable?.Invoke(PlaceableType.Furniture);
         if (Input.GetKeyDown(KeyCode.C))
             OnClickCancelKey?.Invoke();
-        
-        if (Input.GetKeyDown(KeyCode.Escape)) _pauseButton.onClick.Invoke();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!_continueButton.gameObject.activeInHierarchy)
+                _pauseButton.onClick.Invoke();
+            else
+            {
+                _continueButton.onClick.Invoke();
+            }
+        }
     }
 
     public Vector3 GetSelectedMapPosition()
@@ -61,5 +72,4 @@ public class InputManager : MonoSingleton<InputManager>
 
         return _lastMousePosition;
     }
-    
 }
